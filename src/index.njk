@@ -26,16 +26,16 @@ section: home
 
   {# Projects #}
   <div class="list-header">
-    <h2 class="list-header__title">Projects</h2>
-    <a class="btn btn--outline btn--sm" href="/projects">View All</a>
+    <h2 class="list-header__title">Проекты</h2>
+    <a class="btn btn--outline btn--sm" href="/projects">Смотреть все</a>
   </div>
   {% from "macros/projectlist.njk" import projectlist %}
-  {{ projectlist(projects = collections.project | reverse) }}
+  {{ projectlist(projects = collections.project | reverse, limit = 3) }}
 
   {# Articles #}
   <div class="list-header">
-    <h2 class="list-header__title">Articles</h2>
-    <a class="btn btn--outline btn--sm" href="/blog">View All</a>
+    <h2 class="list-header__title">Статьи</h2>
+    <a class="btn btn--outline btn--sm" href="/blog">Смотреть все</a>
   </div>
   {% from "macros/articlelist.njk" import articlelist %}
   {{ articlelist(
