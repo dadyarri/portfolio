@@ -16,9 +16,10 @@
   border-radius: var(--border-radius);
   background-color: var(--color-bg);
   box-shadow: var(--shadow);
+  width: 85%;
 
   @media (min-width: 1024px) {
-    max-width: var(--site-width);
+    width: var(--site-width);
     margin: 3px auto 0;
   }
 }
