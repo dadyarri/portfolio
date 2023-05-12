@@ -5,12 +5,7 @@ async function imageShortcode (src, alt, caption = "", sizes, classes, loading =
   let imageSrc = `${path.dirname(this.page.inputPath)}/${src}`;
 
   function wrapFigure(output, caption) {
-    return `
-      <figure>
-        ${output}
-        <figcaption>${caption}</figcaption>
-      <figure>
-    `;
+    return `<figure>${output}<figcaption>${caption}</figcaption><figure>`;
   }
 
   let metadata = await Image(imageSrc, {
@@ -31,7 +26,7 @@ async function imageShortcode (src, alt, caption = "", sizes, classes, loading =
 
   const generated = Image.generateHTML(metadata, imageAttributes);
 
-  return caption ? wrapFigure(generated, caption) : generated;
+  return caption ? wrapFigure(generated, caption).replace("\n", "") : generated.replace("\n", "");
 }
 
 module.exports = imageShortcode;
