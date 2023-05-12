@@ -7,6 +7,7 @@ const markdownFilter = require('./src/_11ty/filters/markdown-filter');
 const svgFilter = require('./src/_11ty/filters/svg-filter');
 const browserSyncConfig = require('./src/_11ty/utils/browser-sync-config');
 const { readableDateFilter, machineDateFilter } = require('./src/_11ty/filters/date-filters');
+const cardShortcode = require('./src/_11ty/shortcodes/card-shortcode');
 
 module.exports = function (eleventyConfig) {
   // Plugins
@@ -21,6 +22,7 @@ module.exports = function (eleventyConfig) {
 
   // Shortcodes
   eleventyConfig.addNunjucksAsyncShortcode('image', imageShortcode);
+  eleventyConfig.addNunjucksAsyncShortcode('card', cardShortcode)
 
   // Libraries
   eleventyConfig.setLibrary('md', markdownLibrary);
