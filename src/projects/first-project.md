@@ -1,6 +1,6 @@
 ---
 title: AppFlowy
-emoji: 😺
+emoji: ⭐️
 date: 2023-05-11T23:55:26.920Z
 summary: Перевод приложения на русский язык
 metaDescription: ""
