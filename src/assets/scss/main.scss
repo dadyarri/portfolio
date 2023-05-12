@@ -1,10 +1,11 @@
+@use 'global/fonts.scss';
+@use 'global/variables.scss';
 
 /* Third Party */
 @use 'third-party/normalize.scss';
 @use 'third-party/prisma-theme.scss';
 
 /* Global */
-@use 'global/variables.scss';
 @use 'global/base-styles.scss';
 @use 'global/utilites.scss';
 

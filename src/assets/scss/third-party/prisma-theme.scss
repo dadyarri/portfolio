@@ -15,7 +15,7 @@ pre[class*="language-"] {
 	white-space: pre;
 	white-space: pre-wrap;
 	word-wrap: normal;
-	font-family: Menlo, Monaco, "Courier New", monospace;
+	font-family: var(--font-family-monospace);
 	font-size: 16px;
 	color: #76d9e6;
 	text-shadow: none;
@@ -118,6 +118,10 @@ pre[class*="language-"] code {
 
 .token.italic {
 	font-style: italic;
+}
+
+code {
+	font-family: var(--font-family-monospace);
 }
 
 code.language-markup {
