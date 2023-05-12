@@ -7,24 +7,35 @@ section: home
 
   {# Hero #}
   <div class="hero">
-    <div class="hero__col">
-      <h1 class="hero__title gradient-text">{{ home.title }}</h1>
-      {% if home.body %}
-        <div class="hero__body">{{ home.body | markdown | safe }}</div>
-      {% endif %}
+    <div class="hero__child div1">
+      <div class="hero__col">
+        <h1 class="hero__title gradient-text">{{ home.title }}</h1>
+        {% if home.body %}
+          <div class="hero__body">{{ home.body | markdown | safe }}</div>
+        {% endif %}
+      </div>
     </div>
-    <div class="hero__col">
-      {% image
-        home.image,
-        home.image_alt,
-        "",
-        "(min-width: 1024px) 50vw, 100vw",
-        "hero__image shadow",
-        "eager"
-      %}
+    <div class="hero__child div2">
+      <div class="hero__col">
+        {% image
+          home.image,
+          "",
+          home.image_alt,
+          "(min-width: 1024px) 50vw, 100vw",
+          "hero__image shadow",
+          "eager"
+        %}
+      </div>
     </div>
-    <div class="hero__col" style="width: 109px">
-      <a href="/contact">Контакты →</a>
+    <div class="hero__child div3">
+      <div class="hero__col" style="width: 109px">
+        <a href="/contact">Контакты →</a>
+      </div>
+    </div>
+    <div class="hero__child div4">
+      <div class="hero__col" style="width: 100px">
+        <a href="/assets/cv.pdf">Резюме →</a>
+      </div>
     </div>
   </div>
 
