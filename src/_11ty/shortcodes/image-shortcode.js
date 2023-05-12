@@ -5,7 +5,7 @@ async function imageShortcode (src, caption = "", alt = "", sizes, classes, load
   let imageSrc = `${path.dirname(this.page.inputPath)}/${src}`;
 
   function wrapFigure(output, caption) {
-    return `<figure>${output}<figcaption>${caption}</figcaption><figure>`;
+    return `<figure>${output}<figcaption>${caption}</figcaption></figure>`;
   }
 
   let metadata = await Image(imageSrc, {
