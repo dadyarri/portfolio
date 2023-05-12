@@ -17,6 +17,12 @@ let markdown = markdownIt({
 
 // Add responsive image suppport to markdown files
 // borrowed from: https://tomichen.com/blog/posts/20220416-responsive-images-in-markdown-with-eleventy-image
+// responsive images with 11ty image
+// this overrides the default image renderer
+// titles are also used for size setting
+// ![alt text](/assets/img/image.jpg "title text")
+// title text format:
+// @skip[widthxheight] ?[sizes] caption
 markdown.renderer.rules.image = function (tokens, idx) {
   const token = tokens[idx];
   let imgSrc = `.${token.attrGet('src')}`;

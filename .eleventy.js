@@ -24,6 +24,7 @@ module.exports = function (eleventyConfig) {
 
   // Libraries
   eleventyConfig.setLibrary('md', markdownLibrary);
+  eleventyConfig.amendLibrary('md', md => md.use(require("markdown-it-eleventy-img")));
 
   // Merge data instead of overriding
   eleventyConfig.setDataDeepMerge(true);
@@ -40,6 +41,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy('./src/favicon.ico');
   eleventyConfig.addPassthroughCopy('./src/admin');
   eleventyConfig.addPassthroughCopy('./src/assets/img');
+  eleventyConfig.addPassthroughCopy({'./src/post-images': 'posts'});
   eleventyConfig.addPassthroughCopy('./src/assets/fonts');
 
   // Allow Turbolinks to work in development mode
