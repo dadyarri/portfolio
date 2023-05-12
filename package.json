@@ -50,5 +50,8 @@
     "rimraf": "^5.0.0",
     "sass": "^1.62.1",
     "turbolinks": "^5.2.0"
+  },
+  "dependencies": {
+    "markdown-it-attrs": "^4.1.6"
   }
 }
