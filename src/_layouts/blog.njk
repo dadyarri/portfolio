@@ -5,6 +5,11 @@ permalink: /blog/index.html
 ---
 <div class="page-container">
   <h1>{{title}}</h1>
+
+  {% if subtitle %}
+    <p>{{ subtitle }}</p>
+  {% endif %}
+
   {{ layoutContent | safe }}
 	<hr/>
 

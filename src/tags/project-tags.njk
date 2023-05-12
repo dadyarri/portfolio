@@ -12,8 +12,7 @@ renderData:
 <div class="page-container">
   {# Header #}
   <div class="tag-list tag-list--no-wrap">
-    <h4 class="tag-list__title">Projects Tagged: "{{ tag | capitalize }}"</h4>
-    <a class="btn btn--sm btn--danger" href="/projects">Remove Tag</a>
+    <h4 class="tag-list__title">Проекты с меткой {{ tag }}</h4>
   </div>
 
   {# Projects #}
@@ -22,6 +21,6 @@ renderData:
 
   {# Footer #}
   <nav>
-    <a href="{{ '/projects/' | url }}">← View All Projects</a>
+    <a href="{{ '/projects/' | url }}">← Все проекты</a>
   </nav>
 </div>
