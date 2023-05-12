@@ -1,5 +1,5 @@
 {
-  "logo": "src/assets/img/icon-fern.svg",
+  "logo": "/src/assets/img/favicon.png",
   "menu_icon": "src/assets/img/icon-hamburger.svg",
   "close_icon": "src/assets/img/icon-close.svg"
 }
