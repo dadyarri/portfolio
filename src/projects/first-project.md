@@ -1,19 +1,17 @@
 ---
-title: Cat Translation API
+title: AppFlowy
 emoji: 😺
-metaDescription: This is a sample meta description. If one is not present in your page/project's front matter, the default metadata.desciption will be used instead.
-date: 2019-01-01T00:00:00.000Z
-summary: API to translate cat speech to english
+date: 2023-05-11T23:55:26.920Z
+summary: Перевод приложения [Appflowy](https://appflowy.io) на русский язык
+metaDescription: ""
 tags:
-  - golang
-  - graphQL
-  - aws
+  - перевод
+  - open-source
 ---
+### О﻿писание проекта
 
-### Task
+А﻿льтернатива [Notion](https://notion.so) с открытым исходным кодом и хранением данных локально на устройстве
 
-Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
+### Роль в проекте
 
-### Solution
-
-Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day, going forward, a new normal that has evolved from generation X is on the runway heading towards a streamlined cloud solution. User generated content in real-time will have multiple touchpoints for offshoring.
+П﻿еревод приложения [Appflowy](https://appflowy.io) на русский язык, поддержание локализации в актуальном состоянии
