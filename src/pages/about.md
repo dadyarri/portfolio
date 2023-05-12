@@ -14,6 +14,9 @@ eleventyNavigation:
 |-------------------------|-----------|
 | C# (.NET, EF Core, WPF) | 1 год     |
 | Typescript (React)      | 6 месяцев |
+| Docker                  | 1 год     |
+| PostgreSQL              | 3 года    |
+| Powershell              | 6 месяцев |
 
 ## Образование
 
