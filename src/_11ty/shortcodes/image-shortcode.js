@@ -1,7 +1,7 @@
 const Image = require('@11ty/eleventy-img');
 const path = require('path');
 
-async function imageShortcode (src, alt, caption = "", sizes, classes, loading = 'lazy') {
+async function imageShortcode (src, caption = "", alt = "", sizes, classes, loading = 'lazy') {
   let imageSrc = `${path.dirname(this.page.inputPath)}/${src}`;
 
   function wrapFigure(output, caption) {
@@ -17,7 +17,7 @@ async function imageShortcode (src, alt, caption = "", sizes, classes, loading =
 
   let imageAttributes = {
     class: classes,
-    alt: alt,
+    alt: alt == "" ? caption : alt,
     sizes: sizes ?? "100vw",
     loading: loading,
     decoding: 'async',
