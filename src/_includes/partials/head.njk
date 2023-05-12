@@ -4,6 +4,7 @@
   <title>{{ renderData.title or title or metadata.title }}</title>
   <meta name="description" content="{{ metaDescription or renderData.metaDescription or summary or metadata.description }}">
   <link rel="dns-prefetch" href="https://identity.netlify.com">
+  <link rel="icon" href="{{ metadata.favicon }}">
 
   {# Canonical URL #}
   {% if canonical %}
