@@ -2,7 +2,7 @@
     @media (min-width: 1024px) {
         display: flex;
         flex-direction: row;
-        gap: 10px;
+        gap: 20px;
     }
 
     aside div {
@@ -10,6 +10,7 @@
         visibility: hidden;
 
         @media (min-width: 1024px) {
+            min-width: 300px;
             visibility: visible;
             position: sticky;
             top: 100px;
