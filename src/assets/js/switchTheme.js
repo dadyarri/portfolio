@@ -12,7 +12,7 @@ function switchTheme () {
     }
 }
 
-window.onload = function () {
+function refreshTheme () {
     if (localStorage.getItem('darkmode') === 'true') {
         document.body.classList.add("dark");
     }
@@ -20,4 +20,12 @@ window.onload = function () {
     {
         document.body.classList.remove("dark");
     }
+}
+
+window.onload = function () {
+    refreshTheme()
 };
+
+document.addEventListener("turbolinks:load", function() {
+    refreshTheme();
+  })
