@@ -13,6 +13,7 @@
     >
       {{ global.menu_icon | svg | safe }}
     </button>
+    <button onclick="switchTheme()">Тема</button>
     <nav class="site-header__nav">
       {% set navPages = collections.all | eleventyNavigation %}
       <ul class="site-header__items">
