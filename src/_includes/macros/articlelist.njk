@@ -2,6 +2,7 @@
   <section>
   {% for article in articles %}
     {% if limit === undefined or loop.index0 < limit %}
+      {% if not article.data.draft %}
       <article
         class="article-card {% if show_tags %}article-card--tags{% endif %}"
         {% if article.url == url %} data-current="current item"{% endif %}
@@ -25,6 +26,7 @@
           {% endif %}
         </a>
       </article>
+      {% endif %}
     {% endif %}
   {% endfor %}
   </section>
