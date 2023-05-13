@@ -6,6 +6,7 @@ const minifyHtml = require('./src/_11ty/utils/minify-html');
 const markdownFilter = require('./src/_11ty/filters/markdown-filter');
 const svgFilter = require('./src/_11ty/filters/svg-filter');
 const browserSyncConfig = require('./src/_11ty/utils/browser-sync-config');
+const tableOfContents = require('eleventy-plugin-toc');
 const { readableDateFilter, machineDateFilter } = require('./src/_11ty/filters/date-filters');
 const cardShortcode = require('./src/_11ty/shortcodes/card-shortcode');
 
@@ -13,6 +14,10 @@ module.exports = function (eleventyConfig) {
   // Plugins
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
   eleventyConfig.addPlugin(syntaxHighlight);
+  eleventyConfig.addPlugin(tableOfContents, {
+    tags: ['h2', 'h3'],
+    ul: true
+  });
 
   // Filters
   eleventyConfig.addFilter('markdown', markdownFilter);
