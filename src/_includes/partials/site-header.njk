@@ -13,21 +13,25 @@
     >
       {{ global.menu_icon | svg | safe }}
     </button>
-    <button onclick="switchTheme()">Тема</button>
     <nav class="site-header__nav">
       {% set navPages = collections.all | eleventyNavigation %}
       <ul class="site-header__items">
-      {%- for entry in navPages %}
-        <li class="site-header__item">
-          <a
+        {%- for entry in navPages %}
+          <li class="site-header__item">
+            <a
             class="site-header__link"
             href="{{ entry.url | url }}"
             {% if entry.url == page.url %} aria-current data-current="current item"{% endif %}
           >
-            {{ entry.title }}
-          </a>
+              {{ entry.title }}
+            </a>
+          </li>
+        {%- endfor %}
+        <li class="site-header__item">
+          <button onclick="switchTheme()" class="site-header__themeSwitchButton">
+            <img id="themeSwitcherIcon"/>
+          </button>
         </li>
-      {%- endfor %}
       </ul>
     </nav>
   </div>
