@@ -29,3 +29,7 @@ CRM-система для небольшого (~700 человек ежемес
 - Разработка фронтенда (`Typescript`, `React`)
 - Построение архитектуры (`Docker` + `Compose`, `Github Actions`)
 - Проектирование базы данных (`PostgreSQL`)
+
+### Ссылки
+
+- Исходный код: https://github.com/dadyarri/choco
