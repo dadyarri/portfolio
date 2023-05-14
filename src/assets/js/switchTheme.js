@@ -8,12 +8,12 @@ function switchTheme () {
 function refreshTheme () {
     if (localStorage.getItem('darkmode') === 'true') {
         document.body.classList.add("dark");
-        document.getElementById("themeSwitcherIcon").src = "assets/img/sun.svg";
+        document.getElementById("themeSwitcherIcon").src = "/assets/img/sun.svg";
     }
     else
     {
         document.body.classList.remove("dark");
-        document.getElementById("themeSwitcherIcon").src = "assets/img/moon.svg";
+        document.getElementById("themeSwitcherIcon").src = "/assets/img/moon.svg";
     }
 }
 
