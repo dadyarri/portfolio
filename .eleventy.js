@@ -48,7 +48,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy('./src/favicon.ico');
   eleventyConfig.addPassthroughCopy('./src/admin');
   eleventyConfig.addPassthroughCopy('./src/assets/img');
-  eleventyConfig.addPassthroughCopy({'./src/post-images': 'posts'});
+  eleventyConfig.addPassthroughCopy({ './src/post-images': 'posts' });
   eleventyConfig.addPassthroughCopy('./src/assets/fonts');
   eleventyConfig.addPassthroughCopy('./src/assets/js/switchTheme.js');
   eleventyConfig.addPassthroughCopy('./src/assets/*.pdf');
