@@ -2,6 +2,115 @@
 One Light (by Hoon Wei Ting, based on Atom's One Light Syntax)
 **/
 
+code[class*="language-"],
+pre[class*="language-"] {
+	font-family: var(--font-family-monospace);
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.5;
+	tab-size: 2;
+	hyphens: none;
+}
+
+code[class*="language-"]::selection,
+code[class*="language-"] *::selection,
+pre[class*="language-"] *::selection {
+	color: inherit;
+	text-shadow: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: 0.5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+/* Inline code */
+:not(pre)>code[class*="language-"] {
+	padding: 0.2em 0.3em;
+	border-radius: 0.3em;
+	white-space: normal;
+}
+
+/* Print */
+@media print {
+
+	code[class*="language-"],
+	pre[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+/* General */
+.token.bold {
+	font-weight: bold;
+}
+
+.token.comment,
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+.token.namespace {
+	opacity: 0.8;
+}
+
+/* Plugin overrides */
+/* Selectors should have higher specificity than those in the plugins' default stylesheets */
+
+/* Show Invisibles plugin overrides */
+.token.token.tab:not(:empty):before,
+.token.token.cr:before,
+.token.token.lf:before,
+.token.token.space:before {
+	text-shadow: none;
+}
+
+/* Toolbar plugin overrides */
+/* Space out all buttons and move them away from the right edge of the code block */
+div.code-toolbar>.toolbar.toolbar>.toolbar-item {
+	margin-right: 0.4em;
+}
+
+/* Styling the buttons */
+div.code-toolbar>.toolbar.toolbar>.toolbar-item>button,
+div.code-toolbar>.toolbar.toolbar>.toolbar-item>a,
+div.code-toolbar>.toolbar.toolbar>.toolbar-item>span {
+	padding: 0.1em 0.4em;
+	border-radius: 0.3em;
+}
+
+/* Default line numbers in Line Highlight plugin */
+.line-highlight.line-highlight:before,
+.line-highlight.line-highlight[data-end]:after {
+	padding: 0.1em 0.6em;
+	border-radius: 0.3em;
+}
+
+/* Angle and time should remain as circles and are hence not included */
+.prism-previewer-color.prism-previewer-color:before,
+.prism-previewer-gradient.prism-previewer-gradient div,
+.prism-previewer-easing.prism-previewer-easing:before {
+	border-radius: 0.3em;
+}
+
+/* For angle, this is the positive area (eg. 90deg will display one quadrant in this colour) */
+/* For time, this is the alternate colour */
+.prism-previewer-angle.prism-previewer-angle circle,
+.prism-previewer-time.prism-previewer-time circle {
+	stroke-opacity: 1;
+}
+
+
 body {
 	&.dark {
 
@@ -10,61 +119,12 @@ body {
 			background: hsl(220, 13%, 18%);
 			color: hsl(220, 14%, 71%);
 			text-shadow: 0 1px rgba(0, 0, 0, 0.3);
-			font-family: var(--font-family-monospace);
-			direction: ltr;
-			text-align: left;
-			white-space: pre;
-			word-spacing: normal;
-			word-break: normal;
-			line-height: 1.5;
-			-moz-tab-size: 2;
-			-o-tab-size: 2;
-			tab-size: 2;
-			-webkit-hyphens: none;
-			-moz-hyphens: none;
-			-ms-hyphens: none;
-			hyphens: none;
-		}
-
-		/* Selection */
-		code[class*="language-"]::-moz-selection,
-		code[class*="language-"] *::-moz-selection,
-		pre[class*="language-"] *::-moz-selection {
-			background: hsl(220, 13%, 28%);
-			color: inherit;
-			text-shadow: none;
 		}
 
 		code[class*="language-"]::selection,
 		code[class*="language-"] *::selection,
 		pre[class*="language-"] *::selection {
 			background: hsl(220, 13%, 28%);
-			color: inherit;
-			text-shadow: none;
-		}
-
-		/* Code blocks */
-		pre[class*="language-"] {
-			padding: 1em;
-			margin: 0.5em 0;
-			overflow: auto;
-			border-radius: 0.3em;
-		}
-
-		/* Inline code */
-		:not(pre)>code[class*="language-"] {
-			padding: 0.2em 0.3em;
-			border-radius: 0.3em;
-			white-space: normal;
-		}
-
-		/* Print */
-		@media print {
-
-			code[class*="language-"],
-			pre[class*="language-"] {
-				text-shadow: none;
-			}
 		}
 
 		.token.comment,
@@ -209,24 +269,6 @@ body {
 			color: hsl(355, 65%, 65%);
 		}
 
-		/* General */
-		.token.bold {
-			font-weight: bold;
-		}
-
-		.token.comment,
-		.token.italic {
-			font-style: italic;
-		}
-
-		.token.entity {
-			cursor: help;
-		}
-
-		.token.namespace {
-			opacity: 0.8;
-		}
-
 		/* Plugin overrides */
 		/* Selectors should have higher specificity than those in the plugins' default stylesheets */
 
@@ -236,14 +278,9 @@ body {
 		.token.token.lf:before,
 		.token.token.space:before {
 			color: hsla(220, 14%, 71%, 0.15);
-			text-shadow: none;
 		}
 
-		/* Toolbar plugin overrides */
-		/* Space out all buttons and move them away from the right edge of the code block */
-		div.code-toolbar>.toolbar.toolbar>.toolbar-item {
-			margin-right: 0.4em;
-		}
+
 
 		/* Styling the buttons */
 		div.code-toolbar>.toolbar.toolbar>.toolbar-item>button,
@@ -251,8 +288,6 @@ body {
 		div.code-toolbar>.toolbar.toolbar>.toolbar-item>span {
 			background: hsl(220, 13%, 26%);
 			color: hsl(220, 9%, 55%);
-			padding: 0.1em 0.4em;
-			border-radius: 0.3em;
 		}
 
 		div.code-toolbar>.toolbar.toolbar>.toolbar-item>button:hover,
@@ -276,10 +311,7 @@ body {
 		.line-highlight.line-highlight[data-end]:after {
 			background: hsl(220, 13%, 26%);
 			color: hsl(220, 14%, 71%);
-			padding: 0.1em 0.6em;
-			border-radius: 0.3em;
 			box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.2);
-			/* same as Toolbar plugin default */
 		}
 
 		/* Hovering over a linkable line number (in the gutter area) */
@@ -375,13 +407,6 @@ body {
 			border-color: hsl(224, 13%, 17%);
 		}
 
-		/* Angle and time should remain as circles and are hence not included */
-		.prism-previewer-color.prism-previewer-color:before,
-		.prism-previewer-gradient.prism-previewer-gradient div,
-		.prism-previewer-easing.prism-previewer-easing:before {
-			border-radius: 0.3em;
-		}
-
 		/* Triangles pointing to the code */
 		.prism-previewer.prism-previewer:after {
 			border-top-color: hsl(224, 13%, 17%);
@@ -403,7 +428,6 @@ body {
 		.prism-previewer-angle.prism-previewer-angle circle,
 		.prism-previewer-time.prism-previewer-time circle {
 			stroke: hsl(220, 14%, 71%);
-			stroke-opacity: 1;
 		}
 
 		/* Stroke colours of the handle, direction point, and vector itself */
@@ -425,20 +449,6 @@ body {
 		pre[class*="language-"] {
 			background: #fafafa;
 			color: #383a42;
-			font-family: var(--font-family-monospace);
-			direction: ltr;
-			text-align: left;
-			white-space: pre;
-			word-spacing: normal;
-			word-break: normal;
-			line-height: 1.5;
-			-moz-tab-size: 2;
-			-o-tab-size: 2;
-			tab-size: 2;
-			-webkit-hyphens: none;
-			-moz-hyphens: none;
-			-ms-hyphens: none;
-			hyphens: none;
 		}
 
 		/* Selection */
@@ -446,29 +456,12 @@ body {
 		code[class*="language-"] *::-moz-selection,
 		pre[class*="language-"] *::-moz-selection {
 			background: #e5e5e6;
-			color: inherit;
 		}
 
 		code[class*="language-"]::selection,
 		code[class*="language-"] *::selection,
 		pre[class*="language-"] *::selection {
 			background: #e5e5e6;
-			color: inherit;
-		}
-
-		/* Code blocks */
-		pre[class*="language-"] {
-			padding: 1em;
-			margin: 0.5em 0;
-			overflow: auto;
-			border-radius: 0.3em;
-		}
-
-		/* Inline code */
-		:not(pre)>code[class*="language-"] {
-			padding: 0.2em 0.3em;
-			border-radius: 0.3em;
-			white-space: normal;
 		}
 
 		.token.comment,
@@ -613,23 +606,6 @@ body {
 			color: #e45649;
 		}
 
-		/* General */
-		.token.bold {
-			font-weight: bold;
-		}
-
-		.token.comment,
-		.token.italic {
-			font-style: italic;
-		}
-
-		.token.entity {
-			cursor: help;
-		}
-
-		.token.namespace {
-			opacity: 0.8;
-		}
 
 		/* Plugin overrides */
 		/* Selectors should have higher specificity than those in the plugins' default stylesheets */
@@ -642,11 +618,6 @@ body {
 			color: #383a4233;
 		}
 
-		/* Toolbar plugin overrides */
-		/* Space out all buttons and move them away from the right edge of the code block */
-		div.code-toolbar>.toolbar.toolbar>.toolbar-item {
-			margin-right: 0.4em;
-		}
 
 		/* Styling the buttons */
 		div.code-toolbar>.toolbar.toolbar>.toolbar-item>button,
@@ -654,8 +625,6 @@ body {
 		div.code-toolbar>.toolbar.toolbar>.toolbar-item>span {
 			background: #e5e5e6;
 			color: #696c77;
-			padding: 0.1em 0.4em;
-			border-radius: 0.3em;
 		}
 
 		div.code-toolbar>.toolbar.toolbar>.toolbar-item>button:hover,
@@ -665,7 +634,6 @@ body {
 		div.code-toolbar>.toolbar.toolbar>.toolbar-item>span:hover,
 		div.code-toolbar>.toolbar.toolbar>.toolbar-item>span:focus {
 			background: #c6c7c7;
-			/* custom: darken(--syntax-bg, 20%) */
 			color: #383a42;
 		}
 
@@ -680,10 +648,7 @@ body {
 		.line-highlight.line-highlight[data-end]:after {
 			background: #e5e5e6;
 			color: #383a42;
-			padding: 0.1em 0.6em;
-			border-radius: 0.3em;
 			box-shadow: 0 2px 0 0 #00000033;
-			/* same as Toolbar plugin default */
 		}
 
 		/* Hovering over a linkable line number (in the gutter area) */
@@ -731,8 +696,6 @@ body {
 			color: #a626a4;
 		}
 
-		/* Diff Highlight plugin overrides */
-		/* Taken from https://github.com/atom/github/blob/master/styles/variables.less */
 		pre.diff-highlight>code .token.token.deleted:not(.prefix),
 		pre>code.diff-highlight .token.token.deleted:not(.prefix) {
 			background-color: #ff526626;
@@ -779,12 +742,6 @@ body {
 			border-color: #f2f2f2;
 		}
 
-		/* Angle and time should remain as circles and are hence not included */
-		.prism-previewer-color.prism-previewer-color:before,
-		.prism-previewer-gradient.prism-previewer-gradient div,
-		.prism-previewer-easing.prism-previewer-easing:before {
-			border-radius: 0.3em;
-		}
 
 		/* Triangles pointing to the code */
 		.prism-previewer.prism-previewer:after {
@@ -807,7 +764,6 @@ body {
 		.prism-previewer-angle.prism-previewer-angle circle,
 		.prism-previewer-time.prism-previewer-time circle {
 			stroke: #383a42;
-			stroke-opacity: 1;
 		}
 
 		/* Stroke colours of the handle, direction point, and vector itself */
