@@ -11,11 +11,24 @@
 
   {# Canonical URL #}
   {% if canonical %}
-    <link rel="canonical" href="{{ canonical }}" />
+    <link rel="canonical" href="{{ canonical }}"/>
   {% endif %}
 
   <meta property="og:title" content="{{ pageTitle }}"/>
   <meta property="og:description" content="{{ pageDescription }}"/>
+
+  <meta property="og:url" content="{{ page.url }}"/>
+  {% if urlPath %}
+    <meta property="og:image" content="https://dadyarri.ru/img/og/{{ urlPath }}-preview.jpeg"/>
+    <meta property="og:image:secure_url" content="https://dadyarri.ru/img/og/{{ urlPath }}-preview.jpeg"/>
+  {% else %}
+    <meta property="og:image" content="https://dadyarri.ru/img/default-preview.jpeg"/>
+    <meta property="og:image:secure_url" content="https://dadyarri.ru/img/default-preview.jpeg"/>
+  {% endif %}
+
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:site" content="@dadyarri"/>
+  <meta name="twitter:creator" content="@dadyarri"/>
 
   {# Third-party scripts #}
   <script async src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
