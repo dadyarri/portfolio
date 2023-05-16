@@ -1,8 +1,13 @@
 .post-container {
-    @media (min-width: 1024px) {
+    @media (min-width: 1300px) {
         display: flex;
         flex-direction: row;
         gap: 20px;
+
+        article {
+            width: 70%;
+        }
+
     }
 
     aside div {
