@@ -23,6 +23,12 @@
   -webkit-text-fill-color: transparent;
 }
 
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .btn {
   padding: 10px 15px;
   border: none;
