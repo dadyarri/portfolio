@@ -7,9 +7,9 @@ pre[class*="language-"] {
 	font-family: var(--font-family-monospace);
 	direction: ltr;
 	text-align: left;
-	white-space: pre;
-	word-spacing: normal;
-	word-break: normal;
+	white-space: pre-wrap;
+    overflow: auto;
+    word-break: break-word;
 	line-height: 1.5;
 	tab-size: 2;
 	hyphens: none;
