@@ -1,5 +1,5 @@
 ---
-title: Валидация строго типизированной конфигурации с помощью FluentValidation
+title: Валидация конфигурации с помощью FluentValidation
 urlPath: config-fluent-validation
 date: 2023-05-13
 summary: Настройка валидации строго типизированной конфигурации с помощью FluentValidation
