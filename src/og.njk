@@ -8,6 +8,14 @@ permalink: "img/og/{{ preview.data.urlPath }}-preview.svg"
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg width="1200" height="628" viewBox="0 0 1200 628" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
+    <defs>
+        <linearGradient id='g1'>
+            <stop stop-color='#5183f5'/>
+            <stop offset='.411' stop-color='#af002d'/>
+            <stop offset='.761' stop-color='#c79191'/>
+        </linearGradient>
+    </defs>
+
     {% set titleInLines = preview.data.title | splitlines %}
     {% set numberOfLines = titleInLines.length %}
     {% if numberOfLines == 1 %}
@@ -26,22 +34,45 @@ permalink: "img/og/{{ preview.data.urlPath }}-preview.svg"
         {% set verticalStartingPoint = 90 %}
     {% endif %}
 
-    <rect width="100%" height="100%" fill="white" />
+    <rect width="100%" height="100%" fill="white"/>
 
     <text text-anchor="start" font-family="JetBrainsMono" font-size="90">
         <tspan x="80" y="350">d</tspan>
     </text>
 
-    <line x1="200" y1="80" x2="200" y2="548" stroke="black" />
+    <line x1="200" y1="80" x2="200" y2="548" stroke="black"/>
 
     <text font-family="Inter" font-size="30">
         <tspan x="250" y="{{verticalStartingPoint - 90}}">{{ preview.date | readableDate }}</tspan>
     </text>
-    
+
+    {% set yCoord = 0 %}
+
     <text id="text" font-family="Inter" font-size="60" font-weight="bold">
-    {% for line in titleInLines %}
-        <tspan x="250" y="{{verticalStartingPoint + loop.index0 * 80}}">{{line}}</tspan>
-    {% endfor %}
+        {% for line in titleInLines %}
+            {% set yCoord = verticalStartingPoint + loop.index0 * 80 %}
+            <tspan x="250" y="{{yCoord}}">{{line}}</tspan>
+        {% endfor %}
     </text>
+
+    {% set yCoord = yCoord + 40 %}
+    {% set xCoord = 250 %}
+
+    {% for tag in preview.data.tags %}
+
+        {% if tag != "post"%}
+
+            <g>
+                <rect x="{{ xCoord }}" y="{{ yCoord }}" width="{{ tag.length * 20 }}" height="45" rx="10" fill="#fff" stroke="url(#g1)" stroke-width="3"/>
+            </g>
+            <text font-family="JetBrainsMono" font-size="30" fill="url(#g1)">
+                <tspan x="{{ xCoord + 10 }}" y="{{ yCoord + 30 }}">{{ tag }}</tspan>
+            </text>
+
+            {% set xCoord = xCoord + tag.length * 20 + 25 %}
+
+        {% endif %}
+
+    {% endfor %}
 
 </svg>
