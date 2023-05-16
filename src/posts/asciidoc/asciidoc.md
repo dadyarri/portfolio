@@ -1,7 +1,7 @@
 ---
 title: Asciidoc для генерации отчётов к лабораторным работам
 urlPath: asciidoc
-date: 2023-05-13
+date: 2023-05-16
 summary: Настройка Asciidoc под ГОСТ 7.32-2017 (Отчёт по НИР)
 tags:
   - asciidoc
