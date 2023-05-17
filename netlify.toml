@@ -1,6 +1,5 @@
 [build]
   publish = "_site"
-  command = "npm run build"
 
 # REDIRECT and HEADERS examples
 
