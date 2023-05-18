@@ -61,15 +61,15 @@ permalink: "img/og/{{ preview.data.urlPath }}-preview.svg"
     {% for tag in preview.data.tags %}
 
         {% if tag != "post"%}
-
+            {% set tagWidth = tag | textWidth('30px JetBrainsMono') %}
             <g>
-                <rect x="{{ xCoord }}" y="{{ yCoord }}" width="{{ tag.length * 20 + 15 }}" height="45" rx="10" fill="#fff" stroke="url(#g1)" stroke-width="3"/>
+                <rect x="{{ xCoord }}" y="{{ yCoord }}" width="{{ tagWidth }}" height="45" rx="10" fill="#fff" stroke="url(#g1)" stroke-width="3"/>
             </g>
             <text font-family="JetBrainsMono" font-size="30" fill="url(#g1)">
                 <tspan x="{{ xCoord + 10 }}" y="{{ yCoord + 30 }}">{{ tag }}</tspan>
             </text>
 
-            {% set xCoord = xCoord + tag.length * 20 + 40 %}
+            {% set xCoord = xCoord + tagWidth + 25 %}
 
         {% endif %}
 
