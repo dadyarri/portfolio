@@ -2,5 +2,7 @@
 
 ## Dadyarri's website
 
+![Website](https://v1.screenshot.11ty.dev/https%3A%2F%2Fdadyarri.ru/large)
+
 ## Credit
 *Theme was created by [TylerMRoderick](https://github.com/TylerMRoderick/fernfolio-11ty-template) and modified by me*
