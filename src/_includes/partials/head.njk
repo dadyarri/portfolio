@@ -1,4 +1,5 @@
 {% set pageTitle = renderData.title or title or metadata.title %}
+{% set pageTitleSlug = pageTitle | slug %}
 {% set pageDescription = metaDescription or renderData.metaDescription or summary or metadata.description %}
 
 <head>
@@ -14,13 +15,19 @@
     <link rel="canonical" href="{{ canonical }}"/>
   {% endif %}
 
-  <meta property="og:title" content="{{ pageTitle }}"/>
+  <meta property="og:title" content="{{ pageTitle | slug }}"/>
   <meta property="og:description" content="{{ pageDescription }}"/>
 
   <meta property="og:url" content="{{ page.url }}"/>
-  {% if urlPath %}
+
+  {% if section == 'post' %}
     <meta property="og:image" content="https://dadyarri.ru/img/og/{{ urlPath }}-preview.jpeg"/>
     <meta property="og:image:secure_url" content="https://dadyarri.ru/img/og/{{ urlPath }}-preview.jpeg"/>
+  {% endif %}
+
+  {% if section == 'project' %}
+    <meta property="og:image" content="https://dadyarri.ru/img/og/{{ pageTitleSlug }}-preview.jpeg"/>
+    <meta property="og:image:secure_url" content="https://dadyarri.ru/img/og/{{ pageTitleSlug }}-preview.jpeg"/>
   {% else %}
     <meta property="og:image" content="https://dadyarri.ru/img/default-preview.jpeg"/>
     <meta property="og:image:secure_url" content="https://dadyarri.ru/img/default-preview.jpeg"/>
