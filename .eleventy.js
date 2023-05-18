@@ -1,9 +1,10 @@
 const eleventyNavigationPlugin = require('@11ty/eleventy-navigation');
 const syntaxHighlight = require('@11ty/eleventy-plugin-syntaxhighlight');
-const imageShortcode = require('./src/_11ty/shortcodes/image-shortcode');
 const markdownLibrary = require('./src/_11ty/libraries/markdown-library');
 const minifyHtml = require('./src/_11ty/utils/minify-html');
 const markdownFilter = require('./src/_11ty/filters/markdown-filter');
+const textWidthFilter = require('./src/_11ty/filters/text-width-filter');
+const imageShortcode = require('./src/_11ty/shortcodes/image-shortcode');
 const svgFilter = require('./src/_11ty/filters/svg-filter');
 const browserSyncConfig = require('./src/_11ty/utils/browser-sync-config');
 const tableOfContents = require('eleventy-plugin-toc');
@@ -47,6 +48,7 @@ module.exports = function (eleventyConfig) {
 
     return lines;
   });
+  eleventyConfig.addFilter('textWidth', textWidthFilter);
 
   // Shortcodes
   eleventyConfig.addNunjucksAsyncShortcode('image', imageShortcode);
@@ -82,26 +84,26 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.on('afterBuild', () => {
     const socialPreviewImagesDir = "_site/img/og/";
     fs.readdir(socialPreviewImagesDir, function (err, files) {
-        if (files.length > 0) {
-            files.forEach(function (filename) {
-                if (filename.endsWith(".svg")) {
+      if (files.length > 0) {
+        files.forEach(function (filename) {
+          if (filename.endsWith(".svg")) {
 
-                    let imageUrl = socialPreviewImagesDir + filename;
-                    Image(imageUrl, {
-                        formats: ["jpeg"],
-                        outputDir: "./" + socialPreviewImagesDir,
-                        filenameFormat: function (id, src, width, format, options) {
+            let imageUrl = socialPreviewImagesDir + filename;
+            Image(imageUrl, {
+              formats: ["jpeg"],
+              outputDir: "./" + socialPreviewImagesDir,
+              filenameFormat: function (id, src, width, format, options) {
 
-                            let outputFilename = filename.substring(0, (filename.length-4));
-                        
-                            return `${outputFilename}.${format}`;
+                let outputFilename = filename.substring(0, (filename.length - 4));
 
-                        }
-                    });
+                return `${outputFilename}.${format}`;
 
-                }
-            })
-        }
+              }
+            });
+
+          }
+        })
+      }
     })
   });
 
