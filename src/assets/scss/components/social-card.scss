@@ -64,47 +64,6 @@
 	}
 }
 
-.btn {
-	border: 0;
-	background-color: transparent;
-	padding: 0;
-	height: 46px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	cursor: pointer;
-	line-height: 1;
-	transition: 0.15s ease;
-
-	&--primary {
-		border-radius: 99em;
-		background-color: #3772ff;
-		background-image: linear-gradient(135deg, #5587ff, #3772ff);
-		color: #fff;
-		padding: 0 1.375em;
-		&:hover,
-		&:focus {
-			background-size: 150%;
-		}
-	}
-
-	&--icon {
-		height: 46px;
-		width: 46px;
-		border-radius: 50%;
-		border: 3px solid #343945;
-		color: #7d8396;
-		i {
-			font-size: 1.25em;
-		}
-
-		&:hover,
-		&:focus {
-			border-color: #7d8396;
-		}
-	}
-}
-
 .profile-links {
 	margin-top: 3.5rem;
 }
