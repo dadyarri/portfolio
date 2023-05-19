@@ -44,10 +44,14 @@ permalink: "img/og/{{ preview.data.title | slug }}-preview.svg"
 
     {% set yCoord = 0 %}
 
+    <text font-family="Noto Emoji" font-size="60" font-weight="regular">
+        <tspan x="250" y="{{ verticalStartingPoint }}">{{ preview.data.emoji }}</tspan>
+    </text>
+
     <text id="text" font-family="Inter" font-size="60" font-weight="bold">
         {% for line in titleInLines %}
             {% set yCoord = verticalStartingPoint + loop.index0 * 80 %}
-            <tspan x="250" y="{{yCoord}}">{{line}}</tspan>
+            <tspan x="{{ 265 + preview.data.emoji | textWidth('60px Noto Emoji') }}" y="{{yCoord}}">{{line}}</tspan>
         {% endfor %}
     </text>
 
