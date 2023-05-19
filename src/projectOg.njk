@@ -19,19 +19,19 @@ permalink: "img/og/{{ preview.data.title | slug }}-preview.svg"
     {% set titleInLines = preview.data.title | splitlines %}
     {% set numberOfLines = titleInLines.length %}
     {% if numberOfLines == 1 %}
-        {% set verticalStartingPoint = 340 %}
-    {% elseif numberOfLines == 2 %}
         {% set verticalStartingPoint = 290 %}
-    {% elseif numberOfLines == 3 %}
+    {% elseif numberOfLines == 2 %}
         {% set verticalStartingPoint = 250 %}
-    {% elseif numberOfLines == 4 %}
+    {% elseif numberOfLines == 3 %}
         {% set verticalStartingPoint = 210 %}
-    {% elseif numberOfLines == 5 %}
+    {% elseif numberOfLines == 4 %}
         {% set verticalStartingPoint = 170 %}
-    {% elseif numberOfLines == 6 %}
+    {% elseif numberOfLines == 5 %}
         {% set verticalStartingPoint = 130 %}
-    {% elseif numberOfLines == 7 %}
+    {% elseif numberOfLines == 6 %}
         {% set verticalStartingPoint = 90 %}
+    {% elseif numberOfLines == 7 %}
+        {% set verticalStartingPoint = 50 %}
     {% endif %}
 
     <rect width="100%" height="100%" fill="white"/>
@@ -48,15 +48,24 @@ permalink: "img/og/{{ preview.data.title | slug }}-preview.svg"
         <tspan x="250" y="{{ verticalStartingPoint }}">{{ preview.data.emoji }}</tspan>
     </text>
 
+    {% set textXPosition = 265 + preview.data.emoji | textWidth('60px Noto Emoji')%}
+
     <text id="text" font-family="Inter" font-size="60" font-weight="bold">
         {% for line in titleInLines %}
             {% set yCoord = verticalStartingPoint + loop.index0 * 80 %}
-            <tspan x="{{ 265 + preview.data.emoji | textWidth('60px Noto Emoji') }}" y="{{yCoord}}">{{line}}</tspan>
+            <tspan x="{{ textXPosition }}" y="{{yCoord}}">{{line}}</tspan>
         {% endfor %}
     </text>
 
-    {% set yCoord = yCoord + 40 %}
+    
+    {% set yCoord = yCoord + 50 %}
     {% set xCoord = 250 %}
+
+    <text font-family="Inter" font-size="35">
+        <tspan x="{{ textXPosition }}" y="{{ yCoord }}">{{ preview.data.shortSummary or preview.data.summary }}</tspan>
+    </text>
+
+    {% set yCoord = yCoord + 40 %}
 
     {% for tag in preview.data.tags %}
 
