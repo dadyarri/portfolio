@@ -28,7 +28,9 @@
   {% if section == 'project' %}
     <meta property="og:image" content="https://dadyarri.ru/img/og/{{ pageTitleSlug }}-preview.jpeg"/>
     <meta property="og:image:secure_url" content="https://dadyarri.ru/img/og/{{ pageTitleSlug }}-preview.jpeg"/>
-  {% else %}
+  {% endif %}
+  
+  {% if ['home', 'blog', 'projects', 'page', 'contact'] | includes(section) %}
     <meta property="og:image" content="https://dadyarri.ru/img/default-preview.jpeg"/>
     <meta property="og:image:secure_url" content="https://dadyarri.ru/img/default-preview.jpeg"/>
   {% endif %}
