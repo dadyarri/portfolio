@@ -12,6 +12,7 @@ const { readableDateFilter, machineDateFilter } = require('./src/_11ty/filters/d
 const cardShortcode = require('./src/_11ty/shortcodes/card-shortcode');
 const fs = require("fs");
 const Image = require('@11ty/eleventy-img');
+const includesFliter = require('./src/_11ty/filters/includes-fliter');
 
 module.exports = function (eleventyConfig) {
   // Plugins
@@ -27,6 +28,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addFilter('readableDate', readableDateFilter);
   eleventyConfig.addFilter('machineDate', machineDateFilter);
   eleventyConfig.addFilter('svg', svgFilter);
+  eleventyConfig.addFilter('includes', includesFliter);
   eleventyConfig.addFilter('splitlines', function (input) {
     const parts = input.split(' ');
     const lines = parts.reduce(function (prev, current) {
