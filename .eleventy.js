@@ -13,11 +13,13 @@ const cardShortcode = require('./src/_11ty/shortcodes/card-shortcode');
 const fs = require("fs");
 const Image = require('@11ty/eleventy-img');
 const includesFliter = require('./src/_11ty/filters/includes-fliter');
+const pluginRss = require("@11ty/eleventy-plugin-rss");
 
 module.exports = function (eleventyConfig) {
   // Plugins
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
   eleventyConfig.addPlugin(syntaxHighlight);
+  eleventyConfig.addPlugin(pluginRss);
   eleventyConfig.addPlugin(tableOfContents, {
     tags: ['h2', 'h3'],
     ul: true
