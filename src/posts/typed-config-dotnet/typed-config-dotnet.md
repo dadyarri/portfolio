@@ -246,7 +246,7 @@ public class SlackApiSettings
 }
 ```
 
-> Обратите внимание, что здесь я использовал DataAnnotations, но можно использовать другие фреймворки для валидации [п/п: У автора [есть](https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-using-flentvalidation/) статья про подключение FluentValidation к этому механизму, её перевод выйдет следующим]
+> Обратите внимание, что здесь я использовал DataAnnotations, но можно использовать другие фреймворки для валидации [п/п: У автора [есть](https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-using-flentvalidation/) статья про подключение FluentValidation к этому механизму, [её перевод](https://dadyarri/blog/config-fluent-validation).]
 
 ## Тестирование конфигурации на старте приложения
 
