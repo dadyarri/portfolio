@@ -23,12 +23,12 @@ tags:
 
 Чтобы использовать такую валидацию, нужно сделать четыре вещи:
 
-- Связать объект конфигурации `IOptions<T>` с помощью `services.AddOptions<T>.BindConfiguration()`
+- Связать объект конфигурации из файла с `IOptions<T>`
 - Добавить атрибуты валидации к объекту конфигурации
 - Вызвать `ValidateDateAnnotations()` `OptionsBuilder`'а, возвращённого из `AddOptions<T>()`
 - Вызвать `ValidateOnStart()` `OptionsBuilder`'а.
 
-В примере ниже, я настроил валидацию конфига для объекта SlackApiSettings:
+В примере ниже, я настроил валидацию конфига для объекта `SlackApiSettings`:
 
 ```csharp
 using System.ComponentModel.DataAnnotations;
