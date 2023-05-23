@@ -1,0 +1,135 @@
+.timeline {
+    position: relative;
+    height: 100%;
+    overflow: visible;
+
+    margin: {
+        left: auto;
+        right: auto;
+        top: 5rem;
+    }
+
+    div {
+        &:after {
+            content: '';
+            width: 2px;
+            position: absolute;
+            top: .5rem;
+            bottom: 0rem;
+            left: 110px;
+            z-index: 1;
+            background: var(--color-bg-accent);
+        }
+    }
+
+    h3 {
+        overflow-wrap: break-word;
+        position: sticky;
+        top: 5rem;
+        color: var(--color-primary);
+        width: 100px;
+        text-align: right;
+
+        font: {
+            size: 1em;
+            weight: 400;
+        }
+
+        @media (min-width: 62em) {
+            font-size: 1.1em;
+        }
+    }
+
+    section.year {
+        position: relative;
+
+        h3 {
+            color: var(--color-primary);
+        }
+
+        &:first-child section {
+            margin-top: -1.3em;
+            padding-bottom: 0px;
+        }
+
+        section {
+            position: relative;
+            padding-bottom: 1.25em;
+            margin-bottom: 2.2em;
+
+            h4 {
+                position: absolute;
+                bottom: 0;
+
+                font: {
+                    size: .9em;
+                    weight: 400;
+                }
+
+                line-height: 1.2em;
+                margin: 0;
+                padding: 0 0 0 89px;
+                color: #C5C5C5;
+
+                @media (min-width: 62em) {
+                    font-size: 1em;
+                }
+            }
+
+            ul {
+                list-style-type: none;
+                padding: 0 0 0 75px;
+                margin: -1.35rem 35px 1em;
+                max-width: 32rem;
+                font-size: 1em;
+
+                @media (min-width: 62em) {
+                    font-size: 1.1em;
+                    padding: 0 0 0 81px;
+                }
+
+                &:last-child {
+                    margin: {
+                        bottom: 0;
+                    }
+                }
+
+                &:first-of-type:after {
+                    content: '';
+                    width: 10px;
+                    height: 10px;
+                    background: var(--color-accent);
+                    border: 2px solid var(--color-accent);
+                    border-radius: 50%;
+                    position: absolute;
+                    left: 105px;
+                    top: 3px;
+                    z-index: 2;
+                }
+
+                li {
+                    margin-left: 2.5rem;
+                    display: flex;
+                    flex-direction: column;
+
+                    &:before {
+                        content: '·';
+                    }
+
+                    &:not(:first-child) {
+                        margin-top: .5rem;
+                    }
+
+                    p {
+                        margin: {
+                            bottom: 0;
+                            right: 5rem;
+                        };
+                        line-height: 1.2;
+                        font-weight: 800;
+                    }
+                }
+            }
+        }
+    }
+}
