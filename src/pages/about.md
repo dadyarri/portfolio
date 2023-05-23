@@ -21,12 +21,65 @@ eleventyNavigation:
 
 ## Образование
 
-{% card "Владимирский государственный университет", "2020-2024", "Информационные системы и технологии, бакалавриат" %}
+<div class="timeline">
+  <div>
+    <section class="year">
+      <h3>2023</h3>
+      <section>
+        <ul>
+          <li>
+            <p>CS50's Introduction to Computer Science</p>
+            <small>Harvard University</small>
+          </li>
+        </ul>
+      </section>
+    </section>
+    <section class="year">
+      <h3>2024</h3>
+      <section>
+        <ul>
+          <li>
+            <p>Владимирский государственный университет</p>
+            <small>Информационные системы и технологии, бакалавр</small>
+          </li>
+        </ul>
+      </section>
+    </section>
+  </div>
+</div>
 
 ## Награды
 
-{% card "Победитель «От Идеи до Бизнеса»", "Декабрь 2022", "В составе команды проекта «Платформа дистанционного образования \"UNI\"»" %}
+<div class="timeline">
+  <div>
+    <section class="year">
+      <h3>Декабрь<br>2022</h3>
+      <section>
+        <ul>
+          <li>
+            <p>Победитель «От Идеи до Бизнеса»</p>
+            <small>«Платформа дистанционного образования "UNI"»</small>
+          </li>
+        </ul>
+      </section>
+    </section>
+  </div>
+</div>
 
 ## Опыт работы
 
-{% card "Преподаватель детских IT-курсов", "Июнь – сентябрь 2021", "Компания: Академия top (г. Владимир)" %}
+<div class="timeline">
+  <div>
+    <section class="year">
+      <h3>Июнь<br>— сентябрь<br>2021</h3>
+      <section>
+        <ul>
+          <li>
+            <p>Преподаватель детских IT-курсов</p>
+            <small>Компания: Академия top (г. Владимир)</small>
+          </li>
+        </ul>
+      </section>
+    </section>
+  </div>
+</div>
