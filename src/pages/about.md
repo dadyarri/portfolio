@@ -13,7 +13,6 @@ eleventyNavigation:
 | Навык                   | Опыт      |
 |-------------------------|-----------|
 | C# (.NET, EF Core, WPF) | 1,5 года  |
-| Typescript (React)      | 6 месяцев |
 | Docker                  | 1 год     |
 | PostgreSQL              | 3 года    |
 | Powershell              | 6 месяцев |
