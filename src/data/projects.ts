@@ -1,27 +1,25 @@
 export type Project = {
   title: string;
   techs: string[];
-  link: string;
+  link?: string;
+  description?: string;
   isComingSoon?: boolean;
 };
 
 const projects: Project[] = [
   {
-    title: "Dictionary App",
-    techs: ["ReactJS (NextJS)", "react-query", "zod"],
-    link: "https://github.com/MaeWolff/dictionary-app",
+    title: "ChocoManager. Backend",
+    techs: ["C#", "ASP.NET Core", "Docker"],
+    link: "https://github.com/choco-manager/Backend",
+    description: "Бэк-офис небольшого интернет-магазина"
   },
   {
-    title: "Portfolio / Lina BLIDI",
-    techs: ["ReactJS (NextJS)", "TypeScript"],
-    link: "https://www.linablidi.fr/",
-  },
-  {
-    title: "Portfolio / Template",
-    techs: ["Astro"],
-    link: "/",
-    isComingSoon: true,
-  },
+    title: "ChocoManager. Application",
+    techs: ["Kotlin", "Jetpack Compose"],
+    link: "https://github.com/choco-manager/Application",
+    description: "Мобильное приложение для бэк-офиса интернет магазина",
+    isComingSoon: true
+  }
 ];
 
 export default projects;
