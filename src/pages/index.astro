@@ -27,8 +27,8 @@ const posts = await getCollection("posts");
 
     <article class="flex flex-col gap-8">
       <header class="flex w-full flex-row justify-between gap-2">
-        <h3 class="text-lg text-neutral-100">Latest posts</h3>
-        <Link href="/posts" label="See all posts" isUnderline target="_self" />
+        <h3 class="text-lg text-neutral-100">Последние публикации</h3>
+        <Link href="/posts" label="Все публикации" isUnderline target="_self" />
       </header>
       {posts.length === 0 && <p>Soon, stay connected 👀...</p>}
 
@@ -52,7 +52,7 @@ const posts = await getCollection("posts");
     <article class="flex flex-col gap-8">
       <header class="flex w-full flex-row justify-between gap-2">
         <h3 class="text-lg text-neutral-100">
-          Selected projects ({projects.length})
+          Пет-проекты ({projects.length})
         </h3>
       </header>
       {projects.length === 0 && <p>Oops, I must work^^^^^</p>}
@@ -67,13 +67,13 @@ const posts = await getCollection("posts");
 
     <article class="flex flex-col gap-8">
       <header class="flex w-full flex-row justify-between gap-2">
-        <h3 class="text-lg text-neutral-100">Get in touch</h3>
+        <h3 class="text-lg text-neutral-100">Связь со мной</h3>
       </header>
       <p>
-        Email me at <Link
+        Напишите на почту <Link
           href={`mailto:${presentation.mail}`}
           label={presentation.mail}
-        /> or follow me via my social links.
+        /> или через соц. сети:
       </p>
 
       <SocialLinks />
