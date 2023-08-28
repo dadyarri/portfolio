@@ -14,7 +14,7 @@ const presentation: Presentation = {
   mail: "me@dadyarri.ru",
   title: "Салют, я Даниил",
   description:
-    "Бэкенд-разработчик из России *с двухлетним опытом*. Сейчас я изучаю *ASP.NET Core* и *Jetpack Compose*",
+    "Бэкенд-разработчик из России *с двухлетним опытом*. Сейчас я изучаю *ASP.NET* и *Jetpack Compose*",
   socials: [
     {
       label: "Github",
