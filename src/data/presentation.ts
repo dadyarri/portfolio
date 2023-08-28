@@ -23,6 +23,10 @@ const presentation: Presentation = {
     {
       label: "Telegram",
       link: "https://t.me/dadyarri"
+    },
+    {
+      label: "Резюме",
+      link: "/assets/cv.pdf"
     }
   ],
 };
