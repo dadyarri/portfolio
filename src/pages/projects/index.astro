@@ -1,0 +1,33 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+
+const projects = await getCollection("projects");
+---
+
+<Layout title="Все проекты">
+    <main class="flex flex-col gap-20">
+        <h1 class="text-2xl text-neutral-100">Проекты</h1>
+
+        <article class="flex flex-col gap-4">
+            {
+                projects.map((project) => (
+                    <a
+                        class="group flex flex-col gap-2 border-t border-neutral-700 py-4 transition-all hover:text-neutral-100"
+                        href={
+                            project.data.subpage
+                                ? `/projects/${project.slug}`
+                                : "#"
+                        }
+                    >
+                        <div class="flex w-full items-center justify-between">
+                            <h2 class="text-lg">{project.data.title}</h2>
+                            <span>{project.data.tags.join(" • ")}</span>
+                        </div>
+                        <p>{project.data.description}</p>
+                    </a>
+                ))
+            }
+        </article>
+    </main>
+</Layout>
