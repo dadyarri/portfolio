@@ -3,20 +3,21 @@ import type { Project } from "@/data/projects";
 
 type Props = Project;
 
-const { title, techs, link, isComingSoon, description } = Astro.props;
+const { slug, title, description, tags, subpage } = Astro.props;
 
 const formatTechs = (values: string[]) =>
   values.toString().replaceAll(",", " • ");
 ---
 
 <>
+{console.log(tags)}
   {
-    isComingSoon && (
+    !subpage && (
       <div class="t group flex w-full flex-col justify-between gap-2 rounded-md border border-neutral-700 p-4 md:flex-row md:items-center">
         <div class="flex flex-col gap-2">
           <div class="flex gap-4 sm:flex-col md:flex-row">
             <p class="text-neutral-100">{title}</p>
-            <p>{formatTechs(techs)}</p>
+            <p>{formatTechs(tags)}</p>
           </div>
           <p>{description}</p>
         </div>
@@ -27,17 +28,17 @@ const formatTechs = (values: string[]) =>
   }
 
   {
-    !isComingSoon && link && (
+    subpage && (
       <a
         class="group flex w-full cursor-pointer flex-col justify-between gap-2 rounded-md border border-neutral-700 p-4 transition-all duration-300 hover:-translate-y-2 hover:border-neutral-400 md:flex-row md:items-center"
-        href={link}
+        href={`/projects/${slug}`}
         target="_blank"
         rel="noreferrer"
       >
         <div class="flex flex-col gap-2">
           <div class="flex gap-4 sm:flex-col md:flex-row">
             <p class="text-neutral-100">{title}</p>
-            <p>{formatTechs(techs)}</p>
+            <p>{formatTechs(tags)}</p>
           </div>
           <p>{description}</p>
         </div>
@@ -65,23 +66,4 @@ const formatTechs = (values: string[]) =>
       </a>
     )
   }
-
-{
-  !isComingSoon && !link && (
-    <a
-      class="group flex w-full cursor-pointer flex-col justify-between gap-2 rounded-md border border-neutral-700 p-4 transition-all duration-300 hover:-translate-y-2 hover:border-neutral-400 md:flex-row md:items-center"
-      href={link}
-      target="_blank"
-      rel="noreferrer"
-    >
-      <div class="flex flex-col gap-2">
-        <div class="flex gap-4 sm:flex-col md:flex-row">
-          <p class="text-neutral-100">{title}</p>
-          <p>{formatTechs(techs)}</p>
-        </div>
-        <p>{description}</p>
-      </div>
-    </a>
-  )
-}
 </>

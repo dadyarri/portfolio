@@ -9,9 +9,9 @@ import Link from "@/components/shared/Link.astro";
 import convertAsteriskToStrongTag from "@/utils/convertAsteriskToStrongTag";
 
 import presentation from "@/data/presentation";
-import projects from "@/data/projects";
 
 const posts = await getCollection("posts");
+const projects = await getCollection("projects");
 ---
 
 <Layout>
@@ -60,7 +60,7 @@ const posts = await getCollection("posts");
       <section class="flex flex-col gap-4">
         {
           projects.length !== 0 &&
-            projects.map((project) => <ProjectCard {...project} />)
+            projects.map((project) => <ProjectCard {...project.data} />)
         }
       </section>
     </article>
