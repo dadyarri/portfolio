@@ -22,9 +22,12 @@ const { Content } = await project.render();
 <Layout title={project.data.title}>
   <main class="post mx-auto flex w-full max-w-prose flex-col gap-4">
     <header role="presentation">
-      <h1 class="text-md">
+      <h1 class="text-xl">
         {project.data.title}
       </h1>
+      <i>
+        {project.data.description}
+      </p>
     </header>
 
     <Content />
