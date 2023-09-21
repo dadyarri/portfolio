@@ -4,4 +4,5 @@ export type Project = {
   description: string;
   tags: string[];
   subpage: boolean;
+  deprecated: boolean;
 };

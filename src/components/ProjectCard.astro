@@ -3,7 +3,7 @@ import type { Project } from "@/data/projects";
 
 type Props = Project;
 
-const { slug, title, description, tags, subpage } = Astro.props;
+const { slug, title, description, tags, subpage, deprecated } = Astro.props;
 
 const formatTechs = (values: string[]) =>
   values.toString().replaceAll(",", " • ");
@@ -12,7 +12,7 @@ const formatTechs = (values: string[]) =>
 <>
 {console.log(tags)}
   {
-    !subpage && (
+    !subpage && !deprecated && (
       <div class="t group flex w-full flex-col justify-between gap-2 rounded-md border border-neutral-700 p-4 md:flex-row md:items-center">
         <div class="flex flex-col gap-2">
           <div class="flex gap-4 sm:flex-col md:flex-row">
@@ -26,6 +26,22 @@ const formatTechs = (values: string[]) =>
       </div>
     )
   }
+
+{
+  !subpage && deprecated && (
+    <div class="t group flex w-full flex-col justify-between gap-2 rounded-md border border-neutral-700 p-4 md:flex-row md:items-center">
+      <div class="flex flex-col gap-2">
+        <div class="flex gap-4 sm:flex-col md:flex-row">
+          <p class="text-neutral-100">{title}</p>
+          <p>{formatTechs(tags)}</p>
+        </div>
+        <p>{description}</p>
+      </div>
+
+      <p class="w-fit rounded-md bg-neutral-900 px-4 py-1">Архив</p>
+    </div>
+  )
+}
 
   {
     subpage && (
