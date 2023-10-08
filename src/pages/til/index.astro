@@ -1,8 +1,9 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
+import type { TIL } from "@/data/tils";
 
-const projects = await getCollection("tils");
+const tils = await getCollection<"tils", TIL>("tils");
 ---
 
 <Layout title="TIL">
@@ -11,16 +12,16 @@ const projects = await getCollection("tils");
 
         <article class="flex flex-col gap-4">
             {
-                projects?.length > 0 && projects.map((project) => (
+                tils?.length > 0 && tils.map((til) => (
                     <a
                         class="group flex flex-col gap-2 border-t border-neutral-700 py-4 transition-all hover:text-neutral-100"
-                        href={`/tils/${project.data.slug}`}
+                        href={`/tils/${til.data.slug}`}
                     >
                         <div class="flex w-full items-center justify-between">
-                            <h2 class="text-lg">{project.data.title}</h2>
-                            <span>{project.data.tags.join(" • ")}</span>
+                            <h2 class="text-lg">{til.data.title}</h2>
+                            <span>{til.data.tags.join(" • ")}</span>
                         </div>
-                        <p>{project.data.description}</p>
+                        <p>{til.data.description}</p>
                     </a>
                 )) || <p>I must work...</p>
             }

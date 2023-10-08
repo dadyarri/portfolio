@@ -5,9 +5,9 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "generate-pdf": "ts-node --project tsconfig-pdf.json ./scripts/generate-pdf.ts",
-    "generate-pdf:ci": "start-server-and-test 3000 generate-pdf",
-    "build": "astro check && tsc --noEmit && yarn generate-pdf:ci && astro build",
+    "generate-pdf": "node ./scripts/generate-pdf.js",
+    "generate-pdf:ci": "start-server-and-test http://localhost:4321 generate-pdf",
+    "build": "astro check && tsc --noEmit && npm run generate-pdf:ci && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -34,6 +34,7 @@
     "prettier": "3.0.3",
     "prettier-plugin-astro": "0.12.0",
     "prettier-plugin-tailwindcss": "0.5.5",
-    "start-server-and-test": "^2.0.1"
+    "start-server-and-test": "^2.0.1",
+    "ts-node": "^10.9.1"
   }
 }
