@@ -4,9 +4,8 @@ const postsCollection = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
-    slug: z.string(),
     publishedAt: z.date(),
-    description: z.string(),
+    description: z.string().default(""),
     isPublish: z.boolean(),
     isDraft: z.boolean().default(false),
   }),
@@ -16,8 +15,7 @@ const projectsCollections = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
-    slug: z.string(),
-    desciption: z.string(),
+    description: z.string().default(""),
     subpage: z.boolean(),
     deprecated: z.boolean(),
     tags: z.array(z.string())
@@ -28,7 +26,6 @@ const tilsCollection = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
-    slug: z.string(),
     publishedAt: z.date(),
     tags: z.array(z.string())
   })
