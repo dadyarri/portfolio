@@ -1,7 +1,7 @@
 ---
 title: Даниил Голубев | Резюме
 layout: ../layouts/Minimalist.astro
-pdfLink: cv.pdf
+pdfLink: /cv.pdf
 ---
 
 # Даниил Голубев
@@ -33,13 +33,27 @@ pdfLink: cv.pdf
 
 ## Проекты
 
-### 
+### [ChocoManager](https://github.com/choco-manager)
+
+Бэк-офис небольшого интернет-магазина (ежемесячная аудитория около 700 человек) [C#, **ASP.NET 7**]
+
+### [Audiosplttr](https://github.com/dadyarri/audiosplttr)
+
+Приложение для разделения аудиодорожки на отдельные файлы по тишине [C#, **WPF**]
+
+### [Портфолио](https://github.com/dadyarri/portfolio)
+
+Статически собираемый сайт с [блогом](https://dadyarri.ru/posts) и генерируемым [резюме](https://dadyarri.ru/cv.pdf) [JS, **Astro**]
+
+## Опыт и достижения
+
+- Перевожу статьи по .NET с английского языка и пишу собственные для своего [блога](https://dadyarri.ru)
+- Перевожу [appflowy](https://appflowy.io) (альтернативу Notion с открытым исходным кодом) на русский язык
 
 ## Языки
 
-| Русский  | English |
-| -------- | --------|
-| Родной   | B1      |
+- **Русский:** Родной
+- **English:** B1
 
 ## Образование
 
