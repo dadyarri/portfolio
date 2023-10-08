@@ -26,7 +26,7 @@ const presentation: Presentation = {
     },
     {
       label: "Резюме",
-      link: "/assets/cv.pdf"
+      link: "/cv"
     }
   ],
 };
