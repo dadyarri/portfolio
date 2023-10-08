@@ -4,6 +4,7 @@ const postsCollection = defineCollection({
   type: "content",
   schema: z.object({
     title: z.string(),
+    slug: z.string(),
     publishedAt: z.date(),
     description: z.string(),
     isPublish: z.boolean(),
@@ -11,4 +12,30 @@ const postsCollection = defineCollection({
   }),
 });
 
-export const collections = { posts: postsCollection };
+const projectsCollections = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    slug: z.string(),
+    desciption: z.string(),
+    subpage: z.boolean(),
+    deprecated: z.boolean(),
+    tags: z.array(z.string())
+  })
+})
+
+const tilsCollection = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    slug: z.string(),
+    publishedAt: z.date(),
+    tags: z.array(z.string())
+  })
+})
+
+export const collections = {
+  posts: postsCollection,
+  projects: projectsCollections,
+  tils: tilsCollection
+};
