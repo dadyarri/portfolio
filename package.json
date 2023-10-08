@@ -5,20 +5,26 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "generate-pdf": "ts-node --project tsconfig-pdf.json ./scripts/generate-pdf.ts",
+    "generate-pdf:ci": "start-server-and-test 3000 generate-pdf",
+    "build": "astro check && tsc --noEmit && yarn generate-pdf:ci && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/check": "^0.2.0",
     "@astrojs/rss": "^3.0.0",
     "@astrojs/sitemap": "^3.0.1",
     "@astrojs/tailwind": "^5.0.1",
     "@fontsource/open-sans": "^5.0.15",
+    "@tailwindcss/typography": "^0.5.10",
     "astro": "^3.2.3",
     "astro-seo": "^0.8.0",
     "markdown-it": "^13.0.2",
+    "playwright": "^1.38.1",
     "sanitize-html": "^2.11.0",
-    "tailwindcss": "^3.3.3"
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2"
   },
   "devDependencies": {
     "@types/sanitize-html": "^2.9.1",
@@ -27,6 +33,7 @@
     "eslint-plugin-astro": "0.29.1",
     "prettier": "3.0.3",
     "prettier-plugin-astro": "0.12.0",
-    "prettier-plugin-tailwindcss": "0.5.5"
+    "prettier-plugin-tailwindcss": "0.5.5",
+    "start-server-and-test": "^2.0.1"
   }
 }
