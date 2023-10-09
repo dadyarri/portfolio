@@ -1,5 +1,5 @@
 .post {
-  @apply w-[1000px]
+  @apply max-w-[1000px]
 }
 
 .post p {
