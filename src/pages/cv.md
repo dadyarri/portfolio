@@ -2,6 +2,7 @@
 title: Даниил Голубев | Резюме
 layout: ../layouts/Minimalist.astro
 pdfLink: /cv.pdf
+avatarSrc: /assets/avatar.jpg
 ---
 
 # Даниил Голубев
