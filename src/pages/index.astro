@@ -17,7 +17,7 @@ const projects = await getCollection("projects");
 <Layout>
   <main class="flex flex-col gap-20">
     <article class="flex flex-col gap-8">
-      <h1 class="text-3xl text-neutral-100">{presentation.title}</h1>
+      <h1 class="text-3xl dark:text-neutral-100">{presentation.title}</h1>
       <h2
         class="max-w-[60ch] leading-6"
         set:html={convertAsteriskToStrongTag(presentation.description)}
@@ -27,7 +27,7 @@ const projects = await getCollection("projects");
 
     <article class="flex flex-col gap-8">
       <header class="flex w-full flex-row justify-between gap-2">
-        <h3 class="text-lg text-neutral-100">Последние публикации</h3>
+        <h3 class="text-lg dark:text-neutral-100">Последние публикации</h3>
         <Link href="/posts" label="Все публикации" isUnderline target="_self" />
       </header>
       {posts.length === 0 && <p>Soon, stay connected 👀...</p>}

@@ -5,8 +5,8 @@ import presentation from "@/data/presentation";
 const pathname = removeTrailingSlash(Astro.url.pathname);
 ---
 
-<header class="z-40 flex w-full flex-col gap-2 md:flex-row md:justify-between">
-  <a href={`mailto:${presentation.mail}`} class="hover:text-neutral-100"
+<header class="z-40 flex w-full flex-col gap-2 md:flex-row md:justify-between sticky top-0 backdrop-blur-sm p-5 rounded-md bg-neutral-100 dark:bg-neutral-800">
+  <a href={`mailto:${presentation.mail}`} class="hover:dark:text-neutral-100 hover:text-orange-500"
     >{presentation.mail}</a
   >
 
@@ -16,8 +16,10 @@ const pathname = removeTrailingSlash(Astro.url.pathname);
         <a
           href="/"
           class:list={{
-            ["hover:text-neutral-100"]: true,
-            ["text-neutral-100"]: pathname === "/",
+            ["hover:dark:text-neutral-100"]: true,
+            ["hover:text-orange-500"]: true,
+            ["dark:text-neutral-100"]: pathname === "/",
+            ["text-orange-500"]: pathname === "/",
           }}>Главная</a
         >
       </li>
@@ -26,8 +28,10 @@ const pathname = removeTrailingSlash(Astro.url.pathname);
         <a
           href="/posts"
           class:list={{
-            ["hover:text-neutral-100"]: true,
-            ["text-neutral-100"]: pathname === "/posts",
+            ["hover:dark:text-neutral-100"]: true,
+            ["hover:text-orange-500"]: true,
+            ["dark:text-neutral-100"]: pathname === "/posts",
+            ["text-orange-500"]: pathname === "/posts",
           }}>Блог</a
         >
       </li>
@@ -36,8 +40,10 @@ const pathname = removeTrailingSlash(Astro.url.pathname);
         <a
           href="/projects"
           class:list={{
-            ["hover:text-neutral-100"]: true,
-            ["text-neutral-100"]: pathname === "/projects",
+            ["hover:dark:text-neutral-100"]: true,
+            ["hover:text-orange-500"]: true,
+            ["dark:text-neutral-100"]: pathname === "/projects",
+            ["text-orange-500"]: pathname === "/projects",
           }}>Проекты</a
         >
       </li>
@@ -47,8 +53,10 @@ const pathname = removeTrailingSlash(Astro.url.pathname);
         <a
           href="/til"
           class:list={{
-            ["hover:text-neutral-100"]: true,
-            ["text-neutral-100"]: pathname === "/til",
+            ["hover:dark:text-neutral-100"]: true,
+            ["hover:text-orange-500"]: true,
+            ["dark:text-neutral-100"]: pathname === "/til",
+            ["text-orange-500"]: pathname === "/til",
           }}>TIL</a
         >
       </li>
