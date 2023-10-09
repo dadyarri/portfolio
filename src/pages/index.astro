@@ -15,15 +15,23 @@ const projects = await getCollection("projects");
 ---
 
 <Layout>
-  <main class="flex flex-col gap-20">
-    <article class="flex flex-col gap-8">
-      <h1 class="text-3xl dark:text-neutral-100">{presentation.title}</h1>
-      <h2
-        class="max-w-[60ch] leading-6"
-        set:html={convertAsteriskToStrongTag(presentation.description)}
-      />
-      <SocialLinks />
-    </article>
+  <main class="flex flex-col gap-20 mx-8">
+    <div class="flex flex-row justify-between items-center">
+      <article class="flex flex-col gap-8">
+        <h1 class="text-3xl dark:text-neutral-100">{presentation.title}</h1>
+        <h2
+          class="max-w-[60ch] leading-6"
+          set:html={convertAsteriskToStrongTag(presentation.description)}
+        />
+
+        <h2>В поисках работы на роль бэкенд-разработчика (.NET)</h2>
+
+        <SocialLinks />
+      </article>
+      <article>
+        <img src="/assets/avatar.jpg" class="w-40 rounded-full"/>
+      </article>
+    </div>
 
     <article class="flex flex-col gap-8">
       <header class="flex w-full flex-row justify-between gap-2">
