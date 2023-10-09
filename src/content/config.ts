@@ -27,7 +27,8 @@ const tilsCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     publishedAt: z.date(),
-    tags: z.array(z.string())
+    tags: z.array(z.string()),
+    source: z.string().url()
   })
 })
 
