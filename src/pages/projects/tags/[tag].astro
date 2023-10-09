@@ -1,0 +1,123 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+
+import type { CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+    const projects = await getCollection("projects");
+
+    let allTags: string[] = [];
+
+    projects.forEach((article) => {
+        allTags = allTags.concat(article.data.tags);
+    });
+
+    const tags = [...new Set(allTags)].map((tag) =>
+        tag.toLowerCase().replace(" ", "-").replace("#", "sharp"),
+    );
+
+    const getArticlesByTag = (
+        articles: CollectionEntry<"projects">,
+        targetTag: string,
+    ) => {
+        targetTag = decodeURIComponent(targetTag).toLowerCase().replace("-", " ").replace("sharp", "#");
+        return articles.filter((article) => {
+
+            const f = article.data.tags.some(
+                (tag: string) =>
+                    decodeURIComponent(tag).toLowerCase() === targetTag,
+            );
+
+            return f;
+        });
+    };
+
+    return tags.map((tag) => {
+        return {
+            params: { tag: tag },
+            props: { projects: getArticlesByTag(projects, tag) },
+        };
+    });
+}
+
+type Props = {
+    projects: CollectionEntry<"projects">;
+};
+
+const { projects } = Astro.props;
+---
+
+<Layout title="Все проекты">
+    <main class="flex flex-col gap-20">
+        <h1 class="text-2xl dark:text-neutral-100">Проекты</h1>
+
+        <article class="flex flex-col gap-4">
+            {
+                projects.map((project) => (
+                    <a
+                        class="group flex flex-col gap-2 border-t border-neutral-700 py-4 transition-all hover:dark:text-neutral-100 hover:text-neutral-500"
+                        href={
+                            project.data.subpage
+                                ? `/projects/${project.slug}`
+                                : "#"
+                        }
+                    >
+                        <div class="flex w-full items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <h2 class="text-lg">{project.data.title}</h2>
+                                <span>
+                                    {project.data.tags.map((tag) => (
+                                        <span class="dark:bg-neutral-800 dark:text-neutral-50 bg-neutral-100 rounded-md p-1 mx-1 text-[0.7rem]">
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </span>
+                            </div>
+
+                            <div class="flex flex-row items-center gap-4">
+                                {!project.data.subpage &&
+                                    !project.data.deprecated && (
+                                        <p class="w-fit rounded-md dark:bg-neutral-900 bg-neutral-200 px-4 py-1">
+                                            Скоро
+                                        </p>
+                                    )}
+
+                                {!project.data.subpage &&
+                                    project.data.deprecated && (
+                                        <p class="w-fit rounded-md dark:bg-neutral-900 bg-neutral-200 px-4 py-1">
+                                            Архив
+                                        </p>
+                                    )}
+
+                                {project.data.subpage && (
+                                    <svg
+                                        width="18"
+                                        height="18"
+                                        viewBox="0 0 18 18"
+                                        fill="none"
+                                        class="transition-all duration-300 group-hover:translate-x-1"
+                                    >
+                                        <path
+                                            d="M5.25 12.75L12.75 5.25"
+                                            stroke="#999999"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        />
+                                        <path
+                                            d="M5.25 5.25H12.75V12.75"
+                                            stroke="#999999"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        />
+                                    </svg>
+                                )}
+                            </div>
+                        </div>
+                        <p>{project.data.description}</p>
+                    </a>
+                ))
+            }
+        </article>
+    </main>
+</Layout>
