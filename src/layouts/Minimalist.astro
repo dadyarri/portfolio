@@ -15,10 +15,6 @@ type Props = {
 
 const { title, pdfLink, noIndex, description, avatarSrc } = Astro.props.frontmatter;
 
-const initials = title
-  .split(' ')
-  .map((word) => word[0].toUpperCase())
-  .slice(0, 2);
 ---
 
 <!DOCTYPE html>
@@ -32,7 +28,7 @@ const initials = title
     {noIndex && <meta name="robots" content="noindex" />}
     <title>{title}</title>
   </head>
-  <body class="my-0 bg-indigo-50 dark:bg-slate-900 sm:my-14">
+  <body class="my-0 bg-white dark:bg-neutral-950 sm:my-14">
     <div class="container mx-auto flex justify-center">
       <article class="minimalist relative">
         <img class="w-32" src={avatarSrc} />
