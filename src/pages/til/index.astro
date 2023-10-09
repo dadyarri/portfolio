@@ -1,9 +1,9 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
-import type { TIL } from "@/data/tils";
+import formatDate from "@/utils/formatDate";
 
-const tils = await getCollection<"tils", TIL>("tils");
+const tils = await getCollection("tils");
 ---
 
 <Layout title="TIL">
@@ -15,13 +15,39 @@ const tils = await getCollection<"tils", TIL>("tils");
                 tils?.length > 0 && tils.map((til) => (
                     <a
                         class="group flex flex-col gap-2 border-t border-neutral-700 py-4 transition-all hover:dark:text-neutral-100 hover:text-neutral-500"
-                        href={`/tils/${til.data.slug}`}
+                        href={`/tils/${til.slug}`}
                     >
                         <div class="flex w-full items-center justify-between">
-                            <h2 class="text-lg">{til.data.title}</h2>
-                            <span>{til.data.tags.join(" • ")}</span>
+                            <div class="flex items-center gap-2">
+                                <h2 class="text-lg">{til.data.title}</h2>
+                                <span>{
+                                    til.data.tags.map(tag => <span class="dark:bg-neutral-800 dark:text-neutral-50 bg-neutral-100 rounded-md p-1 mx-1 text-[0.7rem]">{tag}</span>)
+                                }</span>
+                            </div>
+                            <div class="flex flex-row items-center gap-4">
+                                <p>{formatDate(til.data.publishedAt)}</p>
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 18 18"
+                                    fill="none"
+                                    class="transition-all duration-300 group-hover:translate-x-1"
+                                >
+                                    <path
+                                        d="M5.25 12.75L12.75 5.25"
+                                        stroke="#999999"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                    <path
+                                        d="M5.25 5.25H12.75V12.75"
+                                        stroke="#999999"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
+                            </div>
                         </div>
-                        <p>{til.data.description}</p>
                     </a>
                 )) || <p>I must work...</p>
             }
