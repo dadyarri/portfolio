@@ -3,9 +3,8 @@ title: "Вложенные ссылки приводят к неожиданно
 publishedAt: 2023-09-10
 tags: ["HTML"]
 slug: html-nested-links
+brief: Если вложить одну ссылку в другую содержимое всей страницы может поехать напрочь, так как это "undefined behaivour" и "generally not recommended"
 ---
-
-Если вложить одну ссылку в другую содержимое всей страницы может поехать напрочь, так как это "undefined behaivour" и "generally not recommended"
 
 **Нормальное отображение:**
 
