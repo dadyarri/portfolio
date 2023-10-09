@@ -17,12 +17,12 @@ export async function getStaticPaths() {
         tag.toLowerCase().replace(" ", "-").replace("#", "sharp"),
     );
 
-    const getArticlesByTag = (
-        articles: CollectionEntry<"projects">,
+    const getProjectsByTag = (
+        projects: CollectionEntry<"projects">[],
         targetTag: string,
     ) => {
         targetTag = decodeURIComponent(targetTag).toLowerCase().replace("-", " ").replace("sharp", "#");
-        return articles.filter((article) => {
+        return projects.filter((article) => {
 
             const f = article.data.tags.some(
                 (tag: string) =>
@@ -36,21 +36,22 @@ export async function getStaticPaths() {
     return tags.map((tag) => {
         return {
             params: { tag: tag },
-            props: { projects: getArticlesByTag(projects, tag) },
+            props: { projects: getProjectsByTag(projects, tag), tag: tag.replace("-", " ").replace("sharp", "#") },
         };
     });
 }
 
 type Props = {
-    projects: CollectionEntry<"projects">;
+    projects: CollectionEntry<"projects">[];
+    tag: string
 };
 
-const { projects } = Astro.props;
+const { projects, tag } = Astro.props;
 ---
 
-<Layout title="Все проекты">
+<Layout title={`Все проекты с тегом ${tag}`}>
     <main class="flex flex-col gap-20">
-        <h1 class="text-2xl dark:text-neutral-100">Проекты</h1>
+        <h1 class="text-2xl dark:text-neutral-100">Проекты с тегом {tag}</h1>
 
         <article class="flex flex-col gap-4">
             {
@@ -67,7 +68,7 @@ const { projects } = Astro.props;
                             <div class="flex items-center gap-2">
                                 <h2 class="text-lg">{project.data.title}</h2>
                                 <span>
-                                    {project.data.tags.map((tag) => (
+                                    {project.data.tags.map((tag: string) => (
                                         <span class="dark:bg-neutral-800 dark:text-neutral-50 bg-neutral-100 rounded-md p-1 mx-1 text-[0.7rem]">
                                             {tag}
                                         </span>
