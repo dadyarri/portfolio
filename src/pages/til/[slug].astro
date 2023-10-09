@@ -2,34 +2,29 @@
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content"
 import Layout from "@/layouts/Layout.astro";
-import type { TIL } from "@/data/tils";
-
 export async function getStaticPaths() {
-  const projects = await getCollection<"tils", TIL>("tils");
+  const tils = await getCollection("tils");
 
-  return projects.map((project) => ({
-    params: { slug: project.slug },
-    props: { project },
+  return tils.map((til) => ({
+    params: { slug: til.slug },
+    props: { til },
   }));
 }
 
 type Props = {
-  project: CollectionEntry<"projects">;
+  til: CollectionEntry<"tils">;
 };
 
-const { project } = Astro.props;
-const { Content } = await project.render();
+const { til } = Astro.props;
+const { Content } = await til.render();
 ---
 
-<Layout title={project.data.title}>
+<Layout title={til.data.title}>
   <main class="post md:mx-auto flex w-full max-w-prose md:max-w-full p-5 flex-col gap-4">
     <header role="presentation">
       <h1 class="text-xl">
-        {project.data.title}
+        {til.data.title}
       </h1>
-      <i>
-        {project.data.description}
-      </p>
     </header>
 
     <Content />
