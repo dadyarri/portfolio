@@ -7,7 +7,7 @@
     "start": "astro dev",
     "generate-pdf": "node ./scripts/generate-pdf.js",
     "generate-pdf:ci": "start-server-and-test http://localhost:4321 generate-pdf",
-    "build": "astro check && tsc --noEmit && npm run generate-pdf:ci && astro build",
+    "build": "astro check && tsc --noEmit && yarn generate-pdf:ci && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
