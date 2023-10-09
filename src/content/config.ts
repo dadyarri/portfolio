@@ -28,7 +28,7 @@ const tilsCollection = defineCollection({
     title: z.string(),
     publishedAt: z.date(),
     tags: z.array(z.string()),
-    source: z.string().url()
+    source: z.string().url().optional()
   })
 })
 

@@ -17,7 +17,7 @@ const tils = await getCollection("tils");
                     tils.map(async (til) => {
                         const { Content } = await til.render();
                         return (
-                            <div class="flex w-full items-center justify-between">
+                            <div class="flex w-full items-center justify-between border-t border-neutral-700 py-4">
                                 <div class="flex flex-col gap-3">
                                     <div class="flex justify-between">
                                         <div class="flex items-center gap-2">
@@ -43,7 +43,7 @@ const tils = await getCollection("tils");
 
                                     <Content />
 
-                                    <a
+                                    {til.data.source && <a
                                         href={til.data.source}
                                         class="text-orange-500 underline"
                                         target="_blank"
@@ -71,7 +71,7 @@ const tils = await getCollection("tils");
                                             </svg>
                                             {new URL(til.data.source).hostname}
                                         </div>
-                                    </a>
+                                    </a>}
                                 </div>
                             </div>
                         );
