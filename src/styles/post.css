@@ -6,8 +6,21 @@
   @apply leading-7;
 }
 
+.post h1 {
+  @apply text-3xl text-center my-5
+}
+
+.post hr {
+  width: 30ch;
+  @apply mx-auto my-5
+}
+
+.post .date {
+  @apply italic text-center
+}
+
 .post h2 {
-  @apply mt-6 text-3xl dark:text-neutral-100;
+  @apply mt-6 text-2xl dark:text-neutral-100;
 }
 
 .post h3 {
