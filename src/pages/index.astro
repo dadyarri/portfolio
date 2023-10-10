@@ -45,6 +45,7 @@ const projects = await getCollection("projects");
         {
           posts.length !== 0 &&
             posts
+              .filter(p => p.data.isPublish)
               .slice(0, 2)
               .map((post) => (
                 <PostCard
