@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content"
+import type { CollectionEntry } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import formatDate from "@/utils/formatDate";
 
@@ -22,12 +22,14 @@ const { Content } = await post.render();
 ---
 
 <Layout title={post.data.title}>
-  <main class="post md:mx-auto flex w-full max-w-prose md:max-w-full p-5 flex-col gap-4">
+  <main
+    class="post md:mx-auto flex w-full max-w-prose md:max-w-full p-5 flex-col gap-4"
+  >
     <header role="presentation">
       <h1>
         {post.data.title}
       </h1>
-      <hr/>
+      <hr />
       <p class="date">
         {formatDate(post.data.publishedAt)}
       </p>
@@ -35,4 +37,14 @@ const { Content } = await post.render();
 
     <Content />
   </main>
+
+  <script
+    src="https://utteranc.es/client.js"
+    repo="dadyarri/portfolio"
+    issue-term="pathname"
+    label="comments"
+    theme="preferred-color-scheme"
+    crossorigin="anonymous"
+    async
+  ></script>
 </Layout>
