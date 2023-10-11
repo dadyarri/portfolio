@@ -1,0 +1,107 @@
+---
+import CvLayout from "@/layouts/CvLayout.astro";
+import Download from "@/components/Download.astro";
+import { getCollection } from "astro:content";
+
+const avatarSrc = "/assets/avatar.jpg";
+const projects = await getCollection("projects");
+---
+
+<CvLayout>
+    <img class="w-32" src={avatarSrc} />
+    <div class="not-prose absolute right-4 top-4">
+        <Download href={"/cv.pdf"} />
+    </div>
+    <h1>Даниил Голубев</h1>
+    <b>Backend-разработчик (.NET)</b>
+    <p>Владимир, Россия | me@dadyarri.ru | https://dadyarri.ru</p>
+
+    <h2>Опыт работы</h2>
+
+    <h3>
+        <a href="https://vlad.top-academy.ru/">Академия Top</a>
+    </h3>
+    <h4>Преподаватель компьютерных курсов | Июнь — Сентябрь 2021</h4>
+    <p>
+        Вёл групповые технические курсы у детей 6-14 лет (Python, Windows,
+        Основы работы с интернетом, Gimp и пр.)
+    </p>
+
+    <h2>Технологии</h2>
+
+    <ul>
+        <li>
+            <strong>Backend:</strong> C# + <em>ASP.NET</em>, Python + <em
+                >Django</em
+            >, <em>FastAPI</em>
+        </li>
+        <li><strong>MQ:</strong> RabbitMQ + MassTransit</li>
+        <li><strong>Desktop:</strong> C# + <em>WPF</em></li>
+        <li><strong>Team tools:</strong> Git, Trello, Jira</li>
+        <li><strong>Mobile:</strong> Kotlin + <em>Jetpack Compose</em></li>
+        <li><strong>CI/CD:</strong> Github Actions</li>
+        <li><strong>DBMS:</strong> PostgreSQL, MySQL, Redis</li>
+        <li><strong>Deployment:</strong> Docker</li>
+        <li><strong>Scripting:</strong> Bash, Powershell</li>
+        <li>
+            <strong>OS:</strong> Windows, Linux (Debian-like, Arch-like,
+            RedHat-like)
+        </li>
+    </ul>
+
+    <h2>Проекты</h2>
+
+    <h3>
+        <a href="https://github.com/choco-manager">ChocoManager</a>
+    </h3>
+    <p>
+        Бэк-офис небольшого интернет-магазина (ежемесячная аудитория около 700
+        человек) [C#, <strong>ASP.NET 7</strong>]
+    </p>
+    <h3>
+        <a href="https://github.com/dadyarri/audiosplttr">Audiosplttr</a>
+    </h3>
+    <p>
+        Приложение для разделения аудиодорожки на отдельные файлы по тишине [C#,
+        <strong>WPF</strong>]
+    </p>
+
+    <h3>
+        <a href="https://github.com/dadyarri/portfolio">Портфолио</a>
+    </h3>
+    <p>
+        Статически собираемый сайт с <a href="https://dadyarri.ru/posts"
+            >блогом</a
+        > и генерируемым <a href="https://dadyarri.ru/cv.pdf">резюме</a>
+         [JS, <strong>Astro</strong>]
+    </p>
+
+    <h2>Опыт и достижения</h2>
+
+    <ul>
+        <li>
+            Перевожу статьи по .NET с английского языка и пишу собственные для
+            своего <a href="https://dadyarri.ru">блога</a>
+        </li>
+        <li>
+            Перевожу <a href="https://appflowy.io">appflowy</a>
+             (альтернативу Notion с открытым исходным кодом) на русский язык
+        </li>
+    </ul>
+
+    <h2>Языки</h2>
+
+    <ul>
+        <li><strong>Русский:</strong> Родной</li>
+        <li><strong>English:</strong> B1</li>
+    </ul>
+
+    <h2>Образование</h2>
+
+    <h3>ВлГУ, Владимир | 2020 — 2024</h3>
+
+    <ul>
+        <li>Изучал разработку на C#, Java</li>
+        <li>Изучал проектирование проектов (диаграммы UML, IDEF)</li>
+    </ul>
+</CvLayout>
