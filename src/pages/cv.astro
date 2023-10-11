@@ -65,26 +65,25 @@ const projects = await getCollection("projects");
 
     <h2>Проекты</h2>
 
-    <h3>
-        <a href="https://github.com/choco-manager">ChocoManager</a>
-    </h3>
-    <p>
-        Бэк-офис небольшого интернет-магазина (ежемесячная аудитория около 700
-        человек) [C#, <strong>ASP.NET 7</strong>]
-    </p>
-    <h3>
-        <a href="https://github.com/dadyarri/audiosplttr">Audiosplttr</a>
-    </h3>
-    <p>
-        Приложение для разделения аудиодорожки на отдельные файлы по тишине [C#, <strong>WPF</strong>]
-    </p>
-
-    <h3>
-        <a href="https://github.com/dadyarri/portfolio">Портфолио</a>
-    </h3>
-    <p>
-        Статически собираемый сайт с <a href="https://dadyarri.ru/posts">блогом</a> и генерируемым <a href="https://dadyarri.ru/cv.pdf">резюме</a> [JS, <strong>Astro</strong>]
-    </p>
+    {
+        projects.map((project) => (
+            <div class="project">
+                <div class="project-header">
+                    <h3>
+                        <a href={`/projects/${project.slug}`}>
+                            {project.data.title}
+                        </a>
+                    </h3>
+                    {project.data.tags.map((tag) => (
+                        <span class="dark:bg-neutral-800 dark:text-neutral-50 bg-neutral-100 rounded-md p-1 mx-1 text-[0.7rem]">
+                            {tag}
+                        </span>
+                    ))}
+                </div>
+                <p>{project.data.description}</p>
+            </div>
+        ))
+    }
 
     <h2>Опыт и достижения</h2>
 
