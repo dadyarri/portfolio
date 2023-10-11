@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import { convertToTag } from "@/utils/convertToTag";
+import ExternalLink from "@/components/ExternalLink.astro";
 
 const projects = await getCollection("projects");
 ---
@@ -28,26 +29,7 @@ const projects = await getCollection("projects");
                                         <h2 class="text-lg">
                                             {project.data.title}
                                         </h2>
-                                        <svg
-                                            width="18"
-                                            height="18"
-                                            viewBox="0 0 18 18"
-                                            fill="none"
-                                            class="transition-all duration-300 group-hover:translate-x-1"
-                                        >
-                                            <path
-                                                d="M5.25 12.75L12.75 5.25"
-                                                stroke="#999999"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                            />
-                                            <path
-                                                d="M5.25 5.25H12.75V12.75"
-                                                stroke="#999999"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                            />
-                                        </svg>
+                                        <ExternalLink/>
                                     </a>
                                 )) || (
                                     <h2 class="text-lg">
