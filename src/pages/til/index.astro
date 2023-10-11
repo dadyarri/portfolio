@@ -5,6 +5,7 @@ import formatDate from "@/utils/formatDate";
 import "@/styles/til.css";
 import MarkdownIt from "markdown-it";
 import ExternalLink from "@/components/ExternalLink.astro";
+import TilCard from "@/components/TilCard.astro";
 
 const tils = (await getCollection("tils"))
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
@@ -20,7 +21,7 @@ const parser = new MarkdownIt();
         tils?.length > 0 &&
           tils.map((til) => {
             return (
-              <div class="til-card">
+              <!--<div class="til-card">
                 <div class="header">
                   <div class="header-left">
                     <h2 class="text-lg">{til.data.title}</h2>
@@ -62,7 +63,15 @@ const parser = new MarkdownIt();
 
                 </div>
 
-              </div>
+              </div>-->
+
+              <TilCard
+                title={til.data.title}
+                brief={til.data.brief}
+                publishedAt={til.data.publishedAt}
+                slug={til.slug}
+                tags={til.data.tags}
+              />
             );
           })
       }

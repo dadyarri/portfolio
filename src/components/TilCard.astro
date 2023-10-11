@@ -1,0 +1,43 @@
+---
+import formatDate from "@/utils/formatDate";
+import ExternalLink from "./ExternalLink.astro";
+import MarkdownIt from "markdown-it";
+
+type Props = {
+  title: string;
+  publishedAt: Date;
+  brief: string;
+  slug: string;
+  tags: string[];
+};
+
+const { title, publishedAt, brief, slug, tags } = Astro.props;
+const parser = new MarkdownIt();
+---
+
+<a
+  class="group flex cursor-pointer flex-col gap-2 rounded-md border border-neutral-700 p-4 transition-all duration-300 hover:-translate-y-2 hover:border-neutral-400"
+  href={`/til/${slug}`}
+>
+  <div
+    class="flex w-full flex-col justify-between gap-2 md:flex-row md:items-center"
+  >
+    <div class="flex items-center gap-2">
+      <p class="dark:text-neutral-100">{title}</p>
+      <div>
+        {tags.map((tag) => (
+          <span class="tag">
+            {tag}
+          </span>
+        ))}
+      </div>
+    </div>
+    <div class="flex flex-row items-center gap-4">
+      <p>{formatDate(publishedAt)}</p>
+
+      <ExternalLink/>
+    </div>
+  </div>
+
+  <div set:html={parser.render(brief)}></div>
+</a>
