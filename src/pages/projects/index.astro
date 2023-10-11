@@ -1,8 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
-import { convertToTag } from "@/utils/convertToTag";
-import ExternalLink from "@/components/ExternalLink.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
 
 const projects = await getCollection("projects");
 ---
@@ -14,62 +13,14 @@ const projects = await getCollection("projects");
         <article class="flex flex-col gap-4">
             {
                 projects.map((project) => (
-                    <div class="group flex flex-col gap-2 border-t border-neutral-700 py-4">
-                        <div class="flex w-full items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                {(project.data.subpage && (
-                                    <a
-                                        href={
-                                            project.data.subpage
-                                                ? `/projects/${project.slug}`
-                                                : "#"
-                                        }
-                                        class="transition-all hover:dark:text-neutral-100 hover:text-neutral-500 flex items-center gap-2"
-                                    >
-                                        <h2 class="text-lg">
-                                            {project.data.title}
-                                        </h2>
-                                        <ExternalLink/>
-                                    </a>
-                                )) || (
-                                    <h2 class="text-lg">
-                                        {project.data.title}
-                                    </h2>
-                                )}
-                                <span>
-                                    {project.data.tags.map((tag) => (
-                                        <span class="dark:bg-neutral-800 dark:text-neutral-50 bg-neutral-100 rounded-md p-1 mx-1 text-[0.7rem]">
-                                            <a
-                                                href={`/projects/tags/${convertToTag(
-                                                    tag,
-                                                )}`}
-                                                class="no-underline"
-                                            >
-                                                {tag}
-                                            </a>
-                                        </span>
-                                    ))}
-                                </span>
-                            </div>
-
-                            <div class="flex flex-row items-center gap-4">
-                                {!project.data.subpage &&
-                                    !project.data.deprecated && (
-                                        <p class="w-fit rounded-md dark:bg-neutral-900 bg-neutral-200 px-4 py-1">
-                                            Скоро
-                                        </p>
-                                    )}
-
-                                {!project.data.subpage &&
-                                    project.data.deprecated && (
-                                        <p class="w-fit rounded-md dark:bg-neutral-900 bg-neutral-200 px-4 py-1">
-                                            Архив
-                                        </p>
-                                    )}
-                            </div>
-                        </div>
-                        <p>{project.data.description}</p>
-                    </div>
+                    <ProjectCard
+                        title={project.data.title}
+                        description={project.data.description}
+                        tags={project.data.tags}
+                        subpage={project.data.subpage}
+                        slug={project.slug}
+                        deprecated={project.data.deprecated}
+                    />
                 ))
             }
         </article>
