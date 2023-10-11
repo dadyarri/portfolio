@@ -69,4 +69,8 @@ body {
   .minimalist td {
     @apply p-0 text-slate-500
   }
+
+  .project-header {
+    @apply flex gap-2 items-baseline
+  }
   
