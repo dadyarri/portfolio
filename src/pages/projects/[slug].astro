@@ -22,13 +22,18 @@ const { Content } = await project.render();
 
 <Layout title={project.data.title}>
   <main class="post md:mx-auto flex w-full max-w-prose md:max-w-full p-5 flex-col gap-4">
-    <header role="presentation">
-      <h1 class="text-xl">
+    <header role="presentation" class="flex flex-col items-center">
+      <h1>
         {project.data.title}
       </h1>
-      <p>
-        {project.data.description}
-      </p>
+      <hr/>
+      <div>
+        {project.data.tags.map((tag) => (
+          <span class="tag">
+            {tag}
+          </span>
+        ))}
+      </div>
     </header>
 
     <Content />
