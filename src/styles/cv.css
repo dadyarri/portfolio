@@ -6,7 +6,7 @@ body {
     @apply text-white;
   }
   
-  article.minimalist {
+  /* article.minimalist {
     @apply prose prose-slate m-0
       max-w-fit bg-white px-12 py-8 pt-20 prose-h1:text-3xl prose-h1:uppercase prose-h2:mb-3 prose-h2:mt-8 prose-h2:text-sm prose-h2:uppercase
       prose-h2:text-slate-500 prose-h3:mb-3
@@ -20,5 +20,53 @@ body {
       prose-h4:dark:text-neutral-400  
       sm:px-24 sm:py-14
        lg:max-w-4xl;
+  } */
+
+  .minimalist {
+    @apply prose prose-slate m-0 sm:px-24 sm:py-14 lg:max-w-4xl
+  }
+
+  .minimalist h1 {
+    @apply text-3xl uppercase
+  }
+
+  .minimalist h2 {
+    @apply mb-3 mt-8 uppercase
+  }
+
+  .minimalist h3 {
+    @apply mb-3 mt-8 text-xl
+  }
+
+  .minimalist h4 {
+    @apply mb-3 mt-4 text-sm text-slate-600 dark:text-neutral-400
+  }
+
+  .minimalist p {
+    @apply my-2 text-sm leading-6
+  }
+
+  .minimalist a {
+    @apply font-bold transition-colors hover:text-slate-400 no-underline
+  }
+
+  .minimalist li {
+    @apply text-sm
+  }
+
+  .minimalist table {
+    @apply mt-4
+  }
+
+  .minimalist thead {
+    @apply border-0
+  }
+
+  .minimalist th {
+    @apply p-0 font-medium
+  }
+
+  .minimalist td {
+    @apply p-0 text-slate-500
   }
   
