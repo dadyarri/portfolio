@@ -43,7 +43,7 @@ const projects = await getCollection("projects");
         <h3 class="text-lg dark:text-neutral-100">
           Последние публикации (всего {posts.length})
         </h3>
-        <Link href="/posts" label="Все публикации" isUnderline target="_self" />
+        <Link href="/posts" label="Все публикации" isUnderline={true} target="_self" />
       </header>
       {posts.length === 0 && <p>Soon, stay connected 👀...</p>}
 
