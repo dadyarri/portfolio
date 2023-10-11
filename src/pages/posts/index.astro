@@ -1,8 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
-import formatDate from "@/utils/formatDate";
-import ExternalLink from "@/components/ExternalLink.astro";
+import PostCard from "@/components/PostCard.astro";
 
 const posts = (await getCollection("posts"))
   .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
@@ -15,20 +14,7 @@ const posts = (await getCollection("posts"))
     <article class="flex flex-col gap-4">
       {
         posts.map((post) => post.data.isPublish && (
-          <a
-            class="group flex flex-col gap-2 border-t border-neutral-700 py-4 transition-all hover:dark:text-neutral-100 hover:text-neutral-500"
-            href={`/posts/${post.slug}`}
-          >
-            <div class="flex w-full items-center justify-between">
-              <h2 class="text-lg">{post.data.title}</h2>
-
-              <div class="flex flex-row items-center gap-4">
-                <p>{formatDate(post.data.publishedAt)}</p>
-                <ExternalLink/>
-              </div>
-            </div>
-            <p>{post.data.description}</p>
-          </a>
+          <PostCard title={post.data.title} publishedAt={post.data.publishedAt} description={post.data.description} slug={post.slug} tags={post.data.tags}/>
         ))
       }
     </article>
