@@ -6,19 +6,29 @@ type Props = {
   publishedAt: Date;
   description: string;
   slug: string;
+  tags: string[];
 };
 
-const { title, publishedAt, description, slug } = Astro.props;
+const { title, publishedAt, description, slug, tags } = Astro.props;
 ---
 
 <a
-  class="group flex max-w-sm cursor-pointer flex-col gap-2 rounded-md border border-neutral-700 p-4 transition-all duration-300 hover:-translate-y-2 hover:border-neutral-400"
+  class="group flex cursor-pointer flex-col gap-2 rounded-md border border-neutral-700 p-4 transition-all duration-300 hover:-translate-y-2 hover:border-neutral-400"
   href={`/posts/${slug}`}
 >
   <div
     class="flex w-full flex-col justify-between gap-2 md:flex-row md:items-center"
   >
-    <p class="dark:text-neutral-100">{title}</p>
+    <div class="flex items-center gap-2">
+      <p class="dark:text-neutral-100">{title}</p>
+      <div>
+        {tags.map((tag) => (
+          <span class="tag">
+            {tag}
+          </span>
+        ))}
+      </div>
+    </div>
     <div class="flex flex-row items-center gap-4">
       <p>{formatDate(publishedAt)}</p>
 

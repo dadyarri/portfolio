@@ -25,6 +25,10 @@ const presentation: Presentation = {
       link: "https://t.me/dadyarri"
     },
     {
+      label: "Электропочта",
+      link: "mailto:me@dadyarri.ru"
+    },
+    {
       label: "Резюме",
       link: "/cv"
     }

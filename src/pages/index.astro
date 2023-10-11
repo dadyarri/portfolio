@@ -11,7 +11,8 @@ import convertAsteriskToStrongTag from "@/utils/convertAsteriskToStrongTag";
 import presentation from "@/data/presentation";
 
 const posts = (await getCollection("posts"))
-  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());;
+  .filter((p) => p.data.isPublish)
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
 const projects = await getCollection("projects");
 ---
 
@@ -25,27 +26,31 @@ const projects = await getCollection("projects");
           set:html={convertAsteriskToStrongTag(presentation.description)}
         />
 
-        <h2>В поисках работы на роль бэкенд-разработчика (.NET)</h2>
+        <p set:html={convertAsteriskToStrongTag("В поисках работы на роль *бэкенд-разработчика (.NET)*")}></p>
+
+
+        <h2 class="text-xl">Контакты</h2>
 
         <SocialLinks />
       </article>
       <article>
-        <img src="/assets/avatar.jpg" class="w-40 rounded-full"/>
+        <img src="/assets/avatar.jpg" class="w-40 rounded-full" />
       </article>
     </div>
 
     <article class="flex flex-col gap-8">
       <header class="flex w-full flex-row justify-between gap-2">
-        <h3 class="text-lg dark:text-neutral-100">Последние публикации (всего {posts.length})</h3>
+        <h3 class="text-lg dark:text-neutral-100">
+          Последние публикации (всего {posts.length})
+        </h3>
         <Link href="/posts" label="Все публикации" isUnderline target="_self" />
       </header>
       {posts.length === 0 && <p>Soon, stay connected 👀...</p>}
 
-      <section class="flex flex-col gap-4 md:flex-row md:flex-wrap">
+      <section class="flex flex-col gap-4 md:flex-wrap">
         {
           posts.length !== 0 &&
             posts
-              .filter(p => p.data.isPublish)
               .slice(0, 2)
               .map((post) => (
                 <PostCard
@@ -53,6 +58,7 @@ const projects = await getCollection("projects");
                   title={post.data.title}
                   description={post.data.description}
                   slug={post.slug}
+                  tags={post.data.tags}
                 />
               ))
         }
@@ -73,20 +79,6 @@ const projects = await getCollection("projects");
             projects.map((project) => <ProjectCard {...project.data} />)
         }
       </section>
-    </article>
-
-    <article class="flex flex-col gap-8">
-      <header class="flex w-full flex-row justify-between gap-2">
-        <h3 class="text-lg dark:text-neutral-100">Связь со мной</h3>
-      </header>
-      <p>
-        Напишите на почту <Link
-          href={`mailto:${presentation.mail}`}
-          label={presentation.mail}
-        /> или через соц. сети:
-      </p>
-
-      <SocialLinks />
     </article>
   </main>
 </Layout>
