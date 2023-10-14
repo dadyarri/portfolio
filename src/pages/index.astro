@@ -76,7 +76,7 @@ const projects = await getCollection("projects");
       <section class="flex flex-col gap-4">
         {
           projects.length !== 0 &&
-            projects.map((project) => <ProjectCard {...project.data} />)
+            projects.map((project) => <ProjectCard {...project.data} slug={project.slug} />)
         }
       </section>
     </article>
