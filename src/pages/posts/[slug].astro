@@ -21,7 +21,7 @@ const { post } = Astro.props;
 const { Content } = await post.render();
 ---
 
-<Layout title={post.data.title}>
+<Layout title={post.data.title} isPost={true} slug={post.slug}>
   <main
     class="post md:mx-auto flex w-full max-w-prose md:max-w-full p-5 flex-col gap-4"
   >
