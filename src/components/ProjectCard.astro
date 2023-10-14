@@ -57,7 +57,7 @@ const { slug, title, description, tags, subpage, deprecated } = Astro.props;
   }
 
   {
-    subpage && (
+    subpage && deprecated && (
       <a
         class="group flex w-full cursor-pointer flex-col justify-between gap-2 rounded-md border border-neutral-700 p-4 transition-all duration-300 hover:-translate-y-2 hover:border-neutral-400 md:flex-row md:items-center"
         href={`/projects/${slug}`}
@@ -78,7 +78,39 @@ const { slug, title, description, tags, subpage, deprecated } = Astro.props;
           <p>{description}</p>
         </div>
 
-        <ExternalLink/>
+        <div class="flex gap-2 items-center">
+          <p class="w-fit rounded-md dark:bg-neutral-900 bg-neutral-200 px-4 py-1">
+            Архив
+          </p>
+          <ExternalLink />
+        </div>
+      </a>
+    )
+  }
+
+  {
+    subpage && !deprecated && (
+      <a
+        class="group flex w-full cursor-pointer flex-col justify-between gap-2 rounded-md border border-neutral-700 p-4 transition-all duration-300 hover:-translate-y-2 hover:border-neutral-400 md:flex-row md:items-center"
+        href={`/projects/${slug}`}
+        target="_blank"
+        rel="noreferrer"
+      >
+        <div class="flex flex-col gap-2">
+          <div class="flex gap-4 sm:flex-col md:flex-row">
+            <p class="dark:text-neutral-100">{title}</p>
+            <p>
+              {tags.map((tag) => (
+                <span class="dark:bg-neutral-800 dark:text-neutral-50 bg-neutral-100 rounded-md p-1 mx-1 text-[0.7rem]">
+                  {tag}
+                </span>
+              ))}
+            </p>
+          </div>
+          <p>{description}</p>
+        </div>
+
+        <ExternalLink />
       </a>
     )
   }
