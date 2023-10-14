@@ -1,8 +1,23 @@
 ---
-slug: choco
 title: ChocoManager
 description: Бэк-офис интернет-магазина шоколада. Состоит из REST API, мобильного приложения и интеграции с Маркетом ВКонтакте
-subpage: false
+subpage: true
 deprecated: true
-tags: ["C#", "ASP.NET", "PostgreSQL", "Kotlin", "Jetpack Compose"]
+tags: ["C#", "ASP.NET", "PostgreSQL", "Kotlin", "Jetpack Compose", "Python", "FastAPI", "VK API"]
 ---
+
+## Задача
+
+Приложение было сделано как пет-проект для небольшого семейного бизнеса. Выполняет задачу по отслеживанию остатков товара, заказов покупателей и заказов поставщику. В настоящее время более не развивается.
+
+## Решение
+
+Состоит из нескольких частей:
+
+- REST API на ASP.NET
+- Мобильное приложение на Jetpack Compose (не завершено из-за нехватки времени)
+- Сервис на FastAPI, интегрирующий основной сервис с API ВКонтакте
+
+## Исходный код
+
+Исходный код доступен на [Github](https://github.com/choco-manager) по лицензии GPL v3

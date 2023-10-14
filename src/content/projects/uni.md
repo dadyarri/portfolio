@@ -1,8 +1,22 @@
 ---
-slug: uni
 title: UNI
 description: Платформа дистанционного образования для школ и университетов
-subpage: false
+subpage: true
 deprecated: false
 tags: ["C#", "ASP.NET", "PostgreSQL", "Kotlin", "Jetpack Compose"]
 ---
+
+## Задача
+
+Разработка платформы дистанционного образования для школ и университетов
+
+## Решение
+
+Система состоит из:
+
+- REST API на ASP.NET (в разработке)
+- Мобильного приложения на Jetpack Compose (в разработке)
+
+## Исходный код
+
+Исходный код недоступен
