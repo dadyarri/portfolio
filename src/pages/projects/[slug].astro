@@ -27,7 +27,7 @@ const { Content } = await project.render();
         {project.data.title}
       </h1>
       <hr/>
-      <div>
+      <div class="flex sm:flex-col md:flex-row items-baseline flex-wrap gap-1 justify-center">
         {project.data.tags.map((tag) => (
           <span class="tag">
             {tag}
