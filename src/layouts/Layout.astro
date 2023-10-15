@@ -3,6 +3,7 @@ import Header from "../components/Header.astro";
 import SEOTags from "@/components/seo/SEOTags.astro";
 
 import "@fontsource/open-sans";
+import "@fontsource/jetbrains-mono"
 import "@/styles/tailwind.css";
 import "@/styles/post.css";
 
@@ -29,6 +30,9 @@ const { title, slug, isPost } = Astro.props;
     <style is:global>
       html {
         font-family: "Open Sans", serif;
+      }
+      code, pre {
+        font-family: "JetBrains Mono", monospace;
       }
     </style>
   </body>

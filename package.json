@@ -16,6 +16,7 @@
     "@astrojs/rss": "^3.0.0",
     "@astrojs/sitemap": "^3.0.1",
     "@astrojs/tailwind": "^5.0.1",
+    "@fontsource/jetbrains-mono": "^5.0.15",
     "@fontsource/open-sans": "^5.0.15",
     "@tailwindcss/typography": "^0.5.10",
     "astro": "^3.2.3",
