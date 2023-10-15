@@ -22,7 +22,7 @@ const { title, publishedAt, description, slug, tags } = Astro.props;
   >
     <div class="flex items-center gap-2">
       <p class="dark:text-neutral-100">{title}</p>
-      <div class="flex sm:flex-col md:flex-row items-baseline">
+      <div class="flex sm:flex-col md:flex-row items-baseline flex-wrap gap-1">
         {tags.map((tag) => (
           <span class="tag">
             {tag}

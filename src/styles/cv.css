@@ -1,5 +1,6 @@
 body {
     font-family: 'Nunito Sans', sans-serif;
+    @apply text-black dark:text-neutral-400
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -27,7 +28,7 @@ body {
   } */
 
   .minimalist {
-    @apply prose prose-slate m-0 sm:px-24 sm:py-14 lg:max-w-4xl
+    @apply prose prose-slate m-0 max-w-none w-80 md:w-fit sm:px-24 sm:py-14 lg:max-w-4xl sm:max-w-xs dark:prose-invert sm:prose-lg
   }
 
   .minimalist h1 {
@@ -43,7 +44,7 @@ body {
   }
 
   .minimalist h4 {
-    @apply mb-3 mt-4 text-sm text-slate-600 dark:text-neutral-400
+    @apply mb-3 mt-4 text-sm
   }
 
   .minimalist p {
@@ -51,11 +52,11 @@ body {
   }
 
   .minimalist a {
-    @apply font-bold transition-colors hover:text-slate-400 no-underline
+    @apply font-bold transition-colors no-underline
   }
 
   .minimalist li {
-    @apply text-sm
+    @apply text-sm dark:text-neutral-400
   }
 
   .minimalist table {
@@ -75,6 +76,6 @@ body {
   }
 
   .project-header {
-    @apply flex gap-2 items-baseline
+    @apply flex gap-4 sm:flex-col md:flex-row items-baseline flex-wrap
   }
   
