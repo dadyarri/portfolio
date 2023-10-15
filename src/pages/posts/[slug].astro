@@ -32,14 +32,25 @@ const { Content,remarkPluginFrontmatter } = await post.render();
       </h1>
       <hr />
       <div class="flex gap-2 items-center justify-center">
-        <Icon name="mdi:calendar" class="w-5"/>
-        <p class="date">
-          {formatDate(post.data.publishedAt)}
-        </p>
-        <p>|</p>
-        <div class="flex gap-1">
-          <Icon name="mdi:clock" class="w-5"/>
-          <p>{remarkPluginFrontmatter.minutesRead} минут</p>
+        <div class="flex flex-col gap-3">
+          <div class="flex sm:flex-col md:flex-row items-baseline flex-wrap gap-1 justify-center">
+            {post.data.tags.map((tag) => (
+              <span class="tag">
+                {tag}
+              </span>
+            ))}
+          </div>
+          <div class="flex flex-row gap-2">
+            <Icon name="mdi:calendar" class="w-5"/>
+            <p class="date">
+              {formatDate(post.data.publishedAt)}
+            </p>
+            <p>|</p>
+            <div class="flex gap-1">
+              <Icon name="mdi:clock" class="w-5"/>
+              <p>{remarkPluginFrontmatter.minutesRead} минут</p>
+            </div>
+          </div>
         </div>
       </div>
     </header>
