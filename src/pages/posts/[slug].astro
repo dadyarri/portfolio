@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import formatDate from "@/utils/formatDate";
+import { Icon } from 'astro-icon'
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
@@ -18,7 +19,7 @@ type Props = {
 };
 
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content,remarkPluginFrontmatter } = await post.render();
 ---
 
 <Layout title={post.data.title} isPost={true} slug={post.slug}>
@@ -30,9 +31,16 @@ const { Content } = await post.render();
         {post.data.title}
       </h1>
       <hr />
-      <p class="date">
-        {formatDate(post.data.publishedAt)}
-      </p>
+      <div class="flex gap-2 items-center justify-center">
+        <p class="date">
+          {formatDate(post.data.publishedAt)}
+        </p>
+        <p>|</p>
+        <div class="flex gap-1">
+          <Icon name="mdi:clock" class="w-5"/>
+          <p>{remarkPluginFrontmatter.minutesRead} минут</p>
+        </div>
+      </div>
     </header>
 
     <Content />
