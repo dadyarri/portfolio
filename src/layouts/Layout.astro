@@ -2,8 +2,9 @@
 import Header from "../components/Header.astro";
 import SEOTags from "@/components/seo/SEOTags.astro";
 
-import "@fontsource/open-sans";
+import "@fontsource/nunito-sans/400-italic.css"
 import "@fontsource/jetbrains-mono"
+import "@fontsource/montserrat"
 import "@/styles/tailwind.css";
 import "@/styles/post.css";
 
@@ -29,10 +30,15 @@ const { title, slug, isPost } = Astro.props;
     <slot />
     <style is:global>
       html {
-        font-family: "Open Sans", serif;
+        font-family: "Nunito Sans", serif;
+        font-style: italic;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-family: "Montserrat", sans-serif;
       }
       code, pre {
         font-family: "JetBrains Mono", monospace;
+        font-style: normal;
       }
     </style>
   </body>

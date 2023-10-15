@@ -632,10 +632,15 @@
   resolved "https://registry.yarnpkg.com/@fontsource/jetbrains-mono/-/jetbrains-mono-5.0.15.tgz#335dacad2354d02cedc7961a7a84bf20441b2bf9"
   integrity sha512-rxJwcZ/KDC6az2/9yChI/GW53DXyE8LBMybeheozpSgZPFILLYDRw56XtB620cVw4m/gB7ioMzTlMx0+JUcjZw==
 
-"@fontsource/open-sans@^5.0.15":
-  version "5.0.15"
-  resolved "https://registry.yarnpkg.com/@fontsource/open-sans/-/open-sans-5.0.15.tgz#9afe2fab06e151772832b5bee30fb9318ddbf9c0"
-  integrity sha512-gnvxTADG72CWWN57//x5leVJqQthgkhHao3/dK6wkn5wO7uTLYpiViLfUJYeV274juC73EvGQnc/3Y+9IEST2A==
+"@fontsource/montserrat@^5.0.13":
+  version "5.0.13"
+  resolved "https://registry.yarnpkg.com/@fontsource/montserrat/-/montserrat-5.0.13.tgz#e9e78a726e4a452b820c8c0bdcddf4444c922db6"
+  integrity sha512-k10d+ooKagdqLDFUO2JNR2Ds5Y0yZ9x0scpxE/EvcaJFpa4Cu6Sra+cucZOTZsK4qfEBG2vR9/JiJegucMOi4w==
+
+"@fontsource/nunito-sans@^5.0.8":
+  version "5.0.8"
+  resolved "https://registry.yarnpkg.com/@fontsource/nunito-sans/-/nunito-sans-5.0.8.tgz#160f2aa51ad7272fb1ec51dce6a2cd1a5921f972"
+  integrity sha512-LxUlZGwVHGe5w6RAeqAHV2VC4VdfG28FvfMN8Z8s3vY+DNP6U0hBT9rV/jry59oNK7/zIC6kaoqq61PGrP/EIw==
 
 "@hapi/hoek@^9.0.0":
   version "9.3.0"
