@@ -22,7 +22,7 @@ const { post } = Astro.props;
 const { Content,remarkPluginFrontmatter } = await post.render();
 ---
 
-<Layout title={post.data.title} isPost={true} slug={post.slug}>
+<Layout title={post.data.title} type="post" slug={post.slug}>
   <main
     class="post md:mx-auto flex w-full max-w-prose md:max-w-full p-5 flex-col gap-4"
   >

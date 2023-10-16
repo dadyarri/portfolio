@@ -20,7 +20,7 @@ const { project } = Astro.props;
 const { Content } = await project.render();
 ---
 
-<Layout title={project.data.title}>
+<Layout title={project.data.title} type="project" slug={project.slug}>
   <main class="post md:mx-auto flex w-full max-w-prose md:max-w-full p-5 flex-col gap-4">
     <header role="presentation" class="flex flex-col items-center">
       <h1>
