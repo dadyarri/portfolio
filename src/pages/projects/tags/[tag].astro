@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 
 import type { CollectionEntry } from "astro:content";
-import ExternalLink from "@/components/ExternalLink.astro";
+import ProjectCard from "@/components/ProjectCard.astro";
 
 export async function getStaticPaths() {
     const projects = await getCollection("projects");
@@ -22,9 +22,11 @@ export async function getStaticPaths() {
         projects: CollectionEntry<"projects">[],
         targetTag: string,
     ) => {
-        targetTag = decodeURIComponent(targetTag).toLowerCase().replace("-", " ").replace("sharp", "#");
+        targetTag = decodeURIComponent(targetTag)
+            .toLowerCase()
+            .replace("-", " ")
+            .replace("sharp", "#");
         return projects.filter((article) => {
-
             const f = article.data.tags.some(
                 (tag: string) =>
                     decodeURIComponent(tag).toLowerCase() === targetTag,
@@ -37,14 +39,17 @@ export async function getStaticPaths() {
     return tags.map((tag) => {
         return {
             params: { tag: tag },
-            props: { projects: getProjectsByTag(projects, tag), tag: tag.replace("-", " ").replace("sharp", "#") },
+            props: {
+                projects: getProjectsByTag(projects, tag),
+                tag: tag.replace("-", " ").replace("sharp", "#"),
+            },
         };
     });
 }
 
 type Props = {
     projects: CollectionEntry<"projects">[];
-    tag: string
+    tag: string;
 };
 
 const { projects, tag } = Astro.props;
@@ -57,48 +62,14 @@ const { projects, tag } = Astro.props;
         <article class="flex flex-col gap-4">
             {
                 projects.map((project) => (
-                    <a
-                        class="group flex flex-col gap-2 border-t border-neutral-700 py-4 transition-all hover:dark:text-neutral-100 hover:text-neutral-500"
-                        href={
-                            project.data.subpage
-                                ? `/projects/${project.slug}`
-                                : "#"
-                        }
-                    >
-                        <div class="flex w-full items-center justify-between">
-                            <div class="flex items-center gap-2">
-                                <h2 class="text-lg">{project.data.title}</h2>
-                                <span>
-                                    {project.data.tags.map((tag: string) => (
-                                        <span class="dark:bg-neutral-800 dark:text-neutral-50 bg-neutral-100 rounded-md p-1 mx-1 text-[0.7rem]">
-                                            {tag}
-                                        </span>
-                                    ))}
-                                </span>
-                            </div>
-
-                            <div class="flex flex-row items-center gap-4">
-                                {!project.data.subpage &&
-                                    !project.data.deprecated && (
-                                        <p class="w-fit rounded-md dark:bg-neutral-900 bg-neutral-200 px-4 py-1">
-                                            Скоро
-                                        </p>
-                                    )}
-
-                                {!project.data.subpage &&
-                                    project.data.deprecated && (
-                                        <p class="w-fit rounded-md dark:bg-neutral-900 bg-neutral-200 px-4 py-1">
-                                            Архив
-                                        </p>
-                                    )}
-
-                                {project.data.subpage && (
-                                    <ExternalLink/>
-                                )}
-                            </div>
-                        </div>
-                        <p>{project.data.description}</p>
-                    </a>
+                    <ProjectCard
+                        title={project.data.title}
+                        description={project.data.description}
+                        tags={project.data.tags}
+                        subpage={project.data.subpage}
+                        deprecated={project.data.deprecated}
+                        slug={project.slug}
+                    />
                 ))
             }
         </article>
