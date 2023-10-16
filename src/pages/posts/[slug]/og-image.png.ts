@@ -16,7 +16,8 @@ export async function getStaticPaths() {
 
 export const GET: APIRoute = async ({ params }) => {
     const page = (await getEntryBySlug("posts", params.slug!))!;
-    const openSansData = await fs.readFile("./public/fonts/open-sans/OpenSans-Regular.ttf");
+    const nunitoSansData = await fs.readFile("./public/fonts/NunitoSans-Regular.ttf");
+    const montserratData = await fs.readFile("./public/fonts/Montserrat-Bold.ttf");
     const readingTime = getReadingTime(page.body)
     const estimateMinutes = Math.ceil(readingTime.minutes);
 
@@ -30,7 +31,7 @@ export const GET: APIRoute = async ({ params }) => {
                         props: {
                             children: page.data.title,
                             style: {
-                                fontFamily: "Open Sans",
+                                fontFamily: "Montserrat",
                                 fontSize: "64px",
                                 lineHeight: 1,
                                 color: "#111",
@@ -43,7 +44,7 @@ export const GET: APIRoute = async ({ params }) => {
                         props: {
                             children: `${formatDate(page.data.publishedAt)} | dadyarri | Читать ${estimateMinutes} минут`,
                             style: {
-                                fontFamily: "Open Sans",
+                                fontFamily: "Nunito Sans",
                                 fontSize: "32px",
                                 lineHeight: 1,
                                 color: "#444",
@@ -67,10 +68,11 @@ export const GET: APIRoute = async ({ params }) => {
                                         style: {
                                             backgroundColor: "rgb(245,245,245)",
                                             borderRadius: "6px",
-                                            padding: "4px",
+                                            padding: "8px",
                                             marginLeft: "4px",
                                             marginRight: "4px",
-                                            fontSize: "24px"
+                                            fontSize: "24px",
+                                            fontFamily: "Nunito Sans",
                                         }
                                     }
                                 }
@@ -95,15 +97,15 @@ export const GET: APIRoute = async ({ params }) => {
             height: 630,
             fonts: [
                 {
-                    name: "Open Sans",
-                    data: openSansData,
+                    name: "Nunito Sans",
+                    data: nunitoSansData,
                     weight: 400,
                     style: "normal",
                 },
                 {
-                    name: "Open Sans",
-                    data: openSansData,
-                    weight: 600,
+                    name: "Montserrat",
+                    data: montserratData,
+                    weight: 700,
                     style: "normal",
                 },
             ],
