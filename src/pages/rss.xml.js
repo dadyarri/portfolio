@@ -8,7 +8,7 @@ import MarkdownIt from 'markdown-it';
 const parser = new MarkdownIt();
 
 export async function GET(context) {
-    const posts = await getCollection('posts')
+    const posts = (await getCollection('posts'))
         .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
     return rss({
         title: 'Личный блог dadyarri',
