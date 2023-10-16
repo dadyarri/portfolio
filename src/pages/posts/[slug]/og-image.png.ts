@@ -44,10 +44,37 @@ export const GET: APIRoute = async ({ params }) => {
                             children: `${formatDate(page.data.publishedAt)} | dadyarri | Читать ${estimateMinutes} минут`,
                             style: {
                                 fontFamily: "Open Sans",
-                                fontSize: "20px",
+                                fontSize: "32px",
                                 lineHeight: 1,
                                 color: "#444",
                             },
+                        }
+                    },
+                    {
+                        type: "div",
+                        props: {
+                            style: {
+                                display: "flex",
+                                alignItems: "baseline",
+                                flexWrap: "wrap",
+                                gap: "4px"
+                            },
+                            children: page.data.tags.map((tag) => {
+                                return {
+                                    type: "span",
+                                    props: {
+                                        children: tag,
+                                        style: {
+                                            backgroundColor: "rgb(245,245,245)",
+                                            borderRadius: "6px",
+                                            padding: "4px",
+                                            marginLeft: "4px",
+                                            marginRight: "4px",
+                                            fontSize: "24px"
+                                        }
+                                    }
+                                }
+                            })
                         }
                     }
                 ],
