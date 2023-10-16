@@ -30,26 +30,23 @@ tags:
 
 Самый низкоуровневый код добавляет большое количество гибкости, контроля и оптимизаций по производительности, но взамен требует более аккуратного использования. Я, например, про [`File.OpenHandle()`](https://learn.microsoft.com/dotnet/api/system.io.file.openhandle) и [`RandomAccess.Read()`](https://learn.microsoft.com/dotnet/api/system.io.randomaccess.read), которые напрямую обращаются к обработчикам операционной системы и не практически не мешают побайтово читать файл с максимальной производительностью.
 
-Я покажу пару примеров API. Нормально, если они вам не знакомы. Они перечислены от самого низкоуровнего (с максимальной степенью контроля) к самому комплексному (и самому удобному)
+Я покажу пару примеров API. Нормально, если они вам не знакомы. Они перечислены от самого низкоуровнего (с максимальной степенью контроля) к самому комплексному (и самому удобному). Слева указан вызываемый метод, справа связанный с ним метод компаньон или возвращаемый тип.
 
 **Спектр удобства для чтения файла**
 
-|       Метод        | Тип данных / Метод компаньон |
-| :----------------: | :--------------------------: |
-|   `File.Handle`    |     `RandomAccess.Read`      |
-|    `File.Open`     |      `FileStream.Read`       |
-|  `File.OpenText`   |   `StreamReader.ReadLine`    |
-|  `File.ReadLines`  |    `IEnumerable<string>`     |
-| `File.ReadAllText` |           `string`           |
+- `File.Handle` / `RandomAccess.Read`
+- `File.Open` / `FileStream.Read`
+- `File.OpenText` / `StreamReader.ReadLine`
+- `File.ReadLines` / `IEnumerable<string>`
+- `File.ReadAllText` / `string`
+
 
 **Спектр удобства для чтения JSON строки**
 
-|      Метод       | Тип данных / Метод компаньон |
-| :--------------: | :--------------------------: |
-| `Utf8JsonReader` |    `Pipelines` / `Stream`    |
-|  `JsonDocument`  |           `Stream`           |
-| `JsonSerializer` |           `Stream`           |
-| `JsonSerializer` |           `string`           |
+- `Utf8JsonReader` / `Pipelines`, `Stream`
+- `JsonDocument` / `Stream`
+- `JsonSerializer` / `Stream`
+- `JsonSerializer` / `string`
 
 В этих примерах нет явного разрыва между удобными и управляемыми паттернами. Конец удобного паттерна перетекает в начало паттерна управления. То, что одному человеку удобно, другому покажется контролем. В этом и суть спектра.
 
