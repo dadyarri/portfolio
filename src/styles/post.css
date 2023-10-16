@@ -51,6 +51,10 @@
   @apply bg-transparent;
 }
 
+.post li {
+  @apply py-1 leading-8
+}
+
 .tag {
   @apply dark:bg-neutral-800 dark:text-neutral-50 bg-neutral-100 rounded-md p-1 mx-1 text-[0.7rem]
 }
