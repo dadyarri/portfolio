@@ -9,6 +9,7 @@ import Link from "@/components/shared/Link.astro";
 import convertAsteriskToStrongTag from "@/utils/convertAsteriskToStrongTag";
 
 import presentation from "@/data/presentation";
+import Icon from "astro-icon";
 
 const posts = (await getCollection("posts"))
   .filter((p) => p.data.isPublish)
@@ -39,10 +40,13 @@ const projects = await getCollection("projects");
     </div>
 
     <article class="flex flex-col gap-8">
-      <header class="sm:flex-col md:flex w-full flex-row md:justify-between gap-2">
-        <h3 class="text-lg dark:text-neutral-100">
-          Последние публикации (всего {posts.length})
-        </h3>
+      <header class="flex-col flex w-full md:flex-row md:justify-between gap-2">
+        <div class="flex gap-2 items-center">
+          <h3 class="text-lg dark:text-neutral-100">Последние публикации (всего {posts.length})</h3>
+          <a href="/rss.xml">
+            <Icon name="mdi:rss-box" class="w-6" />
+          </a>
+        </div>
         <Link href="/posts" label="Все публикации" isUnderline={true} target="_self"/>
       </header>
       {posts.length === 0 && <p>Soon, stay connected 👀...</p>}
