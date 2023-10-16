@@ -18,7 +18,7 @@ const projects = await getCollection("projects");
 
 <Layout>
   <main class="flex flex-col gap-20 mx-8">
-    <div class="flex flex-row justify-between items-center">
+    <div class="flex flex-col md:flex-row justify-between items-center">
       <article class="flex flex-col gap-8">
         <h1 class="text-3xl dark:text-neutral-100">{presentation.title}</h1>
         <h2
@@ -33,7 +33,7 @@ const projects = await getCollection("projects");
 
         <SocialLinks />
       </article>
-      <article>
+      <article class="hidden md:flex">
         <img src="/assets/avatar.jpg" class="w-40 rounded-full" />
       </article>
     </div>
