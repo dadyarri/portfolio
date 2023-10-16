@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content"
 import Layout from "@/layouts/Layout.astro";
+import { convertToTag } from "@/utils/convertToTag";
 
 export async function getStaticPaths() {
   const projects = await getCollection("projects");
@@ -29,9 +30,9 @@ const { Content } = await project.render();
       <hr/>
       <div class="flex sm:flex-col md:flex-row items-baseline flex-wrap gap-1 justify-center">
         {project.data.tags.map((tag) => (
-          <span class="tag">
-            {tag}
-          </span>
+            <a class="tag no-underline" href={`/projects/tags/${convertToTag(tag)}`}>
+              {tag}
+            </a>
         ))}
       </div>
     </header>
