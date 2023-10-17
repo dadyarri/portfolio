@@ -5,6 +5,7 @@ import satori from "satori";
 import sharp from "sharp";
 import formatDate from "@/utils/formatDate";
 import getReadingTime from 'reading-time';
+import { declensionOfMinutes } from "@/utils/declensionOfNumerals";
 
 export async function getStaticPaths() {
     const posts = await getCollection("posts");
@@ -42,7 +43,7 @@ export const GET: APIRoute = async ({ params }) => {
                     {
                         type: "p",
                         props: {
-                            children: `${formatDate(page.data.publishedAt)} | dadyarri | Читать ${estimateMinutes} минут`,
+                            children: `${formatDate(page.data.publishedAt)} | dadyarri | Читать ${estimateMinutes} ${declensionOfMinutes(estimateMinutes)}`,
                             style: {
                                 fontFamily: "Nunito Sans",
                                 fontSize: "32px",
