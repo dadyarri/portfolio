@@ -4,7 +4,6 @@ import sitemap from "@astrojs/sitemap";
 import { SITE_URL } from "./src/data/config";
 import { remarkReadingTime } from "./reading-time.mjs";
 
-// https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), sitemap()],
   site: SITE_URL,
