@@ -11,14 +11,9 @@ import { chromium } from 'playwright';
 
   const body = page.locator('body');
   await body.evaluate((node) => node.classList.remove('sm:my-14'));
-  // await body.evaluate((node) => node.classList.remove(''));
 
   await page.pdf({
     path: 'public/cv.pdf',
-    // margin: {
-    //   top: '50px',
-    //   bottom: '80px',
-    // },
     printBackground: false,
   });
 
