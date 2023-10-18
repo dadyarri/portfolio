@@ -1,11 +1,10 @@
 {
   "name": "astro-template-portfolio",
-  "type": "module",
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "generate-pdf": "node ./scripts/generate-pdf.js",
+    "generate-pdf": "npx ts-node ./scripts/generate-pdf.ts",
     "generate-pdf:ci": "start-server-and-test http://localhost:4321 generate-pdf",
     "build": "astro check && tsc --noEmit && yarn generate-pdf:ci && astro build",
     "preview": "astro preview",
@@ -35,6 +34,7 @@
   },
   "devDependencies": {
     "@types/markdown-it": "^13.0.2",
+    "@types/mdast": "^4.0.2",
     "@types/sanitize-html": "^2.9.1",
     "@typescript-eslint/parser": "^6.7.4",
     "eslint": "8.51.0",

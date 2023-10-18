@@ -890,6 +890,13 @@
   dependencies:
     "@types/unist" "*"
 
+"@types/mdast@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@types/mdast/-/mdast-4.0.2.tgz#4695661024ffbd9e52cf71e05c69a1f08c0792f6"
+  integrity sha512-tYR83EignvhYO9iU3kDg8V28M0jqyh9zzp5GV+EO+AYnyUl3P5ltkTeJuTiFZQFz670FSb3EwT/6LQdX+UdKfw==
+  dependencies:
+    "@types/unist" "*"
+
 "@types/mdurl@*":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@types/mdurl/-/mdurl-1.0.3.tgz#d0aefccdd1a96f4bec76047d6b314601f0b0f3de"
