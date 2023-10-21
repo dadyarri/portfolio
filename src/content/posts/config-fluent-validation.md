@@ -1,12 +1,11 @@
 ---
 title: Валидация конфигурации с помощью FluentValidation
-slug: config-fluent-validation
 publishedAt: 2023-05-13
 description: Настройка валидации строго типизированной конфигурации с помощью FluentValidation
 isPublish: true
 tags:
-  - dotnet
-  - переводы
+  - .NET
+  - Перевод
 ---
 
 Это перевод [статьи](https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-using-flentvalidation/) Эндрю Лока, расширяющей предыдущую статью, в которой описывается механизм валидации конфигурации. В этой статье вместо аннотаций будет использоваться очень мощная сторонняя бибиотека [FluentValidation](https://docs.fluentvalidation.net/en/latest/).

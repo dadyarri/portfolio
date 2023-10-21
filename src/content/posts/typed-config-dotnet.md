@@ -1,11 +1,10 @@
 ---
 title: Валидация конфигурации в .NET 6+
-slug: typed-config-dotnet
 publishedAt: 2023-02-02
 description: Настройка парсинга конфигурации в конкретные типы.
 isPublish: true
 tags:
-  - dotnet
+  - .NET
   - переводы
 ---
 

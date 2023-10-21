@@ -4,8 +4,8 @@ publishedAt: 2023-10-16
 description: О том, как .NET балансирует между контролем и удобством для разработчика
 isPublish: true
 tags:
-  - dotnet
-  - переводы
+  - .NET
+  - Перевод
 ---
 
 Это перевод [статьи](https://devblogs.microsoft.com/dotnet/the-convenience-of-dotnet/) Ричарда Ландера из блога Microsoft.

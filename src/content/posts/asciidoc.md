@@ -5,8 +5,8 @@ publishedAt: 2023-05-16
 description: Как я окончательно бросил Word и начал писать красивые отчёты для универа в разы быстрее
 isPublish: true
 tags:
-  - asciidoc
-  - мой-опыт
+  - Asciidoc
+  - Мой опыт
 ---
 
 ## Asciidoc. Что это вообще такое?
