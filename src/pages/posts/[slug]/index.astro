@@ -33,7 +33,7 @@ const { Content,remarkPluginFrontmatter } = await post.render();
       </h1>
       <hr />
       <div class="flex gap-2 items-center justify-center">
-        <div class="flex flex-col gap-3">
+        <div class="flex flex-col gap-3 justify-center items-center">
           <div class="flex sm:flex-col md:flex-row items-baseline flex-wrap gap-1 justify-center">
             {post.data.tags.map((tag) => (
               <span class="tag">
@@ -52,6 +52,10 @@ const { Content,remarkPluginFrontmatter } = await post.render();
               <p>{remarkPluginFrontmatter.minutesRead}&nbsp;{declensionOfMinutes(remarkPluginFrontmatter.minutesRead)}</p>
             </div>
           </div>
+          {post.data.source && <div class="flex flex-row gap-2">
+            <Icon name="mdi:link" class="w-5"/>
+            <a href={post.data.source}>Источник</a>
+          </div>}
         </div>
       </div>
     </header>

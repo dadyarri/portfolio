@@ -1,5 +1,6 @@
 ---
 title: Валидация конфигурации с помощью FluentValidation
+source: https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-using-flentvalidation/
 publishedAt: 2023-05-13
 description: Настройка валидации строго типизированной конфигурации с помощью FluentValidation
 isPublish: true
@@ -8,9 +9,7 @@ tags:
   - Перевод
 ---
 
-Это перевод [статьи](https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-using-flentvalidation/) Эндрю Лока, расширяющей предыдущую статью, в которой описывается механизм валидации конфигурации. В этой статье вместо аннотаций будет использоваться очень мощная сторонняя бибиотека [FluentValidation](https://docs.fluentvalidation.net/en/latest/).
-
-В предыдущем посте ([оригинал](https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-using-flentvalidation/), [перевод](https://dadyarri.ru/posts/typed-config-dotnet/)) я описал как можно использовать атрибуты `DataAnnotation` и новый метод `ValidateOnStart()`, чтобы проверить валидность вашей конфигурации на старте приложения
+В предыдущем посте ([оригинал](https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-dotnet-6/), [перевод](https://dadyarri.ru/posts/typed-config-dotnet/)) я описал как можно использовать атрибуты `DataAnnotation` и новый метод `ValidateOnStart()`, чтобы проверить валидность вашей конфигурации на старте приложения
 
 В этом посте я покажу как сделать то же самое используя популярную библиотеку с открытым исходным кодом [FluentValidation](https://docs.fluentvalidation.net/en/latest/). Для этого понадобится добавить несколько вспомогательных классов.
 
