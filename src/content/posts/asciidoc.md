@@ -2,7 +2,7 @@
 title: Asciidoc для генерации отчётов к лабораторным работам
 slug: asciidoc
 publishedAt: 2023-05-16
-description: Настройка Asciidoc под ГОСТ 7.32-2017 (Отчёт по НИР)
+description: Как я окончательно бросил Word и начал писать красивые отчёты для универа в разы быстрее
 isPublish: true
 tags:
   - asciidoc
