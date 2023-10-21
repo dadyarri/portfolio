@@ -1,5 +1,6 @@
 ---
 title: Валидация конфигурации в .NET 6+
+source: https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-dotnet-6/
 publishedAt: 2023-02-02
 description: Настройка парсинга конфигурации в конкретные типы.
 isPublish: true
@@ -7,8 +8,6 @@ tags:
   - .NET
   - переводы
 ---
-
-**Эта статья — перевод [статьи](https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-dotnet-6/) Эндрю Лока.**
 
 ## Строго типизированная конфигурация в ASP.NET Core
 
