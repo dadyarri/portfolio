@@ -3,7 +3,7 @@ title: Удобство System.Text.Json
 source: https://devblogs.microsoft.com/dotnet/the-convenience-of-system-text-json/
 description: Обработка JSON это одна из самых частых задач, выполняемых разработчиками. В этой статье сравним разные подходы к этому с точки зрения спектра удобства и производительности
 publishedAt: 2023-10-21
-isPublish: true
+isPublish: false
 tags: [".NET", "Перевод"]
 ---
 
