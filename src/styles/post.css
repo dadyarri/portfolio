@@ -66,3 +66,11 @@
 .tag {
   @apply dark:bg-neutral-800 dark:text-neutral-50 bg-neutral-100 rounded-md p-1 mx-1 text-[0.7rem]
 }
+
+.post figure {
+  @apply flex items-center flex-col m-3 justify-center
+}
+
+.post figcaption {
+  @apply dark:text-neutral-50 text-neutral-400
+}
