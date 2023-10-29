@@ -11,17 +11,16 @@ import "@/styles/post.css";
 export type Props = {
   slug?: string;
   title?: string;
-  type?: string
+  type?: string;
+  description: string
 }
 
-const { title, slug, type } = Astro.props;
-
-
+const { title, slug, type, description } = Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-  <SEOTags title={title} og={{image: `/${type}s/${slug}/og-image.png`}} />
+  <SEOTags title={title} og={{image: `/${type}s/${slug}/og-image.png`}} description={description} />
 
   <body
     class="mx-auto flex min-h-screen lg:max-w-[1300px] flex-col gap-9 dark:bg-neutral-950 px-10 py-8 text-sm dark:text-neutral-400 md:gap-20 md:py-16 text-black"

@@ -26,7 +26,7 @@ const { Content } = await til.render();
 const parser = new MarkdownIt();
 ---
 
-<Layout title={til.data.title}>
+<Layout title={til.data.title} type="til" description={til.data.brief}>
   <main class="post md:mx-auto flex w-full md:max-w-full p-5 flex-col gap-4">
     <header role="presentation" class="flex flex-col items-center">
       <h1>

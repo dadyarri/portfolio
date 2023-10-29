@@ -28,7 +28,7 @@ const openGraph = {
   image: og?.image || "/opengraph-image.jpg",
   alt: og?.alt || "dadyarri website",
   url: DEFAULT_URL_SITE,
-  description: og?.description || DEFAULT_DESCRIPTION_PAGE,
+  description: description || og?.description || DEFAULT_DESCRIPTION_PAGE,
 };
 ---
 
@@ -36,13 +36,16 @@ const openGraph = {
   <SEO
     charset="UTF-8"
     title={title || DEFAULT_TITLE_PAGE}
-    description={description || DEFAULT_DESCRIPTION_PAGE}
+    description={openGraph.description}
     noindex={noindex || false}
     openGraph={{
       basic: {
         title: openGraph.title,
         type: openGraph.type,
-        image: openGraph.image,
+        image: openGraph.image
+      },
+      optional: {
+        description: openGraph.description
       },
       image: {
         alt: openGraph.alt,
