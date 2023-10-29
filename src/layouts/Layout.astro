@@ -2,9 +2,9 @@
 import Header from "../components/Header.astro";
 import SEOTags from "@/components/seo/SEOTags.astro";
 
-import "@fontsource/nunito-sans/400-italic.css"
-import "@fontsource/jetbrains-mono"
-import "@fontsource/montserrat"
+import "@fontsource/nunito-sans/400-italic.css";
+import "@fontsource/jetbrains-mono";
+import "@fontsource/montserrat";
 import "@/styles/tailwind.css";
 import "@/styles/post.css";
 
@@ -12,15 +12,21 @@ export type Props = {
   slug?: string;
   title?: string;
   type?: string;
-  description?: string
-}
+  description?: string;
+};
 
 const { title, slug, type, description } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <SEOTags title={title} og={{image: `/${type}s/${slug}/og-image.png`}} description={description} />
+  <head>
+    <SEOTags
+      title={title}
+      og={{ image: `/${type}s/${slug}/og-image.png` }}
+      description={description}
+    />
+  </head>
 
   <body
     class="mx-auto flex min-h-screen lg:max-w-[1300px] flex-col gap-9 dark:bg-neutral-950 px-10 py-8 text-sm dark:text-neutral-400 md:gap-20 md:py-16 text-black"
@@ -32,10 +38,16 @@ const { title, slug, type, description } = Astro.props;
         font-family: "Nunito Sans", serif;
         font-style: italic;
       }
-      h1, h2, h3, h4, h5, h6 {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
         font-family: "Montserrat", sans-serif;
       }
-      code, pre {
+      code,
+      pre {
         font-family: "JetBrains Mono", monospace;
         font-style: normal;
       }
