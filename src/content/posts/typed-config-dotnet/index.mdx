@@ -9,6 +9,9 @@ tags:
   - переводы
 ---
 
+import { Image } from "astro:assets"
+import unhandledExceptionConfiguration from "./unhandled_exception_configuration_validation.png"
+
 ## Строго типизированная конфигурация в ASP.NET Core
 
 Система конфигурации в .NET очень гибкая. Она позволяет загружать параметры из разных мест: [JSON файлы](https://docs.microsoft.com/en-gb/aspnet/core/fundamentals/configuration/index?view=aspnetcore-2.1&tabs=basicconfiguration#json-configuration), [YAML файлы](https://andrewlock.net/creating-a-custom-iconfigurationprovider-in-asp-net-core-to-parse-yaml/), [переменные окружения](https://docs.microsoft.com/en-gb/aspnet/core/security/app-secrets?view=aspnetcore-2.1&tabs=windows#environment-variables), [Azure Key Vault](https://docs.microsoft.com/en-gb/aspnet/core/security/key-vault-configuration?view=aspnetcore-2.1&tabs=aspnetcore2x) и многое другое. В статье предлагается использовать конечный объект `IConfiguration` в приложении чтобы настроить строгую типизацию.
@@ -181,7 +184,7 @@ public class SlackApiSettings
 
 И последняя ошибка в этом посте происходит, когда парсер пытается связать поля с несовместимыми типами данных. В конфигурации всё представлено в виде строк, но парсер может преобразовывать простые типы. Например `"true"` или `"FALSE"` нормально преобразуется в поле `bool ShouldNotify`, но если вы попытаетесь запихать туда что-нибудь ещё, например `"THE VALUE"`, вы получите исключение, когда будете дёргать эндпоинт и парсер попытается собрать объект `IOptions<T>`:
 
-![Скриншот (c) Andrew Lock](/assets/posts/typed-config-dotnet/unhandled_exception_configuration_validation.png)
+<Image src={unhandledExceptionConfiguration} alt="Скриншот (c) Andrew Lock"/>
 
 Факт получения ошибки не очень хороший, но хотя бы парсер вообще кидает исключение, которое чётко даёт понять в чём проблема! Я слишком много раз попадал в ситуации, когда вызовы к внешнему API не отрабатывали только потому, что в объект конфигурации не попадала строка подключения или базовый URL из-за ошибки связывания.
 
