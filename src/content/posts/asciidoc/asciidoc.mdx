@@ -9,6 +9,11 @@ tags:
   - Мой опыт
 ---
 
+import { Image } from "astro:assets"
+import titlePage from "./titlePage.png"
+import resultDoc from "./resultDoc.png"
+import resultDoc2 from "./resultDoc2.png"
+
 ## Asciidoc. Что это вообще такое?
 
 Asciidoc — это язык разметки текста для написания технических материалов. Он даёт инструменты для сборки документов в разных форматах, включая HTML и PDF. Написан на Ruby и позволяет настраивать генерацию документов множеством способов.
@@ -143,7 +148,7 @@ class PDFConverterCustomTitlePage < (Asciidoctor::Converter.for 'pdf')
   end
 ```
 
-![Титульная страница](/assets/posts/asciidoc/titlePage.png)
+<Image src={titlePage} alt="Титульная страница отчёта"/>
 
 ### Подпись приложения
 
@@ -310,7 +315,8 @@ catch {
 
 После запуска этого скрипта на выходе получим файл `номер-группы-название-предмета-номер-работы-фамилия-автора.pdf`.
 
-![Итоговый документ](/assets/posts/asciidoc/resultDoc.png)
+<Image src={resultDoc} alt="Итоговый документ"/>
+<Image src={resultDoc2} alt="Итоговый документ"/>
 
 ## Вывод
 
