@@ -24,19 +24,7 @@ const projectsCollections = defineCollection({
   })
 })
 
-const tilsCollection = defineCollection({
-  type: "content",
-  schema: z.object({
-    title: z.string(),
-    publishedAt: z.date(),
-    tags: z.array(z.string()),
-    source: z.string().url().optional(),
-    brief: z.string()
-  })
-})
-
 export const collections = {
   posts: postsCollection,
   projects: projectsCollections,
-  tils: tilsCollection
 };
