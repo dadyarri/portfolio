@@ -21,7 +21,8 @@ export async function GET(context: APIContext) {
             description: it.data.description,
             link: `/posts/${it.slug}/`,
             content: sanitizeHtml(parser.render(it.body)),
-        })),
+            isPublish: it.data.isPublish
+        })).filter(it => it.isPublish),
         customData: '<language>ru-ru</language>',
         stylesheet: '/assets/feed-style.xsl',
     });
