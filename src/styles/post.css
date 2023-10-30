@@ -2,6 +2,10 @@
   @apply max-w-[1000px]
 }
 
+.post ::selection {
+  @apply dark:bg-slate-100 dark:text-neutral-700 bg-neutral-700 text-slate-100
+}
+
 .post p {
   @apply leading-7;
 }
