@@ -78,3 +78,7 @@
 .post figcaption {
   @apply dark:text-neutral-50 text-neutral-400
 }
+
+.post .copy-code {
+  @apply absolute top-0 right-0 bg-orange-600 hover:bg-orange-800 p-1 text-xs text-white
+}
