@@ -13,7 +13,6 @@ export default defineConfig({
   markdown: {
     syntaxHighlight: "shiki",
     shikiConfig: {
-      theme: "nord",
       wrap: true
     },
     remarkPlugins: [remarkReadingTime]
