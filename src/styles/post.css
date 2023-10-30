@@ -36,7 +36,7 @@
 }
 
 .post ul {
-  @apply list-disc;
+  @apply list-disc px-10;
 }
 
 .post blockquote {
