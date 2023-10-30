@@ -75,7 +75,10 @@ const { title, slug, type, description } = Astro.props;
         });
       }
 
-      async function copyCode(block: HTMLPreElement, button: HTMLButtonElement) {
+      async function copyCode(
+        block: HTMLPreElement,
+        button: HTMLButtonElement,
+      ) {
         let code = block.querySelector("code");
         let text = code?.innerText;
 
