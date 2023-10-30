@@ -10,6 +10,9 @@ import convertAsteriskToStrongTag from "@/utils/convertAsteriskToStrongTag";
 
 import presentation from "@/data/presentation";
 import Icon from "astro-icon";
+import Image from "@/components/Image.astro";
+
+import avatar from "./avatar.jpg"
 
 const posts = (await getCollection("posts"))
   .filter((p) => p.data.isPublish)
@@ -35,7 +38,7 @@ const projects = await getCollection("projects");
         <SocialLinks />
       </article>
       <article class="hidden md:flex">
-        <img src="/assets/avatar.jpg" class="w-40 rounded-full" />
+        <Image src={avatar} class="w-40 rounded-full" withCaption={false} alt="Аватар" />
       </article>
     </div>
 
