@@ -1,13 +1,18 @@
 ---
 import { AstroError } from "astro/errors";
-import {
-    Picture
-} from "astro:assets";
+import { Picture } from "astro:assets";
 
 // The TypeScript diagnostic for JSX props uses the last member of the union to suggest props, so it would be better for
 // LocalImageProps to be last. Unfortunately, when we do this the error messages that remote images get are complete nonsense
 // Not 100% sure how to fix this, seems to be a TypeScript issue. Unfortunate.
-type Props = {src: ImageMetadata, width: string | number | undefined | null, height: string | number | undefined | null, alt: string};
+type Props = {
+    src: ImageMetadata;
+    width?: string | number;
+    height?: string | number;
+    alt: string;
+    withCaption?: boolean;
+    class?: string
+};
 
 const props = Astro.props;
 
@@ -23,10 +28,20 @@ if (typeof props.width === "string") {
 if (typeof props.height === "string") {
     props.height = parseInt(props.height);
 }
+
+if (typeof props.withCaption === "undefined") {
+    props.withCaption = true;
+}
 ---
 
 <figure>
-    <Picture src={props.src} alt={props.alt} formats={['avif', 'webp']} />
-    <hr />
-    <figcaption>{props.alt}</figcaption>
+    <Picture src={props.src} alt={props.alt} formats={["avif", "webp"]} class={props.class} />
+    {
+        props.withCaption && (
+            <>
+                <hr />
+                <figcaption>{props.alt}</figcaption>
+            </>
+        )
+    }
 </figure>
