@@ -4,6 +4,7 @@ import sitemap from "@astrojs/sitemap";
 import { SITE_URL } from "./src/data/config";
 import { remarkReadingTime } from "./reading-time.mjs";
 import mdx from "@astrojs/mdx";
+import type { AstroUserConfig } from "astro";
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,8 +14,8 @@ export default defineConfig({
     syntaxHighlight: "shiki",
     shikiConfig: {
       theme: "nord",
-      wrap: false
+      wrap: true
     },
     remarkPlugins: [remarkReadingTime]
   }
-});
+} as AstroUserConfig);
