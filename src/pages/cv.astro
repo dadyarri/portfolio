@@ -5,6 +5,14 @@ import { getCollection } from "astro:content";
 import Image from "@/components/Image.astro";
 
 import avatarSrc from "./avatar.jpg";
+import workplaces from "@/data/cv/workplaces";
+import about from "@/data/cv/about";
+import languages from "@/data/cv/languages";
+import education from "@/data/cv/education";
+import technologiesBlocks from "@/data/cv/technologies";
+import achievments, { type Achievment } from "@/data/cv/achievments";
+import Icon from "astro-icon";
+
 const projects = await getCollection("projects");
 ---
 
@@ -13,55 +21,82 @@ const projects = await getCollection("projects");
     <div class="not-prose absolute right-4 top-4">
         <Download href={"/cv.pdf"} />
     </div>
-    <h1>Даниил Голубев</h1>
-    <b>Backend-разработчик (.NET)</b>
-    <p>Владимир, Россия | <a href="mailto:me@dadyarri.ru">me@dadyarri.ru</a> | <a href="https://dadyarri.ru">https://dadyarri.ru</a></p>
+    <h1>{about.name}</h1>
+    <b>{about.position}</b>
+    <ul class="list-none">
+        <li class="flex gap-2">
+            <Icon name="mdi:city" class="w-5"/>
+            <span>{about.city}, {about.country}</span>
+        </li>
+        <li class="flex gap-2">
+            <Icon name="mdi:email" class="w-5"/>
+            <a href=`mailto:${about.email}`>{about.email}</a>
+        <li class="flex gap-2">
+            <Icon name="mdi:phone" class="w-5"/>
+            <a href={about.phone.link}>{about.phone.visible}</a>
+        <li class="flex gap-2">
+            <Icon name="mdi:web" class="w-5"/>
+            <a href="https://dadyarri.ru">https://dadyarri.ru</a>
+        </li>
+    </ul>
 
     <h2>Опыт работы</h2>
 
-    <h3>
-        <a href="https://vlad.top-academy.ru/">Академия Top</a>
-    </h3>
-    <h4>Преподаватель компьютерных курсов | Июнь — Сентябрь 2021</h4>
-    <p>
-        Вёл групповые технические курсы у детей 6-14 лет (Python, Windows,
-        Основы работы с интернетом, Gimp и пр.)
-    </p>
+    {
+        workplaces.map((workplace) => (
+            <>
+                <h3>
+                    <a href={workplace.company.link}>
+                        {workplace.company.name}
+                    </a>
+                </h3>
+                <h4>
+                    {workplace.position}&nbsp;|&nbsp;{workplace.times}
+                </h4>
+                <ul>
+                    {workplace.description.map((item) => (
+                        <li>{item}</li>
+                    ))}
+                </ul>
+            </>
+        ))
+    }
 
     <h2>Технологии</h2>
-
     <ul>
-        <li>
-            <strong>Backend:</strong> C# + <em>ASP.NET</em>
-        </li>
-        <li>
-            <strong>MQ:</strong> RabbitMQ + MassTransit
-        </li>
-        <li>
-            <strong>Desktop:</strong> C# + <em>WPF</em>
-        </li>
-        <li>
-            <strong>Team tools:</strong> Git, Trello, Jira, Jetbrains Space
-        </li>
-        <li>
-            <strong>Mobile:</strong> Kotlin + <em>Jetpack Compose</em>
-        </li>
-        <li>
-            <strong>CI/CD:</strong> Github Actions
-        </li>
-        <li>
-            <strong>DBMS:</strong> PostgreSQL, MySQL, Redis
-        </li>
-        <li>
-            <strong>Deployment:</strong> Docker
-        </li>
-        <li>
-            <strong>Scripting:</strong> Bash, Powershell
-        </li>
-        <li>
-            <strong>OS:</strong> Windows, Linux (Debian-like, Arch-like,
-            RedHat-like)
-        </li>
+        {
+            technologiesBlocks.map((block) => (
+                <li>
+                    <strong>{block.name}: </strong>
+                    {block.technologies.map((technology, index) => (
+                        <>
+                            <span>
+                                <span>{technology.name}</span>
+                                <span>
+                                    {technology.frameworks.length > 0 &&
+                                        <span>&nbsp;+&nbsp;</span>
+                                        <span>
+                                            <em>
+                                                {technology.frameworks.join(
+                                                    ", ",
+                                                )}
+                                            </em>
+                                        
+                                    </span>
+                                }
+                                </span>
+                            </span>
+                            <span>
+                                {block.technologies.length > 1 &&
+                                    index != block.technologies.length - 1 && (
+                                        <span>, </span>
+                                    )}
+                            </span>
+                        </>
+                    ))}
+                </li>
+            ))
+        }
     </ul>
 
     <h2>Проекты</h2>
@@ -91,29 +126,49 @@ const projects = await getCollection("projects");
     <h2>Опыт и достижения</h2>
 
     <ul>
-        <li>
-            Перевожу статьи по .NET с английского языка и пишу собственные для
-            своего <a href="https://dadyarri.ru">блога</a>
-        </li>
-        <li>
-            Перевожу <a href="https://appflowy.io">appflowy</a>
-             (альтернативу Notion с открытым исходным кодом) на русский язык
-        </li>
+        {
+            achievments.map((item: Achievment) => (
+                <li>
+                    {item.text}
+                    <a class="ml-1" href={item.link}>
+                        <div class="flex items-baseline gap-1">
+                            <Icon name="mdi:link" class="w-3" />
+                            {new URL(item.link).hostname}
+                        </div>
+                    </a>
+                </li>
+            ))
+        }
     </ul>
 
     <h2>Языки</h2>
 
     <ul>
-        <li><strong>Русский:</strong> Родной</li>
-        <li><strong>English:</strong> B1</li>
+        {
+            languages.map((language) => (
+                <li>
+                    <strong>{language.name}: </strong>
+                    {language.level}
+                </li>
+            ))
+        }
     </ul>
 
     <h2>Образование</h2>
 
-    <h3>ВлГУ, Владимир | 2020 — 2024</h3>
-
-    <ul>
-        <li>Изучал разработку на C#, Java</li>
-        <li>Изучал проектирование проектов (диаграммы UML, IDEF)</li>
-    </ul>
+    {
+        education.map((item) => (
+            <>
+                <h3>
+                    {item.name}, {item.city} | {item.times}
+                </h3>
+                <h4>{item.speciality}</h4>
+                <ul>
+                    {item.activities.map((activity) => (
+                        <li>{activity}</li>
+                    ))}
+                </ul>
+            </>
+        ))
+    }
 </CvLayout>
