@@ -6,6 +6,9 @@ deprecated: false
 tags: ["JavaScript", "Astro"]
 ---
 
+import Image from "@/components/Image.astro"
+import home from "./home.png"
+
 ## Задача
 
 Сайт был написан для меня. Должен объединять платформу для ведения блогов, портфолио с описанием проектов и автоматически собираемое резюме.ы
@@ -16,7 +19,7 @@ tags: ["JavaScript", "Astro"]
 
 ## Внешний вид
 
-![Внешний вид приложения](/assets/projects/site/home.png)
+<Image src={home} alt="Внешний вид приложения"/>
 
 ## Исходный код
 
