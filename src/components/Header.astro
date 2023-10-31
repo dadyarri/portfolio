@@ -18,6 +18,8 @@ const pathname = removeTrailingSlash(Astro.url.pathname);
           class:list={{
             ["hover:dark:text-neutral-100"]: true,
             ["hover:text-orange-500"]: true,
+            ["transition"]: true,
+            ["duration-300"]: true,
             ["text-orange-500"]: pathname === "/",
           }}>Главная</a
         >
@@ -29,6 +31,8 @@ const pathname = removeTrailingSlash(Astro.url.pathname);
           class:list={{
             ["hover:dark:text-neutral-100"]: true,
             ["hover:text-orange-500"]: true,
+            ["transition"]: true,
+            ["duration-300"]: true,
             ["text-orange-500"]: pathname === "/posts",
           }}>Блог</a
         >
@@ -40,6 +44,8 @@ const pathname = removeTrailingSlash(Astro.url.pathname);
           class:list={{
             ["hover:dark:text-neutral-100"]: true,
             ["hover:text-orange-500"]: true,
+            ["transition"]: true,
+            ["duration-300"]: true,
             ["text-orange-500"]: pathname === "/projects",
           }}>Проекты</a
         >
