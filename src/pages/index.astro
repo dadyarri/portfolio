@@ -12,7 +12,7 @@ import presentation from "@/data/presentation";
 import Icon from "astro-icon";
 import Image from "@/components/Image.astro";
 
-import avatar from "./avatar.jpg"
+import avatar from "../assets/avatar.jpg"
 
 const posts = (await getCollection("posts"))
   .filter((p) => p.data.isPublish)
