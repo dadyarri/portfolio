@@ -5,6 +5,7 @@ import { SITE_URL } from "./src/data/config";
 import { remarkReadingTime } from "./reading-time.mjs";
 import mdx from "@astrojs/mdx";
 import type { AstroUserConfig } from "astro";
+import remarkCodeTitles from "remark-code-titles";
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,6 +16,6 @@ export default defineConfig({
     shikiConfig: {
       wrap: true
     },
-    remarkPlugins: [remarkReadingTime]
+    remarkPlugins: [remarkReadingTime, remarkCodeTitles]
   }
 } as AstroUserConfig);
