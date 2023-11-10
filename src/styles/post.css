@@ -82,3 +82,7 @@
 .post .copy-code {
   @apply absolute top-0 right-0 bg-orange-600 hover:bg-orange-800 p-1 text-xs text-white transition ease-in-out duration-300
 }
+
+.post .remark-code-title {
+  @apply border-orange-600 border rounded w-fit p-3
+}
