@@ -33,8 +33,14 @@ const { title, slug, type, description } = Astro.props;
   >
     <Header />
     <slot />
-    <div class="fixed z-0 h-[134px] w-[134px] lg:w-[300px] lg:h-[300px] rounded-full bg-orange-500 blur-[150px] md:blur-[350px] opacity-50 left-0 top-0"></div>
-    <div class="fixed z-0 h-[134px] w-[134px] lg:w-[300px] lg:h-[300px] rounded-full bg-violet-500 blur-[150px] md:blur-[350px] opacity-50 right-0 bottom-0"></div>
+    <div
+      class="fixed z-0 h-[134px] w-[134px] lg:w-[300px] lg:h-[300px] rounded-full bg-orange-500 blur-[150px] md:blur-[350px] opacity-50 left-0 top-0"
+    >
+    </div>
+    <div
+      class="fixed z-0 h-[134px] w-[134px] lg:w-[300px] lg:h-[300px] rounded-full bg-violet-500 blur-[150px] md:blur-[350px] opacity-50 right-0 bottom-0"
+    >
+    </div>
     <style is:global>
       html {
         font-family: "Nunito Sans", serif;
@@ -92,6 +98,25 @@ const { title, slug, type, description } = Astro.props;
           button.innerText = copyButtonLabel;
         }, 700);
       }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const scrollHeader = document.getElementById("header");
+
+        window.addEventListener("scroll", function () {
+          const scrollDistance = window.scrollY;
+          const triggerDistance = 50;
+
+          if (scrollDistance > triggerDistance) {
+            scrollHeader!.classList.add("bg-neutral-50", "dark:bg-neutral-800");
+          } else {
+            // Remove the class if scrolling back up
+            scrollHeader!.classList.remove(
+              "bg-neutral-50",
+              "dark:bg-neutral-800",
+            );
+          }
+        });
+      });
     </script>
   </body>
 </html>
