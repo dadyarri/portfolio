@@ -9,6 +9,7 @@ import workplaces from "@/data/cv/workplaces";
 import about from "@/data/cv/about";
 import languages from "@/data/cv/languages";
 import education from "@/data/cv/education";
+import courses from "@/data/cv/courses";
 import technologiesBlocks from "@/data/cv/technologies";
 import achievments, { type Achievment } from "@/data/cv/achievments";
 import Icon from "astro-icon";
@@ -171,4 +172,18 @@ const projects = await getCollection("projects");
             </>
         ))
     }
+
+    <h2>Дополнительное образование, курсы</h2>
+    {
+        courses.map((item) => (
+            <>
+                <h3>
+                    <a href={item.link}>{item.name}</a>
+                </h3>
+                <h4>{item.authors.join(", ")} | {item.platform}</h4>
+                <p>{item.description}</p>
+            </>
+        ))
+    }
+
 </CvLayout>
