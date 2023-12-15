@@ -107,8 +107,11 @@ const projects = await getCollection("projects");
             <div class="project">
                 <div class="project-header">
                     <h3>
-                        <a href={`/projects/${project.slug}`}>
-                            {project.data.title}
+                        <a href={`https://dadyarri.ru/projects/${project.slug}`}>
+                            <div class="flex items-baseline flex-wrap">
+                                <Icon name="mdi:link" class="w-5 mx-3"/>
+                                <span class="underline underline-offset-4">{project.data.title}</span>
+                            </div>
                         </a>
                     </h3>
                     <div class="flex sm:flex-col md:flex-row items-baseline flex-wrap gap-1">
