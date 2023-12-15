@@ -20,17 +20,17 @@ export default [
             }
         ]
     },
-    {
-        name: "Брокеры сообщений",
-        technologies: [
-            {
-                name: "RabbitMQ",
-                frameworks: [
-                    "MassTransit"
-                ]
-            }
-        ]
-    },
+    // {
+    //     name: "Брокеры сообщений",
+    //     technologies: [
+    //         {
+    //             name: "RabbitMQ",
+    //             frameworks: [
+    //                 "MassTransit"
+    //             ]
+    //         }
+    //     ]
+    // },
     {
         name: "Настольные приложения",
         technologies: [
