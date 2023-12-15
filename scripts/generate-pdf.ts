@@ -10,11 +10,18 @@ const { chromium } = require('playwright');
   await downloadButton.evaluate((node: SVGElement | HTMLElement) => (node.innerHTML = ''));
 
   const body = page.locator('body');
-  await body.evaluate((node: SVGElement | HTMLElement) => node.classList.remove('sm:my-14'));
+  await body.evaluate((node: SVGElement | HTMLElement) => { node.classList.remove('sm:my-14') });
 
+  await page.emulateMedia({ media: 'screen' });
   await page.pdf({
     path: 'public/cv.pdf',
     printBackground: false,
+    margin: {
+      top: "30px",
+      bottom: "40px",
+      left: "10px",
+      right: "10px"
+    }
   });
 
   await browser.close();
