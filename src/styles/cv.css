@@ -19,8 +19,12 @@ body {
     @apply text-3xl uppercase
   }
 
-  .minimalist h2 {
-    @apply mb-3 mt-8 uppercase
+  .minimalist div h2 {
+    @apply mb-3 mt-8 uppercase;
+  }
+
+  .minimalist h2.break {
+    page-break-before: always;
   }
 
   .minimalist h3 {
