@@ -23,7 +23,7 @@ body {
     @apply mb-3 mt-8 uppercase;
   }
 
-  .minimalist h2.break {
+  .minimalist .break {
     page-break-before: always;
   }
 
