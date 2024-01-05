@@ -50,7 +50,10 @@ const projects = await getCollection("projects");
             <>
                 <h3>
                     <a href={workplace.company.link}>
-                        {workplace.company.name}
+                        <div class="flex items-baseline flex-wrap">
+                            <Icon name="mdi:link" class="w-5 mx-3"/>
+                            <span class="underline underline-offset-4">{workplace.company.name}</span>
+                        </div>
                     </a>
                 </h3>
                 <h4>
