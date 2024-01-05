@@ -125,7 +125,7 @@ const projects = await getCollection("projects");
                     </h3>
                     <div class="flex sm:flex-col md:flex-row items-baseline flex-wrap gap-1">
                         {project.data.tags.map((tag) => (
-                            <span class="dark:bg-neutral-800 dark:text-neutral-50 bg-neutral-100 rounded-md p-1 mx-1 text-[0.7rem] border">
+                            <span class="dark:bg-neutral-800 dark:text-neutral-50 bg-neutral-100 rounded-md p-1 mx-1 text-[0.7rem] border dark:border-neutral-800">
                                 {tag}
                             </span>
                         ))}
