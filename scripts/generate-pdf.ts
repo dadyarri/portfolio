@@ -12,7 +12,7 @@ const { chromium } = require('playwright');
   const body = page.locator('body');
   await body.evaluate((node: SVGElement | HTMLElement) => { node.classList.remove('sm:my-14') });
 
-  await page.emulateMedia({ media: 'screen' });
+  await page.emulateMedia({ media: 'print' });
   await page.pdf({
     path: 'public/cv.pdf',
     printBackground: false,
