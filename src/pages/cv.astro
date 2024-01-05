@@ -198,7 +198,12 @@ const projects = await getCollection("projects");
         courses.map((item) => (
             <>
                 <h3>
-                    <a href={item.link}>{item.name}</a>
+                    <a href={item.link}>
+                        <div class="flex items-baseline flex-wrap">
+                            <Icon name="mdi:link" class="w-5 mx-3"/>
+                            <span class="underline underline-offset-4">{item.name}</span>
+                        </div>
+                    </a>
                 </h3>
                 <h4>{item.authors.join(", ")} | {item.platform}</h4>
                 <p>{item.description}</p>
