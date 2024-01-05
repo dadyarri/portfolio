@@ -41,7 +41,9 @@ const projects = await getCollection("projects");
         </li>
     </ul>
 
-    <h2>Опыт работы</h2>
+    <div>
+        <h2>Опыт работы</h2>
+    </div>
 
     {
         workplaces.map((workplace) => (
@@ -63,7 +65,9 @@ const projects = await getCollection("projects");
         ))
     }
 
-    <h2>Технологии</h2>
+    <div>
+        <h2 class="break">Технологии</h2>
+    </div>
     <ul>
         {
             technologiesBlocks.map((block) => (
@@ -100,7 +104,9 @@ const projects = await getCollection("projects");
         }
     </ul>
 
-    <h2>Проекты</h2>
+    <div>
+        <h2>Проекты</h2>
+    </div>
 
     {
         projects.map((project) => (
@@ -127,7 +133,9 @@ const projects = await getCollection("projects");
         ))
     }
 
-    <h2>Опыт и достижения</h2>
+    <div>
+        <h2>Опыт и достижения</h2>
+    </div>
 
     <ul>
         {
@@ -145,7 +153,9 @@ const projects = await getCollection("projects");
         }
     </ul>
 
-    <h2>Языки</h2>
+    <div>
+        <h2>Языки</h2>
+    </div>
 
     <ul>
         {
@@ -158,7 +168,9 @@ const projects = await getCollection("projects");
         }
     </ul>
 
-    <h2>Образование</h2>
+    <div>
+        <h2>Образование</h2>
+    </div>
 
     {
         education.map((item) => (
@@ -176,7 +188,9 @@ const projects = await getCollection("projects");
         ))
     }
 
-    <h2>Дополнительное образование, курсы</h2>
+    <div>
+        <h2>Дополнительное образование, курсы</h2>
+    </div>
     {
         courses.map((item) => (
             <>
