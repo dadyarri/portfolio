@@ -27,12 +27,15 @@
     "mdast-util-to-string": "^4.0.0",
     "playwright": "^1.38.1",
     "reading-time": "^1.5.0",
+    "remark": "^15.0.1",
     "remark-code-titles": "^0.1.2",
+    "remark-html": "^16.0.1",
     "sanitize-html": "^2.11.0",
     "satori": "^0.10.9",
     "sharp": "^0.32.6",
     "tailwindcss": "^3.3.3",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {
     "@types/markdown-it": "^13.0.2",
