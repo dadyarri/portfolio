@@ -13,8 +13,12 @@ import courses from "@/data/cv/courses";
 import technologiesBlocks from "@/data/cv/technologies";
 import achievments, { type Achievment } from "@/data/cv/achievments";
 import Icon from "astro-icon";
+import extractContentWithinHeading from "@/utils/extractHeadingContent";
+import markdownit from 'markdown-it';
+
 
 const projects = await getCollection("projects");
+const md = markdownit();
 ---
 
 <CvLayout>
@@ -112,8 +116,13 @@ const projects = await getCollection("projects");
     </div>
 
     {
-        projects.map((project) => (
-            <div class="project">
+        projects.map((project) => {
+            let renderDetailedDescription = "";
+            let detailedDecription = extractContentWithinHeading(project.body, "Решение");
+            if (detailedDecription) {
+                renderDetailedDescription = md.render(detailedDecription)
+            }
+            return <div class="project">
                 <div class="project-header">
                     <h3>
                         <a href={`https://dadyarri.ru/projects/${project.slug}`}>
@@ -132,8 +141,9 @@ const projects = await getCollection("projects");
                     </div>
                 </div>
                 <p>{project.data.description}</p>
+                <Fragment set:html={renderDetailedDescription}/>
             </div>
-        ))
+        })
     }
 
     <div>
@@ -192,7 +202,7 @@ const projects = await getCollection("projects");
     }
 
     <div>
-        <h2>Дополнительное образование, курсы</h2>
+        <h2 class="break">Дополнительное образование, курсы</h2>
     </div>
     {
         courses.map((item) => (
