@@ -27,8 +27,8 @@ const md = markdownit();
         <Download href={"/cv.pdf"} />
     </div>
     <h1>{about.name}</h1>
-    <b>{about.position}</b>
     <ul class="list-none">
+        <b>{about.position} | {about.salary.min} — {about.salary.max} {about.salary.currency}</b>
         <li class="flex gap-2">
             <Icon name="mdi:city" class="w-5"/>
             <span>{about.city}, {about.country}</span>

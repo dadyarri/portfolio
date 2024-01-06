@@ -1,6 +1,11 @@
 type About = {
     name: string,
     position: string,
+    salary: {
+        min: number,
+        max: number,
+        currency: string
+    }
     city: string,
     country: string,
     email: string,
@@ -14,6 +19,11 @@ type About = {
 export default {
     name: "Даниил Голубев",
     position: "Backend-разработчик (.NET)",
+    salary: {
+        min: 40000,
+        max: 50000,
+        currency: "₽"
+    },
     city: "Владимир",
     country: "Россия",
     email: "me@dadyarri.ru",
