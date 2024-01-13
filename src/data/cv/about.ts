@@ -20,8 +20,8 @@ export default {
     name: "Даниил Голубев",
     position: "Backend-разработчик (.NET)",
     salary: {
-        min: 40000,
-        max: 50000,
+        min: 100000,
+        max: 120000,
         currency: "₽"
     },
     city: "Владимир",
