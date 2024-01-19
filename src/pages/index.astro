@@ -1,43 +1,55 @@
 ---
-import MainLayout from "@/layouts/MainLayout.astro";
-import presentation from "@/data/presentation";
-import convertAsteriskToStrongTag from "@/utils/convertAsteriskToStrongTag";
-import Image from "@/components/Image.astro";
-import avatar from "@/assets/avatar.jpg";
-import SocialLinks from "@/components/social-links/SocialLinks.astro";
+import { getCollection } from 'astro:content';
+import MainLayout from '@/layouts/MainLayout.astro';
+import presentation from '@/data/presentation';
+import convertAsteriskToStrongTag from '@/utils/convertAsteriskToStrongTag';
+import Image from '@/components/Image.astro';
+import avatar from '@/assets/avatar.jpg';
+import SocialLinks from '@/components/social-links/SocialLinks.astro';
+
+const posts = (await getCollection('posts'))
+    .filter((p) => p.data.isPublish)
+    .sort(
+        (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+    );
+const projects = await getCollection('projects');
 ---
 
 <MainLayout>
-  <main>
-    <div class="section">
-      <div class="section__text">
-        <h1 class="section__title">{presentation.title}</h1>
-        {
-          presentation.description.map((line) => (
-            <p
-              class="section__description"
-              set:html={convertAsteriskToStrongTag(line)}
-            />
-          ))
-        }
+    <main>
+        <div class="section">
+            <div class="section__text">
+                <h1 class="section__title">{presentation.title}</h1>
+                {
+                    presentation.description.map((line) => (
+                        <p
+                            class="section__description"
+                            set:html={convertAsteriskToStrongTag(line)}
+                        />
+                    ))
+                }
 
-        <h1 class="section__title">Контакты</h1>
-        <SocialLinks socials={presentation.socials}/>
-      </div>
-      <div class="section__avatar">
-        <Image
-          src={avatar}
-          class="section__avatar-image"
-          withCaption={false}
-          alt="Аватар"
-        />
-      </div>
-    </div>
-    <div class="section">
-      <h1 class="section__title">Активные проекты</h1>
-    </div>
-    <div class="section">
-      <h1 class="section__title">Последние посты</h1>
-    </div>
-  </main>
+                <h1 class="section__title">Контакты</h1>
+                <SocialLinks socials={presentation.socials} />
+            </div>
+            <div class="section__avatar">
+                <Image
+                    src={avatar}
+                    class="section__avatar-image"
+                    withCaption={false}
+                    alt="Аватар"
+                />
+            </div>
+        </div>
+        <div class="section">
+            <h1 class="section__title">
+                Активные проекты (всего {projects.length})
+            </h1>
+        </div>
+        <div class="section">
+            <h1 class="section__title">
+                Последние посты (всего {posts.length})
+            </h1>
+        </div>
+    </main>
 </MainLayout>
