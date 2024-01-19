@@ -1,4 +1,4 @@
-type Social = {
+export type Social = {
   icon: string;
   label: string;
   link: string;
