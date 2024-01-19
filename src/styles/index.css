@@ -1,3 +1,27 @@
+main {
+    @apply mx-8 flex flex-col gap-20;
+}
+
 .cover {
-  @apply flex flex-col items-center justify-between md:flex-row;
+    @apply flex flex-col items-center justify-between md:flex-row;
+
+    &__text {
+        @apply flex flex-col gap-8;
+    }
+
+    &__title {
+        @apply text-3xl;
+    }
+
+    &__description {
+        @apply max-w-[60ch] leading-6;
+    }
+
+    &__avatar {
+        @apply hidden md:flex;
+
+        &-image {
+            @apply w-40 rounded-full;
+        }
+    }
 }

@@ -1,5 +1,37 @@
 ---
 import MainLayout from "@/layouts/MainLayout.astro";
+import presentation from "@/data/presentation";
+import convertAsteriskToStrongTag from "@/utils/convertAsteriskToStrongTag";
+import Image from "@/components/Image.astro";
+import avatar from "@/assets/avatar.jpg";
+import SocialLinks from "@/components/social-links/SocialLinks.astro";
 ---
 
-<MainLayout></MainLayout>
+<MainLayout>
+  <main>
+    <div class="cover">
+      <div class="cover__text">
+        <h1 class="cover__title">{presentation.title}</h1>
+        {
+          presentation.description.map((line) => (
+            <p
+              class="cover__description"
+              set:html={convertAsteriskToStrongTag(line)}
+            />
+          ))
+        }
+
+        <h1 class="cover__title">Контакты</h1>
+        <SocialLinks socials={presentation.socials}/>
+      </div>
+      <div class="cover__avatar">
+        <Image
+          src={avatar}
+          class="cover__avatar-image"
+          withCaption={false}
+          alt="Аватар"
+        />
+      </div>
+    </div>
+  </main>
+</MainLayout>
