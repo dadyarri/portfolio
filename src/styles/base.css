@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-  @apply mx-auto flex min-h-screen flex-col lg:max-w-[1300px];
+    @apply mx-auto flex min-h-screen flex-col px-10 py-8 text-black md:gap-20 md:py-16 lg:max-w-[1300px] dark:bg-neutral-950 dark:text-neutral-400;
 }

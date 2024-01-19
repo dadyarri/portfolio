@@ -15,3 +15,7 @@ pre {
     font-family: 'JetBrains Mono', monospace;
     font-style: normal;
 }
+
+::selection {
+    @apply dark:bg-slate-100 dark:text-neutral-700 bg-neutral-700 text-slate-100
+  }
