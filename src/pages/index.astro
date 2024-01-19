@@ -75,15 +75,16 @@ const projects = await getCollection("projects");
     <article class="flex flex-col gap-8">
       <header class="flex w-full flex-row justify-between gap-2">
         <h3 class="text-lg dark:text-neutral-100">
-          Пет-проекты ({projects.length})
+          Активные пет-проекты (всего {projects.length})
         </h3>
+        <Link href="/posts" label="Все проекты" isUnderline={true} target="_self"/>
       </header>
       {projects.length === 0 && <p>Oops, I must work^^^^^</p>}
 
       <section class="flex flex-col gap-4">
         {
           projects.length !== 0 &&
-            projects.map((project) => <ProjectCard {...project.data} slug={project.slug} />)
+            projects.map((project) => !project.data.deprecated && <ProjectCard {...project.data} slug={project.slug} />)
         }
       </section>
     </article>
