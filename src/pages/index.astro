@@ -7,6 +7,7 @@ import Image from '@/components/Image.astro';
 import avatar from '@/assets/avatar.jpg';
 import SocialLinks from '@/components/social-links/SocialLinks.astro';
 import { Icon } from 'astro-icon/components';
+import Link from '@/components/shared/link/Link.astro';
 
 const posts = (await getCollection('posts'))
     .filter((p) => p.data.isPublish)
@@ -46,15 +47,26 @@ const projects = await getCollection('projects');
             <h1 class="section__title">
                 Активные проекты (всего {projects.length})
             </h1>
+            <Link
+                href="/projects"
+                label="Все проекты"
+                isUnderline={true}
+                target="_self"
+            />
         </div>
         <div class="section">
             <h1 class="section__title">
                 Последние посты (всего {posts.length})
                 <a href="/rss.xml">
-                  <Icon name="mdi:rss-box" class="w-8" />
+                    <Icon name="mdi:rss-box" class="w-8" title="rss" />
                 </a>
             </h1>
-            
+            <Link
+                href="/posts"
+                label="Все публикации"
+                isUnderline={true}
+                target="_self"
+            />
         </div>
     </main>
 </MainLayout>
