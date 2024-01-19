@@ -12,6 +12,9 @@
   "dependencies": {
     "@astrojs/check": "^0.4.1",
     "@astrojs/tailwind": "^5.1.0",
+    "@fontsource/jetbrains-mono": "^5.0.18",
+    "@fontsource/montserrat": "^5.0.16",
+    "@fontsource/nunito-sans": "^5.0.8",
     "@iconify-json/mdi": "^1.1.64",
     "astro": "^4.2.1",
     "astro-icon": "^1.0.2",

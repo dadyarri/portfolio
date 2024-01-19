@@ -1,0 +1,17 @@
+html {
+    font-family: 'Nunito Sans', serif;
+    font-style: italic;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Montserrat', sans-serif;
+}
+code,
+pre {
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+}
