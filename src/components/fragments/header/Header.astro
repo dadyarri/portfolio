@@ -3,6 +3,7 @@ import presentation from '@/data/presentation';
 import removeTrailingSlash from '@/utils/removeTrailingSlash';
 import './styles.css';
 import destinations from './destinations';
+import { Icon } from 'astro-icon/components';
 
 const pathname = removeTrailingSlash(Astro.url.pathname);
 ---
@@ -26,6 +27,7 @@ const pathname = removeTrailingSlash(Astro.url.pathname);
                                         pathname === item.href,
                                 }}
                             >
+                                <Icon name={item.icon}/>
                                 {item.label}
                             </a>
                         </li>

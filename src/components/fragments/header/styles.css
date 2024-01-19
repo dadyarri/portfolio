@@ -2,7 +2,7 @@
     @apply sticky top-0 z-40 flex w-full flex-col gap-2 rounded-b-md p-5 transition-all duration-300 ease-in-out md:flex-row md:justify-between;
 
     &__mail-link {
-        @apply hover:text-orange-500 hover:dark:text-neutral-100 dark:text-neutral-100;
+        @apply hover:text-orange-500 dark:text-neutral-100 hover:dark:text-neutral-100;
     }
 
     &__navigation {
@@ -10,14 +10,14 @@
     }
 
     &-active {
-        @apply bg-neutral-50 dark:bg-neutral-800
+        @apply bg-neutral-50 dark:bg-neutral-800;
     }
 }
 
 .navigation__item {
-    @apply transition duration-300 hover:text-orange-500 hover:dark:text-neutral-100 dark:text-neutral-100;
+    @apply flex items-center gap-2 transition duration-300 hover:text-orange-500 dark:text-neutral-100 hover:dark:text-neutral-100;
 
     &-active {
-        @apply text-orange-500
+        @apply text-orange-500;
     }
 }
