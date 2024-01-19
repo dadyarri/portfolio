@@ -1,6 +1,6 @@
 ---
 import formatDate from "@/utils/formatDate";
-import ExternalLink from "./shared/ExternalLink.astro";
+import ExternalLinkIcon from "./shared/ExternalLinkIcon.astro";
 import type { Post } from "@/data/posts";
 
 type Props = Post;
@@ -28,7 +28,7 @@ const { title, publishedAt, description, slug, tags } = Astro.props;
     <div class="flex flex-row items-center gap-4">
       <p>{formatDate(publishedAt)}</p>
 
-      <ExternalLink/>
+      <ExternalLinkIcon/>
     </div>
   </div>
 
