@@ -1,0 +1,7 @@
+.link {
+    @apply cursor-pointer hover:text-orange-500 hover:underline hover:dark:text-neutral-100;
+
+    &-underlined {
+        @apply underline decoration-dashed underline-offset-8;
+    }
+}
