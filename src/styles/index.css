@@ -1,0 +1,3 @@
+.cover {
+  @apply flex flex-col items-center justify-between md:flex-row;
+}
