@@ -1,12 +1,28 @@
 ---
-import Header from "@/components/fragments/Header.astro"
+import Header from "@/components/fragments/Header.astro";
+import SeoTags from "@/components/seo/SeoTags.astro";
+
+type Props = {
+  slug?: string;
+  title?: string;
+  type?: string;
+  description?: string;
+};
+
+const { title, slug, type, description } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="ru">
-    <head> </head>
-    <body>
-        <Header/>
-        <slot/>
-    </body>
+  <head>
+    <SeoTags
+      title={title}
+      og={{ image: `/${type}s/${slug}/og-image.png` }}
+      description={description}
+    />
+  </head>
+  <body>
+    <Header />
+    <slot />
+  </body>
 </html>

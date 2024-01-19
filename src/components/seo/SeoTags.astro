@@ -1,0 +1,76 @@
+---
+import { SEO } from "astro-seo";
+import { SITE_URL } from "@/data/config";
+
+type Props = {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  og?: {
+    title?: string;
+    type?: string;
+    description?: string;
+    image?: string;
+    alt?: string;
+  };
+};
+
+const { title, description, noindex, og } = Astro.props;
+
+const DEFAULT_TITLE_PAGE = "Личный блог dadyarri";
+const DEFAULT_DESCRIPTION_PAGE =
+  "Сайт-портфолио и блог dadyarri";
+const DEFAULT_URL_SITE = SITE_URL;
+
+const openGraph = {
+  title: title || og?.title || DEFAULT_TITLE_PAGE,
+  type: og?.type || "article",
+  image: og?.image || "/opengraph-image.jpg",
+  alt: og?.alt || "dadyarri website",
+  url: DEFAULT_URL_SITE,
+  description: description || og?.description || DEFAULT_DESCRIPTION_PAGE,
+};
+---
+
+<>
+  <SEO
+    charset="UTF-8"
+    title={title || DEFAULT_TITLE_PAGE}
+    description={openGraph.description}
+    noindex={noindex || false}
+    openGraph={{
+      basic: {
+        title: openGraph.title,
+        type: openGraph.type,
+        image: openGraph.image
+      },
+      optional: {
+        description: openGraph.description
+      },
+      image: {
+        alt: openGraph.alt,
+      },
+    }}
+    twitter={{
+      creator: "@dadyarri",
+    }}
+    extend={{
+      link: [
+        { rel: "icon", href: "/favicon.svg" },
+        { rel: "sitemap", href: "/sitemap-index.xml" },
+      ],
+      meta: [
+        { name: "viewport", content: "width=device-width, initial-scale=1" },
+        { name: "generator", content: Astro.generator },
+        {
+          name: "twitter:image",
+          content: openGraph.image,
+        },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: openGraph.title },
+        { name: "twitter:description", content: openGraph.description },
+        { name: "twitter:site", content: "@dadyarri" },
+      ],
+    }}
+  />
+</>
