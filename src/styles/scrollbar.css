@@ -1,0 +1,11 @@
+::-webkit-scrollbar { 
+    @apply w-2;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-gray-600 rounded-sm;
+} 
+
+::-webkit-scrollbar-thumb:hover { 
+    @apply bg-gray-500;
+}
