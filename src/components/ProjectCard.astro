@@ -1,6 +1,6 @@
 ---
-import type { Project } from "@/data/projects";
-import ExternalLink from "./shared/ExternalLinkIcon.astro";
+import type { Project } from "@/utils/types/content";
+import ExternalLinkIcon from "./shared/ExternalLinkIcon.astro";
 
 type Props = Project;
 
@@ -81,7 +81,7 @@ const { slug, title, description, tags, subpage, deprecated } = Astro.props;
           <p class="w-fit rounded-md dark:bg-neutral-900 bg-neutral-200 px-4 py-1">
             Архив
           </p>
-          <ExternalLink />
+          <ExternalLinkIcon />
         </div>
       </a>
     )
@@ -108,7 +108,7 @@ const { slug, title, description, tags, subpage, deprecated } = Astro.props;
           <p>{description}</p>
         </div>
 
-        <ExternalLink />
+        <ExternalLinkIcon />
       </a>
     )
   }
