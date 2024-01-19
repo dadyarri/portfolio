@@ -1,14 +1,9 @@
 ---
 import formatDate from "@/utils/formatDate";
 import ExternalLink from "./shared/ExternalLink.astro";
+import type { Post } from "@/data/posts";
 
-type Props = {
-  title: string;
-  publishedAt: Date;
-  description: string;
-  slug: string;
-  tags: string[];
-};
+type Props = Post;
 
 const { title, publishedAt, description, slug, tags } = Astro.props;
 ---

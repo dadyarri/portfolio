@@ -20,7 +20,7 @@ const posts = (await getCollection("posts"))
     <article class="flex flex-col gap-4">
       {
         posts.map((post) => post.data.isPublish && (
-          <PostCard title={post.data.title} publishedAt={post.data.publishedAt} description={post.data.description} slug={post.slug} tags={post.data.tags}/>
+          <PostCard {...post.data} slug={post.slug}/>
         ))
       }
     </article>
