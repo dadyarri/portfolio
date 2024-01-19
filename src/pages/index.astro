@@ -9,29 +9,35 @@ import SocialLinks from "@/components/social-links/SocialLinks.astro";
 
 <MainLayout>
   <main>
-    <div class="cover">
-      <div class="cover__text">
-        <h1 class="cover__title">{presentation.title}</h1>
+    <div class="section">
+      <div class="section__text">
+        <h1 class="section__title">{presentation.title}</h1>
         {
           presentation.description.map((line) => (
             <p
-              class="cover__description"
+              class="section__description"
               set:html={convertAsteriskToStrongTag(line)}
             />
           ))
         }
 
-        <h1 class="cover__title">Контакты</h1>
+        <h1 class="section__title">Контакты</h1>
         <SocialLinks socials={presentation.socials}/>
       </div>
-      <div class="cover__avatar">
+      <div class="section__avatar">
         <Image
           src={avatar}
-          class="cover__avatar-image"
+          class="section__avatar-image"
           withCaption={false}
           alt="Аватар"
         />
       </div>
+    </div>
+    <div class="section">
+      <h1 class="section__title">Активные проекты</h1>
+    </div>
+    <div class="section">
+      <h1 class="section__title">Последние посты</h1>
     </div>
   </main>
 </MainLayout>

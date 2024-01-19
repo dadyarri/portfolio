@@ -2,7 +2,7 @@ main {
     @apply mx-8 flex flex-col gap-20;
 }
 
-.cover {
+.section {
     @apply flex flex-col items-center justify-between md:flex-row;
 
     &__text {
