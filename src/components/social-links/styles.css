@@ -1,0 +1,15 @@
+.socials {
+    @apply flex flex-col gap-2 md:flex-row;
+
+    &__item {
+        @apply flex flex-row gap-1 items-center;
+
+        &-icon {
+          @apply w-6
+        }
+    }
+
+    &__divider {
+        @apply hidden md:inline-block;
+    }
+}
