@@ -12,7 +12,7 @@ import presentation from "@/data/presentation";
 import Icon from "astro-icon";
 import Image from "@/components/Image.astro";
 
-import avatar from "../assets/avatar.jpg"
+import avatar from "../assets/avatar.jpg";
 
 const posts = (await getCollection("posts"))
   .filter((p) => p.data.isPublish)
@@ -25,32 +25,45 @@ const projects = await getCollection("projects");
     <div class="flex flex-col md:flex-row justify-between items-center">
       <article class="flex flex-col gap-8">
         <h1 class="text-3xl dark:text-neutral-100">{presentation.title}</h1>
-        <h2
-          class="max-w-[60ch] leading-6"
-          set:html={convertAsteriskToStrongTag(presentation.description)}
-        />
-
-        <p set:html={convertAsteriskToStrongTag("Работаю *бэкенд-разработчиком (.NET)* в ГК «Системы и технологии»")}></p>
-
+        {
+          presentation.description.map((line) => (
+            <p
+              class="max-w-[60ch] leading-6"
+              set:html={convertAsteriskToStrongTag(line)}
+            />
+          ))
+        }
 
         <h2 class="text-xl">Контакты</h2>
 
         <SocialLinks />
       </article>
       <article class="hidden md:flex">
-        <Image src={avatar} class="w-40 rounded-full" withCaption={false} alt="Аватар" />
+        <Image
+          src={avatar}
+          class="w-40 rounded-full"
+          withCaption={false}
+          alt="Аватар"
+        />
       </article>
     </div>
 
     <article class="flex flex-col gap-8">
       <header class="flex-col flex w-full md:flex-row md:justify-between gap-2">
         <div class="flex gap-2 items-center">
-          <h3 class="text-lg dark:text-neutral-100">Последние публикации (всего {posts.length})</h3>
+          <h3 class="text-lg dark:text-neutral-100">
+            Последние публикации (всего {posts.length})
+          </h3>
           <a href="/rss.xml">
             <Icon name="mdi:rss-box" class="w-6" />
           </a>
         </div>
-        <Link href="/posts" label="Все публикации" isUnderline={true} target="_self"/>
+        <Link
+          href="/posts"
+          label="Все публикации"
+          isUnderline={true}
+          target="_self"
+        />
       </header>
       {posts.length === 0 && <p>Soon, stay connected 👀...</p>}
 
@@ -59,12 +72,7 @@ const projects = await getCollection("projects");
           posts.length !== 0 &&
             posts
               .slice(0, 2)
-              .map((post) => (
-                <PostCard
-                  {...post.data}
-                  slug={post.slug}
-                />
-              ))
+              .map((post) => <PostCard {...post.data} slug={post.slug} />)
         }
       </section>
     </article>
@@ -74,14 +82,24 @@ const projects = await getCollection("projects");
         <h3 class="text-lg dark:text-neutral-100">
           Активные пет-проекты (всего {projects.length})
         </h3>
-        <Link href="/posts" label="Все проекты" isUnderline={true} target="_self"/>
+        <Link
+          href="/posts"
+          label="Все проекты"
+          isUnderline={true}
+          target="_self"
+        />
       </header>
       {projects.length === 0 && <p>Oops, I must work^^^^^</p>}
 
       <section class="flex flex-col gap-4">
         {
           projects.length !== 0 &&
-            projects.map((project) => !project.data.deprecated && <ProjectCard {...project.data} slug={project.slug} />)
+            projects.map(
+              (project) =>
+                !project.data.deprecated && (
+                  <ProjectCard {...project.data} slug={project.slug} />
+                ),
+            )
         }
       </section>
     </article>

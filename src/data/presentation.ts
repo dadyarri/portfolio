@@ -7,15 +7,17 @@ type Social = {
 type Presentation = {
   mail: string;
   title: string;
-  description: string;
+  description: string[];
   socials: Social[];
 };
 
 const presentation: Presentation = {
   mail: "me@dadyarri.ru",
   title: "Салют, я Даниил 👋",
-  description:
+  description: [
     "Бэкенд-разработчик из России *с двухлетним опытом*. Сейчас я изучаю *ASP.NET* и *Jetpack Compose*",
+    "Работаю *бэкенд-разработчиком (.NET)* в ГК «Системы и технологии»"
+  ],
   socials: [
     {
       icon: "mdi:github",
