@@ -10,7 +10,7 @@ main {
     }
 
     &__title {
-        @apply text-3xl;
+        @apply text-3xl flex gap-4 items-center;
     }
 
     &__description {

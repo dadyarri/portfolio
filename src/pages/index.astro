@@ -6,6 +6,7 @@ import convertAsteriskToStrongTag from '@/utils/convertAsteriskToStrongTag';
 import Image from '@/components/Image.astro';
 import avatar from '@/assets/avatar.jpg';
 import SocialLinks from '@/components/social-links/SocialLinks.astro';
+import { Icon } from 'astro-icon/components';
 
 const posts = (await getCollection('posts'))
     .filter((p) => p.data.isPublish)
@@ -49,7 +50,11 @@ const projects = await getCollection('projects');
         <div class="section">
             <h1 class="section__title">
                 Последние посты (всего {posts.length})
+                <a href="/rss.xml">
+                  <Icon name="mdi:rss-box" class="w-8" />
+                </a>
             </h1>
+            
         </div>
     </main>
 </MainLayout>
