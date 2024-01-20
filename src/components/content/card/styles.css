@@ -1,20 +1,24 @@
 .content-card {
-    @apply flex cursor-pointer flex-row items-center justify-between gap-2 rounded-md border border-neutral-700 p-4 transition-all duration-300 hover:-translate-y-2 hover:border-neutral-400;
+    @apply flex cursor-pointer flex-col md:flex-row md:items-center justify-between gap-2 rounded-md border border-neutral-700 p-4 transition-all duration-300 hover:-translate-y-2 hover:border-neutral-400;
 
     &__text {
         @apply flex flex-col gap-2;
     }
 
     &__header {
-        @apply flex flex-row items-center gap-2;
+        @apply flex flex-col md:flex-row md:items-center gap-2;
     }
 
     &__title {
         @apply text-lg;
     }
 
+    &__tags {
+        @apply flex flex-wrap md:flex-row gap-2
+    }
+
     &__tag {
-        @apply mx-1 flex items-center gap-1 rounded-md bg-neutral-100 p-1 text-[0.8rem] dark:bg-neutral-800 dark:text-neutral-50;
+        @apply w-fit mx-1 flex items-center gap-1 rounded-md bg-neutral-100 p-1 text-[0.8rem] dark:bg-neutral-800 dark:text-neutral-50;
     }
 
     &__context {

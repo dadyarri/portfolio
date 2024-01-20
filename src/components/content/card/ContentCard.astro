@@ -16,17 +16,19 @@ const type = publishedAt ? 'post' : 'project';
     <div class="content-card__text">
         <div class="content-card__header">
             <p class="content-card__title">{title}</p>
-            {
-                tags.map((tag) => {
-                    let t = getTagDefinition(tag);
-                    return (
-                        <span class="content-card__tag">
-                            {t.icon && <Icon name={t.icon} />}
-                            {t.label}
-                        </span>
-                    );
-                })
-            }
+            <div class="content-card__tags">
+                {
+                    tags.map((tag) => {
+                        let t = getTagDefinition(tag);
+                        return (
+                            <span class="content-card__tag">
+                                {t.icon && <Icon name={t.icon} />}
+                                {t.label}
+                            </span>
+                        );
+                    })
+                }
+            </div>
         </div>
         <p>{description}</p>
     </div>
