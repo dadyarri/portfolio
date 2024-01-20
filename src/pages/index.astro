@@ -10,7 +10,7 @@ import { Icon } from 'astro-icon/components';
 import Link from '@/components/shared/link/Link.astro';
 
 const posts = (await getCollection('posts'))
-    .filter((p) => p.data.isPublish)
+    .filter((p) => p.data.published)
     .sort(
         (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
     );
