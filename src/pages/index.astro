@@ -8,6 +8,7 @@ import avatar from '@/assets/avatar.jpg';
 import SocialLinks from '@/components/social-links/SocialLinks.astro';
 import { Icon } from 'astro-icon/components';
 import Link from '@/components/shared/link/Link.astro';
+import ContentCard from "@/components/content/card/ContentCard.astro";
 
 const posts = (await getCollection('posts'))
     .filter((p) => p.data.published)
@@ -60,8 +61,7 @@ const projects = await getCollection('projects');
                     projects.map(
                         (project) =>
                             !project.data.deprecated && (
-                                <li>{project.data.title}</li>
-                                //   <ProjectCard {...project.data} slug={project.slug} />
+                                <ContentCard {...project.data} slug={project.slug}/>
                             ),
                     )
                 }
