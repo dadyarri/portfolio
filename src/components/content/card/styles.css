@@ -17,10 +17,6 @@
         @apply flex flex-wrap md:flex-row gap-2
     }
 
-    &__tag {
-        @apply w-fit mx-1 flex items-center gap-1 rounded-md bg-neutral-100 p-1 text-[0.8rem] dark:bg-neutral-800 dark:text-neutral-50;
-    }
-
     &__context {
         @apply flex;
     }
