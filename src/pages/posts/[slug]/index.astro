@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import ContentTag from '@/components/content/tag/ContentTag.astro';
 import formatDate from '@/utils/formatDate';
+import { Icon } from 'astro-icon/components';
 
 export async function getStaticPaths() {
     const posts = await getCollection('posts');
@@ -31,8 +32,23 @@ const { Content } = await post.render();
     <div class="page">
         <div class="page__header">
             <h1 class="header__title">{post.data.title}</h1>
-            <p>{formatDate(post.data.publishedAt)}</p>
+            <div class="header__info">
+                <Icon name="mdi:calendar" />
+                <span>{formatDate(post.data.publishedAt)}</span>
+                <span>|</span>
+                <Icon name="mdi:clock"/>
+                <span></span>
+            </div>
+            {
+                post.data.source && (
+                    <div class="header__info">
+                        <Icon name="mdi:link" class="w-5" />
+                        <a href={post.data.source}>Источник</a>
+                    </div>
+                )
+            }
             <div class="header__tags">
+                <Icon name="mdi:tag" />
                 {post.data.tags.map((tag) => <ContentTag tag={tag} />)}
             </div>
         </div>

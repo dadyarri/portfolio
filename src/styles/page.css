@@ -5,6 +5,10 @@
         @apply flex flex-col items-center gap-2;
     }
 
+    &__content {
+        @apply flex flex-col gap-3 w-full;
+    }
+
     & h1 {
         @apply py-3 text-2xl;
     }
@@ -73,6 +77,10 @@
     }
 
     &__tags {
-        @apply flex flex-wrap gap-2 md:flex-row;
+        @apply flex flex-wrap gap-2 md:flex-row items-center;
+    }
+
+    &__info {
+        @apply flex flex-row items-center gap-2;
     }
 }
