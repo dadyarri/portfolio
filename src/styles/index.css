@@ -22,7 +22,7 @@ main {
     @apply flex flex-col justify-between;
 
     &__header {
-        @apply flex flex-col items-center justify-between md:flex-row mb-5;
+        @apply mb-5 flex flex-col justify-between gap-2 md:flex-row md:items-center;
     }
 
     &__title {
