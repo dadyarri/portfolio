@@ -1,0 +1,26 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+import ContentCard from '@/components/content/card/ContentCard.astro';
+
+const posts = (await getCollection('posts'))
+    .filter((p) => p.data.published)
+    .sort(
+        (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+    );
+---
+
+<MainLayout>
+    <div class="section">
+        <div class="section__header">
+            <h1 class="section__title">Посты</h1>
+        </div>
+        <div class="section__content">
+            {
+                posts.map((post) => (
+                    <ContentCard {...post.data} slug={post.slug} />
+                ))
+            }
+        </div>
+    </div>
+</MainLayout>
