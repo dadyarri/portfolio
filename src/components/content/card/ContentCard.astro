@@ -1,0 +1,34 @@
+---
+import { Icon } from 'astro-icon/components';
+import './styles.css';
+import getTagDefinition from '@/utils/getTagDefinition';
+import formatDate from '@/utils/formatDate';
+import type { Post, Project } from '@/utils/types/content';
+
+type Props = Post & Project;
+
+const { title, description, publishedAt, tags, slug } = Astro.props;
+
+const type = publishedAt ? 'post' : 'project';
+---
+
+<a class="content-card" href=`/${type}s/${slug}`>
+    <div class="content-card__text">
+        <div class="content-card__header">
+            <p class="content-card__title">{title}</p>
+            {
+                tags.map((tag) => {
+                    let t = getTagDefinition(tag);
+                    return (
+                        <span class="content-card__tag">
+                            {t.icon && <Icon name={t.icon} />}
+                            {t.label}
+                        </span>
+                    );
+                })
+            }
+        </div>
+        <p>{description}</p>
+    </div>
+    {publishedAt && <div class="content-card__date">{formatDate(publishedAt)}</div>}
+</a>
