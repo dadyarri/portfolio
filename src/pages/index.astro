@@ -8,7 +8,7 @@ import avatar from '@/assets/avatar.jpg';
 import SocialLinks from '@/components/social-links/SocialLinks.astro';
 import { Icon } from 'astro-icon/components';
 import Link from '@/components/shared/link/Link.astro';
-import ContentCard from "@/components/content/card/ContentCard.astro";
+import ContentCard from '@/components/content/card/ContentCard.astro';
 
 const posts = (await getCollection('posts'))
     .filter((p) => p.data.published)
@@ -19,78 +19,79 @@ const projects = await getCollection('projects');
 ---
 
 <MainLayout>
-    <main>
-        <div class="hero">
-            <div class="hero__text">
-                <h1 class="section__title">{presentation.title}</h1>
-                {
-                    presentation.description.map((line) => (
-                        <p
-                            class="section__description"
-                            set:html={convertAsteriskToStrongTag(line)}
-                        />
-                    ))
-                }
+    <div class="hero">
+        <div class="hero__text">
+            <h1 class="section__title">{presentation.title}</h1>
+            {
+                presentation.description.map((line) => (
+                    <p
+                        class="section__description"
+                        set:html={convertAsteriskToStrongTag(line)}
+                    />
+                ))
+            }
 
-                <h1 class="section__title">Контакты</h1>
-                <SocialLinks socials={presentation.socials} />
-            </div>
-            <div class="hero__avatar">
-                <Image
-                    src={avatar}
-                    class="hero__avatar-image"
-                    withCaption={false}
-                    alt="Аватар"
-                />
-            </div>
+            <h1 class="section__title">Контакты</h1>
+            <SocialLinks socials={presentation.socials} />
         </div>
-        <div class="section">
-            <div class="section__header">
-                <h1 class="section__title">
-                    Активные проекты (всего {projects.length})
-                </h1>
-                <Link
-                    href="/projects"
-                    label="Все проекты"
-                    isUnderline={true}
-                    target="_self"
-                />
-            </div>
-            <div class="section__content">
-                {
-                    projects.map(
-                        (project) =>
-                            !project.data.deprecated && (
-                                <ContentCard {...project.data} slug={project.slug}/>
-                            ),
-                    )
-                }
-            </div>
+        <div class="hero__avatar">
+            <Image
+                src={avatar}
+                class="hero__avatar-image"
+                withCaption={false}
+                alt="Аватар"
+            />
         </div>
-        <div class="section">
-            <div class="section__header">
-                <h1 class="section__title">
-                    Последние посты (всего {posts.length})
-                    <a href="/rss.xml">
-                        <Icon name="mdi:rss-box" class="w-8" title="rss" />
-                    </a>
-                </h1>
-                <Link
-                    href="/posts"
-                    label="Все публикации"
-                    isUnderline={true}
-                    target="_self"
-                />
-            </div>
-            <div class="section__content">
-                {
-                    posts
-                        .slice(0, 2)
-                        .map((post) => (
-                            <ContentCard {...post.data} slug={post.slug}/>
-                        ))
-                }
-            </div>
+    </div>
+    <div class="section">
+        <div class="section__header">
+            <h1 class="section__title">
+                Активные проекты (всего {projects.length})
+            </h1>
+            <Link
+                href="/projects"
+                label="Все проекты"
+                isUnderline={true}
+                target="_self"
+            />
         </div>
-    </main>
+        <div class="section__content">
+            {
+                projects.map(
+                    (project) =>
+                        !project.data.deprecated && (
+                            <ContentCard
+                                {...project.data}
+                                slug={project.slug}
+                            />
+                        ),
+                )
+            }
+        </div>
+    </div>
+    <div class="section">
+        <div class="section__header">
+            <h1 class="section__title">
+                Последние посты (всего {posts.length})
+                <a href="/rss.xml">
+                    <Icon name="mdi:rss-box" class="w-8" title="rss" />
+                </a>
+            </h1>
+            <Link
+                href="/posts"
+                label="Все публикации"
+                isUnderline={true}
+                target="_self"
+            />
+        </div>
+        <div class="section__content">
+            {
+                posts
+                    .slice(0, 2)
+                    .map((post) => (
+                        <ContentCard {...post.data} slug={post.slug} />
+                    ))
+            }
+        </div>
+    </div>
 </MainLayout>
