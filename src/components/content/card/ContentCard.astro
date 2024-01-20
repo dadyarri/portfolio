@@ -7,7 +7,7 @@ import type { Post, Project } from '@/utils/types/content';
 
 type Props = Post & Project;
 
-const { title, description, publishedAt, tags, slug } = Astro.props;
+const { title, description, publishedAt, tags, slug, deprecated } = Astro.props;
 
 const type = publishedAt ? 'post' : 'project';
 ---
@@ -30,5 +30,16 @@ const type = publishedAt ? 'post' : 'project';
         </div>
         <p>{description}</p>
     </div>
-    {publishedAt && <div class="content-card__date">{formatDate(publishedAt)}</div>}
+    {
+        publishedAt && (
+            <div class="content-card__context">{formatDate(publishedAt)}</div>
+        )
+    }
+    {
+        deprecated && (
+            <div class="content-card__context">
+                <p class="content-card__archive-tag">Архив</p>
+            </div>
+        )
+    }
 </a>
