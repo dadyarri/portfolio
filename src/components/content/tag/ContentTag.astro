@@ -1,0 +1,15 @@
+---
+import type {Tag} from "@/data/tags";
+import {Icon} from "astro-icon/components";
+import "./styles.css"
+
+type Props = {
+    tag: Tag;
+};
+const {tag} = Astro.props;
+---
+
+<span class="tag">
+    {tag.icon && <Icon name={tag.icon} />}
+    {tag.label}
+</span>
