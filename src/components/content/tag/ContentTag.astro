@@ -1,15 +1,16 @@
 ---
-import type {Tag} from "@/data/tags";
 import {Icon} from "astro-icon/components";
 import "./styles.css"
+import getTagDefinition from "@/utils/getTagDefinition";
 
 type Props = {
-    tag: Tag;
+    tag: string;
 };
 const {tag} = Astro.props;
+const tagInfo = getTagDefinition(tag);
 ---
 
 <span class="tag">
-    {tag.icon && <Icon name={tag.icon} />}
-    {tag.label}
+    {tagInfo.icon && <Icon name={tagInfo.icon} />}
+    {tagInfo.label}
 </span>

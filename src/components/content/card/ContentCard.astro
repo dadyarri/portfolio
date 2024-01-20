@@ -3,7 +3,7 @@ import './styles.css';
 import getTagDefinition from '@/utils/getTagDefinition';
 import formatDate from '@/utils/formatDate';
 import type { Post, Project } from '@/utils/types/content';
-import ContentTag from "@/components/content/tag/ContentTag.astro";
+import ContentTag from '@/components/content/tag/ContentTag.astro';
 
 type Props = Post & Project;
 
@@ -17,14 +17,7 @@ const type = publishedAt ? 'post' : 'project';
         <div class="content-card__header">
             <p class="content-card__title">{title}</p>
             <div class="content-card__tags">
-                {
-                    tags.map((tag) => {
-                        let t = getTagDefinition(tag);
-                        return (
-                            <ContentTag tag={t}/>
-                        );
-                    })
-                }
+                {tags.map((tag) => <ContentTag tag={tag} />)}
             </div>
         </div>
         <p>{description}</p>

@@ -1,0 +1,41 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import getTagDefinition from '@/utils/getTagDefinition';
+import ContentTag from '@/components/content/tag/ContentTag.astro';
+
+export async function getStaticPaths() {
+    const projects = await getCollection('projects');
+
+    return projects.map((project) => ({
+        params: { slug: project.slug },
+        props: { project },
+    }));
+}
+
+type Props = {
+    project: CollectionEntry<'projects'>;
+};
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<MainLayout
+    title={project.data.title}
+    type="project"
+    slug={project.slug}
+    description={project.data.description}
+>
+    <div class="section">
+        <div class="section__header">
+            <h1 class="section__title">{project.data.title}</h1>
+            {
+                project.data.tags.map((tag) => {
+                    <ContentTag tag={tag} />;
+                })
+            }
+        </div>
+    </div>
+</MainLayout>
