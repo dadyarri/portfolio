@@ -31,7 +31,7 @@ const pathname = removeTrailingSlash(Astro.url.pathname);
                                 {item.label}
                             </a>
                         </li>
-                        {ind != destinations.length - 1 && <li>/</li>}
+                        {ind != destinations.length - 1 && <li class="navigation__divider">/</li>}
                     </>
                 ))
             }
