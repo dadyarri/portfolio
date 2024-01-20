@@ -87,8 +87,7 @@ const projects = await getCollection('projects');
                     posts
                         .slice(0, 2)
                         .map((post) => (
-                            // <PostCard {...post.data} slug={post.slug} />
-                            <li>{post.data.title}</li>
+                            <ContentCard {...post.data} slug={post.slug}/>
                         ))
                 }
             </div>
