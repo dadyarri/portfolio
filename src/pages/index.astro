@@ -19,8 +19,8 @@ const projects = await getCollection('projects');
 
 <MainLayout>
     <main>
-        <div class="section">
-            <div class="section__text">
+        <div class="hero">
+            <div class="hero__text">
                 <h1 class="section__title">{presentation.title}</h1>
                 {
                     presentation.description.map((line) => (
@@ -34,39 +34,64 @@ const projects = await getCollection('projects');
                 <h1 class="section__title">Контакты</h1>
                 <SocialLinks socials={presentation.socials} />
             </div>
-            <div class="section__avatar">
+            <div class="hero__avatar">
                 <Image
                     src={avatar}
-                    class="section__avatar-image"
+                    class="hero__avatar-image"
                     withCaption={false}
                     alt="Аватар"
                 />
             </div>
         </div>
         <div class="section">
-            <h1 class="section__title">
-                Активные проекты (всего {projects.length})
-            </h1>
-            <Link
-                href="/projects"
-                label="Все проекты"
-                isUnderline={true}
-                target="_self"
-            />
+            <div class="section__header">
+                <h1 class="section__title">
+                    Активные проекты (всего {projects.length})
+                </h1>
+                <Link
+                    href="/projects"
+                    label="Все проекты"
+                    isUnderline={true}
+                    target="_self"
+                />
+            </div>
+            <div class="section__content">
+                {
+                    projects.map(
+                        (project) =>
+                            !project.data.deprecated && (
+                                <li>{project.data.title}</li>
+                                //   <ProjectCard {...project.data} slug={project.slug} />
+                            ),
+                    )
+                }
+            </div>
         </div>
         <div class="section">
-            <h1 class="section__title">
-                Последние посты (всего {posts.length})
-                <a href="/rss.xml">
-                    <Icon name="mdi:rss-box" class="w-8" title="rss" />
-                </a>
-            </h1>
-            <Link
-                href="/posts"
-                label="Все публикации"
-                isUnderline={true}
-                target="_self"
-            />
+            <div class="section__header">
+                <h1 class="section__title">
+                    Последние посты (всего {posts.length})
+                    <a href="/rss.xml">
+                        <Icon name="mdi:rss-box" class="w-8" title="rss" />
+                    </a>
+                </h1>
+                <Link
+                    href="/posts"
+                    label="Все публикации"
+                    isUnderline={true}
+                    target="_self"
+                />
+            </div>
+            <div class="section__content">
+                {
+                    posts
+                        .slice(0, 2)
+                        .map((post) => (
+                            // <PostCard {...post.data} slug={post.slug} />
+                            <li>{post.data.title}</li>
+                        ))
+                }
+            </div>
         </div>
     </main>
 </MainLayout>

@@ -2,19 +2,11 @@ main {
     @apply mx-8 flex flex-col gap-20;
 }
 
-.section {
+.hero {
     @apply flex flex-col items-center justify-between md:flex-row;
 
     &__text {
         @apply flex flex-col gap-8;
-    }
-
-    &__title {
-        @apply text-3xl flex gap-4 items-center;
-    }
-
-    &__description {
-        @apply max-w-[60ch] leading-6;
     }
 
     &__avatar {
@@ -23,5 +15,25 @@ main {
         &-image {
             @apply w-40 rounded-full;
         }
+    }
+}
+
+.section {
+    @apply flex flex-col justify-between;
+
+    &__header {
+        @apply flex flex-col items-center justify-between md:flex-row mb-5;
+    }
+
+    &__title {
+        @apply flex items-center gap-4 text-3xl;
+    }
+
+    &__description {
+        @apply max-w-[60ch] leading-6;
+    }
+
+    &__content {
+        @apply flex flex-col gap-4;
     }
 }
