@@ -1,4 +1,4 @@
-type Tag = {
+export type Tag = {
     id: string,
     label: string,
     icon?: string
@@ -11,9 +11,14 @@ export default [
         icon: "mdi:file-document"
     },
     {
+        id: "astro",
+        label: "Astro",
+        icon: "mdi:rocket-outline"
+    },
+    {
         id: "csharp",
         label: "C#",
-        icon: "mdi:language-sharp"
+        icon: "mdi:language-csharp"
     },
     {
         id: "exp",
@@ -26,6 +31,11 @@ export default [
         icon: "mdi:translate"
     },
     {
+        id: "typescript",
+        label: "TypeScript",
+        icon: "mdi:language-typescript"
+    },
+    {
         id: "android",
         label: "Android",
         icon: "mdi:android"
@@ -33,11 +43,26 @@ export default [
     {
         id: "kotlin",
         label: "Kotlin",
-        icon: "mdi: language-kotlin"
+        icon: "mdi:language-kotlin"
     },
     {
         id: "coding",
         label: "Программирование",
         icon: "mdi:code-json"
-    }
+    },
+    {
+        id: "wpf",
+        label: "WPF",
+        icon: "mdi:microsoft-windows"
+    },
+    {
+        id: "postgres",
+        label: "PostgreSQL",
+        icon: "mdi:database"
+    },
+    {
+        id: "python",
+        label: "Python",
+        icon: "mdi:language-python"
+    },
 ] satisfies Tag[];
