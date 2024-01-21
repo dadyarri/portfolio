@@ -28,4 +28,9 @@ export default defineConfig({
         },
         remarkPlugins: [remarkReadingTime],
     },
+    vite: {
+        optimizeDeps: {
+            exclude: ['sharp'],
+        },
+    },
 } satisfies AstroUserConfig);
