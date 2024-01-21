@@ -3,9 +3,6 @@ import type { APIRoute } from "astro";
 import { getCollection, getEntryBySlug } from "astro:content";
 import satori from "satori";
 import sharp from "sharp";
-import formatDate from "@/utils/formatDate";
-import getReadingTime from 'reading-time';
-import { declensionOfMinutes } from "@/utils/declensionOfNumerals";
 import getTagDefinition from "@/utils/getTagDefinition";
 
 export async function getStaticPaths() {
@@ -20,8 +17,6 @@ export const GET: APIRoute = async ({ params }) => {
     const page = (await getEntryBySlug("projects", params.slug!))!;
     const nunitoSansData = await fs.readFile("./public/fonts/NunitoSans-Regular.ttf");
     const montserratData = await fs.readFile("./public/fonts/Montserrat-Bold.ttf");
-    const readingTime = getReadingTime(page.body)
-    const estimateMinutes = Math.ceil(readingTime.minutes);
 
     const svg = await satori(
         {
