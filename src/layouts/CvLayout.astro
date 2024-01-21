@@ -3,7 +3,7 @@ import '@fontsource/montserrat';
 import '@fontsource/nunito-sans';
 import '@/styles/cv.css';
 
-const title = "Даниил Голубев | Резюме";
+const title = 'Даниил Голубев | Резюме';
 ---
 
 <!doctype html>
@@ -16,11 +16,7 @@ const title = "Даниил Голубев | Резюме";
         <meta name="description" content={title} />
         <title>{title}</title>
     </head>
-    <body class="my-0 bg-white dark:bg-neutral-950 sm:my-14">
-        <div class="container mx-auto flex justify-center">
-            <article class="minimalist relative">
-                <slot />
-            </article>
-        </div>
+    <body>
+        <slot />
     </body>
 </html>

@@ -1,0 +1,61 @@
+body {
+    font-family: 'Nunito Sans', sans-serif;
+    @apply mx-auto my-5 max-w-7xl bg-neutral-50 text-neutral-950 dark:bg-neutral-950 dark:text-neutral-50;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Montserrat';
+}
+
+h1 {
+    @apply text-3xl uppercase;
+}
+
+h2 {
+    @apply my-5 text-2xl uppercase;
+}
+
+h3 {
+    @apply text-xl;
+}
+
+h4 {
+    @apply my-3 mx-5;
+}
+
+p {
+    @apply p-3 leading-6;
+}
+
+a {
+    @apply font-bold no-underline transition-colors;
+}
+
+ul {
+    @apply m-2 p-3 list-disc;
+}
+
+li {
+    @apply dark:text-neutral-400;
+}
+
+.project-header {
+    @apply flex flex-wrap items-baseline gap-4 sm:flex-col md:flex-row;
+}
+
+::selection {
+    @apply bg-neutral-700 text-slate-100 dark:bg-slate-100 dark:text-neutral-700;
+}
+
+.download-button {
+    @apply absolute right-5 top-5;
+}
+
+.break {
+    @apply break-before-page;
+}

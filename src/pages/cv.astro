@@ -4,7 +4,7 @@ import Download from "@/components/cv/Download.astro";
 import { getCollection } from "astro:content";
 import Image from "@/components/shared/Image.astro";
 
-import avatarSrc from "../assets/avatar.jpg";
+import avatarSrc from "@/assets/avatar.jpg";
 import workplaces from "@/data/cv/workplaces";
 import about from "@/data/cv/about";
 import languages from "@/data/cv/languages";
@@ -15,6 +15,7 @@ import achievments, { type Achievment } from "@/data/cv/achievments";
 import {Icon} from "astro-icon/components";
 import extractContentWithinHeading from "@/utils/extractHeadingContent";
 import markdownit from 'markdown-it';
+import ContentTag from "@/components/content/tag/ContentTag.astro"
 
 
 const projects = await getCollection("projects");
@@ -22,7 +23,7 @@ const md = markdownit();
 ---
 
 <CvLayout>
-    <div class="not-prose absolute right-4 top-4">
+    <div class="download-button">
         <Download href={"/cv.pdf"} />
     </div>
     <div class="flex justify-between align-baseline">
@@ -137,11 +138,9 @@ const md = markdownit();
                         </a>
                     </h3>
                     <div class="flex sm:flex-col md:flex-row items-baseline flex-wrap gap-1">
-                        {project.data.tags.map((tag) => (
-                            <span class="dark:bg-neutral-800 dark:text-neutral-50 bg-neutral-100 rounded-md p-1 mx-1 text-[0.7rem] border dark:border-neutral-800">
-                                {tag}
-                            </span>
-                        ))}
+                        {project.data.tags.map((tag) => {
+                            return <ContentTag tag={tag}/>
+                        })}
                     </div>
                 </div>
                 <p>{project.data.description}</p>
