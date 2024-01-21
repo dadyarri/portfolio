@@ -1,0 +1,228 @@
+---
+import CvLayout from "@/layouts/CvLayout.astro";
+import Download from "@/components/cv/Download.astro";
+import { getCollection } from "astro:content";
+import Image from "@/components/shared/Image.astro";
+
+import avatarSrc from "../assets/avatar.jpg";
+import workplaces from "@/data/cv/workplaces";
+import about from "@/data/cv/about";
+import languages from "@/data/cv/languages";
+import education from "@/data/cv/education";
+import courses from "@/data/cv/courses";
+import technologiesBlocks from "@/data/cv/technologies";
+import achievments, { type Achievment } from "@/data/cv/achievments";
+import {Icon} from "astro-icon/components";
+import extractContentWithinHeading from "@/utils/extractHeadingContent";
+import markdownit from 'markdown-it';
+
+
+const projects = await getCollection("projects");
+const md = markdownit();
+---
+
+<CvLayout>
+    <div class="not-prose absolute right-4 top-4">
+        <Download href={"/cv.pdf"} />
+    </div>
+    <div class="flex justify-between align-baseline">
+        <div>
+            <h1>{about.name}</h1>
+            <ul class="list-none">
+                <b>{about.position} | {about.salary.min} — {about.salary.max} {about.salary.currency}</b>
+                <li class="flex gap-2">
+                    <Icon name="mdi:city" class="w-5"/>
+                    <span>{about.city}, {about.country}</span>
+                </li>
+                <li class="flex gap-2">
+                    <Icon name="mdi:email" class="w-5"/>
+                    <a href=`mailto:${about.email}`>{about.email}</a>
+                <li class="flex gap-2">
+                    <Icon name="mdi:phone" class="w-5"/>
+                    <a href={about.phone.link}>{about.phone.visible}</a>
+                <li class="flex gap-2">
+                    <Icon name="mdi:web" class="w-5"/>
+                    <a href="https://dadyarri.ru">https://dadyarri.ru</a>
+                </li>
+            </ul>
+        </div>
+        <Image class="w-32" src={avatarSrc} alt="Аватар" withCaption={false} />
+    </div>
+
+    <div>
+        <h2>Опыт работы</h2>
+    </div>
+
+    {
+        workplaces.map((workplace) => (
+            <>
+                <h3>
+                    <a href={workplace.company.link}>
+                        <div class="flex items-baseline flex-wrap">
+                            <Icon name="mdi:link" class="w-5 mx-3"/>
+                            <span class="underline underline-offset-4">{workplace.company.name}</span>
+                        </div>
+                    </a>
+                </h3>
+                <h4>
+                    {workplace.position}&nbsp;|&nbsp;{workplace.times}
+                </h4>
+                <ul>
+                    {workplace.description.map((item) => (
+                        <li>{item}</li>
+                    ))}
+                </ul>
+            </>
+        ))
+    }
+
+    <div>
+        <h2>Технологии</h2>
+    </div>
+    <ul>
+        {
+            technologiesBlocks.map((block) => (
+                <li>
+                    <strong>{block.name}: </strong>
+                    {block.technologies.map((technology, index) => (
+                        <>
+                            <span>
+                                <span>{technology.name}</span>
+                                <span>
+                                    {technology.frameworks.length > 0 &&
+                                        <span>&nbsp;+&nbsp;</span>
+                                        <span>
+                                            <em>
+                                                {technology.frameworks.join(
+                                                    ", ",
+                                                )}
+                                            </em>
+                                        
+                                    </span>
+                                }
+                                </span>
+                            </span>
+                            <span>
+                                {block.technologies.length > 1 &&
+                                    index != block.technologies.length - 1 && (
+                                        <span>, </span>
+                                    )}
+                            </span>
+                        </>
+                    ))}
+                </li>
+            ))
+        }
+    </ul>
+
+    <div>
+        <h2>Проекты</h2>
+    </div>
+
+    {
+        projects.map((project) => {
+            let renderDetailedDescription = "";
+            let detailedDecription = extractContentWithinHeading(project.body, "Решение");
+            if (detailedDecription) {
+                renderDetailedDescription = md.render(detailedDecription)
+            }
+            return <div class="project">
+                <div class="project-header">
+                    <h3>
+                        <a href={`https://dadyarri.ru/projects/${project.slug}`}>
+                            <div class="flex items-baseline flex-wrap">
+                                <Icon name="mdi:link" class="w-5 mx-3"/>
+                                <span class="underline underline-offset-4">{project.data.title}</span>
+                            </div>
+                        </a>
+                    </h3>
+                    <div class="flex sm:flex-col md:flex-row items-baseline flex-wrap gap-1">
+                        {project.data.tags.map((tag) => (
+                            <span class="dark:bg-neutral-800 dark:text-neutral-50 bg-neutral-100 rounded-md p-1 mx-1 text-[0.7rem] border dark:border-neutral-800">
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+                <p>{project.data.description}</p>
+                <Fragment set:html={renderDetailedDescription}/>
+            </div>
+        })
+    }
+
+    <div>
+        <h2 class="break">Опыт и достижения</h2>
+    </div>
+
+    <ul>
+        {
+            achievments.map((item: Achievment) => (
+                <li>
+                    {item.text}
+                    <a class="ml-1" href={item.link}>
+                        <div class="flex items-baseline gap-1">
+                            <Icon name="mdi:link" class="w-3" />
+                            {new URL(item.link).hostname}
+                        </div>
+                    </a>
+                </li>
+            ))
+        }
+    </ul>
+
+    <div>
+        <h2>Языки</h2>
+    </div>
+
+    <ul>
+        {
+            languages.map((language) => (
+                <li>
+                    <strong>{language.name}: </strong>
+                    {language.level}
+                </li>
+            ))
+        }
+    </ul>
+
+    <div>
+        <h2>Образование</h2>
+    </div>
+
+    {
+        education.map((item) => (
+            <>
+                <h3>
+                    {item.name}, {item.city} | {item.times}
+                </h3>
+                <h4>{item.speciality}</h4>
+                <ul>
+                    {item.activities.map((activity) => (
+                        <li>{activity}</li>
+                    ))}
+                </ul>
+            </>
+        ))
+    }
+
+    <div>
+        <h2>Дополнительное образование, курсы</h2>
+    </div>
+    {
+        courses.map((item) => (
+            <>
+                <h3>
+                    <a href={item.link}>
+                        <div class="flex items-baseline flex-wrap">
+                            <Icon name="mdi:link" class="w-5 mx-3"/>
+                            <span class="underline underline-offset-4">{item.name}</span>
+                        </div>
+                    </a>
+                </h3>
+                <h4>{item.authors.join(", ")} | {item.platform}</h4>
+                <p>{item.description}</p>
+            </>
+        ))
+    }
+
+</CvLayout>
