@@ -1,7 +1,8 @@
 type Workplace = {
     company: {
         name: string,
-        link: string
+        link: string,
+        logoLink: string,
     },
     position: string,
     times: string,
@@ -12,7 +13,8 @@ export default [
     {
         company: {
             name: "Академия Top",
-            link: "https://vlad.top-academy.ru/"
+            link: "https://vlad.top-academy.ru/",
+            logoLink: "https://vlad.top-academy.ru/dist/images/logo/step_logo_rus.svg"
         },
         position: "Преподаватель компьютерных курсов",
         times: "Июнь — Сентябрь 2021",
@@ -24,7 +26,8 @@ export default [
     {
         company: {
             name: "ГК «Системы и технологии»",
-            link: "https://sicon.ru"
+            link: "https://sicon.ru",
+            logoLink: "https://sicon.ru/local/templates/main/images/logo.svg"
         },
         position: "Бэкенд-разработчик (.NET)",
         times: "Январь 2023 — Настоящее время",
@@ -32,4 +35,4 @@ export default [
             "Участвовал в распиле монолитного приложения на микросервисы"
         ]
     }
-] as Workplace[]
+] satisfies Workplace[]

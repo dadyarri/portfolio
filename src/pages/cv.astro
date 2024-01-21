@@ -59,8 +59,9 @@ const md = markdownit();
             <>
                 <h3>
                     <a href={workplace.company.link}>
-                        <div class="flex items-baseline flex-wrap">
+                        <div class="flex items-center flex-wrap gap-2">
                             <Icon name="mdi:link" class="w-5 mx-3"/>
+                            <Image src={workplace.company.logoLink} alt="company logo" width={28} height={28} withCaption={false}/>
                             <span class="underline underline-offset-4">{workplace.company.name}</span>
                         </div>
                     </a>

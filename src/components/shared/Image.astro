@@ -6,7 +6,7 @@ import { Picture } from "astro:assets";
 // LocalImageProps to be last. Unfortunately, when we do this the error messages that remote images get are complete nonsense
 // Not 100% sure how to fix this, seems to be a TypeScript issue. Unfortunate.
 type Props = {
-  src: ImageMetadata;
+  src: ImageMetadata | string;
   width?: string | number;
   height?: string | number;
   alt: string;
@@ -40,6 +40,8 @@ if (typeof props.withCaption === "undefined") {
     alt={props.alt}
     formats={["avif", "webp"]}
     class={props.class}
+    width={props.width}
+    height={props.height}
   />
   {
     props.withCaption && (
