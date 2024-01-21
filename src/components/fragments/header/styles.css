@@ -2,7 +2,7 @@
     @apply sticky top-0 z-40 flex w-full flex-row items-center gap-2 rounded-b-md p-5 transition-all duration-300 ease-in-out justify-between;
 
     &__mail-link {
-        @apply hover:text-orange-500 dark:text-neutral-100 hover:dark:text-neutral-100;
+        @apply hover:text-blue-500 dark:text-neutral-100 hover:dark:text-neutral-100;
     }
 
     &__navigation {
@@ -16,10 +16,10 @@
 
 .navigation {
     &__item {
-        @apply flex items-center gap-2 transition duration-300 hover:text-orange-500 dark:text-neutral-100 hover:dark:text-neutral-100;
+        @apply flex items-center gap-2 transition duration-300 hover:text-blue-500 dark:text-neutral-100 hover:dark:text-neutral-100;
 
         &-active {
-            @apply text-orange-500;
+            @apply text-blue-500;
         }
     }
 
