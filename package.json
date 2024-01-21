@@ -1,6 +1,7 @@
 {
   "name": "@dadyarri/portfolio",
   "type": "module",
+  "license": "MIT",
   "version": "2.0.0",
   "scripts": {
     "dev": "astro dev",
