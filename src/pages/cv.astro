@@ -43,7 +43,7 @@ const md = markdownit();
                     <a href={about.phone.link}>{about.phone.visible}</a>
                 <li class="flex gap-2">
                     <Icon name="mdi:web" class="w-5"/>
-                    <a href="https://dadyarri.ru">https://dadyarri.ru</a>
+                    <a href="https://dadyarri.ru">/</a>
                 </li>
             </ul>
         </div>
@@ -61,7 +61,6 @@ const md = markdownit();
                     <a href={workplace.company.link}>
                         <div class="flex items-center flex-wrap gap-2">
                             <Icon name="mdi:link" class="w-5 mx-3"/>
-                            <img src={workplace.company.logoLink} alt="company logo" width={28} height={28}/>
                             <span class="underline underline-offset-4">{workplace.company.name}</span>
                         </div>
                     </a>
