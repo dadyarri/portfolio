@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "pdf": "yarn node ./src/scripts/generate-pdf.js",
+    "pdf:ci": "npx start-server-and-test http://localhost:4321 pdf",
+    "build": "astro check && tsc --noEmit && astro preferences disable devToolbar && yarn pdf:ci && astro preferences enable devToolbar && astro build"
   },
   "dependencies": {
     "@astrojs/check": "^0.4.1",
@@ -26,6 +28,7 @@
     "astro-icon": "^1.0.2",
     "astro-seo": "^0.8.0",
     "markdown-it": "^14.0.0",
+    "playwright": "^1.41.1",
     "reading-time": "^1.5.0",
     "sanitize-html": "^2.11.0",
     "satori": "^0.10.11",
