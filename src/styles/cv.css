@@ -1,6 +1,6 @@
 body {
     font-family: 'Nunito Sans', sans-serif;
-    @apply mx-auto m-5 max-w-sm lg:max-w-7xl bg-neutral-50 text-neutral-950 dark:bg-neutral-950 dark:text-neutral-50;
+    @apply m-0 mx-auto w-80 max-w-none bg-neutral-50 text-neutral-950 sm:max-w-xs sm:px-24 sm:py-14 md:w-fit md:max-w-3xl lg:max-w-4xl dark:bg-neutral-950 dark:text-neutral-50;
 }
 
 h1,
@@ -25,7 +25,7 @@ h3 {
 }
 
 h4 {
-    @apply my-3 mx-5;
+    @apply mx-5 my-3;
 }
 
 p {
@@ -37,7 +37,7 @@ a {
 }
 
 ul {
-    @apply m-2 p-3 list-disc;
+    @apply m-2 list-disc p-3;
 }
 
 li {
@@ -53,7 +53,11 @@ li {
 }
 
 .download-button {
-    @apply absolute right-5 top-5;
+    @apply absolute right-5 top-5 hidden md:block;
+}
+
+.tag {
+    @apply border;
 }
 
 .break {
