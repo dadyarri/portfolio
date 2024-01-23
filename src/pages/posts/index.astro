@@ -2,6 +2,7 @@
 import MainLayout from '@/layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
 import ContentCard from '@/components/content/card/ContentCard.astro';
+import { Icon } from 'astro-icon/components';
 
 const posts = (await getCollection('posts'))
     .filter((p) => p.data.published)
@@ -13,7 +14,12 @@ const posts = (await getCollection('posts'))
 <MainLayout>
     <div class="section">
         <div class="section__header">
-            <h1 class="section__title">Посты</h1>
+            <h1 class="section__title">
+                Посты
+                <a href="/rss.xml">
+                    <Icon name="mdi:rss-box" class="w-8" title="rss" />
+                </a>
+            </h1>
         </div>
         <div class="section__content">
             {
