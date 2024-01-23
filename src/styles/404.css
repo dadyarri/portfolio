@@ -1,0 +1,23 @@
+.notfound {
+    @apply flex flex-col;
+
+    &__header {
+        @apply flex
+    }
+
+    &__title {
+        @apply text-3xl
+    }
+
+    &__content {
+        @apply flex flex-col gap-3;
+
+        & p {
+            @apply text-xl flex gap-1
+        }
+
+        & a {
+            @apply underline flex items-center gap-1
+        }
+    }
+}
