@@ -38,7 +38,11 @@ const { Content, remarkPluginFrontmatter } = await post.render();
                 <span>{formatDate(post.data.publishedAt)}</span>
                 <span>|</span>
                 <Icon name="mdi:clock" />
-                <span>{remarkPluginFrontmatter.minutesRead}&nbsp;{declensionOfMinutes(remarkPluginFrontmatter.minutesRead)}</span>
+                <span
+                    >{remarkPluginFrontmatter.minutesRead}&nbsp;{
+                        declensionOfMinutes(remarkPluginFrontmatter.minutesRead)
+                    }</span
+                >
             </div>
             {
                 post.data.source && (
@@ -56,4 +60,12 @@ const { Content, remarkPluginFrontmatter } = await post.render();
 
         <div class="page__content"><Content /></div>
     </div>
+    <script
+        src="https://utteranc.es/client.js"
+        repo="dadyarri/portfolio"
+        issue-term="pathname"
+        label="comments"
+        theme="preferred-color-scheme"
+        crossorigin="anonymous"
+        async></script>
 </MainLayout>
