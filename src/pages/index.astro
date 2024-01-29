@@ -1,91 +1,97 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection } from 'astro:content';
+import MainLayout from '@/layouts/MainLayout.astro';
+import presentation from '@/data/presentation';
+import convertAsteriskToStrongTag from '@/utils/convertAsteriskToStrongTag';
+import Image from '@/components/shared/Image.astro';
+import avatar from '@/assets/avatar.jpg';
+import SocialLinks from '@/components/social-links/SocialLinks.astro';
+import { Icon } from 'astro-icon/components';
+import Link from '@/components/shared/link/Link.astro';
+import ContentCard from '@/components/content/card/ContentCard.astro';
 
-import Layout from "@/layouts/Layout.astro";
-import SocialLinks from "@/components/SocialLinks.astro";
-import PostCard from "@/components/PostCard.astro";
-import ProjectCard from "@/components/ProjectCard.astro";
-import Link from "@/components/shared/Link.astro";
-import convertAsteriskToStrongTag from "@/utils/convertAsteriskToStrongTag";
-
-import presentation from "@/data/presentation";
-import Icon from "astro-icon";
-import Image from "@/components/Image.astro";
-
-import avatar from "../assets/avatar.jpg"
-
-const posts = (await getCollection("posts"))
-  .filter((p) => p.data.isPublish)
-  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
-const projects = await getCollection("projects");
+const posts = (await getCollection('posts'))
+    .filter((p) => p.data.published)
+    .sort(
+        (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+    );
+const projects = await getCollection('projects');
 ---
 
-<Layout>
-  <main class="flex flex-col gap-20 mx-8">
-    <div class="flex flex-col md:flex-row justify-between items-center">
-      <article class="flex flex-col gap-8">
-        <h1 class="text-3xl dark:text-neutral-100">{presentation.title}</h1>
-        <h2
-          class="max-w-[60ch] leading-6"
-          set:html={convertAsteriskToStrongTag(presentation.description)}
-        />
+<MainLayout>
+    <div class="hero">
+        <div class="hero__text">
+            <h1 class="section__title">{presentation.title}</h1>
+            {
+                presentation.description.map((line) => (
+                    <p
+                        class="section__description"
+                        set:html={convertAsteriskToStrongTag(line)}
+                    />
+                ))
+            }
 
-        <p set:html={convertAsteriskToStrongTag("В поисках работы на роль *бэкенд-разработчика (.NET)*")}></p>
-
-
-        <h2 class="text-xl">Контакты</h2>
-
-        <SocialLinks />
-      </article>
-      <article class="hidden md:flex">
-        <Image src={avatar} class="w-40 rounded-full" withCaption={false} alt="Аватар" />
-      </article>
-    </div>
-
-    <article class="flex flex-col gap-8">
-      <header class="flex-col flex w-full md:flex-row md:justify-between gap-2">
-        <div class="flex gap-2 items-center">
-          <h3 class="text-lg dark:text-neutral-100">Последние публикации (всего {posts.length})</h3>
-          <a href="/rss.xml">
-            <Icon name="mdi:rss-box" class="w-6" />
-          </a>
+            <h1 class="section__title">Контакты</h1>
+            <SocialLinks socials={presentation.socials} />
         </div>
-        <Link href="/posts" label="Все публикации" isUnderline={true} target="_self"/>
-      </header>
-      {posts.length === 0 && <p>Soon, stay connected 👀...</p>}
-
-      <section class="flex flex-col gap-4 md:flex-wrap">
-        {
-          posts.length !== 0 &&
-            posts
-              .slice(0, 2)
-              .map((post) => (
-                <PostCard
-                  publishedAt={post.data.publishedAt}
-                  title={post.data.title}
-                  description={post.data.description}
-                  slug={post.slug}
-                  tags={post.data.tags}
-                />
-              ))
-        }
-      </section>
-    </article>
-
-    <article class="flex flex-col gap-8">
-      <header class="flex w-full flex-row justify-between gap-2">
-        <h3 class="text-lg dark:text-neutral-100">
-          Пет-проекты ({projects.length})
-        </h3>
-      </header>
-      {projects.length === 0 && <p>Oops, I must work^^^^^</p>}
-
-      <section class="flex flex-col gap-4">
-        {
-          projects.length !== 0 &&
-            projects.map((project) => <ProjectCard {...project.data} slug={project.slug} />)
-        }
-      </section>
-    </article>
-  </main>
-</Layout>
+        <div class="hero__avatar">
+            <Image
+                src={avatar}
+                class="hero__avatar-image"
+                withCaption={false}
+                alt="Аватар"
+            />
+        </div>
+    </div>
+    <div class="section">
+        <div class="section__header">
+            <h1 class="section__title">
+                Активные проекты (всего {projects.length})
+            </h1>
+            <Link
+                href="/projects"
+                label="Все проекты"
+                isUnderline={true}
+                target="_self"
+            />
+        </div>
+        <div class="section__content">
+            {
+                projects.map(
+                    (project) =>
+                        !project.data.deprecated && (
+                            <ContentCard
+                                {...project.data}
+                                slug={project.slug}
+                            />
+                        ),
+                )
+            }
+        </div>
+    </div>
+    <div class="section">
+        <div class="section__header">
+            <h1 class="section__title">
+                Последние посты (всего {posts.length})
+                <a href="/rss.xml">
+                    <Icon name="mdi:rss-box" class="w-8" title="rss" />
+                </a>
+            </h1>
+            <Link
+                href="/posts"
+                label="Все посты"
+                isUnderline={true}
+                target="_self"
+            />
+        </div>
+        <div class="section__content">
+            {
+                posts
+                    .slice(0, 2)
+                    .map((post) => (
+                        <ContentCard {...post.data} slug={post.slug} />
+                    ))
+            }
+        </div>
+    </div>
+</MainLayout>

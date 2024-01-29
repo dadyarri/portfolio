@@ -1,0 +1,61 @@
+---
+import presentation from '@/data/presentation';
+import removeTrailingSlash from '@/utils/removeTrailingSlash';
+import './styles.css';
+import destinations from './destinations';
+import { Icon } from 'astro-icon/components';
+
+const pathname = removeTrailingSlash(Astro.url.pathname);
+---
+
+<header class="header" id="header">
+    <a class="header__mail-link" href={`mailto:${[presentation.mail]}`}
+        >{presentation.mail}</a
+    >
+
+    <nav role="navigation">
+        <ul role="list" class="header__navigation">
+            {
+                destinations.map((item, ind) => (
+                    <>
+                        <li>
+                            <a
+                                href={item.href}
+                                class:list={{
+                                    ['navigation__item']: true,
+                                    ['navigation__item-active']:
+                                        pathname === item.href,
+                                }}
+                            >
+                                <Icon name={item.icon}/>
+                                {item.label}
+                            </a>
+                        </li>
+                        {ind != destinations.length - 1 && <li class="navigation__divider">/</li>}
+                    </>
+                ))
+            }
+        </ul>
+    </nav>
+</header>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const scrollHeader = document.getElementById('header');
+
+        window.addEventListener('scroll', function () {
+            const scrollDistance = window.scrollY;
+            const triggerDistance = 50;
+
+            if (scrollDistance > triggerDistance) {
+                scrollHeader!.classList.add(
+                    'header-active',
+                );
+            } else {
+                scrollHeader!.classList.remove(
+                    'header-active',
+                );
+            }
+        });
+    });
+</script>

@@ -6,6 +6,7 @@ import sharp from "sharp";
 import formatDate from "@/utils/formatDate";
 import getReadingTime from 'reading-time';
 import { declensionOfMinutes } from "@/utils/declensionOfNumerals";
+import getTagDefinition from "@/utils/getTagDefinition";
 
 export async function getStaticPaths() {
     const posts = await getCollection("posts");
@@ -35,20 +36,20 @@ export const GET: APIRoute = async ({ params }) => {
                                 fontFamily: "Montserrat",
                                 fontSize: "64px",
                                 lineHeight: 1,
-                                color: "#111",
-                                marginBottom: "32px",
+                                color: "#000",
+                                marginBottom: "0px",
                             },
                         }
                     },
                     {
                         type: "p",
                         props: {
-                            children: `${formatDate(page.data.publishedAt)} | dadyarri | Читать ${estimateMinutes} ${declensionOfMinutes(estimateMinutes)}`,
+                            children: `${formatDate(page.data.publishedAt)} | Даниил | ${estimateMinutes} ${declensionOfMinutes(estimateMinutes)}`,
                             style: {
                                 fontFamily: "Nunito Sans",
                                 fontSize: "32px",
                                 lineHeight: 1,
-                                color: "#444",
+                                color: "#111",
                             },
                         }
                     },
@@ -62,12 +63,13 @@ export const GET: APIRoute = async ({ params }) => {
                                 gap: "4px"
                             },
                             children: page.data.tags.map((tag) => {
+                                const tagDef = getTagDefinition(tag);
                                 return {
-                                    type: "span",
+                                    type: "div",
                                     props: {
-                                        children: tag,
+                                        children: tagDef.label,
                                         style: {
-                                            backgroundColor: "rgb(245,245,245)",
+                                            backgroundColor: "#f5f5f5",
                                             borderRadius: "6px",
                                             padding: "8px",
                                             marginLeft: "4px",
@@ -87,7 +89,7 @@ export const GET: APIRoute = async ({ params }) => {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    borderBottom: "20px solid rgb(53, 88, 255)",
+                    borderBottom: "20px solid #3b82f6",
                     padding: "80px",
                     background: "#fff"
                 },

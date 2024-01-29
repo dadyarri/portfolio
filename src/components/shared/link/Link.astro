@@ -1,0 +1,25 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import './styles.css';
+
+type Props = HTMLAttributes<'a'> & {
+    label: string;
+    isUnderline?: boolean;
+};
+
+const { label, isUnderline, ...props } = Astro.props;
+---
+
+<a
+    href={props.href}
+    class:list={{
+        ['link']: true,
+        ['link-underlined']: isUnderline,
+    }}
+    {...props}
+    rel="noreferrer"
+    target="_blank"
+>
+    {label}
+    <span class="sr-only">{label} link</span>
+</a>

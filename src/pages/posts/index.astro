@@ -1,28 +1,32 @@
 ---
-import { getCollection } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
-import PostCard from "@/components/PostCard.astro";
-import Icon from "astro-icon";
+import MainLayout from '@/layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+import ContentCard from '@/components/content/card/ContentCard.astro';
+import { Icon } from 'astro-icon/components';
 
-const posts = (await getCollection("posts"))
-  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+const posts = (await getCollection('posts'))
+    .filter((p) => p.data.published)
+    .sort(
+        (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+    );
 ---
 
-<Layout title="Все публикации">
-  <main class="flex flex-col gap-20">
-    <div class="flex gap-2">
-      <h1 class="text-2xl dark:text-neutral-100">Публикации</h1>
-      <a href="/rss.xml">
-        <Icon name="mdi:rss-box" class="w-8" />
-      </a>
+<MainLayout>
+    <div class="section">
+        <div class="section__header">
+            <h1 class="section__title">
+                Посты
+                <a href="/rss.xml">
+                    <Icon name="mdi:rss-box" class="w-8" title="rss" />
+                </a>
+            </h1>
+        </div>
+        <div class="section__content">
+            {
+                posts.map((post) => (
+                    <ContentCard {...post.data} slug={post.slug} />
+                ))
+            }
+        </div>
     </div>
-
-    <article class="flex flex-col gap-4">
-      {
-        posts.map((post) => post.data.isPublish && (
-          <PostCard title={post.data.title} publishedAt={post.data.publishedAt} description={post.data.description} slug={post.slug} tags={post.data.tags}/>
-        ))
-      }
-    </article>
-  </main>
-</Layout>
+</MainLayout>

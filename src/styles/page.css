@@ -1,0 +1,86 @@
+.page {
+    @apply flex flex-col items-center justify-center;
+
+    &__header {
+        @apply flex flex-col items-center gap-2;
+    }
+
+    &__content {
+        @apply flex flex-col gap-3 w-full;
+    }
+
+    & h1 {
+        @apply py-3 text-2xl;
+    }
+
+    & h2 {
+        @apply py-3 text-xl;
+    }
+
+    & h3 {
+        @apply py-3 text-xl;
+    }
+
+    & p {
+        @apply leading-7;
+    }
+
+    & hr {
+        width: 30ch;
+        @apply mx-auto my-5;
+    }
+
+    & ul {
+        @apply list-disc px-10;
+    }
+
+    & blockquote {
+        @apply flex flex-row gap-2 before:block before:h-auto before:w-1 before:max-w-[1px] before:bg-red-400 before:content-[''];
+    }
+
+    & pre {
+        @apply p-4;
+    }
+
+    & pre > code {
+        @apply bg-transparent;
+    }
+
+    & li {
+        @apply py-1 leading-8;
+    }
+
+    & blockquote {
+        @apply border-l-4 border-blue-500 bg-neutral-50 p-5 dark:bg-neutral-800;
+    }
+
+    & blockquote::before {
+        content: none;
+    }
+
+    & figure {
+        @apply m-3 flex flex-col items-center justify-center;
+    }
+
+    & figcaption {
+        @apply text-neutral-400 dark:text-neutral-50;
+    }
+
+    & a {
+        @apply underline transition duration-300 ease-in-out hover:text-blue-500 dark:text-neutral-100;
+    }
+}
+
+.header {
+    &__title {
+        @apply text-3xl;
+    }
+
+    &__tags {
+        @apply flex flex-wrap gap-2 md:flex-row items-center;
+    }
+
+    &__info {
+        @apply flex flex-row items-center gap-2;
+    }
+}

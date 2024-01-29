@@ -3,6 +3,7 @@ import type { APIRoute } from "astro";
 import { getCollection, getEntryBySlug } from "astro:content";
 import satori from "satori";
 import sharp from "sharp";
+import getTagDefinition from "@/utils/getTagDefinition";
 
 export async function getStaticPaths() {
     const projects = await getCollection("projects");
@@ -30,8 +31,8 @@ export const GET: APIRoute = async ({ params }) => {
                                 fontFamily: "Montserrat",
                                 fontSize: "64px",
                                 lineHeight: 1,
-                                color: "#111",
-                                marginBottom: "32px",
+                                color: "#000",
+                                marginBottom: "0px",
                             },
                         }
                     },
@@ -43,7 +44,7 @@ export const GET: APIRoute = async ({ params }) => {
                                 fontFamily: "Nunito Sans",
                                 fontSize: "32px",
                                 lineHeight: 1,
-                                color: "#444",
+                                color: "#111",
                             },
                         }
                     },
@@ -57,12 +58,13 @@ export const GET: APIRoute = async ({ params }) => {
                                 gap: "4px"
                             },
                             children: page.data.tags.map((tag) => {
+                                const tagDef = getTagDefinition(tag);
                                 return {
-                                    type: "span",
+                                    type: "div",
                                     props: {
-                                        children: tag,
+                                        children: tagDef.label,
                                         style: {
-                                            backgroundColor: "rgb(245,245,245)",
+                                            backgroundColor: "#f5f5f5",
                                             borderRadius: "6px",
                                             padding: "8px",
                                             marginLeft: "4px",
@@ -82,7 +84,7 @@ export const GET: APIRoute = async ({ params }) => {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "center",
-                    borderBottom: "20px solid rgb(53, 88, 255)",
+                    borderBottom: "20px solid #3b82f6",
                     padding: "80px",
                     background: "#fff"
                 },

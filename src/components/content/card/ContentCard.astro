@@ -1,0 +1,36 @@
+---
+import './styles.css';
+import formatDate from '@/utils/formatDate';
+import type { Post, Project } from '@/utils/types/content';
+import ContentTag from '@/components/content/tag/ContentTag.astro';
+
+type Props = Post & Project;
+
+const { title, description, publishedAt, tags, slug, deprecated } = Astro.props;
+
+const type = publishedAt ? 'post' : 'project';
+---
+
+<a class="content-card" href=`/${type}s/${slug}`>
+    <div class="content-card__text">
+        <div class="content-card__header">
+            <p class="content-card__title">{title}</p>
+            <div class="content-card__tags">
+                {tags.map((tag) => <ContentTag tag={tag} />)}
+            </div>
+        </div>
+        <p>{description}</p>
+    </div>
+    {
+        publishedAt && (
+            <div class="content-card__context">{formatDate(publishedAt)}</div>
+        )
+    }
+    {
+        deprecated && (
+            <div class="content-card__context">
+                <p class="content-card__archive-tag">Архив</p>
+            </div>
+        )
+    }
+</a>

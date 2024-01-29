@@ -1,0 +1,29 @@
+---
+import { Icon } from 'astro-icon/components';
+import Link from '../shared/link/Link.astro';
+import type { Social } from '@/data/presentation';
+import "./styles.css";
+
+type Props = {
+    socials: Social[];
+};
+
+const { socials } = Astro.props;
+---
+
+<ul role="list" class="socials">
+    {
+        socials.map((social, index) => (
+            <>
+                <li class="socials__item">
+                    <Icon name={social.icon} class="socials__item-icon" />
+                    <Link href={social.link} label={social.label} />
+                </li>
+
+                {socials.length - 1 !== index && (
+                    <li class="socials__divider">/</li>
+                )}
+            </>
+        ))
+    }
+</ul>

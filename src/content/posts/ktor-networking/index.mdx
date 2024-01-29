@@ -1,22 +1,25 @@
 ---
-title: "Организация сетевого взаимодействия с помощью Ktor"
-description: "Как удобно и типизированно ходить в сеть в Android-приложении"
-isPublish: true
+title: 'Организация сетевого взаимодействия с помощью Ktor'
+description: 'Как удобно и типизированно ходить в сеть в Android-приложении'
+published: true
 publishedAt: 2023-11-10
-tags: ["Android", "Ktor", "Jetpack Compose", "Мой опыт"]
+tags:
+  - android
+  - kotlin
+  - exp
 ---
 
-## Введение
+# Введение
 
 Я сейчас параллельно с изучением .NET работаю над мобильным приложением для своего проекта. Для разработки я выбрал новый фреймворк от Google Jetpack Compose в том числе потому, что не хочу тратить лишнее время на описание интерфейсов через XML или ручное управление состоянием приложения. Он предоставляет декларативный интерфейс для проектирования интерфейса через более удобный Kotlin.
 
 В мире Android-разработки обычно используется Retrofit или OkHttp, но я решил взять Ktor от JetBrains. Практически никаких готовых туториалов по этому стеку не было, поэтому я пишу свой.
 
-## Установка зависимостей
+# Установка зависимостей
 
 Добавим в `build.gradle.kts` уровня модуля следующие зависимости:
 
-```kotlin:build.gradle.kts
+```kotlin title="build.gradle.kts"
 val ktorVersion = "2.3.4"
 
 
@@ -31,13 +34,13 @@ implementation("ch.qos.logback:logback-classic:1.2.11")  // Драйвер ло�
 
 На момент написания этой статьи уже вышла версия ktor 2.3.5, но она вызывала странные ошибки компиляции, поэтому пришлось откатиться.
 
-## Настройка клиента
+# Настройка клиента
 
 В Ktor создание клиента это ресурсоёмкий процесс, поэтому важно не закрывать его в течение всего жизненного цикла приложения. Можно было использовать Hilt, который уже использовался в проекте на момент добавления работы с сетью, но я взял более простой способ.
 
 Kotlin позволяет создавать объекты, которые автоматически будут создаваться на старте приложения и всё время держаться в памяти. Поэтому добавим объект `HttpClientFactory`. У меня он расположен в пакете `domain.common.network`
 
-```kotlin:HttpClientFactory.kt
+```kotlin title="HttpClientFactory.kt" collapse={1-6}
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -63,11 +66,11 @@ object HttpClientFactory {
 
 С помощью этого объекта мы сможем в любом месте получать один и тот же объект клиента и использовать его для запросов в сеть.
 
-## Организация типизированных запросов
+# Организация типизированных запросов
 
 Добавим класс `Response`, который будет содержать информацию о типах, в которые необходимо преобразовывать данные, пришедшие с сервера
 
-```kotlin:Response.kt
+```kotlin title="Response.kt"
 sealed class Response<out T, out E> {
     data class Success<T>(val body: T) : Response<T, Nothing>()
     sealed class Error<E> : Response<Nothing, E>() {
@@ -82,7 +85,7 @@ sealed class Response<out T, out E> {
 
 Так, метод `safeRequest` поможет, используя стандартный синтаксис запросов ktor делать запросы в сеть, добавляя при этом обработку ошибок.
 
-```kotlin:HttpClientExtensions.kt
+```kotlin title="HttpClientExtensions.kt" collapse={1-9}
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException
@@ -111,7 +114,7 @@ suspend inline fun <reified T, reified E> HttpClient.safeRequest(block: HttpRequ
 
 Метод `errorBody` для объекта исключения `ResponseException` позволяет получать корректное сообщение об ошибке.
 
-```kotlin:HttpClientExtensions.kt
+```kotlin title="HttpClientExtensions.kt"
 suspend inline fun <reified E> ResponseException.errorBody(): E? {
     return try {
         response.body()
@@ -121,11 +124,11 @@ suspend inline fun <reified E> ResponseException.errorBody(): E? {
 }
 ```
 
-## Обработка ответов
+# Обработка ответов
 
 Добавим функцию, которая позволит нам обрабатывать ответ от сервера и получать конкретный тип результата
 
-```kotlin:processResponse.kt
+```kotlin title="processResponse.kt"
 fun <T, E> processResponse(
     response: Response<T, E>
 ): T? {
@@ -136,11 +139,11 @@ fun <T, E> processResponse(
 }
 ```
 
-## Добавление моделей запросов/ответов
+# Добавление моделей запросов/ответов
 
 Для того, чтобы корректно работала сериализация моделей в JSON нужно пометить их аннотацией `@Serializable`:
 
-```kotlin:Course.kt
+```kotlin title="Course.kt" collapse={1-3}
 
 import kotlinx.serialization.Serializable
 import ru.unilms.domain.common.serialization.UUIDSerializer
@@ -160,7 +163,7 @@ data class Course(
 
 Классы, которые не имеют собственной реализации в Kotlin, а просто взяты из Java не имеют своих сериализаторов, поэтому их нужно написать самостоятельно. Я для первичных ключей использую UUID, поэтому приведу реализацию его сериализатора:
 
-```kotlin:UUIDSerializer.kt
+```kotlin title="UUIDSerializer.kt" collapse={1-6}
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -181,11 +184,11 @@ object UUIDSerializer : KSerializer<UUID> {
 }
 ```
 
-## Описание клиента
+# Описание клиента
 
 Добавим сервисы, которые будут содержать описание API и правила подключения к нему. Для каждого такого сервиса описываем интерфейс и его реализацию:
 
-```kotlin:CoursesService.kt
+```kotlin title="CoursesService.kt"
 interface CoursesService {
     suspend fun getEnrolled(type: CourseType): Response<List<Course>, ErrorResponse>
     suspend fun getCourseContents(courseId: UUID): Response<CourseContent, ErrorResponse>
@@ -197,7 +200,7 @@ interface CoursesService {
 
 Чтобы не загромождать статью огромной портянкой кода я приведу лишь часть реализации сервиса:
 
-```kotlin:CoursesService.kt
+```kotlin title="CoursesServiceImpl.kt"
 class CoursesServiceImpl(
     private val token: String, // Конструктор класса принимает JWT токен, который используется для авторизации на бэкенде
 ) : CoursesService {
@@ -216,11 +219,11 @@ class CoursesServiceImpl(
 }
 ```
 
-## Выполнение запросов
+# Выполнение запросов
 
 Данные запрашиваются из viewmodels экранов с помощью асинхронных функций:
 
-```kotlin:CoursesViewModel.kt
+```kotlin title="CoursesViewModel.kt" collapse={1-14}
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -277,9 +280,9 @@ class CoursesViewModel @Inject constructor(@ApplicationContext private val conte
 }
 ```
 
-## Отображение данных с сервера на экране
+# Отображение данных с сервера на экране
 
-```kotlin:CourseScreen.kt
+```kotlin title="CourseScreen.kt" collapse={1-10}
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue

@@ -1,28 +1,22 @@
 ---
-import { getCollection } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
-import ProjectCard from "@/components/ProjectCard.astro";
+import MainLayout from '@/layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+import ContentCard from '@/components/content/card/ContentCard.astro';
 
-const projects = await getCollection("projects");
+const projects = await getCollection('projects');
 ---
 
-<Layout title="Все проекты">
-    <main class="flex flex-col gap-20">
-        <h1 class="text-2xl dark:text-neutral-100">Проекты</h1>
-
-        <article class="flex flex-col gap-4">
+<MainLayout>
+    <div class="section">
+        <div class="section__header">
+            <h1 class="section__title">Проекты</h1>
+        </div>
+        <div class="section__content">
             {
                 projects.map((project) => (
-                    <ProjectCard
-                        title={project.data.title}
-                        description={project.data.description}
-                        tags={project.data.tags}
-                        subpage={project.data.subpage}
-                        slug={project.slug}
-                        deprecated={project.data.deprecated}
-                    />
+                    <ContentCard {...project.data} slug={project.slug} />
                 ))
             }
-        </article>
-    </main>
-</Layout>
+        </div>
+    </div>
+</MainLayout>

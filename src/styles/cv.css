@@ -1,69 +1,65 @@
 body {
     font-family: 'Nunito Sans', sans-serif;
-    @apply text-black dark:text-neutral-400
-  }
+    @apply m-0 mx-auto w-80 max-w-none bg-neutral-50 text-neutral-950 sm:max-w-xs sm:px-24 sm:py-14 md:w-fit md:max-w-3xl lg:max-w-4xl dark:bg-neutral-950 dark:text-neutral-50;
+}
 
-  h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: 'Montserrat';
-  }
-  
-  ::selection {
-    @apply dark:bg-slate-100 dark:text-neutral-700 bg-neutral-700 text-slate-100
-  }
+}
 
-  .minimalist {
-    @apply prose prose-slate m-0 max-w-none w-80 md:w-fit sm:px-24 sm:py-14 lg:max-w-4xl sm:max-w-xs md:max-w-3xl dark:prose-invert
-  }
+h1 {
+    @apply text-3xl uppercase;
+}
 
-  .minimalist h1 {
-    @apply text-3xl uppercase
-  }
+h2 {
+    @apply my-5 text-2xl uppercase;
+}
 
-  .minimalist div h2 {
-    @apply mb-3 mt-8 uppercase;
-  }
+h3 {
+    @apply text-xl;
+}
 
-  .minimalist .break {
-    page-break-before: always;
-  }
+h4 {
+    @apply mx-5 my-3;
+}
 
-  .minimalist h3 {
-    @apply mb-3 mt-8 text-xl
-  }
+p {
+    @apply p-3 leading-6;
+}
 
-  .minimalist h4 {
-    @apply mb-3 mt-4 text-sm
-  }
+a {
+    @apply font-bold no-underline transition-colors;
+}
 
-  .minimalist p {
-    @apply my-2 text-sm leading-6
-  }
+ul {
+    @apply m-2 list-disc p-3;
+}
 
-  .minimalist a {
-    @apply font-bold transition-colors no-underline
-  }
+li {
+    @apply dark:text-neutral-400;
+}
 
-  .minimalist li {
-    @apply text-sm dark:text-neutral-400
-  }
+.project-header {
+    @apply flex flex-wrap items-baseline gap-4 sm:flex-col md:flex-row;
+}
 
-  .minimalist table {
-    @apply mt-4
-  }
+::selection {
+    @apply bg-neutral-700 text-slate-100 dark:bg-slate-100 dark:text-neutral-700;
+}
 
-  .minimalist thead {
-    @apply border-0
-  }
+.download-button {
+    @apply absolute right-5 top-5 hidden md:block;
+}
 
-  .minimalist th {
-    @apply p-0 font-medium
-  }
+.tag {
+    @apply border;
+}
 
-  .minimalist td {
-    @apply p-0 text-slate-500
-  }
-
-  .project-header {
-    @apply flex gap-4 sm:flex-col md:flex-row items-baseline flex-wrap
-  }
-  
+.break {
+    @apply break-before-page;
+}

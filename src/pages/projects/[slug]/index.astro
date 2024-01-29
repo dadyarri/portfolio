@@ -1,42 +1,40 @@
 ---
-import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content"
-import Layout from "@/layouts/Layout.astro";
-import { convertToTag } from "@/utils/convertToTag";
+import MainLayout from '@/layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import ContentTag from '@/components/content/tag/ContentTag.astro';
 
 export async function getStaticPaths() {
-  const projects = await getCollection("projects");
+    const projects = await getCollection('projects');
 
-  return projects.map((project) => ({
-    params: { slug: project.slug },
-    props: { project },
-  }));
+    return projects.map((project) => ({
+        params: { slug: project.slug },
+        props: { project },
+    }));
 }
 
 type Props = {
-  project: CollectionEntry<"projects">;
+    project: CollectionEntry<'projects'>;
 };
 
 const { project } = Astro.props;
 const { Content } = await project.render();
 ---
 
-<Layout title={project.data.title} type="project" slug={project.slug} description={project.data.description}>
-  <main class="post md:mx-auto flex w-full max-w-prose md:max-w-full p-5 flex-col gap-4">
-    <header role="presentation" class="flex flex-col items-center">
-      <h1>
-        {project.data.title}
-      </h1>
-      <hr/>
-      <div class="flex sm:flex-col md:flex-row items-baseline flex-wrap gap-1 justify-center">
-        {project.data.tags.map((tag) => (
-            <a class="tag no-underline" href={`/projects/tags/${convertToTag(tag)}`}>
-              {tag}
-            </a>
-        ))}
-      </div>
-    </header>
+<MainLayout
+    title={project.data.title}
+    type="project"
+    slug={project.slug}
+    description={project.data.description}
+>
+    <div class="page">
+        <div class="page__header">
+            <h1 class="header__title">{project.data.title}</h1>
+            <div class="header__tags">
+                {project.data.tags.map((tag) => <ContentTag tag={tag} />)}
+            </div>
+        </div>
 
-    <Content />
-  </main>
-</Layout>
+        <div class="page__content"><Content /></div>
+    </div>
+</MainLayout>

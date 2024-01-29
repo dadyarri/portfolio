@@ -1,0 +1,36 @@
+---
+import Header from '@/components/fragments/header/Header.astro';
+import SeoTags from '@/components/seo/SeoTags.astro';
+import '@/styles/styles.css';
+
+import '@fontsource/nunito-sans/400-italic.css';
+import '@fontsource/jetbrains-mono';
+import '@fontsource/montserrat';
+
+type Props = {
+    slug?: string;
+    title?: string;
+    type?: string;
+    description?: string;
+};
+
+const { title, slug, type, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru">
+    <head>
+        <SeoTags
+            title={title}
+            og={{ image: `/${type}s/${slug}/og-image.png` }}
+            description={description}
+        />
+        <link rel="sitemap" href="/sitemap-index.xml" />
+    </head>
+    <body>
+        <Header />
+        <main>
+            <slot />
+        </main>
+    </body>
+</html>

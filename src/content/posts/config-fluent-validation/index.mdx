@@ -3,10 +3,10 @@ title: Валидация конфигурации с помощью FluentValid
 source: https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-using-flentvalidation/
 publishedAt: 2023-05-13
 description: Настройка валидации строго типизированной конфигурации с помощью FluentValidation
-isPublish: true
+published: true
 tags:
-  - .NET
-  - Перевод
+  - csharp
+  - translation
 ---
 
 В предыдущем посте ([оригинал](https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-dotnet-6/), [перевод](https://dadyarri.ru/posts/typed-config-dotnet/)) я описал как можно использовать атрибуты `DataAnnotation` и новый метод `ValidateOnStart()`, чтобы проверить валидность вашей конфигурации на старте приложения
@@ -15,7 +15,7 @@ tags:
 
 Предыдущий пост включает описание строго типизированной конфигурации в целом и все возможные варианты получить ошибку, так что если вы сталкиваетесь с этой темой впервые, предлагаю сначала ознакомиться с предыдущей статьёй. Здесь, перед тем, как перейти к FluentValidation я быстренько повторюсь как валидация IOptions работает с атрибутами `DataAnnotation`.
 
-## Проверка IOptions на старте приложения
+# Проверка IOptions на старте приложения
 В .NET проверка конфигурации появилась ещё в .NET Core 2.2 с методами `Validate<>` и `ValidateDataAnnotations()`, но они вызывались не на старте приложения, а после попытки доступа к объекту конфигурации.
 
 В .NET 6 появился новый метод, `ValidateOnStart()`, который запускает валидацию сразу же после запуска приложения.
@@ -79,13 +79,13 @@ Unhandled exception. Microsoft.Extensions.Options.OptionsValidationException:
 
 ```
 
-## Валидация `IOptions` с использованием FluentValidation
+# Валидация `IOptions` с использованием FluentValidation
 
 Атрибуты `DataAnnotation` это довольно простой способ проверки данных, который перестаёт работать в более сложных случаях. Поэтому заменим его на популярную альтернативу FluentValidation
 
 Эта статья не учебник по FluentValidation, а лишь простой пример минимально необходимой настройки для валидации на старте
 
-### 1. Создание проекта
+## 1. Создание проекта
 
 Создадим минимальное API для тестирования и добавим зависимость FluentValidation:
 
@@ -131,7 +131,7 @@ public class SlackApiSettings
 
 ```
 
-### 2. Добавление валидатора FluentValidator
+## 2. Добавление валидатора FluentValidator
 
 В [документации](https://docs.fluentvalidation.net/en/latest/start.html) можно подробнее прочитать про то, как создавать валидаторы и правила. Ниже приведён пример того, как можно переписать валидацию на `DataAnnotations` из начала статьи с помощью `AbstractValidator<T>`
 
@@ -153,7 +153,7 @@ public class SlackApiSettingsValidator : AbstractValidator<SlackApiSettings>
 
 > Важный момент: Хотя это (скорее всего) не станет проблемой, но стоит держать в голове, что здесь нельзя использовать асинхронные правила, так как интерфейс [`IValidateOptions<T>`](https://learn.microsoft.com/en-us/dotnet/api/microsoft.extensions.options.ivalidateoptions-1?view=dotnet-plat-ext-7.0), который мы будем использовать дальше только синхронный.
 
-### 3. Создание метода расширения `ValidateFluentValidation`
+## 3. Создание метода расширения `ValidateFluentValidation`
 
 Следующий этап самый важный. Нужно добавить альтернативу метода `ValidateDataAnnotations` для FluentValidation, который я назвал `ValidateFluentValidation`. Это расширение довольно простое и похоже на версию для DataAnnotation:
 
@@ -237,7 +237,7 @@ public class FluentValidationOptions<TOptions>
 
 Теперь мы готовы собрать все кусочки пазла воедино, чтобы валидировать конфигурацию на старте приложения.
 
-## Собираем всё вместе
+# Собираем всё вместе
 
 Если мы соединим весь код из предыдущих шагов, зарегистрируем валидатор, полное приложение будет выглядеть как-то так:
 
@@ -335,7 +335,7 @@ public class FluentValidationOptions<TOptions> : IValidateOptions<TOptions> wher
 Unhandled exception. Microsoft.Extensions.Options.OptionsValidationException: Fluent validation failed for 'SlackApiSettings.DisplayName' with the error: ''Display Name' must not be empty.'.
    at Microsoft.Extensions.Options.OptionsFactory`1.Create(String name)
 ```
-## Пишем метод расширения
+# Пишем метод расширения
 
 Сейчас нужно помнить добавлять валидатор для настроек, включать валидацию для объекта конфига и включать валидацию на старте. Если вы хотите, вместо этого можно написать метод расширения, который будет делать это за вас:
 
@@ -375,7 +375,6 @@ var app = builder.Build();
 app.MapGet("/", (IOptions<SlackApiSettings> options) => options.Value);
 
 app.Run();
-And that's it, I hope you find this useful if you're using FluentValidation with ASP.NET Core!
 ```
 
 ## Вывод

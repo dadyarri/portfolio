@@ -1,75 +1,71 @@
 ---
-import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
-import formatDate from "@/utils/formatDate";
-import { Icon } from 'astro-icon'
-import { declensionOfMinutes } from "@/utils/declensionOfNumerals";
+import MainLayout from '@/layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import ContentTag from '@/components/content/tag/ContentTag.astro';
+import formatDate from '@/utils/formatDate';
+import { Icon } from 'astro-icon/components';
+import { declensionOfMinutes } from '@/utils/declensionOfNumerals';
 
 export async function getStaticPaths() {
-  const posts = await getCollection("posts");
+    const posts = await getCollection('posts');
 
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+    return posts.map((post) => ({
+        params: { slug: post.slug },
+        props: { post },
+    }));
 }
 
 type Props = {
-  post: CollectionEntry<"posts">;
+    post: CollectionEntry<'posts'>;
 };
 
 const { post } = Astro.props;
-const { Content,remarkPluginFrontmatter } = await post.render();
+const { Content, remarkPluginFrontmatter } = await post.render();
 ---
 
-<Layout title={post.data.title} type="post" slug={post.slug} description={post.data.description}>
-  <main
-    class="post md:mx-auto flex w-full max-w-prose md:max-w-full p-5 flex-col gap-4"
-  >
-    <header role="presentation">
-      <h1>
-        {post.data.title}
-      </h1>
-      <hr />
-      <div class="flex gap-2 items-center justify-center">
-        <div class="flex flex-col gap-3 justify-center items-center">
-          <div class="flex sm:flex-col md:flex-row items-baseline flex-wrap gap-1 justify-center">
-            {post.data.tags.map((tag) => (
-              <span class="tag">
-                {tag}
-              </span>
-            ))}
-          </div>
-          <div class="flex flex-row gap-2">
-            <Icon name="mdi:calendar" class="w-5"/>
-            <p class="date">
-              {formatDate(post.data.publishedAt)}
-            </p>
-            <p>|</p>
-            <div class="flex gap-1">
-              <Icon name="mdi:clock" class="w-5"/>
-              <p>{remarkPluginFrontmatter.minutesRead}&nbsp;{declensionOfMinutes(remarkPluginFrontmatter.minutesRead)}</p>
+<MainLayout
+    title={post.data.title}
+    type="post"
+    slug={post.slug}
+    description={post.data.description}
+>
+    <div class="page">
+        <div class="page__header">
+            <h1 class="header__title">{post.data.title}</h1>
+            <div class="header__info">
+                <Icon name="mdi:calendar" />
+                <span>{formatDate(post.data.publishedAt)}</span>
+                <span>|</span>
+                <Icon name="mdi:clock" />
+                <span
+                    >{remarkPluginFrontmatter.minutesRead}&nbsp;{
+                        declensionOfMinutes(remarkPluginFrontmatter.minutesRead)
+                    }</span
+                >
             </div>
-          </div>
-          {post.data.source && <div class="flex flex-row gap-2">
-            <Icon name="mdi:link" class="w-5"/>
-            <a href={post.data.source}>Источник</a>
-          </div>}
+            {
+                post.data.source && (
+                    <div class="header__info">
+                        <Icon name="mdi:link" class="w-5" />
+                        <a href={post.data.source}>Источник</a>
+                    </div>
+                )
+            }
+            <div class="header__tags">
+                <Icon name="mdi:tag" />
+                {post.data.tags.map((tag) => <ContentTag tag={tag} />)}
+            </div>
         </div>
-      </div>
-    </header>
 
-    <Content />
-  </main>
-
-  <script
-    src="https://utteranc.es/client.js"
-    repo="dadyarri/portfolio"
-    issue-term="pathname"
-    label="comments"
-    theme="preferred-color-scheme"
-    crossorigin="anonymous"
-    async
-  ></script>
-</Layout>
+        <div class="page__content"><Content /></div>
+    </div>
+    <script
+        src="https://utteranc.es/client.js"
+        repo="dadyarri/portfolio"
+        issue-term="pathname"
+        label="comments"
+        theme="preferred-color-scheme"
+        crossorigin="anonymous"
+        async></script>
+</MainLayout>
