@@ -65,4 +65,9 @@ export default [
         label: "Python",
         icon: "mdi:language-python"
     },
+    {
+        id: "books",
+        label: "Книги",
+        icon: "mdi:bookshelf"
+    }
 ] satisfies Tag[];
