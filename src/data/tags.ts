@@ -1,8 +1,26 @@
+type AllowedId = typeof tagIds[number];
+
 export type Tag = {
-    id: string,
+    id: AllowedId,
     label: string,
     icon?: string
 };
+
+export const tagIds = [
+    "asciidoc",
+    "astro",
+    "csharp",
+    "exp",
+    "translation",
+    "typescript",
+    "android",
+    "kotlin",
+    "coding",
+    "wpf",
+    "postgres",
+    "python",
+    "books"
+] as const;
 
 export default [
     {
