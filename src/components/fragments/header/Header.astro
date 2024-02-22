@@ -27,11 +27,13 @@ const pathname = removeTrailingSlash(Astro.url.pathname);
                                         pathname === item.href,
                                 }}
                             >
-                                <Icon name={item.icon}/>
+                                <Icon name={item.icon} />
                                 {item.label}
                             </a>
                         </li>
-                        {ind != destinations.length - 1 && <li class="navigation__divider">/</li>}
+                        {ind != destinations.length - 1 && (
+                            <li class="navigation__divider">/</li>
+                        )}
                     </>
                 ))
             }
@@ -42,20 +44,25 @@ const pathname = removeTrailingSlash(Astro.url.pathname);
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const scrollHeader = document.getElementById('header');
+        const triggerDistance = 50;
 
-        window.addEventListener('scroll', function () {
+        // Function to toggle header active state based on scroll distance
+        function toggleHeaderActiveState() {
+            if (scrollHeader == undefined) return;
+
             const scrollDistance = window.scrollY;
-            const triggerDistance = 50;
 
             if (scrollDistance > triggerDistance) {
-                scrollHeader!.classList.add(
-                    'header-active',
-                );
+                scrollHeader.classList.add('header-active');
             } else {
-                scrollHeader!.classList.remove(
-                    'header-active',
-                );
+                scrollHeader.classList.remove('header-active');
             }
-        });
+        }
+
+        // Listen for scroll events
+        window.addEventListener('scroll', toggleHeaderActiveState);
+
+        // Check scroll position on page load
+        toggleHeaderActiveState();
     });
 </script>
