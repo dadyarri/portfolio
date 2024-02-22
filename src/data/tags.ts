@@ -1,4 +1,4 @@
-type AllowedId = typeof tagIds[number];
+export type AllowedId = typeof tagIds[number];
 
 export type Tag = {
     id: AllowedId,
