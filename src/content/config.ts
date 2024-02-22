@@ -19,7 +19,7 @@ const projectsCollections = defineCollection({
     title: z.string(),
     description: z.string().default(""),
     deprecated: z.boolean(),
-    tags: z.array(z.string())
+    tags: z.array(z.enum(tagIds))
   })
 })
 

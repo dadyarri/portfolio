@@ -2,9 +2,10 @@
 import {Icon} from "astro-icon/components";
 import "./styles.css"
 import getTagDefinition from "@/utils/getTagDefinition";
+import type { AllowedId } from "@/data/tags";
 
 type Props = {
-    tag: string;
+    tag: AllowedId;
 };
 const {tag} = Astro.props;
 const tagInfo = getTagDefinition(tag);
