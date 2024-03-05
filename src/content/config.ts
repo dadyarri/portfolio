@@ -1,3 +1,4 @@
+import { tagIds } from "@/data/tags";
 import { defineCollection, z } from "astro:content";
 
 const postsCollection = defineCollection({
@@ -8,7 +9,7 @@ const postsCollection = defineCollection({
     publishedAt: z.date(),
     description: z.string().default(""),
     published: z.boolean().default(false),
-    tags: z.array(z.string())
+    tags: z.array(z.enum(tagIds))
   }),
 });
 
@@ -18,7 +19,7 @@ const projectsCollections = defineCollection({
     title: z.string(),
     description: z.string().default(""),
     deprecated: z.boolean(),
-    tags: z.array(z.string())
+    tags: z.array(z.enum(tagIds))
   })
 })
 
