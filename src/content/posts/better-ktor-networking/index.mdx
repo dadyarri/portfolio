@@ -129,9 +129,19 @@ data class ResponseWrapper<T>(
     val successMessage: String,
     val correlationId: String,
     val errors: List<String>,
-    val validationErrors: List<String>
+    val validationErrors: List<ValidationError>
 )
 
+```
+
+```kotlin title="ValidationError.kt"
+@Serializable
+data class ValidationError(
+    val identifier: String,
+    val errorMessage: String,
+    val errorCode: String,
+    val severity: Int
+)
 ```
 
 Кроме того, понадобится упрощённая версия этого объекта, с которой уже и будет работать код, вызывающий сетевые запросы.
