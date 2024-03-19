@@ -5,7 +5,7 @@ import ContentCard from '@/components/content/card/ContentCard.astro';
 import { Icon } from 'astro-icon/components';
 
 const posts = (await getCollection('posts'))
-    .filter((p) => p.data.published)
+    .filter((p) => p.data.published && p.data.publishedAt <= new Date())
     .sort(
         (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
     );
