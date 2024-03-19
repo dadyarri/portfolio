@@ -1,6 +1,6 @@
 ---
 title: 'Полиморфная сериализация в Kotlin и C#'
-description: 'Как '
+description: 'Как поместить в один JSON-массив данные разных типов'
 published: false
 publishedAt: 2024-03-19
 tags:
@@ -10,8 +10,6 @@ tags:
 ---
 
 # Введение
-
-Посмотрев [доклад](https://youtu.be/qod9Xgp6Sps) Алексея Голобурдина о том, как делиться своим опытом, я подумал, что стоит это делать чаще, ведь по крайней мере это может понадобиться мне в будущем, а может даже поможет кому-то ещё.
 
 В процессе работы над своим дипломом я столкнулся с интересной задачей: сформировать контент нескольких типов в один JSON-массив. Поскольку бэкенд написан на C#, то и пример будет для него. Например есть контент-ссылка (есть идентификатор и URL), контент-текст (есть идентификатор и содержимое) и контент-файл (есть идентификатор и название). Нужно как-то эти очевидно разные типы данных засунуть в одну кучу, чтобы приложение могло удобно это обрабатывать.
 
@@ -31,29 +29,31 @@ class ContentItem {
 
 ```json
 
-[
-    {
-        "id": "<some-guid>",
-        "type": "link",
-        "link": "https://example.com",
-        "title": null,
-        "text": null
-    },
-    {
-        "id": "<some-guid>",
-        "type": "text",
-        "link": null,
-        "title": null,
-        "text": "Lorem ipsum dolor sit amet."
-    },
-    {
-        "id": "<some-guid>",
-        "type": "file",
-        "link": null,
-        "title": null,
-        "text": "Файл_final(1).docx"
-    },
-]
+{
+    "items": [
+        {
+            "id": "<some-guid>",
+            "type": "link",
+            "link": "https://example.com",
+            "title": null,
+            "text": null
+        },
+        {
+            "id": "<some-guid>",
+            "type": "text",
+            "link": null,
+            "title": null,
+            "text": "Lorem ipsum dolor sit amet."
+        },
+        {
+            "id": "<some-guid>",
+            "type": "file",
+            "link": null,
+            "title": null,
+            "text": "Файл_final(1).docx"
+        },
+    ]
+}
 
 
 ```
@@ -89,7 +89,6 @@ class FileContentItem: IContentItem {
 }
 
 class GetContentResponse {
-    // ...
     public required IEnumerable<IContentItem> Items {get; set;}
 }
 ```
@@ -98,20 +97,22 @@ class GetContentResponse {
 
 ```json
 
-[
-    {
-        "id": "<some-guid>",
-        "contentType": "link"
-    }
-    {
-        "id": "<some-guid>",
-        "contentType": "text"
-    },
-    {
-        "id": "<some-guid>",
-        "contentType": "file"
-    },
-]
+{
+    "items": [
+        {
+            "id": "<some-guid>",
+            "contentType": "link"
+        }
+        {
+            "id": "<some-guid>",
+            "contentType": "text"
+        },
+        {
+            "id": "<some-guid>",
+            "contentType": "file"
+        },
+    ]
+}
 ```
 
 Такое поведение (естественно) меня не устраивало. В Newtonsoft.Json разрешить полиморфизм при сериализации можно одним параметром. Но я во всём приложении использую `System.Text.Json`, поэтому и говорить буду про него. Здесь такого параметра нет, значит нужно написать свой конвертер для типа `IContentItem`, который поможет правильно сериализовать объект в зависимости от типа контента.
@@ -159,25 +160,146 @@ app.UseFastEndpoints(c => {
 
 
 ```json
-[
-    {
-        "id": "<some-guid>",
-        "type": "link",
-        "link": "https://example.com"
-    },
-    {
-        "id": "<some-guid>",
-        "type": "text",
-        "text": "Lorem ipsum dolor sit amet."
-    },
-    {
-        "id": "<some-guid>",
-        "type": "file",
-        "text": "Файл_final(1).docx"
-    },
-]
+{
+    "items": [
+        {
+            "id": "<some-guid>",
+            "type": "link",
+            "link": "https://example.com"
+        },
+        {
+            "id": "<some-guid>",
+            "type": "text",
+            "text": "Lorem ipsum dolor sit amet."
+        },
+        {
+            "id": "<some-guid>",
+            "type": "file",
+            "text": "Файл_final(1).docx"
+        },
+    ]
+}
 ```
 
 # Окей, а как это парсить на клиенте?
 
 Хороший вопрос, и ответ на него несложный. `kotlinx.serialization` умеет в полиморфную сериализацию. Достаточно написать кастомный сериализатор, который подскажет, какие типы в зависимости от чего брать. Для начала добавим классы, которые опишут модели данных, которые приходят из API.
+
+Опишем вот такой базовый тип, от которого будут наследоваться все типы контента:
+
+```kotlin title="ContentItems.kt"
+@Serializable(ContentSerializer::class)
+sealed class BaseContentItem {
+    @Serializable(ContentTypeSerializer::class)
+    abstract val contentType: ContentType
+}
+```
+
+И классы, описывающие конкретные типы контента:
+
+```kotlin title="ContentItems.kt"
+@Serializable
+data class TextContentItem(
+    @Serializable(UuidSerializer::class) val id: UUID,
+
+    override val contentType: ContentType = ContentType.Text,
+
+    val text: String
+) : BaseContentItem()
+
+@Serializable
+data class FileContentItem(
+    @Serializable(UuidSerializer::class) val id: UUID,
+
+    override val contentType: ContentType = ContentType.File,
+
+    val title: String
+) : BaseContentItem()
+
+@Serializable
+data class LinkContentItem(
+    @Serializable(UuidSerializer::class) val id: UUID,
+
+    override val contentType: ContentType = ContentType.Link,
+
+    val link: String
+) : BaseContentItem()
+
+```
+
+Эти типы различаются не только набором полей, но и типом контента. Он описан перечислением:
+
+```kotlin title="ContentType.kt"
+@Serializable(ContentTypeSerializer::class)
+enum class ContentType(val typeName: String) {
+    Text("text"),
+    Link("link"),
+    File("file"),
+    Assignment("assignment")
+}
+```
+
+Для того, чтобы он корректно парсился из JSON, добавим ему кастомный сериализатор:
+
+```kotlin title="ContentTypeSerializer.kt"
+object ContentTypeSerializer : KSerializer<ContentType> {
+    override val descriptor = PrimitiveSerialDescriptor("ContentType", PrimitiveKind.STRING)
+
+    override fun serialize(encoder: Encoder, value: ContentType) {
+        encoder.encodeString(value.typeName)
+    }
+
+    override fun deserialize(decoder: Decoder): ContentType {
+        val typeName = decoder.decodeString()
+        return ContentType.entries.first { it.typeName == typeName }
+    }
+}
+```
+
+Теперь понадобится сериализатор для базового типа контента, который будет понимать, по какому принципу выбирать сериализатор для конкретных типов:
+
+```kotlin title="ContentSerializer.kt"
+object ContentSerializer :
+    JsonContentPolymorphicSerializer<BaseContentItem>(BaseContentItem::class) {
+    override fun selectDeserializer(element: JsonElement): DeserializationStrategy<BaseContentItem> {
+        return when (element.jsonObject["contentType"]?.jsonPrimitive?.content) {
+            "text" -> TextContentItem.serializer()
+            "file" -> FileContentItem.serializer()
+            "link" -> LinkContentItem.serializer()
+            else -> throw SerializationException("No serializer was found")
+        }
+    }
+}
+```
+
+Теперь перед тем, как пытаться привести весь объект контента к базовому типу, сериализатор посмотрит на поле `contentType` и если найдёт там знакомое значение, будет использовать корректный сериализатор.
+
+Добавим вот такой сериализуемый класс, который содержит в себе список базовых элементов контента
+
+```kotlin title="ContentSection.kt"
+@Serializable
+data class ContentSection(
+    val items: List<BaseContentItem>
+)
+```
+
+Отлично, теперь можно работать с запросами как [обычно](/posts/better-ktor-networking):
+
+```kotlin title="InternshipsService.kt"
+suspend fun getContent(id: UUID): Response<ContentSection> {
+    val httpClient = HttpClientFactory.httpClient
+    val authHeaderValue = authManager.getAuthHeaderValue()
+    return httpClient.safeRequest {
+        method = HttpMethod.Get
+        url("/content/${id}")
+        accept(ContentType.Application.Json)
+        headers {
+            append(HttpHeaders.Authorization, authHeaderValue)
+        }
+    }
+}
+```
+
+# Заключение
+
+В этой статье я показал, как можно добавить отправку массивов JSON с объектами разных типов из бэкенда на C#/.NET и парсинг этих данных обратно в объекты в приложении на kotlin.
