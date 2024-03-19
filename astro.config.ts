@@ -6,31 +6,26 @@ import { SITE_URL } from './src/data/config';
 import { remarkReadingTime } from './src/remark/reading-time';
 import { pluginCollapsibleSections } from '@expressive-code/plugin-collapsible-sections';
 import expressiveCode from 'astro-expressive-code';
-
 import sitemap from '@astrojs/sitemap';
 
+import purgecss from "astro-purgecss";
+
 // https://astro.build/config
-export default defineConfig({
-    integrations: [
-        tailwind(),
-        icon(),
-        expressiveCode({
-            plugins: [pluginCollapsibleSections()],
-        }),
-        mdx(),
-        sitemap(),
-    ],
-    site: SITE_URL,
-    markdown: {
-        syntaxHighlight: 'shiki',
-        shikiConfig: {
-            wrap: true,
-        },
-        remarkPlugins: [remarkReadingTime],
+export default defineConfig(({
+  integrations: [tailwind(), icon(), expressiveCode({
+    plugins: [pluginCollapsibleSections()]
+  }), mdx(), sitemap(), purgecss({fontFace: true, variables: true})],
+  site: SITE_URL,
+  markdown: {
+    syntaxHighlight: 'shiki',
+    shikiConfig: {
+      wrap: true
     },
-    vite: {
-        optimizeDeps: {
-            exclude: ['sharp'],
-        },
-    },
-} satisfies AstroUserConfig);
+    remarkPlugins: [remarkReadingTime]
+  },
+  vite: {
+    optimizeDeps: {
+      exclude: ['sharp']
+    }
+  }
+} satisfies AstroUserConfig));
