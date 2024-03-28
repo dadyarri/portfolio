@@ -41,7 +41,7 @@ ul {
 }
 
 li {
-    @apply dark:text-neutral-400;
+    @apply text-black dark:text-white;
 }
 
 .project-header {
