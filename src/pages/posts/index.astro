@@ -4,11 +4,9 @@ import { getCollection } from 'astro:content';
 import ContentCard from '@/components/content/card/ContentCard.astro';
 import { Icon } from 'astro-icon/components';
 
-const posts = (await getCollection('posts'))
-    .filter((p) => p.data.published && p.data.publishedAt <= new Date())
-    .sort(
-        (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
-    );
+const posts = (await getCollection('posts')).sort(
+    (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
 ---
 
 <MainLayout>
@@ -29,4 +27,21 @@ const posts = (await getCollection('posts'))
             }
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const posts = document.querySelectorAll('.content-card');
+            const now = new Date();
+
+            posts.forEach((post) => {
+                const publishedAt = new Date(
+                    post.getAttribute('data-published-at')!
+                );
+                if (publishedAt > now) {
+                    post.style.display = "none";
+                } else {
+                    post.style.display = "flex";
+                }
+            });
+        });
+    </script>
 </MainLayout>

@@ -11,7 +11,7 @@ const { title, description, publishedAt, tags, slug, deprecated } = Astro.props;
 const type = publishedAt ? 'post' : 'project';
 ---
 
-<a class="content-card" href=`/${type}s/${slug}`>
+<a class="content-card" href=`/${type}s/${slug}` data-published-at={publishedAt}>
     <div class="content-card__text">
         <div class="content-card__header">
             <p class="content-card__title">{title}</p>
