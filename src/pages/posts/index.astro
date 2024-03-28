@@ -29,7 +29,7 @@ const posts = (await getCollection('posts')).sort(
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const posts = document.querySelectorAll('.content-card');
+            const posts = Array.from(document.querySelectorAll('.content-card') as unknown as HTMLCollectionOf<HTMLElement>);
             const now = new Date();
 
             posts.forEach((post) => {
