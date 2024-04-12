@@ -90,6 +90,10 @@ export default [
                 name: "PostgreSQL",
                 frameworks: []
             },
+            {
+                name: "Microsoft SQL Server",
+                frameworks: []
+            },
 
         ]
     },
@@ -108,6 +112,10 @@ export default [
         name: "Скриптовое программирование",
         technologies: [
             {
+                name: "Powershell",
+                frameworks: []
+            },
+            {
                 name: "Python",
                 frameworks: []
             },
@@ -115,32 +123,28 @@ export default [
                 name: "Bash",
                 frameworks: []
             },
-            {
-                name: "Powershell",
-                frameworks: []
-            }
         ]
     },
-    {
-        name: "Операционные системы",
-        technologies: [
-            {
-                name: "Windows",
-                frameworks: []
-            },
-            {
-                name: "Debian",
-                frameworks: []
-            },
-            {
-                name: "Arch",
-                frameworks: []
-            },
-            {
-                name: "Fedora",
-                frameworks: []
-            }
+    // {
+    //     name: "Операционные системы",
+    //     technologies: [
+    //         {
+    //             name: "Windows",
+    //             frameworks: []
+    //         },
+    //         {
+    //             name: "Debian",
+    //             frameworks: []
+    //         },
+    //         {
+    //             name: "Arch",
+    //             frameworks: []
+    //         },
+    //         {
+    //             name: "Fedora",
+    //             frameworks: []
+    //         }
 
-        ]
-    }
+    //     ]
+    // }
 ] as TechnologyBlock[]
