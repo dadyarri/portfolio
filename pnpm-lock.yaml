@@ -67,11 +67,11 @@ importers:
         specifier: ^1.0.3
         version: 1.0.3
       prettier:
-        specifier: ^3.0.3
-        version: 3.0.3
+        specifier: ^3.3.2
+        version: 3.3.2
       prettier-config-standard:
         specifier: ^7.0.0
-        version: 7.0.0(prettier@3.0.3)
+        version: 7.0.0(prettier@3.3.2)
       prettier-plugin-astro:
         specifier: ^0.12.0
         version: 0.12.0
@@ -5261,8 +5261,8 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  prettier@3.0.3:
-    resolution: {integrity: sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==}
+  prettier@3.3.2:
+    resolution: {integrity: sha512-rAVeHYMcv8ATV5d508CFdn+8/pHPpXeIid1DdrPwXnaAdH7cqjVbpJaT5eq4yRAFU/lsbwYwSF/n5iNrdJHPQA==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -13884,19 +13884,19 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier-config-standard@7.0.0(prettier@3.0.3):
+  prettier-config-standard@7.0.0(prettier@3.3.2):
     dependencies:
-      prettier: 3.0.3
+      prettier: 3.3.2
 
   prettier-plugin-astro@0.12.0:
     dependencies:
       '@astrojs/compiler': 1.8.2
-      prettier: 3.0.3
+      prettier: 3.3.2
       sass-formatter: 0.7.8
 
   prettier@2.8.8: {}
 
-  prettier@3.0.3: {}
+  prettier@3.3.2: {}
 
   prism-react-renderer@2.1.0(react@17.0.2):
     dependencies:
