@@ -5,4 +5,4 @@
 # npx lint-staged
 
 # pnpm
-pnpm exec lint-staged
+~/.local/share/pnpm/pnpm exec lint-staged

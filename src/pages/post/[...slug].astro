@@ -2,13 +2,9 @@
 import { type CollectionEntry, getCollection } from 'astro:content'
 import BlogPost from '@/layouts/BlogPost'
 import Code from '@/components/mdx/Code'
-import ListRelatedPosts from '@/components/ListRelatedPosts'
-import Share from '@/components/Share'
 import TableOfContents from '@/components/TableOfContents'
 import { getPosts } from '@/utils'
 import SButton from '@/components/mdx/SButton'
-import Disqus from '@/components/Disqus'
-import { disqusConfig } from '@/data/disqus.config'
 
 const posts = await getCollection('blog')
 export async function getStaticPaths() {
@@ -34,8 +30,6 @@ const getRelatedPosts = (post: Props) => {
 const relatedPosts = getRelatedPosts(post)
 
 const { Content, headings, remarkPluginFrontmatter } = await post.render()
-
-const disqusEnabled = disqusConfig.enabled
 ---
 
 <BlogPost
@@ -47,7 +41,6 @@ const disqusEnabled = disqusConfig.enabled
 	<div class='grid grid-cols-1 md:grid-cols-[20%_auto] gap-10 mt-8'>
 		<!-- aside  -->
 		<aside class='md:flex flex-col gap-8 hidden'>
-			<Share />
 			<div class='sticky top-24 self-start hidden md:block transition-all duration-200'>
 				{headings && headings.length > 0 && <TableOfContents {headings} />}
 			</div>
@@ -59,13 +52,18 @@ const disqusEnabled = disqusConfig.enabled
 				<Content components={{ pre: Code, SButton }} />
 			</div>
 
-			<!-- related posts -->
+			<!-- comments -->
 			<footer>
-				<h2 class='font-bold text-lg dark:text-white mb-6'>Related Posts</h2>
-				<ListRelatedPosts posts={relatedPosts} />
+				<h2 class='font-bold text-lg dark:text-white mb-6'>Комментарии</h2>
+				<script
+					src='https://utteranc.es/client.js'
+					repo='dadyarri/portfolio'
+					issue-term='pathname'
+					label='comments'
+					theme='preferred-color-scheme'
+					crossorigin='anonymous'
+					async></script>
 			</footer>
 		</article>
 	</div>
-
-	{disqusEnabled && <Disqus />}
 </BlogPost>
