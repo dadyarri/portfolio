@@ -45,7 +45,7 @@
 		"@tailwindcss/typography": "0.5.13",
 		"@tinacms/cli": "^1.5.47",
 		"@typescript-eslint/parser": "^6.16.0",
-		"clsx": "2.0.0",
+		"clsx": "2.1.1",
 		"eslint": "^8.57.0",
 		"eslint-plugin-astro": "^0.34.0",
 		"eslint-plugin-jsx-a11y": "^6.8.0",
