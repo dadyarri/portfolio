@@ -1,0 +1,6 @@
+type: post
+layout: layouts/post.vto
+author: Даниил
+
+metas:
+  title: "=title"
