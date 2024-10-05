@@ -3,9 +3,6 @@ base_url = "https://dadyarri.ru"
 title = "dadyarri"
 description = "Личный блог dadyarri"
 
-# Whether to automatically compile all Sass files in the sass directory
-compile_sass = true
-
 # Whether to build a search index to be used later on by a JavaScript library
 build_search_index = true
 
@@ -39,4 +36,4 @@ menu = [
 
 favicon = "/static/favicon.svg"
 fancy_code = true
-# comment = true
+dynamic_note = true
