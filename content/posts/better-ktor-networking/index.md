@@ -19,7 +19,7 @@ toc = true
 
 В `build.gradle.kts` уровня проекта добавим плагин сериализатора:
 
-```kts
+```kt
 plugins {
     // ...
     kotlin("plugin.serialization") version "1.9.22" apply false
@@ -28,7 +28,7 @@ plugins {
 
 В `build.gradle.kts` уровня модуля добавим следующие зависимости:
 
-```kts
+```kt
 dependencies {
     // ...
     val ktorVersion = "2.3.8"
@@ -45,7 +45,7 @@ dependencies {
 
 Так же понадобится активировать плагин в файле уровня модуля:
 
-```kts
+```kt
 
 plugins {
     // ...
