@@ -7,7 +7,7 @@ description = "Личный блог dadyarri"
 build_search_index = true
 
 # Name of the used theme
-theme = "apollo"
+theme = "dapollo"
 
 # Language
 default_language = "ru"
