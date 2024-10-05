@@ -11,7 +11,7 @@ template="homepage.html"
 
 Сейчас я работаю в [Системы и технологии](https://sicon.ru) бэкенд-разработчиком. В этом блоге я периодически пишу о своём опыте разработки и моих хобби
 
-## Контакты
+# Контакты
 
 - **Github**: [@dadyarri](https://github.com/dadyarri)
 - **Telegram**: [@dadyarri](https://t.me/dadyarri)

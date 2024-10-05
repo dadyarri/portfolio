@@ -36,3 +36,4 @@ menu = [
 favicon = "/static/favicon.svg"
 fancy_code = true
 dynamic_note = true
+toc = true
