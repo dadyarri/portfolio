@@ -21,7 +21,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Get the branch name without 'posts/' prefix
+      - name: Get content's type and name
         id: branch_name
         run: |
           BRANCH_NAME=${GITHUB_REF#refs/heads/}  # Extract branch name (without refs/heads/)
