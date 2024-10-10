@@ -9,10 +9,12 @@ on:
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Git
         run: |
@@ -39,6 +41,8 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           title: "Draft of ${{ steps.branch_name.outputs.content_type }} \"${{ steps.branch_name.outputs.content_name }}\""
+          draft: always-true
           branch: ${{ github.ref_name }}  # The current branch (e.g., 'posts/some-post')
           base: main
           body: "This pull request contains the draft for the ${{ steps.branch_name.outputs.content_type }} from branch `${{ steps.branch_name.outputs.content_name }}`."
+          assignees: dadyarri
