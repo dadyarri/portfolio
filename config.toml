@@ -30,7 +30,8 @@ socials = [
 ]
 
 menu = [
-    { name = "/Посты", url = "/posts", weight = 1 }
+    { name = "/Посты", url = "/posts", weight = 1 },
+    { name = "/Шпаргалки", url = "/minis", weight = 2 }
 ]
 
 favicon = "/static/favicon.svg"
