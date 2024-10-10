@@ -22,13 +22,23 @@ jobs:
       - name: Get the branch name without 'posts/' prefix
         id: branch_name
         run: |
-          echo "branch=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
-          echo "post_name=${{ ${ steps.branch_name.outputs.branch }#posts/ }}" >> $GITHUB_OUTPUT
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}  # Extract branch name (without refs/heads/)
+          if [[ "$BRANCH_NAME" == posts/* ]]; then
+            CONTENT_TYPE="post"
+          elif [[ "$BRANCH_NAME" == minis/* ]]; then
+            CONTENT_TYPE="mini"
+          else
+            echo "Branch does not match expected prefixes."
+            exit 1
+          fi
+          CONTENT_NAME=${BRANCH_NAME#*/}
+          echo "content_type=$CONTENT_TYPE" >> $GITHUB_OUTPUT
+          echo "content_name=$CONTENT_NAME" >> $GITHUB_OUTPUT
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         with:
-          title: "Draft of post \"${{ steps.branch_name.outputs.post_name }}\""
+          title: "Draft of ${{ steps.branch_name.outputs.content_type }} \"${{ steps.branch_name.outputs.content_name }}\""
           branch: ${{ github.ref_name }}  # The current branch (e.g., 'posts/some-post')
           base: main
-          body: "This pull request contains the draft for the post from branch `posts/${{ steps.branch_name.outputs.post_name }}`."
+          body: "This pull request contains the draft for the ${{ steps.branch_name.outputs.content_type }} from branch `${{ steps.branch_name.outputs.content_name }}`."
