@@ -23,7 +23,7 @@ jobs:
         id: branch_name
         run: |
           echo "branch=${GITHUB_REF##*/}" >> $GITHUB_OUTPUT
-          echo "post_name=${{ ${{ steps.branch_name.outputs.branch }}#posts/ }}" >> $GITHUB_OUTPUT
+          echo "post_name=${{ ${ steps.branch_name.outputs.branch }#posts/ }}" >> $GITHUB_OUTPUT
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
