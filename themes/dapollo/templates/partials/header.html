@@ -40,7 +40,9 @@
     {% endif %}
 
     {% if not page_has_og_description %}
-    {% if page.description %}
+    {% if page.summary %}
+    <meta property="og:description" content="{{ page.summary | striptags | truncate(length=130) }}" />
+    {% elif page.description %}
     <meta property="og:description" content="{{ page.description }}" />
     {% elif config.description %}
     <meta property="og:description" content="{{ config.description }}" />
@@ -56,12 +58,12 @@
     {% endif %}
 
     {# Favicon #}
-    <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href={{ get_url(path="favicon-48x48.png" ) }} sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href={{ get_url(path="/favicon.svg" ) }} />
+    <link rel="shortcut icon" href={{ get_url(path="/favicon.ico" ) }} />
+    <link rel="apple-touch-icon" sizes="180x180" href={{ get_url(path="apple-touch-icon.png") }} />
     <meta name="apple-mobile-web-app-title" content="dadyarri" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="manifest" href={{ get_url(path="site.webmanifest") }} />
 
     {# Font from cdn or disk #}
     {% if config.extra.use_cdn | default(value=false) %}
