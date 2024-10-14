@@ -15,7 +15,8 @@
             Nothing here?!
         {% endblock main_content %}
 
-        {% if page.extra.comment | default(value=false) %}
+        {% if page.extra.comment | default(value=false) and not page.draft %}
+        <hr class="after-post-divider">
         <div class="giscus"></div>
         {% include "_giscus_script.html" %}
         {% endif %}
