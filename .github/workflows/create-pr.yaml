@@ -47,7 +47,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Pull Request
-        if: ${{ steps.get_pr.outputs.existed_pulls }} == '[]'
+        if: ${{ steps.get_pr.outputs.existed_pulls == '[]' }}
         run: gh pr create -B main -H ${{ github.ref_name }} -t "Draft of ${{ steps.branch_name.outputs.content_type }} \"${{ steps.branch_name.outputs.content_name }}\"" -b "This pull request contains the draft for the ${{ steps.branch_name.outputs.content_type }} from branch `${{ steps.branch_name.outputs.content_name }}`." -a dadyarri -d
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
