@@ -149,11 +149,12 @@
 
                 {# Inline display of tags directly after the date #}
                 {% if page.taxonomies and page.taxonomies.tags %}
-                <span class="tags-label"> :: Метки:</span>
+                <br>
+                <span class="tags-label">Метки:</span>
                 <span class="tags">
                     {%- for tag in page.taxonomies.tags %}
                     <a href="{{ get_taxonomy_url(kind='tags', name=tag) }}" class="post-tag">{{ tag }}</a>{% if not
-                    loop.last %}, {% endif %}
+                    loop.last %} • {% endif %}
                     {% endfor %}
                 </span>
                 {% endif %}
