@@ -42,6 +42,8 @@ jobs:
         run: |
           EXISTED_PULLS_FOR_THE_BRANCH=$(gh pr list -B main -H ${{ github.ref_name }} --json id)
           echo "existed_pulls=$EXISTED_PULLS_FOR_THE_BRANCH" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Pull Request
         if: ${{ steps.get_pr.outputs.existed_pulls }} == '[]'
