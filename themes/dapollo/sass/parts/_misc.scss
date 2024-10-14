@@ -111,7 +111,19 @@ li {
 
 // change the line-through color
 del {
-  text-decoration-thickness: 1px;
+  position: relative;
+  appearance: none;
+  text-decoration: none;
+
+  &:before {
+    position: absolute;
+    content: '';
+    left: 0;
+    top: 45%;
+    right: 0;
+    border-top: 2px solid var(--border-color);
+    transform: skewY(-10deg);
+  }
 }
 
 @media all and (max-width: 640px) {
