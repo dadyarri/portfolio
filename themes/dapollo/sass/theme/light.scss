@@ -1,4 +1,4 @@
-$bg-0: #fff;
+$bg-0: #F2F8F8;
 $bg-1: darken($bg-0, 2%);
 $bg-2: darken($bg-1, 8%);
 
@@ -15,7 +15,7 @@ $text-1: darken($bg-0, 60%);
 
   --border-color: var(--bg-2);
 
-  --primary-color: #ef5350;
+  --primary-color: #31445E;
   --hover-color: white;
 
   // invert colour on hover for consistency 
