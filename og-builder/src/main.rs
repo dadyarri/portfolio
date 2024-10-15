@@ -1,11 +1,12 @@
 use async_std::task;
-use chromiumoxide::cdp::browser_protocol::page::{CaptureScreenshotFormat, ViewportBuilder};
+use chromiumoxide::cdp::browser_protocol::page::CaptureScreenshotFormat;
 use chromiumoxide::page::ScreenshotParams;
 use chromiumoxide::{Browser, BrowserConfig};
 use futures::StreamExt;
 use regex::Regex;
 use serde::Deserialize;
-use std::path::Path;
+use std::error::Error;
+use std::path::{Path, PathBuf};
 use std::time::Duration;
 use std::{fs, path};
 use tera::Tera;
@@ -34,7 +35,7 @@ fn render_template(preamble: &Preamble) -> Result<String, tera::Error> {
     Ok(rendered_html)
 }
 
-fn parse_preamble(file_path: &str) -> Result<Preamble, Box<dyn std::error::Error>> {
+fn parse_preamble(file_path: &str) -> Result<Preamble, Box<dyn Error>> {
     let content = fs::read_to_string(file_path)?;
     let re = Regex::new(r"^\+{3}([\s\S]+?)\+{3}").unwrap();
 
@@ -48,20 +49,20 @@ fn parse_preamble(file_path: &str) -> Result<Preamble, Box<dyn std::error::Error
 }
 
 #[async_std::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn main() -> Result<(), Box<dyn Error>> {
     let posts_path = Path::new("..").join("content").join("posts");
 
     let (mut browser, mut handler) = Browser::launch(
         BrowserConfig::builder()
             .new_headless_mode()
-            // .with_head()
+            .window_size(1160, 630)
             .build()?,
     )
-    .await?;
+        .await?;
 
-    let handle = async_std::task::spawn(async move {
+    async_std::task::spawn(async move {
         loop {
-            let _event = handler.next().await.unwrap();
+            let _event = handler.next().await;
         }
     });
 
@@ -82,31 +83,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
                     match render_template(&preamble) {
                         Ok(html) => {
-                            println!("{}", html);
-
-                            let page = browser
-                                .new_page(
-                                    "data:text/html,".to_owned() + &urlencoding::encode(&html),
-                                )
-                                .await?;
-
-                            page.wait_for_navigation_response().await?;
-                            task::sleep(Duration::from_secs(3)).await;
-
-                            let image = page
-                                .screenshot(
-                                    ScreenshotParams::builder()
-                                        .full_page(true)
-                                        .format(CaptureScreenshotFormat::Jpeg)
-                                        .quality(100)
-                                        .build(),
-                                )
-                                .await?;
-
-                            let og_image_path =
-                                absolute_path.parent().unwrap().join("og-image.jpeg");
-
-                            fs::write(og_image_path, image)?;
+                            save_og_image(&mut browser, absolute_path, &html).await?;
                         }
                         Err(e) => {
                             panic!("{}", e);
@@ -121,6 +98,34 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 
     browser.close().await?;
+    Ok(())
+}
+
+async fn save_og_image(browser: &mut Browser, absolute_path: PathBuf, html: &String) -> Result<(), Box<dyn Error>> {
+    let page = browser
+        .new_page(
+            "data:text/html,".to_owned() + &urlencoding::encode(&html),
+        )
+        .await?;
+
+    page.wait_for_navigation_response().await?;
+    task::sleep(Duration::from_millis(500)).await;
+
+    let image = page
+        .screenshot(
+            ScreenshotParams::builder()
+                .full_page(true)
+                .format(CaptureScreenshotFormat::Jpeg)
+                .quality(100)
+                .build(),
+        )
+        .await?;
+
+    let og_image_path =
+        absolute_path.parent().unwrap().join("og-image.jpeg");
+
+    fs::write(og_image_path, image)?;
+    
     Ok(())
 }
 
