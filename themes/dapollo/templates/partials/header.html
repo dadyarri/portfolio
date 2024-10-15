@@ -15,6 +15,10 @@
     {% endfor %}
     {% endif %}
 
+    {% if page.extra.og_image%}
+    <meta property="og:image" content={{ get_url(path=[current_path, page.extra.og_image] | join(sep=''))}} />
+    {% endif %}
+
     {# Site title #}
     {% set current_path = current_path | default(value="/") %}
     {% if current_path == "/" %}
@@ -61,9 +65,9 @@
     <link rel="icon" type="image/png" href={{ get_url(path="favicon-48x48.png" ) }} sizes="48x48" />
     <link rel="icon" type="image/svg+xml" href={{ get_url(path="/favicon.svg" ) }} />
     <link rel="shortcut icon" href={{ get_url(path="/favicon.ico" ) }} />
-    <link rel="apple-touch-icon" sizes="180x180" href={{ get_url(path="apple-touch-icon.png") }} />
+    <link rel="apple-touch-icon" sizes="180x180" href={{ get_url(path="apple-touch-icon.png" ) }} />
     <meta name="apple-mobile-web-app-title" content="dadyarri" />
-    <link rel="manifest" href={{ get_url(path="site.webmanifest") }} />
+    <link rel="manifest" href={{ get_url(path="site.webmanifest" ) }} />
 
     {# Font from cdn or disk #}
     {% if config.extra.use_cdn | default(value=false) %}
