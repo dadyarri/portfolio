@@ -4,11 +4,11 @@ use std::path;
 use std::path::Path;
 use tera::Tera;
 
-pub fn render_template(preamble: &Preamble) -> Result<String> {
+pub fn render_template(preamble: &Preamble, theme: &str) -> Result<String> {
     let template_path = Path::new(".")
         .join("..")
         .join("themes")
-        .join("dapollo")
+        .join(theme)
         .join("templates");
 
     let absolute_template_path = path::absolute(template_path)?;

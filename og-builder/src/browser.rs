@@ -30,13 +30,14 @@ pub(crate) async fn save_og_image(
     browser: &mut Browser,
     absolute_path: PathBuf,
     html: &String,
+    wait_for_browser_in_msecs: u64,
 ) -> Result<()> {
     let page = browser
         .new_page("data:text/html,".to_owned() + &urlencoding::encode(&html))
         .await?;
 
     page.wait_for_navigation_response().await?;
-    time::sleep(Duration::from_millis(500)).await;
+    time::sleep(Duration::from_millis(wait_for_browser_in_msecs)).await;
 
     let image = page
         .screenshot(

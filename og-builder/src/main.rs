@@ -1,4 +1,6 @@
+use crate::structs::Cli;
 use anyhow::Result;
+use clap::Parser;
 use std::path;
 use std::path::Path;
 use walkdir::WalkDir;
@@ -10,6 +12,8 @@ mod structs;
 
 #[tokio::main]
 async fn main() -> Result<()> {
+    let args = Cli::parse();
+
     let posts_path = Path::new("..").join("content").join("posts");
 
     let mut browser = browser::start_browser().await?;
@@ -24,8 +28,16 @@ async fn main() -> Result<()> {
             let absolute_path_str = absolute_path.to_str().unwrap();
 
             match parser::parse_preamble(absolute_path_str) {
-                Ok(preamble) => match render::render_template(&preamble) {
-                    Ok(html) => browser::save_og_image(&mut browser, absolute_path, &html).await?,
+                Ok(preamble) => match render::render_template(&preamble, &args.theme) {
+                    Ok(html) => {
+                        browser::save_og_image(
+                            &mut browser,
+                            absolute_path,
+                            &html,
+                            args.wait_for_browser_in_msec,
+                        )
+                        .await?
+                    }
                     Err(e) => return Err(e),
                 },
                 Err(e) => return Err(e),
