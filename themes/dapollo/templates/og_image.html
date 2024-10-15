@@ -15,25 +15,46 @@
             border-bottom: 10px solid #3F5878;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
+            align-items: flex-start;
+            justify-content: center;
             font-family: 'Jetbrains Mono';
+            height: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
         }
 
-        div {
+        .card {
+            margin: 40px;
+            width: 100vh;
+            height: 100%;
+            min-height: 100%;
+        }
+
+        .tags {
             display: flex;
+        }
+
+        .tag {
+            background-color: #ddd;
+            border-radius: 5px;
+            padding: 2px;
+            margin-top: 5px;
+            margin-right: 5px;
         }
     </style>
 </head>
 
 <body>
-    <h1>{{ title | safe }}</h1>
-    <time>{{ date | date(format="%Y-%m-%d") }}</time>
+    <div class="card">
+        <h1>{{ title | safe }}</h1>
+        <time>{{ date | date(format="%Y-%m-%d") }}</time>
 
-    <div>
-        {% for tag in tags %}
-        <span>{{ tag | safe }}</span>
-        {% endfor %}
+        <div class="tags">
+            {% for tag in tags %}
+            <span class="tag">{{ tag | safe }}</span>
+            {% endfor %}
+        </div>
     </div>
 </body>
 
