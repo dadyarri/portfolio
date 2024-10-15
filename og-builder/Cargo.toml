@@ -13,3 +13,4 @@ walkdir = "2.5.0"
 serde = { version = "1.0.210", features = ["derive"] }
 async-std = "1.13.0"
 futures = "0.3.31"
+urlencoding = "2.1.3"

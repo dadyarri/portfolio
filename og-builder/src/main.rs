@@ -1,14 +1,13 @@
-use chromiumoxide::browser::HeadlessMode;
-use chromiumoxide::cdp::browser_protocol::page::CaptureScreenshotFormat;
+use async_std::task;
+use chromiumoxide::cdp::browser_protocol::page::{CaptureScreenshotFormat, ViewportBuilder};
 use chromiumoxide::page::ScreenshotParams;
 use chromiumoxide::{Browser, BrowserConfig};
 use futures::StreamExt;
 use regex::Regex;
 use serde::Deserialize;
 use std::path::Path;
-use std::{fs, path};
 use std::time::Duration;
-use async_std::task;
+use std::{fs, path};
 use tera::Tera;
 use walkdir::WalkDir;
 
@@ -54,9 +53,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let (mut browser, mut handler) = Browser::launch(
         BrowserConfig::builder()
-            // .new_headless_mode()
-            .with_head()
-            .window_size(1280, 720)
+            .new_headless_mode()
+            // .with_head()
             .build()?,
     )
     .await?;
@@ -84,32 +82,31 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
                     match render_template(&preamble) {
                         Ok(html) => {
-
                             println!("{}", html);
 
                             let page = browser
-                                .new_page("data:text/html,".to_owned() + &html)
+                                .new_page(
+                                    "data:text/html,".to_owned() + &urlencoding::encode(&html),
+                                )
                                 .await?;
 
+                            page.wait_for_navigation_response().await?;
                             task::sleep(Duration::from_secs(3)).await;
 
                             let image = page
                                 .screenshot(
                                     ScreenshotParams::builder()
                                         .full_page(true)
-                                        .format(CaptureScreenshotFormat::Webp)
+                                        .format(CaptureScreenshotFormat::Jpeg)
+                                        .quality(100)
                                         .build(),
                                 )
                                 .await?;
 
                             let og_image_path =
-                                absolute_path.parent().unwrap().join("og-image.webp");
-
-                            let og_html_path =
-                                absolute_path.parent().unwrap().join("og-image.html");
+                                absolute_path.parent().unwrap().join("og-image.jpeg");
 
                             fs::write(og_image_path, image)?;
-                            fs::write(og_html_path, html)?;
                         }
                         Err(e) => {
                             panic!("{}", e);
