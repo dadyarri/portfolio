@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    {# CDN #}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jetbrains-mono@1.0.6/css/jetbrains-mono.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@4.5.8/index.min.css">
+
+    <style>
+        body {
+            border-bottom: 20px solid #3F5878;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            font-family: 'Jetbrains Mono';
+            height: 630px;
+            width: 1160px;
+            margin: 0;
+            padding: 0;
+            color: #f2f8f8;
+            background-color: #121212;
+        }
+
+        h1 {
+            font-size: 60px;
+            width: 80%;
+        }
+
+        p {
+            font-size: 40px;
+        }
+
+        .card {
+            margin: 40px;
+            width: 100%;
+        }
+
+        .tags {
+            display: flex;
+        }
+
+        .tag {
+            background-color: #f2f8f8;
+            color: #121212;
+            border-radius: 5px;
+            padding: 2px 5px;
+            margin-top: 5px;
+            margin-right: 20px;
+            font-size: 35px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>{{ title | safe }}</h1>
+        <p><time>{{ date | date(format="%d.%m.%Y") }}</time> :: dadyarri</p>
+
+        <div class="tags">
+            {% for tag in tags %}
+            <span class="tag">{{ tag | safe }}</span>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+[package]
+name = "og-builder"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+toml = "0.8.19"
+regex = "1.7"
+tera = "1"
+chromiumoxide = "0.7.0"
+tokio = { version = "1.40.0", features = ["full"] }
+walkdir = "2.5.0"
+serde = { version = "1.0.210", features = ["derive"] }
+async-std = "1.13.0"
+futures = "0.3.31"
+urlencoding = "2.1.3"
