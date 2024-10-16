@@ -1,10 +1,15 @@
 # The URL the site will be built for
 base_url = "https://dadyarri.ru"
-title = "dadyarri"
-description = "Личный блог dadyarri"
+title = "Личный блог dadyarri"
+description = "Мыслепомойка об IT и всяком вокруг"
+author = "dadyarri"
 
 # Whether to build a search index to be used later on by a JavaScript library
 build_search_index = true
+
+# Whether to generate an rss feed
+generate_feeds = true
+feed_filenames = ["rss.xml"]
 
 # Name of the used theme
 theme = "dapollo"
@@ -31,7 +36,7 @@ socials = [
 
 menu = [
     { name = "/Посты", url = "/posts", weight = 1 },
-    { name = "/Шпаргалки", url = "/minis", weight = 2 }
+    { name = "/Шпаргалки", url = "/minis", weight = 2 },
 ]
 
 favicon = "/static/favicon.svg"
