@@ -1,8 +1,9 @@
 use crate::structs::Cli;
-use anyhow::Result;
+use anyhow::{anyhow, Result};
 use clap::Parser;
-use std::path;
-use std::path::Path;
+use std::{fs, path};
+use std::path::{Path, PathBuf};
+use chromiumoxide::Browser;
 use walkdir::WalkDir;
 
 mod browser;
@@ -14,11 +15,24 @@ mod structs;
 async fn main() -> Result<()> {
     let args = Cli::parse();
 
-    let posts_path = Path::new("..").join("content").join("posts");
-
     let mut browser = browser::start_browser().await?;
 
-    for entry in WalkDir::new(posts_path).max_depth(2).into_iter() {
+    for section in args.sections.iter() {
+        let path = Path::new("..").join("content").join(section);
+        process_content(&path, &args, &mut browser).await?;
+    }
+
+    browser.close().await?;
+    Ok(())
+}
+
+async fn process_content(path: &PathBuf, args: &Cli, mut browser: &mut Browser) -> Result<()> {
+
+    if !fs::exists(path)? {
+        return Err(anyhow!("Path {path:?} does not exist"));
+    }
+
+    for entry in WalkDir::new(path).max_depth(2).into_iter() {
         let file = entry?;
         let file_name = file.file_name().to_string_lossy();
 
@@ -36,7 +50,7 @@ async fn main() -> Result<()> {
                             &html,
                             args.wait_for_browser_in_msec,
                         )
-                        .await?
+                            .await?
                     }
                     Err(e) => return Err(e),
                 },
@@ -44,7 +58,5 @@ async fn main() -> Result<()> {
             }
         }
     }
-
-    browser.close().await?;
     Ok(())
 }
