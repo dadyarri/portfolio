@@ -46,6 +46,7 @@ $language-colors: (
     "clojure": (#5881d8, "Clojure"),
     "bash": (#4eaa25, "Bash"),
     "default": (#333, "Code"),
+    "html": (#e34f26, "HTML"),
 );
 
 @mixin base-label-style($bg-color, $text-color: var(--label-color)) {
