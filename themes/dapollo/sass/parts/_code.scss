@@ -47,6 +47,7 @@ $language-colors: (
     "bash": (#4eaa25, "Bash"),
     "default": (#333, "Code"),
     "html": (#e34f26, "HTML"),
+    "toml": (#9c4221, "TOML"),
 );
 
 @mixin base-label-style($bg-color, $text-color: var(--label-color)) {
