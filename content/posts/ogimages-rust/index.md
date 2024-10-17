@@ -1,7 +1,7 @@
 +++
 title = "Генерация Open Graph изображений на Rust"
 date = "2024-10-17"
-draft = true
+draft = false
 
 [taxonomies]
 tags = ["Rust", "Блог"]
