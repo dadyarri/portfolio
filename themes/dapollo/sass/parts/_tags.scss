@@ -10,17 +10,13 @@
 
   a {
     font-family: var(--text-font);
-    color: var(--hover-color);
     text-decoration: none;
-    padding: 2px 4px;
-    border: 2px solid var(--hover-color);
-    border-radius: 4px;
-    margin-left: 6px;
-  }
+    border: none;
 
-  a::before {
-    content: "🏷 "; /* Ensure there's a space after the emoji for spacing */
-    display: inline;
-    white-space: nowrap !important;
+    &:hover {
+      background: none;
+      color: #999;
+      border-bottom: 1px solid var(--primary-color);
+    }
   }
 }

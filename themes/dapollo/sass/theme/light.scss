@@ -16,7 +16,7 @@ $text-1: darken($bg-0, 60%);
   --border-color: var(--bg-2);
 
   --primary-color: #31445E;
-  --hover-color: white;
+  --hover-color: var(--bg-2);
 
   // invert colour on hover for consistency 
   .social :hover {

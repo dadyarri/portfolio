@@ -18,6 +18,19 @@
   --code-font: 'Jetbrains Mono';
 }
 
+:root::-webkit-scrollbar {
+  width: 16px;
+}
+
+:root::-webkit-scrollbar-track {
+  background-color: var(--border-color);
+}
+
+:root::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  margin: 20px;
+}
+
 html {
   background-color: var(--bg-0);
   color: var(--text-0);
