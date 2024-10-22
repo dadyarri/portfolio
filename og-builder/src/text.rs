@@ -11,6 +11,12 @@ fn measure_text_dimensions(text: &str, font: &Font, scale: Scale) -> Result<f32>
     Ok(width)
 }
 
+pub fn measure_text_dimensions_pub(text: &str, font: &Font, font_size: i32) -> Result<f32> {
+    let scale = Scale::uniform(font_size as f32);
+
+    measure_text_dimensions(text, font, scale)
+}
+
 pub fn wrap_text(text: &str, font: &Font, font_size: i32, canvas_width: f32) -> Result<Vec<String>> {
     let scale = Scale::uniform(font_size as f32);
     let mut lines: Vec<String> = Vec::new();
