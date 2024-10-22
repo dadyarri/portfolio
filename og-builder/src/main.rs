@@ -12,6 +12,7 @@ mod structs;
 mod text;
 mod svg;
 mod paths;
+mod image;
 
 fn main() -> Result<()> {
     let args = Cli::parse();
@@ -51,6 +52,7 @@ fn process_content(path: &PathBuf, args: &Cli) -> Result<()> {
                     let wrapped_lines = text::wrap_text(&preamble.title, &font, 60, 1100f32)?;
 
                     let svg_path = absolute_path.parent().unwrap().join("og-image.svg");
+                    let png_path = absolute_path.parent().unwrap().join("og-image.png");
                     let css_path = Path::new(&root)
                         .join("themes")
                         .join(&args.theme)
@@ -86,6 +88,9 @@ fn process_content(path: &PathBuf, args: &Cli) -> Result<()> {
                     svg::close_g(&svg_path);
 
                     svg::close_svg(&svg_path);
+
+                    image::save_png(&svg_path, &png_path);
+                    fs::remove_file(&svg_path)?;
                 }
                 Err(e) => return Err(e),
             }
