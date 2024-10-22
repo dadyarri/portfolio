@@ -42,14 +42,14 @@ og_image = "og-image.jpeg"
 <meta property="og:title" content="Личный блог dadyarri" />
 <meta property="og:description" content="Мыслепомойка об IT и всяком вокруг" />
 <meta name="description" content="Мыслепомойка об IT и всяком вокруг" />
-<meta property="og:image" content=https://dadyarri.ru/posts/ogimages-rust/og-image.jpeg />
+<meta property="og:image" content=https://dadyarri.ru/posts/ogimages-rust/og-image.png />
 ```
 
 Разумеется, я мог бы сам рисовать такие изображения где-нибудь в Photoshop, например, но зачем, если это можно автоматизировать? 
 
 Например вот так выглядит превьюшка для этой статьи, которую я создал с помощью штуковины, о которой сейчас расскажу:
 
-{{ resize_image(path="posts/ogimages-rust/og-image.jpeg", width=1200, height=630, op="scale") }}
+{{ resize_image(path="posts/ogimages-rust/og-image.png", width=1200, height=630, op="scale") }}
 
 # Почему Rust?
 
@@ -101,7 +101,7 @@ tags = ["Rust", "Блог"]
 [extra]
 comment = true
 toc = true
-og_image = "og-image.jpeg"
+og_image = true
 ```
 Используем его и для заполнения шаблона OG Image. В шаблоне используется не все поля из этих метаданных, поэтому парсеру не обязательно знать обо всём:
 
