@@ -10,6 +10,7 @@ mod parser;
 mod render;
 mod structs;
 mod text;
+mod svg;
 
 #[tokio::main]
 async fn main() -> Result<()> {
