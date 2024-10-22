@@ -1,12 +1,10 @@
 use crate::structs::Cli;
 use anyhow::{anyhow, Result};
 use clap::Parser;
-use std::{fs, path};
 use std::path::{Path, PathBuf};
-use chromiumoxide::Browser;
+use std::{fs, path};
 use walkdir::WalkDir;
 
-mod browser;
 mod parser;
 mod render;
 mod structs;
@@ -15,19 +13,15 @@ mod structs;
 async fn main() -> Result<()> {
     let args = Cli::parse();
 
-    let mut browser = browser::start_browser().await?;
-
     for section in args.sections.iter() {
         let path = Path::new("..").join("content").join(section);
-        process_content(&path, &args, &mut browser).await?;
+        process_content(&path, &args).await?;
     }
 
-    browser.close().await?;
     Ok(())
 }
 
-async fn process_content(path: &PathBuf, args: &Cli, mut browser: &mut Browser) -> Result<()> {
-
+async fn process_content(path: &PathBuf, args: &Cli) -> Result<()> {
     if !fs::exists(path)? {
         return Err(anyhow!("Path {path:?} does not exist"));
     }
@@ -42,16 +36,9 @@ async fn process_content(path: &PathBuf, args: &Cli, mut browser: &mut Browser) 
             let absolute_path_str = absolute_path.to_str().unwrap();
 
             match parser::parse_preamble(absolute_path_str) {
+                // TODO: Изменить механизм рендера шаблона на svg, добавить автоматический расчёт координат (с учётом файла шрифта)
                 Ok(preamble) => match render::render_template(&preamble, &args.theme) {
-                    Ok(html) => {
-                        browser::save_og_image(
-                            &mut browser,
-                            absolute_path,
-                            &html,
-                            args.wait_for_browser_in_msec,
-                        )
-                            .await?
-                    }
+                    Ok(html) => {}
                     Err(e) => return Err(e),
                 },
                 Err(e) => return Err(e),
