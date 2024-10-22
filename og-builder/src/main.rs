@@ -39,11 +39,13 @@ async fn process_content(path: &PathBuf, args: &Cli) -> Result<()> {
             let absolute_path_str = absolute_path.to_str().unwrap();
 
             match parser::parse_preamble(absolute_path_str) {
-                // TODO: Изменить механизм рендера шаблона на svg, добавить автоматический расчёт координат (с учётом файла шрифта)
                 Ok(preamble) => {
                     let font_data = include_bytes!("../../fonts/jetbrains-mono.ttf") as &[u8];
                     let font = Font::try_from_bytes(font_data).expect("Error constructing Font");
                     let wrapped_lines = text::wrap_text(&preamble.title, &font, 60, 1100f32)?;
+
+                    let svg_path = absolute_path.parent().unwrap().join("og-image.svg");
+                    svg::create_svg(&svg_path, 1200, 630);
 
                     match render::render_template(&preamble, &args.theme) {
                         Ok(html) => {}
