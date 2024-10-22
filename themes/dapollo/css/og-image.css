@@ -4,6 +4,10 @@ text {
     fill: #f2f8f8;
 }
 
+.background {
+    fill: #121212;
+}
+
 .border {
     stroke: #3F5878;
     stroke-width: 20;
@@ -26,7 +30,7 @@ text {
 
 .tag {
     fill: #f2f8f8;
-    rx: 5;
+    border-radius: 5px;
 }
 
 .tag-label {

@@ -61,6 +61,7 @@ fn process_content(path: &PathBuf, args: &Cli) -> Result<()> {
 
                     svg::create_svg(&svg_path, 1200, 630);
                     svg::write_css(&svg_path, &css_path);
+                    svg::write_rect(&svg_path, 0, 0, 1200, 630, &"background".to_string());
                     svg::write_rect(&svg_path, 0, 610, 1200, 20, &"border".to_string());
 
                     let mut current_x = 20;
