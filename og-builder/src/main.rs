@@ -3,11 +3,13 @@ use anyhow::{anyhow, Result};
 use clap::Parser;
 use std::path::{Path, PathBuf};
 use std::{fs, path};
+use rusttype::Font;
 use walkdir::WalkDir;
 
 mod parser;
 mod render;
 mod structs;
+mod text;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -37,10 +39,16 @@ async fn process_content(path: &PathBuf, args: &Cli) -> Result<()> {
 
             match parser::parse_preamble(absolute_path_str) {
                 // TODO: Изменить механизм рендера шаблона на svg, добавить автоматический расчёт координат (с учётом файла шрифта)
-                Ok(preamble) => match render::render_template(&preamble, &args.theme) {
-                    Ok(html) => {}
-                    Err(e) => return Err(e),
-                },
+                Ok(preamble) => {
+                    let font_data = include_bytes!("../../fonts/jetbrains-mono.ttf") as &[u8];
+                    let font = Font::try_from_bytes(font_data).expect("Error constructing Font");
+                    let wrapped_lines = text::wrap_text(&preamble.title, &font, 60, 1100f32)?;
+
+                    match render::render_template(&preamble, &args.theme) {
+                        Ok(html) => {}
+                        Err(e) => return Err(e),
+                    }
+                }
                 Err(e) => return Err(e),
             }
         }
