@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+
+text {
+    font-family: 'Jetbrains Mono';
+    fill: #f2f8f8;
+}
+
+.border {
+    stroke: #3F5878;
+    stroke-width: 20;
+}
+
+.h1 {
+    font-size: 60px;
+    font-weight: bold;
+    width: 80%;
+}
+
+.p {
+    font-size: 40px;
+}
+
+.card {
+    margin: 40px;
+    width: 100%;
+}
+
+.tag {
+    fill: #f2f8f8;
+    rx: 5;
+}
+
+.tag-label {
+    fill: #121212;
+    font-size: 25px;
+}
