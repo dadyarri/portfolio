@@ -18,6 +18,8 @@ fn main() -> Result<()> {
     let args = Cli::parse();
     let root = paths::get_git_root()?;
 
+    env_logger::init();
+
     for section in args.sections.iter() {
         let path = Path::new(&root).join("content").join(section);
         process_content(&path, &args)?;
