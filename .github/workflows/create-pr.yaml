@@ -81,7 +81,9 @@ jobs:
         run: |
           cd bin
           chmod +x og-builder
-          RUST_LOG=debug,info,warn,error ./og-builder --theme dapollo
+          ./og-builder --theme dapollo
+        env:
+          RUST_LOG: info
 
       - name: Push new OG images to the repo
         if: ${{ steps.get_pr.outputs.existed_pulls }} == '[]'
