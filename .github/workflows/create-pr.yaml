@@ -42,12 +42,14 @@ jobs:
         run: |
           EXISTED_PULLS_FOR_THE_BRANCH=$(gh pr list -B main -H ${{ github.ref_name }} --json id)
           echo "existed_pulls=$EXISTED_PULLS_FOR_THE_BRANCH" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Pull Request
         id: create_pr
         if: ${{ steps.get_pr.outputs.existed_pulls }} == '[]'
         run: |
-          pr_url=$(gh pr create -B main -H ${{ github.ref_name }} -t "Draft of ${{ steps.branch_name.outputs.content_type }} \"${{ steps.branch_name.outputs.content_name }}\"" -b "This pull request contains the draft for the ${{ steps.branch_name.outputs.content_type }} from branch `${{ steps.branch_name.outputs.content_name }}`." -a dadyarri -d)
+          pr_url=$(gh pr create -B main -H "${{ github.ref_name }}" -t "Draft of ${{ steps.branch_name.outputs.content_type }} `${{ steps.branch_name.outputs.content_name }}`" -b "This pull request contains the draft for the ${{ steps.branch_name.outputs.content_type }} from branch `${{ steps.branch_name.outputs.content_name }}`." -a dadyarri -d)
           pr_number=$(echo $pr_url | grep -oP '(?<=\/pull\/)\d+')
           echo "pr_number=$pr_number" >> $GITHUB_OUTPUT
         env:
@@ -62,7 +64,10 @@ jobs:
 
       - name: Generate OG images
         if: ${{ steps.get_pr.outputs.existed_pulls }} == '[]'
-        run: ./bin/og-builder --theme dapollo
+        run: |
+          cd bin
+          chmod +x og-builder
+          ./og-builder --theme dapollo
 
       - name: Push new OG images to the repo
         if: ${{ steps.get_pr.outputs.existed_pulls }} == '[]'
@@ -70,3 +75,5 @@ jobs:
           git add .
           git commit -m "updated og-images"
           git push
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
