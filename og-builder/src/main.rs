@@ -15,10 +15,9 @@ mod paths;
 mod image;
 
 fn main() -> Result<()> {
+    env_logger::init();
     let args = Cli::parse();
     let root = paths::get_git_root()?;
-
-    env_logger::init();
 
     for section in args.sections.iter() {
         let path = Path::new(&root).join("content").join(section);
