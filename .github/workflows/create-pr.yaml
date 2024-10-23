@@ -60,7 +60,8 @@ jobs:
           wget -O jetbrains-mono.zip https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip
           unzip -d jetbrains-mono/ jetbrains-mono.zip
           mkdir -p /usr/share/fonts/
-          mv jetbrains-mono /usr/share/fonts/
+          mv jetbrains-mono/fonts/ttf/* /usr/share/fonts/
+          rm jetbrains-mono
           fc-cache -fv
           fc-list | grep -qi "jetbrains" || { echo "Font not installed"; exit 1; }
 
