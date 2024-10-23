@@ -55,6 +55,14 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install Jetbrains Mono font
+        run: |
+          wget -O jetbrains-mono.zip https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip
+          unzip -d jetbrains-mono/ jetbrains-mono.zip
+          mkdir -p /usr/share/fonts/
+          mv jetbrains-mono /usr/share/fonts/
+          fc-cache -fv
+
       - name: Checkout pull request branch
         if: ${{ steps.get_pr.outputs.existed_pulls }} == '[]'
         run: |
