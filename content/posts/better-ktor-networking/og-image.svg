@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" style="background-color: #121212; color: #f2f8f8;">
+<style>
+
+text {
+    font-family: 'JetBrainsMono NFP';
+    fill: #f2f8f8;
+}
+
+.background {
+    fill: #121212;
+}
+
+.border {
+    stroke: #3F5878;
+    stroke-width: 20;
+}
+
+.h1 {
+    font-size: 60px;
+    font-weight: bold;
+    width: 80%;
+}
+
+.p {
+    font-size: 40px;
+}
+
+.card {
+    margin: 40px;
+    width: 100%;
+}
+
+.tag {
+    fill: #f2f8f8;
+    border-radius: 5px;
+}
+
+.tag-label {
+    fill: #121212;
+    font-size: 25px;
+}
+</style>
+
+<rect class="background" x="0" y="0" width="1200" height="630"></rect>
+<rect class="border" x="0" y="610" width="1200" height="20"></rect>
+<text class="h1" x="20" y="235">Ktor для сетевых запросов в</text>
+<text class="h1" x="20" y="305">мобильном приложении</text>
+<text class="p" x="20" y="375">08.03.2024 :: dadyarri</text>
+<g>
+
+<rect class="tag" x="20" y="415" width="119" height="40"></rect>
+<text class="tag-label" x="30" y="445">Android</text>
+<rect class="tag" x="159" y="415" width="108" height="40"></rect>
+<text class="tag-label" x="169" y="445">Kotlin</text>
+</g>
+</svg>
