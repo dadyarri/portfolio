@@ -83,7 +83,7 @@ jobs:
         run: |
           cd bin
           chmod +x og-builder
-          ./og-builder --theme dapollo
+          ./og-builder --theme dapollo --sections 'posts,minis'
         env:
           RUST_LOG: info
 
