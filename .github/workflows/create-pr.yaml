@@ -42,6 +42,8 @@ jobs:
         run: |
           EXISTED_PULLS_FOR_THE_BRANCH=$(gh pr list -B main -H ${{ github.ref_name }} --json id)
           echo "existed_pulls=$EXISTED_PULLS_FOR_THE_BRANCH" >> $GITHUB_OUTPUT
+          echo ${{ github.ref_name }}
+          echo $EXISTED_PULLS_FOR_THE_BRANCH
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
