@@ -7,12 +7,16 @@ draft = false
 comment = true
 +++
 
+Как удобнее использовать конфигурацию из `appsettings.json` в ASP.NET
+
+<!--more-->
+
 Допустим, есть такая секция в `appsettings.json`:
 
 ```json
 "SomeApp": {
-    "Token": "",
-    "Secret": ""
+    "Token": "***",
+    "Secret": "***"
 }
 ```
 Как её удобнее внедрить в DI, чтобы потом использовать её объект напрямую, без использования IOptions<SomeType>?
