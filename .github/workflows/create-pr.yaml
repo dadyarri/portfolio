@@ -49,7 +49,7 @@ jobs:
 
       - name: Create Pull Request
         id: create_pr
-        if: ${{ steps.get_pr.outputs.existed_pulls }} == '[]'
+        if: steps.get_pr.outputs.existed_pulls == '[]'
         run: |
           pr_url=$(gh pr create -B main -H "${{ github.ref_name }}" -t "Draft of ${{ steps.branch_name.outputs.content_type }} `${{ steps.branch_name.outputs.content_name }}`" -b "This pull request contains the draft for the ${{ steps.branch_name.outputs.content_type }} from branch `${{ steps.branch_name.outputs.content_name }}`." -a dadyarri -d)
           pr_number=$(echo $pr_url | grep -oP '(?<=\/pull\/)\d+')
@@ -58,7 +58,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install Jetbrains Mono font
-        if: ${{ steps.get_pr.outputs.existed_pulls }} == '[]'
+        if: steps.get_pr.outputs.existed_pulls == '[]'
         id: install_font
         run: |
           wget -O jetbrains-mono.zip https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip
@@ -71,7 +71,7 @@ jobs:
           fc-list | grep -qi "jetbrains" || { echo "Font not installed"; exit 1; }
 
       - name: Checkout pull request branch
-        if: ${{ steps.get_pr.outputs.existed_pulls }} == '[]'
+        if: steps.get_pr.outputs.existed_pulls == '[]'
         run: |
           gh pr checkout ${{ steps.create_pr.outputs.pr_number }}
         env:
@@ -79,7 +79,7 @@ jobs:
 
       - name: Generate OG images
         id: generate_images
-        if: ${{ steps.get_pr.outputs.existed_pulls }} == '[]'
+        if: steps.get_pr.outputs.existed_pulls == '[]'
         run: |
           cd bin
           chmod +x og-builder
@@ -88,7 +88,7 @@ jobs:
           RUST_LOG: info
 
       - name: Push new OG images to the repo
-        if: ${{ steps.get_pr.outputs.existed_pulls }} == '[]'
+        if: steps.get_pr.outputs.existed_pulls == '[]'
         run: |
           git add .
           git commit -m "updated og-images"
