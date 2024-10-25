@@ -1,7 +1,7 @@
 +++
 title = "Связывание конфигурации из JSON с моделью в ASP.NET"
 date = "2024-10-26"
-draft = true
+draft = false
 
 [extra]
 comment = true
