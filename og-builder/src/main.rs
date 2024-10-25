@@ -5,6 +5,8 @@ use clap::Parser;
 use rusttype::Font;
 use std::path::{Path, PathBuf};
 use std::{fs, path};
+use std::time::Instant;
+use log::info;
 use walkdir::WalkDir;
 
 mod parser;
@@ -20,8 +22,10 @@ fn main() -> Result<()> {
     let root = paths::get_git_root()?;
 
     for section in args.sections.iter() {
+        info!("Section: {:?}", section);
         let path = Path::new(&root).join("content").join(section);
         process_content(&path, &args)?;
+        println!();
     }
 
     Ok(())
@@ -34,12 +38,16 @@ fn process_content(path: &PathBuf, args: &Cli) -> Result<()> {
 
     let root = paths::get_git_root()?;
 
+    let mut total_time = 0;
+
     for entry in WalkDir::new(path).max_depth(2).into_iter() {
         let file = entry?;
         let file_name = file.file_name().to_string_lossy();
 
         if file_name.ends_with(".md") & !file_name.starts_with("_") {
             let post_path = file.path().to_str().unwrap();
+            info!("Processing file: {:?}", paths::get_readable_directory(&mut file.path())?);
+            let start_timestamp = Instant::now();
             let absolute_path = path::absolute(post_path)?;
             let absolute_path_str = absolute_path.to_str().unwrap();
 
@@ -96,7 +104,13 @@ fn process_content(path: &PathBuf, args: &Cli) -> Result<()> {
                 }
                 Err(e) => return Err(e),
             }
+            let elapsed = start_timestamp.elapsed().as_millis();
+            total_time += elapsed;
+            info!("Finished in {} ms", elapsed);
         }
     }
+
+    info!("Total time: {} ms", total_time);
+
     Ok(())
 }
