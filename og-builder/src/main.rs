@@ -58,7 +58,7 @@ fn process_content(path: &PathBuf, args: &Cli) -> Result<()> {
                         .join("jetbrains-mono.ttf");
                     let font_data = fs::read(&font_path)?;
                     let font = Font::try_from_bytes(&*font_data).expect("Error constructing Font");
-                    let wrapped_lines = text::wrap_text(&preamble.title, &font, 60, 1100f32)?;
+                    let wrapped_lines = text::wrap_text(&preamble["title"].as_str().unwrap(), &font, 60, 1100f32)?;
 
                     let svg_path = absolute_path.parent().unwrap().join("og-image.svg");
                     let png_path = absolute_path.parent().unwrap().join("og-image.png");
@@ -81,18 +81,23 @@ fn process_content(path: &PathBuf, args: &Cli) -> Result<()> {
                         current_y += 70;
                     }
 
-                    svg::write_text(&svg_path, &format!("{} :: dadyarri", NaiveDate::parse_from_str(&*preamble.date, "%Y-%m-%d")?.format("%d.%m.%Y")), current_x, current_y, &"p".to_string());
+                    svg::write_text(&svg_path, &format!("{} :: dadyarri", NaiveDate::parse_from_str(&*preamble["date"].as_str().unwrap(), "%Y-%m-%d")?.format("%d.%m.%Y")), current_x, current_y, &"p".to_string());
 
                     svg::open_g(&svg_path);
 
                     current_y += 40;
 
-                    for tag in preamble.taxonomies.tags {
-                        let tag_width = text::measure_text_dimensions_pub(&tag, &font, 25)? as i32;
-                        svg::write_rect(&svg_path, current_x, current_y, tag_width, 40, &"tag".to_string());
-                        svg::write_text(&svg_path, &tag, current_x + 10, current_y + 30, &"tag-label".to_string());
+                    if let Some(taxonomies) = preamble.get("taxonomies") {
+                        if let Some(tags) = taxonomies.get("tags") {
+                            for tag in tags.as_array().unwrap() {
+                                let tag_str = &tag.as_str().unwrap();
+                                let tag_width = text::measure_text_dimensions_pub(&tag_str, &font, 25)? as i32;
+                                svg::write_rect(&svg_path, current_x, current_y, tag_width, 40, &"tag".to_string());
+                                svg::write_text(&svg_path, &tag_str, current_x + 10, current_y + 30, &"tag-label".to_string());
 
-                        current_x += tag_width + 20;
+                                current_x += tag_width + 20;
+                            }
+                        }
                     }
 
                     svg::close_g(&svg_path);

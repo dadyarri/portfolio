@@ -1,9 +1,9 @@
-use crate::structs;
 use anyhow::anyhow;
 use regex::Regex;
 use std::fs;
+use toml::Value;
 
-pub(crate) fn parse_preamble(file_path: &str) -> anyhow::Result<structs::Preamble> {
+pub(crate) fn parse_preamble(file_path: &str) -> anyhow::Result<Value> {
     let content = fs::read_to_string(file_path)?;
     let re = Regex::new(r"^\+{3}([\s\S]+?)\+{3}")?;
 
@@ -13,7 +13,7 @@ pub(crate) fn parse_preamble(file_path: &str) -> anyhow::Result<structs::Preambl
             |m| Ok(m.as_str()),
         )?;
 
-        let preamble: structs::Preamble = toml::from_str(toml_str)?;
+        let preamble = toml_str.parse::<Value>()?;
         Ok(preamble)
     } else {
         Err(anyhow!("Preamble not found"))
