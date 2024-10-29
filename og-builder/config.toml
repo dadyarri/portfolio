@@ -1,10 +1,10 @@
 # Global settings for the image
 [image]
-width = 1200
-height = 630
-padding = 20  # Padding for overall content layout
+width = 1200 # Recommended canvas width for OG Image
+height = 630 # Recommended height width for OG Image
+padding = 20 # Commmon padding for entire canvas
 
-# Default styling for all text elements
+# Common text styling
 [text]
 font_family = "JetBrainsMono NFP, JetBrains Mono"
 fill = "#f2f8f8"
