@@ -1,7 +1,9 @@
 use anyhow::anyhow;
 use regex::Regex;
 use std::fs;
+use std::path::PathBuf;
 use toml::Value;
+use crate::structs::OgConfig;
 
 pub(crate) fn parse_preamble(file_path: &str) -> anyhow::Result<Value> {
     let content = fs::read_to_string(file_path)?;
@@ -18,4 +20,10 @@ pub(crate) fn parse_preamble(file_path: &str) -> anyhow::Result<Value> {
     } else {
         Err(anyhow!("Preamble not found"))
     }
+}
+
+pub(crate) fn parse_config(file_path: &PathBuf) -> anyhow::Result<OgConfig> {
+    let content = fs::read_to_string(file_path)?;
+    let config: OgConfig = toml::from_str(&content)?;
+    Ok(config)
 }

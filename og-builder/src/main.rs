@@ -21,6 +21,9 @@ fn main() -> Result<()> {
     let args = Cli::parse();
     let root = paths::get_git_root()?;
 
+    let config_path = Path::new(&root).join("ogconfig.toml");
+    let config = parser::parse_config(&config_path)?;
+
     for section in args.sections.iter() {
         info!("Section: {:?}", section);
         let path = Path::new(&root).join("content").join(section);
