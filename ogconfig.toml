@@ -4,9 +4,8 @@ width = 1200 # Recommended canvas width for OG Image
 height = 630 # Recommended height width for OG Image
 padding = 20 # Commmon padding for entire canvas
 
-# Common text styling
-[text]
-font_family = "JetBrainsMono NFP, JetBrains Mono"
+[[fonts]]
+path = "fonts/jetbrains-mono.ttf"
 
 # Background settings
 [background]
