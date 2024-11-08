@@ -4,7 +4,7 @@ use rusttype::{point, Font, Scale};
 fn measure_text_dimensions(text: &str, font: &Font, scale: Scale) -> Result<f32> {
     let width = font
         .layout(text, scale, point(40.0, 40.0))
-        .map(|g| g.position().x + g.unpositioned().h_metrics().advance_width)
+        .map(|g| g.position().x)
         .last()
         .unwrap_or(0.0);
 
