@@ -5,6 +5,7 @@ use clap::Parser;
 use rusttype::Font;
 use std::path::{Path, PathBuf};
 use std::{fs, path};
+use std::collections::HashMap;
 use std::time::Instant;
 use log::{info, warn};
 use svg::Document;
@@ -112,15 +113,86 @@ fn process_content(path: &PathBuf, args: &Cli, config: &OgConfig) -> Result<()> 
                         }
 
                         document = document.add(border_rect);
-
                     }
 
-                    // let font_path = Path::new(&root)
-                    //     .join("fonts")
-                    //     .join("jetbrains-mono.ttf");
-                    // let font_data = fs::read(&font_path)?;
-                    // let font = Font::try_from_bytes(&*font_data).expect("Error constructing Font");
-                    // let wrapped_lines = text::wrap_text(&preamble["title"].as_str().unwrap(), &font, 60, 1100f32)?;
+                    // Prepare fonts
+
+                    let mut fonts = HashMap::new();
+
+                    for font_config in &config.fonts {
+                        let path = Path::new(&root).join(&font_config.path);
+
+                        if let Ok(font_data) = fs::read(&path) {
+                            if let Some(font) = Font::try_from_vec(font_data.clone()) {
+                                info!("Font {:?} loaded", font_config.name);
+                                fonts.insert(&font_config.name, font);
+                            }
+                        }
+                    }
+
+                    // Caclulate start y coordinate
+
+                    let mut total_height = 0;
+
+                    for section in &config.sections {
+                        let font = fonts.get(&section.font_family).unwrap();
+                        let mut section_height = 0;
+                        match preamble::get_nested_value(&preamble, &section.preamble_key) {
+                            Some(value) => {
+                                if value.is_str() {
+                                    let value = value.as_str().unwrap();
+                                    if section.wrap_lines {
+                                        let wrapped_lines = text::wrap_text(value, &font, section.font_size, (config.image.width - config.image.padding) as f32)?;
+                                        section_height = wrapped_lines.count() * section.font_size * section.line_height;
+                                    } else {
+                                        section_height = section.font_size * section.line_height;
+                                    }
+                                } else if value.is_array() {
+                                    section_height = section.font_size * section.line_height;
+                                }
+                            }
+                            None => {}
+                        }
+
+                        total_height += section_height
+                    }
+
+                    let mut current_y = (config.image.height - total_height) / 2 + config.image.padding;
+
+                    // Draw sections
+
+                    for section in &config.sections {
+                        match preamble::get_nested_value(&preamble, &section.preamble_key) {
+                            None => {
+                                if section.optional {
+                                    warn!("{0} is not in preamble of {1}", section.preamble_key, readable_name)
+                                } else {
+                                    return Err(anyhow!("{0} is not in preamble of {1}", section.preamble_key, readable_name));
+                                }
+                            }
+                            Some(value) => {
+                                if let Some(list_options) = &section.list {
+                                    let value_arr: Vec<&str> = value
+                                        .as_array()
+                                        .unwrap()
+                                        .iter()
+                                        .map(|i| i.as_str().unwrap())
+                                        .collect();
+
+                                    if let Some(background_options) = &section.background {
+                                        let item_background = Rectangle::new()
+                                            .set("x", config.image.padding)
+                                            .set("y", current_y)
+                                            .set("width", 0)
+                                            .set("height", 0)
+                                            .set("fill", &*background_options.fill);
+                                    }
+                                } else {
+                                    let value_str = value.as_str().unwrap();
+                                }
+                            }
+                        }
+                    }
 
                     let svg_path = absolute_path.parent().unwrap().join("og-image.svg");
                     let png_path = absolute_path.parent().unwrap().join("og-image.png");
