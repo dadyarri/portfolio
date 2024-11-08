@@ -70,7 +70,7 @@ pub struct Cli {
 }
 
 #[derive(Deserialize, Debug)]
-enum Side { Left, Right, Bottom, Top }
+pub enum Side { Left, Right, Bottom, Top }
 impl Default for Side {
     fn default() -> Self {
         Side::Bottom
@@ -78,7 +78,7 @@ impl Default for Side {
 }
 
 #[derive(Deserialize, Debug)]
-enum FontWeight { Regular, Bold }
+pub enum FontWeight { Regular, Bold }
 impl Default for FontWeight {
     fn default() -> Self {
         FontWeight::Regular
