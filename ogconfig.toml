@@ -7,41 +7,37 @@ padding = 20 # Commmon padding for entire canvas
 # Common text styling
 [text]
 font_family = "JetBrainsMono NFP, JetBrains Mono"
-fill = "#f2f8f8"
-line_height = 1.2
 
 # Background settings
 [background]
 fill = "#121212"
 
-# Border settings
-[border]
+[[background.borders]]
 stroke = "#3F5878"
 stroke_width = 20
+side = "Bottom"
 
 # Title configuration
-[sections.title]
+[[sections]]
 preamble_key = "title"  # Path to the title in the preamble, top-level key
 position = "center"     # Positioning option: "center", "left", "right", etc.
 wrap_lines = true       # Whether to line-wrap the text
 font_size = 60          # Font size for title text
-font_weight = "bold"    # Font weight for title
+font_weight = "Bold"    # Font weight for title
 fill = "#f2f8f8"        # Text color for title
 
 # Date configuration
-[sections.date]
+[[sections]]
 preamble_key = "date"      # Path to the date in the preamble
 position = "bottom-left"   # Position in the image
-wrap_lines = false         # Whether to wrap lines
 font_size = 40             # Font size for date text
 fill = "#f2f8f8"           # Text color for date
 date_format = "%d.%m.%Y"   # Date format for parsing/formatting
 
 # Tags configuration under the "taxonomies" section
-[sections.tags]
+[[sections]]
 preamble_key = "taxonomies.tags"  # Nested path in preamble
 position = "bottom-center"        # Position in the image
-wrap_lines = true                 # Whether to wrap lines if they exceed width
 font_size = 25                    # Font size for tag text
 fill = "#121212"                  # Text color for tag label
 tag_fill = "#f2f8f8"              # Background color for tag box
