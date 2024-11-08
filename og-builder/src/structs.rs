@@ -2,58 +2,60 @@ use clap::Parser;
 use serde::Deserialize;
 #[derive(Deserialize, Debug)]
 pub struct OgConfig {
-    image: ImageConfig,
-    text: TextConfig,
-    background: BackgroundConfig,
-    sections: Vec<SectionConfig>,
+    pub(crate) image: ImageConfig,
+    pub(crate) text: TextConfig,
+    pub(crate) background: BackgroundConfig,
+    pub(crate) sections: Vec<SectionConfig>,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct ImageConfig {
-    width: i32,
-    height: i32,
-    padding: i32,
+    pub(crate) width: i32,
+    pub(crate) height: i32,
+    pub(crate) padding: i32,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct TextConfig {
-    font_family: String,
+    pub(crate) font_family: String,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct BackgroundConfig {
-    fill: String,
+    pub(crate) fill: String,
     #[serde(default)]
-    padding: i32,
+    pub(crate) padding: i32,
     #[serde(default)]
-    borders: Vec<BorderConfig>,
+    pub(crate) borders: Vec<BorderConfig>,
 }
 
 #[derive(Deserialize, Debug, Default)]
 pub struct BorderConfig {
-    stroke: String,
-    stroke_width: i32,
-    side: Side,
+    pub(crate) stroke: String,
+    pub(crate) stroke_width: i32,
+    pub(crate) side: Side,
 }
 
 #[derive(Deserialize, Debug, Default)]
 pub struct SectionConfig {
-    preamble_key: String,
+    pub(crate) preamble_key: String,
     #[serde(default)]
-    wrap_lines: bool,
-    font_size: i32,
+    pub(crate) wrap_lines: bool,
     #[serde(default)]
-    font_weight: FontWeight,
-    fill: String,
-    date_format: Option<String>,
-    background: Option<BackgroundConfig>,
-    list: Option<ListConfig>
+    pub(crate) optional: bool,
+    pub(crate) font_size: i32,
+    #[serde(default)]
+    pub(crate) font_weight: FontWeight,
+    pub(crate) fill: String,
+    pub(crate) date_format: Option<String>,
+    pub(crate) background: Option<BackgroundConfig>,
+    pub(crate) list: Option<ListConfig>
 }
 
 #[derive(Deserialize, Debug, Default)]
 pub struct ListConfig {
     #[serde(default)]
-    margin: i32,
+    pub(crate) margin: i32,
 }
 
 #[derive(Parser)]

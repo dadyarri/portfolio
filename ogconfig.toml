@@ -35,6 +35,7 @@ date_format = "%d.%m.%Y"   # Date format for parsing/formatting
 # Tags configuration under the "taxonomies" section
 [[sections]]
 preamble_key = "taxonomies.tags"  # Nested path in preamble
+optional = true
 font_size = 25                    # Font size for tag text
 fill = "#121212"                  # Text color for tag label
 background = { fill = "#f2f8f8", padding = 5 }
