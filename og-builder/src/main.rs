@@ -1,4 +1,4 @@
-use crate::structs::Cli;
+use crate::structs::{Cli, OgConfig};
 use anyhow::{anyhow, Result};
 use chrono::NaiveDate;
 use clap::Parser;
@@ -6,7 +6,8 @@ use rusttype::Font;
 use std::path::{Path, PathBuf};
 use std::{fs, path};
 use std::time::Instant;
-use log::info;
+use log::{info, warn};
+use toml::Value;
 use walkdir::WalkDir;
 
 mod parser;
@@ -15,6 +16,7 @@ mod text;
 mod svg;
 mod paths;
 mod image;
+mod preamble;
 
 fn main() -> Result<()> {
     env_logger::init();
@@ -27,14 +29,14 @@ fn main() -> Result<()> {
     for section in args.sections.iter() {
         info!("Section: {:?}", section);
         let path = Path::new(&root).join("content").join(section);
-        process_content(&path, &args)?;
+        process_content(&path, &args, &config)?;
         println!();
     }
 
     Ok(())
 }
 
-fn process_content(path: &PathBuf, args: &Cli) -> Result<()> {
+fn process_content(path: &PathBuf, args: &Cli, config: &OgConfig) -> Result<()> {
     if !fs::exists(path)? {
         return Err(anyhow!("Path {path:?} does not exist"));
     }
@@ -49,13 +51,32 @@ fn process_content(path: &PathBuf, args: &Cli) -> Result<()> {
 
         if file_name.ends_with(".md") & !file_name.starts_with("_") {
             let post_path = file.path().to_str().unwrap();
-            info!("Processing file: {:?}", paths::get_readable_directory(&mut file.path())?);
+            let readable_name = paths::get_readable_directory(&mut file.path())?;
+            info!("Processing file: {:?}", readable_name);
             let start_timestamp = Instant::now();
             let absolute_path = path::absolute(post_path)?;
             let absolute_path_str = absolute_path.to_str().unwrap();
 
             match parser::parse_preamble(absolute_path_str) {
                 Ok(preamble) => {
+
+                    // Validate preamble (verify that current preamble have all fields from config)
+
+                    for section in &config.sections {
+                        match preamble::get_nested_value(&preamble, &section.preamble_key) {
+                            None => {
+                                if section.optional {
+                                    warn!("{0} is not in preamble of {1}", section.preamble_key, readable_name)
+                                } else {
+                                    return Err(anyhow!("{0} is not in preamble of {1}", section.preamble_key, readable_name))
+                                }
+                            },
+                            _ => {}
+                        }
+                    }
+
+                    // Rewrite all this shit
+
                     let font_path = Path::new(&root)
                         .join("fonts")
                         .join("jetbrains-mono.ttf");
