@@ -1,7 +1,7 @@
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use resvg::{tiny_skia, usvg};
 
-pub fn save_png(svg_path: &Path, png_path: &Path) {
+pub fn save_png(svg_path: &Path, png_path: &Path, font_paths: &Vec<PathBuf>) {
     let tree = {
         let mut opt = usvg::Options::default();
         // Get file's absolute directory.
@@ -9,7 +9,9 @@ pub fn save_png(svg_path: &Path, png_path: &Path) {
             .ok()
             .and_then(|p| p.parent().map(|p| p.to_path_buf()));
 
-        opt.fontdb_mut().load_system_fonts();
+        for font_path in font_paths {
+            opt.fontdb_mut().load_font_file(font_path).expect("failed to load font");
+        }
 
         let svg_data = std::fs::read(&svg_path).unwrap();
         usvg::Tree::from_data(&svg_data, &opt).unwrap()
