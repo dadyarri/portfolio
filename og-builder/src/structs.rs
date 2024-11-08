@@ -3,7 +3,7 @@ use serde::Deserialize;
 #[derive(Deserialize, Debug)]
 pub struct OgConfig {
     pub(crate) image: ImageConfig,
-    pub(crate) text: TextConfig,
+    pub(crate) fonts: Vec<FontConfig>,
     pub(crate) background: BackgroundConfig,
     pub(crate) sections: Vec<SectionConfig>,
 }
@@ -16,8 +16,9 @@ pub struct ImageConfig {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct TextConfig {
-    pub(crate) font_family: String,
+pub struct FontConfig {
+    pub(crate) name: String,
+    pub(crate) path: String,
 }
 
 #[derive(Deserialize, Debug)]
@@ -46,6 +47,10 @@ pub struct SectionConfig {
     pub(crate) font_size: i32,
     #[serde(default)]
     pub(crate) font_weight: FontWeight,
+    #[serde(default)]
+    pub(crate) font_family: String,
+    #[serde(default="get_default_line_height")]
+    pub(crate) line_height: i32,
     pub(crate) fill: String,
     pub(crate) date_format: Option<String>,
     pub(crate) background: Option<BackgroundConfig>,
@@ -83,4 +88,8 @@ impl Default for FontWeight {
     fn default() -> Self {
         FontWeight::Regular
     }
+}
+
+fn get_default_line_height() -> i32 {
+    1
 }
