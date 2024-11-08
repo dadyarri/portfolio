@@ -2,15 +2,17 @@ use crate::structs::{Cli, OgConfig, Side};
 use anyhow::{anyhow, Result};
 use chrono::NaiveDate;
 use clap::Parser;
-use rusttype::Font;
-use std::path::{Path, PathBuf};
-use std::{fs, path};
-use std::collections::HashMap;
-use std::time::Instant;
 use log::{info, warn};
+use rusttype::{Font, Point};
+use std::collections::HashMap;
+use std::ops::Index;
+use std::path::{Path, PathBuf};
+use std::time::Instant;
+use std::{fs, path};
+use svg::node::element::{Rectangle, Style, Text};
 use svg::Document;
-use svg::node::element::Rectangle;
-use toml::Value;
+use svg::node::Value;
+use toml::Value as OtherValue;
 use walkdir::WalkDir;
 
 mod parser;
@@ -135,7 +137,7 @@ fn process_content(path: &PathBuf, args: &Cli, config: &OgConfig) -> Result<()> 
                     let mut total_height = 0;
 
                     for section in &config.sections {
-                        let font = fonts.get(&section.font_family).unwrap();
+                        let font = fonts.get(&section.font_family).unwrap_or(fonts.values().nth(0).unwrap());
                         let mut section_height = 0;
                         match preamble::get_nested_value(&preamble, &section.preamble_key) {
                             Some(value) => {
@@ -143,7 +145,7 @@ fn process_content(path: &PathBuf, args: &Cli, config: &OgConfig) -> Result<()> 
                                     let value = value.as_str().unwrap();
                                     if section.wrap_lines {
                                         let wrapped_lines = text::wrap_text(value, &font, section.font_size, (config.image.width - config.image.padding) as f32)?;
-                                        section_height = wrapped_lines.count() * section.font_size * section.line_height;
+                                        section_height = wrapped_lines.len() as i32 * section.font_size * section.line_height;
                                     } else {
                                         section_height = section.font_size * section.line_height;
                                     }
@@ -162,6 +164,8 @@ fn process_content(path: &PathBuf, args: &Cli, config: &OgConfig) -> Result<()> 
                     // Draw sections
 
                     for section in &config.sections {
+                        let font = fonts.get(&section.font_family).unwrap_or(fonts.values().nth(0).unwrap());
+                        let font_family = if !&section.font_family.is_empty() { &section.font_family } else { fonts.keys().nth(0).unwrap() };
                         match preamble::get_nested_value(&preamble, &section.preamble_key) {
                             None => {
                                 if section.optional {
@@ -180,12 +184,28 @@ fn process_content(path: &PathBuf, args: &Cli, config: &OgConfig) -> Result<()> 
                                         .collect();
 
                                     if let Some(background_options) = &section.background {
-                                        let item_background = Rectangle::new()
-                                            .set("x", config.image.padding)
-                                            .set("y", current_y)
-                                            .set("width", 0)
-                                            .set("height", 0)
-                                            .set("fill", &*background_options.fill);
+                                        let mut current_x = config.image.padding;
+                                        for item in value_arr {
+                                            let label_width = text::measure_text_dimensions_pub(item, &font, section.font_size).unwrap_or(0f32) as i32;
+                                            let item_background = Rectangle::new()
+                                                .set("x", current_x)
+                                                .set("y", current_y)
+                                                .set("width", label_width + (background_options.padding * 2))
+                                                .set("height", section.font_size * section.line_height + (background_options.padding * 2))
+                                                .set("fill", &*background_options.fill);
+
+                                            let text = Text::new(item)
+                                                .set("font-family", font_family.as_str())
+                                                .set("fill", &*section.fill)
+                                                .set("font-size", section.font_size)
+                                                .set("x", current_x + background_options.padding)
+                                                .set("y", current_y + background_options.padding + section.font_size);
+
+                                            document = document.add(item_background);
+                                            document = document.add(text);
+
+                                            current_x += label_width + (list_options.margin * 3);
+                                        }
                                     }
                                 } else {
                                     let value_str = value.as_str().unwrap();
@@ -198,7 +218,11 @@ fn process_content(path: &PathBuf, args: &Cli, config: &OgConfig) -> Result<()> 
                     let png_path = absolute_path.parent().unwrap().join("og-image.png");
 
                     svg::save(&svg_path, &document)?;
-                    image::save_png(&svg_path, &png_path);
+                    let font_paths: Vec<PathBuf> = config.fonts
+                        .iter()
+                        .map(|font| Path::new(&root).join(&font.path))
+                        .collect();
+                    image::save_png(&svg_path, &png_path, &font_paths);
                     // fs::remove_file(&svg_path)?;
 
                     // svg::create_svg(&svg_path, 1200, 630);
