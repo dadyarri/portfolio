@@ -23,6 +23,9 @@ pub struct TextConfig {
 #[derive(Deserialize, Debug)]
 pub struct BackgroundConfig {
     fill: String,
+    #[serde(default)]
+    padding: i32,
+    #[serde(default)]
     borders: Vec<BorderConfig>,
 }
 
@@ -42,6 +45,15 @@ pub struct SectionConfig {
     #[serde(default)]
     font_weight: FontWeight,
     fill: String,
+    date_format: Option<String>,
+    background: Option<BackgroundConfig>,
+    list: Option<ListConfig>
+}
+
+#[derive(Deserialize, Debug, Default)]
+pub struct ListConfig {
+    #[serde(default)]
+    margin: i32,
 }
 
 #[derive(Parser)]
