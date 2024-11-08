@@ -1,4 +1,4 @@
-use crate::structs::{Cli, OgConfig};
+use crate::structs::{Cli, OgConfig, Side};
 use anyhow::{anyhow, Result};
 use chrono::NaiveDate;
 use clap::Parser;
@@ -7,13 +7,14 @@ use std::path::{Path, PathBuf};
 use std::{fs, path};
 use std::time::Instant;
 use log::{info, warn};
+use svg::Document;
+use svg::node::element::Rectangle;
 use toml::Value;
 use walkdir::WalkDir;
 
 mod parser;
 mod structs;
 mod text;
-mod svg;
 mod paths;
 mod image;
 mod preamble;
@@ -59,77 +60,113 @@ fn process_content(path: &PathBuf, args: &Cli, config: &OgConfig) -> Result<()> 
 
             match parser::parse_preamble(absolute_path_str) {
                 Ok(preamble) => {
+                    // Create new document
 
-                    // Validate preamble (verify that current preamble have all fields from config)
+                    let mut document = Document::new()
+                        .set("viewBox", (0, 0, config.image.width, config.image.height));
 
-                    for section in &config.sections {
-                        match preamble::get_nested_value(&preamble, &section.preamble_key) {
-                            None => {
-                                if section.optional {
-                                    warn!("{0} is not in preamble of {1}", section.preamble_key, readable_name)
-                                } else {
-                                    return Err(anyhow!("{0} is not in preamble of {1}", section.preamble_key, readable_name))
-                                }
-                            },
-                            _ => {}
+                    let background = Rectangle::new()
+                        .set("x", 0)
+                        .set("y", 0)
+                        .set("width", config.image.width)
+                        .set("height", config.image.height)
+                        .set("fill", &*config.background.fill);
+
+                    document = document.add(background);
+
+                    // Draw borders, if any
+
+                    for border in &config.background.borders {
+                        let mut border_rect = Rectangle::new()
+                            .set("fill", &*border.stroke);
+
+                        match border.side {
+                            Side::Left => {
+                                border_rect = border_rect
+                                    .set("x", 0)
+                                    .set("y", 0)
+                                    .set("width", border.stroke_width)
+                                    .set("height", config.image.height)
+                            }
+                            Side::Right => {
+                                border_rect = border_rect
+                                    .set("x", config.image.width - border.stroke_width)
+                                    .set("y", 0)
+                                    .set("width", border.stroke_width)
+                                    .set("height", config.image.height)
+                            }
+                            Side::Bottom => {
+                                border_rect = border_rect
+                                    .set("x", 0)
+                                    .set("y", config.image.height - border.stroke_width)
+                                    .set("width", config.image.width)
+                                    .set("height", border.stroke_width)
+                            }
+                            Side::Top => {
+                                border_rect = border_rect
+                                    .set("x", 0)
+                                    .set("y", 0)
+                                    .set("width", config.image.width)
+                                    .set("height", border.stroke_width)
+                            }
                         }
+
+                        document = document.add(border_rect);
+
                     }
 
-                    // Rewrite all this shit
-
-                    let font_path = Path::new(&root)
-                        .join("fonts")
-                        .join("jetbrains-mono.ttf");
-                    let font_data = fs::read(&font_path)?;
-                    let font = Font::try_from_bytes(&*font_data).expect("Error constructing Font");
-                    let wrapped_lines = text::wrap_text(&preamble["title"].as_str().unwrap(), &font, 60, 1100f32)?;
+                    // let font_path = Path::new(&root)
+                    //     .join("fonts")
+                    //     .join("jetbrains-mono.ttf");
+                    // let font_data = fs::read(&font_path)?;
+                    // let font = Font::try_from_bytes(&*font_data).expect("Error constructing Font");
+                    // let wrapped_lines = text::wrap_text(&preamble["title"].as_str().unwrap(), &font, 60, 1100f32)?;
 
                     let svg_path = absolute_path.parent().unwrap().join("og-image.svg");
                     let png_path = absolute_path.parent().unwrap().join("og-image.png");
-                    let css_path = Path::new(&root)
-                        .join("themes")
-                        .join(&args.theme)
-                        .join("css")
-                        .join("og-image.css");
 
-                    svg::create_svg(&svg_path, 1200, 630);
-                    svg::write_css(&svg_path, &css_path);
-                    svg::write_rect(&svg_path, 0, 0, 1200, 630, &"background".to_string());
-                    svg::write_rect(&svg_path, 0, 610, 1200, 20, &"border".to_string());
-
-                    let mut current_x = 20;
-                    let mut current_y = ((610 - ((wrapped_lines.len()) * 70)) / 2) as i32;
-
-                    for line in wrapped_lines {
-                        svg::write_text(&svg_path, &line, current_x, current_y, &"h1".to_string());
-                        current_y += 70;
-                    }
-
-                    svg::write_text(&svg_path, &format!("{} :: dadyarri", NaiveDate::parse_from_str(&*preamble["date"].as_str().unwrap(), "%Y-%m-%d")?.format("%d.%m.%Y")), current_x, current_y, &"p".to_string());
-
-                    svg::open_g(&svg_path);
-
-                    current_y += 40;
-
-                    if let Some(taxonomies) = preamble.get("taxonomies") {
-                        if let Some(tags) = taxonomies.get("tags") {
-                            for tag in tags.as_array().unwrap() {
-                                let tag_str = &tag.as_str().unwrap();
-                                let tag_width = text::measure_text_dimensions_pub(&tag_str, &font, 25)? as i32;
-                                svg::write_rect(&svg_path, current_x, current_y, tag_width, 40, &"tag".to_string());
-                                svg::write_text(&svg_path, &tag_str, current_x + 10, current_y + 30, &"tag-label".to_string());
-
-                                current_x += tag_width + 20;
-                            }
-                        }
-                    }
-
-                    svg::close_g(&svg_path);
-
-                    svg::close_svg(&svg_path);
-
+                    svg::save(&svg_path, &document)?;
                     image::save_png(&svg_path, &png_path);
-                    fs::remove_file(&svg_path)?;
+                    // fs::remove_file(&svg_path)?;
+
+                    // svg::create_svg(&svg_path, 1200, 630);
+                    // svg::write_css(&svg_path, &css_path);
+                    // svg::write_rect(&svg_path, 0, 0, 1200, 630, &"background".to_string());
+                    // svg::write_rect(&svg_path, 0, 610, 1200, 20, &"border".to_string());
+                    //
+                    // let mut current_x = 20;
+                    // let mut current_y = ((610 - ((wrapped_lines.len()) * 70)) / 2) as i32;
+                    //
+                    // for line in wrapped_lines {
+                    //     svg::write_text(&svg_path, &line, current_x, current_y, &"h1".to_string());
+                    //     current_y += 70;
+                    // }
+                    //
+                    // svg::write_text(&svg_path, &format!("{} :: dadyarri", NaiveDate::parse_from_str(&*preamble["date"].as_str().unwrap(), "%Y-%m-%d")?.format("%d.%m.%Y")), current_x, current_y, &"p".to_string());
+                    //
+                    // svg::open_g(&svg_path);
+
+                    // current_y += 40;
+
+                    // if let Some(taxonomies) = preamble.get("taxonomies") {
+                    //     if let Some(tags) = taxonomies.get("tags") {
+                    //         for tag in tags.as_array().unwrap() {
+                    //             let tag_str = &tag.as_str().unwrap();
+                    //             let tag_width = text::measure_text_dimensions_pub(&tag_str, &font, 25)? as i32;
+                    //             // svg::write_rect(&svg_path, current_x, current_y, tag_width, 40, &"tag".to_string());
+                    //             // svg::write_text(&svg_path, &tag_str, current_x + 10, current_y + 30, &"tag-label".to_string());
+                    //
+                    //             current_x += tag_width + 20;
+                    //         }
+                    //     }
+                    // }
+                    //
+                    // svg::close_g(&svg_path);
+                    //
+                    // svg::close_svg(&svg_path);
+                    //
+                    // image::save_png(&svg_path, &png_path);
+                    // fs::remove_file(&svg_path)?;
                 }
                 Err(e) => return Err(e),
             }
