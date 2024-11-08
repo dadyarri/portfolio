@@ -5,7 +5,7 @@ height = 630 # Recommended height width for OG Image
 padding = 20 # Commmon padding for entire canvas
 
 [[fonts]]
-name = "JetBrainsMono"
+name = "JetBrains Mono NL"
 path = "fonts/jetbrains-mono.ttf"
 
 # Background settings
@@ -38,5 +38,5 @@ preamble_key = "taxonomies.tags"  # Nested path in preamble
 optional = true
 font_size = 25                    # Font size for tag text
 fill = "#121212"                  # Text color for tag label
-background = { fill = "#f2f8f8", padding = 5 }
+background = { fill = "#f2f8f8", padding = 10 }
 list = { margin = 10 }
