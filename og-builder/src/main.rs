@@ -3,16 +3,13 @@ use anyhow::{anyhow, Result};
 use chrono::NaiveDate;
 use clap::Parser;
 use log::{info, warn};
-use rusttype::{Font, Point};
+use rusttype::{Font};
 use std::collections::HashMap;
-use std::ops::Index;
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 use std::{fs, path};
-use svg::node::element::{Rectangle, Style, Text};
+use svg::node::element::{Rectangle, Text};
 use svg::Document;
-use svg::node::Value;
-use toml::Value as OtherValue;
 use walkdir::WalkDir;
 
 mod parser;
@@ -144,7 +141,7 @@ fn process_content(path: &PathBuf, args: &Cli, config: &OgConfig) -> Result<()> 
                                 if value.is_str() {
                                     let value = value.as_str().unwrap();
                                     if section.wrap_lines {
-                                        let wrapped_lines = text::wrap_text(value, &font, section.font_size, (config.image.width - config.image.padding) as f32)?;
+                                        let wrapped_lines = text::wrap_text(value, &font, section.font_size, (config.image.width - (config.image.padding * 15)) as f32)?;
                                         section_height = wrapped_lines.len() as i32 * section.font_size * section.line_height;
                                     } else {
                                         section_height = section.font_size * section.line_height;
@@ -208,10 +205,45 @@ fn process_content(path: &PathBuf, args: &Cli, config: &OgConfig) -> Result<()> 
                                         }
                                     }
                                 } else {
+                                    let current_x = config.image.padding;
                                     let value_str = value.as_str().unwrap();
+
+                                    if section.wrap_lines {
+                                        let wrapped_lines = text::wrap_text(value_str, &font, section.font_size, (config.image.width - (config.image.padding * 15)) as f32)?;
+
+                                        for line in wrapped_lines {
+                                            let text = Text::new(line)
+                                                .set("font-family", font_family.as_str())
+                                                .set("font-weight", section.font_weight.to_string().to_lowercase())
+                                                .set("fill", &*section.fill)
+                                                .set("font-size", section.font_size)
+                                                .set("x", current_x)
+                                                .set("y", current_y);
+
+                                            document = document.add(text);
+                                            current_y += section.font_size * section.line_height;
+                                        }
+                                    } else {
+                                        let value = match &section.date_format {
+                                            None => value_str.to_string(),
+                                            Some(date_format) => NaiveDate::parse_from_str(value_str, "%Y-%m-%d")?.format(date_format).to_string()
+                                        };
+
+                                        let text = Text::new(value)
+                                            .set("font-family", font_family.as_str())
+                                            .set("font-weight", section.font_weight.to_string().to_lowercase())
+                                            .set("fill", &*section.fill)
+                                            .set("font-size", section.font_size)
+                                            .set("x", current_x)
+                                            .set("y", current_y);
+
+                                        document = document.add(text);
+                                    }
                                 }
                             }
                         }
+
+                        current_y += 20;
                     }
 
                     let svg_path = absolute_path.parent().unwrap().join("og-image.svg");
