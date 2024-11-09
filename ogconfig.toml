@@ -41,6 +41,7 @@ fill = "#f2f8f8"        # Text color for title
 # Date configuration
 [[sections]]
 preamble_key = "date"      # Path to the date in the preamble
+font_family = "JetBrains Mono"
 font_size = 40             # Font size for date text
 fill = "#f2f8f8"           # Text color for date
 date_format = "%d.%m.%Y"   # Date format for parsing/formatting
@@ -49,6 +50,7 @@ date_format = "%d.%m.%Y"   # Date format for parsing/formatting
 [[sections]]
 preamble_key = "taxonomies.tags"  # Nested path in preamble
 optional = true
+font_family = "JetBrains Mono"
 font_size = 25                    # Font size for tag text
 fill = "#121212"                  # Text color for tag label
 background = { fill = "#f2f8f8", padding = 10 }
