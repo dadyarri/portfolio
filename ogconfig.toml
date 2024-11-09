@@ -5,8 +5,12 @@ height = 630 # Recommended height width for OG Image
 padding = 20 # Commmon padding for entire canvas
 
 [[fonts]]
-name = "JetBrains Mono NL"
+name = "JetBrains Mono"
 path = "fonts/jetbrains-mono.ttf"
+
+[[fonts]]
+name = "JetBrains Mono"
+path = "fonts/jetbrains-mono-bold.ttf"
 
 # Background settings
 [background]
