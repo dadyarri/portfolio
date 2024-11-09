@@ -1,3 +1,5 @@
+use std::fmt;
+use std::fmt::{Display, Formatter};
 use clap::Parser;
 use serde::Deserialize;
 #[derive(Deserialize, Debug)]
@@ -87,6 +89,11 @@ pub enum FontWeight { Regular, Bold }
 impl Default for FontWeight {
     fn default() -> Self {
         FontWeight::Regular
+    }
+}
+impl Display for FontWeight {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "{:?}", self)
     }
 }
 
