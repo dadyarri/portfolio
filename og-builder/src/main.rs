@@ -1,13 +1,13 @@
 use crate::structs::{Cli, OgConfig, Side};
 use anyhow::{anyhow, Result};
 use chrono::NaiveDate;
-use clap::Parser;
 use log::{info, warn};
 use rusttype::{Font};
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 use std::time::Instant;
 use std::{fs, path};
+use clap::Parser;
 use svg::node::element::{Rectangle, Text};
 use svg::Document;
 use walkdir::WalkDir;
@@ -27,17 +27,32 @@ fn main() -> Result<()> {
     let config_path = Path::new(&root).join("ogconfig.toml");
     let config = parser::parse_config(&config_path)?;
 
+    // Prepare fonts
+
+    let mut fonts = HashMap::new();
+
+    for font_config in &config.fonts {
+        let path = Path::new(&root).join(&font_config.path);
+
+        if let Ok(font_data) = fs::read(&path) {
+            if let Some(font) = Font::try_from_vec(font_data.clone()) {
+                info!("Font {:?} loaded", font_config.name);
+                fonts.insert(&font_config.name, font);
+            }
+        }
+    }
+
     for section in args.sections.iter() {
         info!("Section: {:?}", section);
         let path = Path::new(&root).join("content").join(section);
-        process_content(&path, &args, &config)?;
+        process_content(&path, &config, &fonts)?;
         println!();
     }
 
     Ok(())
 }
 
-fn process_content(path: &PathBuf, args: &Cli, config: &OgConfig) -> Result<()> {
+fn process_content(path: &PathBuf, config: &OgConfig, fonts: &HashMap<&String, Font>) -> Result<()> {
     if !fs::exists(path)? {
         return Err(anyhow!("Path {path:?} does not exist"));
     }
@@ -112,21 +127,6 @@ fn process_content(path: &PathBuf, args: &Cli, config: &OgConfig) -> Result<()> 
                         }
 
                         document = document.add(border_rect);
-                    }
-
-                    // Prepare fonts
-
-                    let mut fonts = HashMap::new();
-
-                    for font_config in &config.fonts {
-                        let path = Path::new(&root).join(&font_config.path);
-
-                        if let Ok(font_data) = fs::read(&path) {
-                            if let Some(font) = Font::try_from_vec(font_data.clone()) {
-                                info!("Font {:?} loaded", font_config.name);
-                                fonts.insert(&font_config.name, font);
-                            }
-                        }
                     }
 
                     // Caclulate start y coordinate
@@ -255,46 +255,7 @@ fn process_content(path: &PathBuf, args: &Cli, config: &OgConfig) -> Result<()> 
                         .map(|font| Path::new(&root).join(&font.path))
                         .collect();
                     image::save_png(&svg_path, &png_path, &font_paths);
-                    // fs::remove_file(&svg_path)?;
-
-                    // svg::create_svg(&svg_path, 1200, 630);
-                    // svg::write_css(&svg_path, &css_path);
-                    // svg::write_rect(&svg_path, 0, 0, 1200, 630, &"background".to_string());
-                    // svg::write_rect(&svg_path, 0, 610, 1200, 20, &"border".to_string());
-                    //
-                    // let mut current_x = 20;
-                    // let mut current_y = ((610 - ((wrapped_lines.len()) * 70)) / 2) as i32;
-                    //
-                    // for line in wrapped_lines {
-                    //     svg::write_text(&svg_path, &line, current_x, current_y, &"h1".to_string());
-                    //     current_y += 70;
-                    // }
-                    //
-                    // svg::write_text(&svg_path, &format!("{} :: dadyarri", NaiveDate::parse_from_str(&*preamble["date"].as_str().unwrap(), "%Y-%m-%d")?.format("%d.%m.%Y")), current_x, current_y, &"p".to_string());
-                    //
-                    // svg::open_g(&svg_path);
-
-                    // current_y += 40;
-
-                    // if let Some(taxonomies) = preamble.get("taxonomies") {
-                    //     if let Some(tags) = taxonomies.get("tags") {
-                    //         for tag in tags.as_array().unwrap() {
-                    //             let tag_str = &tag.as_str().unwrap();
-                    //             let tag_width = text::measure_text_dimensions_pub(&tag_str, &font, 25)? as i32;
-                    //             // svg::write_rect(&svg_path, current_x, current_y, tag_width, 40, &"tag".to_string());
-                    //             // svg::write_text(&svg_path, &tag_str, current_x + 10, current_y + 30, &"tag-label".to_string());
-                    //
-                    //             current_x += tag_width + 20;
-                    //         }
-                    //     }
-                    // }
-                    //
-                    // svg::close_g(&svg_path);
-                    //
-                    // svg::close_svg(&svg_path);
-                    //
-                    // image::save_png(&svg_path, &png_path);
-                    // fs::remove_file(&svg_path)?;
+                    fs::remove_file(&svg_path)?;
                 }
                 Err(e) => return Err(e),
             }
