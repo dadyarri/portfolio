@@ -12,6 +12,14 @@ path = "fonts/jetbrains-mono.ttf"
 name = "JetBrains Mono"
 path = "fonts/jetbrains-mono-bold.ttf"
 
+[[fonts]]
+name = "Rubik"
+path = "fonts/rubik.ttf"
+
+[[fonts]]
+name = "Rubik"
+path = "fonts/rubik-bold.ttf"
+
 # Background settings
 [background]
 fill = "#121212"
@@ -25,6 +33,7 @@ side = "Bottom"
 [[sections]]
 preamble_key = "title"  # Path to the title in the preamble, top-level key
 wrap_lines = true       # Whether to line-wrap the text
+font_family = "Rubik"
 font_size = 60          # Font size for title text
 font_weight = "Bold"    # Font weight for title
 fill = "#f2f8f8"        # Text color for title
