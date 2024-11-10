@@ -200,7 +200,7 @@ fn process_content(content_path: &PathBuf, config: &OgConfig, fonts: &HashMap<St
                             }
                         }
 
-                        current_y += 20;
+                        current_y += config.image.margin;
                     }
 
                     let document = build_document(nodes, config.image.width, config.image.height);

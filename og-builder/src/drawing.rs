@@ -62,7 +62,7 @@ pub fn calculate_total_height(config: &OgConfig, preamble: &toml::Value, fonts: 
             }
         }
 
-        total_height += section_height;
+        total_height += section_height + config.image.margin;
     }
 
     Ok(total_height)

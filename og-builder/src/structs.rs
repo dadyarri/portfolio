@@ -32,6 +32,8 @@ pub struct ImageConfig {
     pub(crate) height: i32,
     #[serde(default = "get_default_padding")]
     pub(crate) padding: i32,
+    #[serde(default = "get_default_margin")]
+    pub(crate) margin: i32,
 }
 
 impl Display for ImageConfig {
@@ -122,7 +124,7 @@ impl Display for SectionConfig {
 
 #[derive(Deserialize, Debug, Default)]
 pub struct ListConfig {
-    #[serde(default = "get_default_margin")]
+    #[serde(default = "get_default_list_margin")]
     pub(crate) margin: i32,
 }
 
@@ -213,5 +215,9 @@ fn get_default_line_height() -> i32 {
 }
 
 fn get_default_margin() -> i32 {
+    20 // Default margin for list items
+}
+
+fn get_default_list_margin() -> i32 {
     10 // Default margin for list items
 }
