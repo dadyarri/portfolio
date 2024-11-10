@@ -1,5 +1,5 @@
 use crate::structs::{Cli, OgConfig, Side};
-use anyhow::{anyhow, Result};
+use anyhow::{anyhow, Context, Result};
 use chrono::NaiveDate;
 use log::{info, warn};
 use rusttype::{Font};
@@ -186,7 +186,7 @@ fn process_content(path: &PathBuf, config: &OgConfig, fonts: &HashMap<&String, F
                                     if let Some(background_options) = &section.background {
                                         let mut current_x = config.image.padding;
                                         for item in value_arr {
-                                            let label_width = text::measure_text_dimensions_pub(item, &font, section.font_size).unwrap_or(0f32) as i32;
+                                            let label_width = text::measure_text_width(item, &font, section.font_size).unwrap_or(0f32) as i32;
                                             let item_background = Rectangle::new()
                                                 .set("x", current_x)
                                                 .set("y", current_y)
@@ -257,7 +257,8 @@ fn process_content(path: &PathBuf, config: &OgConfig, fonts: &HashMap<&String, F
                         .iter()
                         .map(|font| Path::new(&root).join(&font.path))
                         .collect();
-                    image::save_png(&svg_path, &png_path, &font_paths);
+                    image::save_png(&svg_path, &png_path, &font_paths)
+                        .with_context(|| format!("Failed to save PNG from SVG: {:?}", &svg_path))?;
                     fs::remove_file(&svg_path)?;
                 }
                 Err(e) => return Err(e),
