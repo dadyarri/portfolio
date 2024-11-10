@@ -1,15 +1,16 @@
-use crate::structs::{Cli, OgConfig, Side};
+use crate::drawing::*;
+use crate::structs::{Cli, FontWeight, OgConfig, Side};
 use anyhow::{anyhow, Context, Result};
 use chrono::NaiveDate;
-use log::{info, warn};
-use rusttype::{Font};
+use clap::Parser;
+use log::{debug, error, info, warn};
+use rusttype::Font;
 use std::collections::HashMap;
+use std::fs;
 use std::path::{Path, PathBuf};
 use std::time::Instant;
-use std::{fs, path};
-use clap::Parser;
 use svg::node::element::{Rectangle, Text};
-use svg::Document;
+use svg::{Document, Node};
 use walkdir::WalkDir;
 
 mod parser;
@@ -18,154 +19,99 @@ mod text;
 mod paths;
 mod image;
 mod preamble;
+mod drawing;
 
 fn main() -> Result<()> {
     env_logger::init();
     let args = Cli::parse();
-
     info!("Parsed command-line arguments: {:?}", args);
-    let root = paths::get_git_root()?;
-    info!("Working directory: {:?}", &root);
 
-    let config_path = Path::new(&root).join("ogconfig.toml");
+    let root_path = paths::get_git_root()?;
+    info!("Working directory: {:?}", root_path);
+
+    let config_path = root_path.join("ogconfig.toml");
     let config = parser::parse_config(&config_path)?;
 
-    // Prepare fonts
-
-    let mut fonts = HashMap::new();
-
-    for font_config in &config.fonts {
-        let path = Path::new(&root).join(&font_config.path);
-
-        if let Ok(font_data) = fs::read(&path) {
-            if let Some(font) = Font::try_from_vec(font_data.clone()) {
-                info!("Font {:?} loaded", font_config.name);
-                fonts.insert(&font_config.name, font);
-            }
-        }
-    }
+    let fonts = load_fonts(&config, &root_path)?;
 
     for section in args.sections.iter() {
-        info!("Section: {:?}", section);
-        let path = Path::new(&root).join("content").join(section);
-        process_content(&path, &config, &fonts)?;
-        println!();
+        info!("Processing section: {:?}", section);
+        let content_path = root_path.join("content").join(section);
+        if let Err(e) = process_content(&content_path, &config, &fonts) {
+            error!("Failed to process content for section {:?}: {}", section, e);
+        }
     }
 
     Ok(())
 }
 
-fn process_content(path: &PathBuf, config: &OgConfig, fonts: &HashMap<&String, Font>) -> Result<()> {
-    if !fs::exists(path)? {
-        return Err(anyhow!("Path {path:?} does not exist"));
+fn load_fonts<'a>(config: &'a OgConfig, root: &'a PathBuf) -> Result<HashMap<String, Font<'a>>> {
+    let mut fonts = HashMap::new();
+
+    for font_config in &config.fonts {
+        let font_path = root.join(&font_config.path);
+
+        match fs::read(&font_path) {
+            Ok(font_data) => {
+                if let Some(font) = Font::try_from_vec(font_data) {
+                    info!("Loaded font: {:?}", font_config.name);
+                    fonts.insert(font_config.name.clone(), font);
+                } else {
+                    warn!("Failed to parse font at {:?}", font_path);
+                }
+            }
+            Err(_) => warn!("Could not read font file at {:?}", font_path),
+        }
     }
 
-    let root = paths::get_git_root()?;
+    Ok(fonts)
+}
 
+fn process_content(content_path: &PathBuf, config: &OgConfig, fonts: &HashMap<String, Font>) -> Result<()> {
+    if !content_path.exists() {
+        return Err(anyhow!("Path {:?} does not exist", content_path));
+    }
+
+    let root_path = paths::get_git_root()?;
     let mut total_time = 0;
 
-    for entry in WalkDir::new(path).max_depth(2).into_iter() {
+    for entry in WalkDir::new(content_path).max_depth(2).into_iter() {
         let file = entry?;
         let file_name = file.file_name().to_string_lossy();
 
-        if file_name.ends_with(".md") & !file_name.starts_with("_") {
-            let post_path = file.path().to_str().unwrap();
-            let readable_name = paths::get_readable_directory(&mut file.path())?;
+        if file_name.ends_with(".md") && !file_name.starts_with('_') {
+            let post_path = file.path();
+            let readable_name = paths::get_readable_directory(&mut post_path.to_path_buf())?;
             info!("Processing file: {:?}", readable_name);
-            let start_timestamp = Instant::now();
-            let absolute_path = path::absolute(post_path)?;
-            let absolute_path_str = absolute_path.to_str().unwrap();
+
+            let start_time = Instant::now();
+            let absolute_path = post_path.canonicalize()?;
+            let absolute_path_str = absolute_path.to_str().ok_or(anyhow!("Invalid file path"))?;
 
             match parser::parse_preamble(absolute_path_str) {
                 Ok(preamble) => {
-                    // Create new document
-
-                    let mut document = Document::new()
-                        .set("viewBox", (0, 0, config.image.width, config.image.height));
-
-                    let background = Rectangle::new()
-                        .set("x", 0)
-                        .set("y", 0)
-                        .set("width", config.image.width)
-                        .set("height", config.image.height)
-                        .set("fill", &*config.background.fill);
-
-                    document = document.add(background);
-
-                    // Draw borders, if any
-
-                    for border in &config.background.borders {
-                        let mut border_rect = Rectangle::new()
-                            .set("fill", &*border.stroke);
-
-                        match border.side {
-                            Side::Left => {
-                                border_rect = border_rect
-                                    .set("x", 0)
-                                    .set("y", 0)
-                                    .set("width", border.stroke_width)
-                                    .set("height", config.image.height)
-                            }
-                            Side::Right => {
-                                border_rect = border_rect
-                                    .set("x", config.image.width - border.stroke_width)
-                                    .set("y", 0)
-                                    .set("width", border.stroke_width)
-                                    .set("height", config.image.height)
-                            }
-                            Side::Bottom => {
-                                border_rect = border_rect
-                                    .set("x", 0)
-                                    .set("y", config.image.height - border.stroke_width)
-                                    .set("width", config.image.width)
-                                    .set("height", border.stroke_width)
-                            }
-                            Side::Top => {
-                                border_rect = border_rect
-                                    .set("x", 0)
-                                    .set("y", 0)
-                                    .set("width", config.image.width)
-                                    .set("height", border.stroke_width)
-                            }
-                        }
-
-                        document = document.add(border_rect);
-                    }
-
-                    // Caclulate start y coordinate
-
-                    let mut total_height = 0;
-
-                    for section in &config.sections {
-                        let font = fonts.get(&section.font_family).unwrap_or(fonts.values().nth(0).unwrap());
-                        let mut section_height = 0;
-                        match preamble::get_nested_value(&preamble, &section.preamble_key) {
-                            Some(value) => {
-                                if value.is_str() {
-                                    let value = value.as_str().unwrap();
-                                    if section.wrap_lines {
-                                        let wrapped_lines = text::wrap_text(value, &font, section.font_size, (config.image.width - (config.image.padding * 15)) as f32)?;
-                                        section_height = wrapped_lines.len() as i32 * section.font_size * section.line_height;
-                                    } else {
-                                        section_height = section.font_size * section.line_height;
-                                    }
-                                } else if value.is_array() {
-                                    section_height = section.font_size * section.line_height;
-                                }
-                            }
-                            None => {}
-                        }
-
-                        total_height += section_height
-                    }
-
+                    // Calculate starting Y coordinate by determining the total height of content
+                    let total_height = calculate_total_height(config, &preamble, fonts)?;
                     let mut current_y = (config.image.height - total_height) / 2 + config.image.padding;
 
-                    // Draw sections
+                    // Create new document by adding nodes
+                    let mut nodes: Vec<Box<dyn Node>> = vec![];
 
+                    // Add background
+                    let background = create_rectangle(0, 0, config.image.width, config.image.height, &config.background.fill);
+                    nodes.push(background.into());
+
+                    // Draw borders, if any
+                    for border in &config.background.borders {
+                        let border_rect = create_border_rectangle(border, config.image.width, config.image.height);
+                        nodes.push(border_rect.into());
+                    }
+
+                    // Draw sections
                     for section in &config.sections {
-                        let font = fonts.get(&section.font_family).unwrap_or(fonts.values().nth(0).unwrap());
-                        let font_family = if !&section.font_family.is_empty() { &section.font_family } else { fonts.keys().nth(0).unwrap() };
+                        let font = fonts.get(&section.font_family).unwrap_or(fonts.values().next().unwrap());
+                        let font_family = if !section.font_family.is_empty() { &section.font_family } else { fonts.keys().next().unwrap() };
+
                         match preamble::get_nested_value(&preamble, &section.preamble_key) {
                             None => {
                                 if section.optional {
@@ -187,22 +133,26 @@ fn process_content(path: &PathBuf, config: &OgConfig, fonts: &HashMap<&String, F
                                         let mut current_x = config.image.padding;
                                         for item in value_arr {
                                             let label_width = text::measure_text_width(item, &font, section.font_size).unwrap_or(0f32) as i32;
-                                            let item_background = Rectangle::new()
-                                                .set("x", current_x)
-                                                .set("y", current_y)
-                                                .set("width", label_width + (background_options.padding * 2))
-                                                .set("height", section.font_size * section.line_height + (background_options.padding * 2))
-                                                .set("fill", &*background_options.fill);
+                                            let item_background = create_rectangle(
+                                                current_x,
+                                                current_y,
+                                                label_width + (background_options.padding * 2),
+                                                section.font_size * section.line_height + (background_options.padding * 2),
+                                                &background_options.fill,
+                                            );
 
-                                            let text = Text::new(item)
-                                                .set("font-family", font_family.as_str())
-                                                .set("fill", &*section.fill)
-                                                .set("font-size", section.font_size)
-                                                .set("x", current_x + background_options.padding)
-                                                .set("y", current_y + background_options.padding + section.font_size);
+                                            let text_element = create_text(
+                                                item,
+                                                font_family,
+                                                section.fill.clone(),
+                                                section.font_size,
+                                                &section.font_weight,
+                                                current_x + background_options.padding,
+                                                current_y + background_options.padding + section.font_size,
+                                            );
 
-                                            document = document.add(item_background);
-                                            document = document.add(text);
+                                            nodes.push(item_background.into());
+                                            nodes.push(text_element.into());
 
                                             current_x += label_width + (list_options.margin * 3);
                                         }
@@ -215,32 +165,36 @@ fn process_content(path: &PathBuf, config: &OgConfig, fonts: &HashMap<&String, F
                                         let wrapped_lines = text::wrap_text(value_str, &font, section.font_size, (config.image.width - (config.image.padding * 15)) as f32)?;
 
                                         for line in wrapped_lines {
-                                            let text = Text::new(line)
-                                                .set("font-family", font_family.as_str())
-                                                .set("font-weight", section.font_weight.to_string().to_lowercase())
-                                                .set("fill", &*section.fill)
-                                                .set("font-size", section.font_size)
-                                                .set("x", current_x)
-                                                .set("y", current_y);
+                                            let text_element = create_text(
+                                                &line,
+                                                font_family,
+                                                section.fill.clone(),
+                                                section.font_size,
+                                                &section.font_weight,
+                                                current_x,
+                                                current_y,
+                                            );
 
-                                            document = document.add(text);
+                                            nodes.push(text_element.into());
                                             current_y += section.font_size * section.line_height;
                                         }
                                     } else {
                                         let value = match &section.date_format {
                                             None => value_str.to_string(),
-                                            Some(date_format) => NaiveDate::parse_from_str(value_str, "%Y-%m-%d")?.format(date_format).to_string()
+                                            Some(date_format) => NaiveDate::parse_from_str(value_str, "%Y-%m-%d")?.format(date_format).to_string(),
                                         };
 
-                                        let text = Text::new(value)
-                                            .set("font-family", font_family.as_str())
-                                            .set("font-weight", section.font_weight.to_string().to_lowercase())
-                                            .set("fill", &*section.fill)
-                                            .set("font-size", section.font_size)
-                                            .set("x", current_x)
-                                            .set("y", current_y);
+                                        let text_element = create_text(
+                                            &value,
+                                            font_family,
+                                            section.fill.clone(),
+                                            section.font_size,
+                                            &section.font_weight,
+                                            current_x,
+                                            current_y,
+                                        );
 
-                                        document = document.add(text);
+                                        nodes.push(text_element.into());
                                     }
                                 }
                             }
@@ -249,27 +203,32 @@ fn process_content(path: &PathBuf, config: &OgConfig, fonts: &HashMap<&String, F
                         current_y += 20;
                     }
 
+                    let document = build_document(nodes, config.image.width, config.image.height);
+
                     let svg_path = absolute_path.parent().unwrap().join("og-image.svg");
                     let png_path = absolute_path.parent().unwrap().join("og-image.png");
 
                     svg::save(&svg_path, &document)?;
                     let font_paths: Vec<PathBuf> = config.fonts
                         .iter()
-                        .map(|font| Path::new(&root).join(&font.path))
+                        .map(|font| root_path.join(&font.path))
                         .collect();
                     image::save_png(&svg_path, &png_path, &font_paths)
                         .with_context(|| format!("Failed to save PNG from SVG: {:?}", &svg_path))?;
                     fs::remove_file(&svg_path)?;
                 }
-                Err(e) => return Err(e),
+                Err(e) => {
+                    error!("Error processing file {:?}: {}", readable_name, e);
+                    return Err(e);
+                }
             }
-            let elapsed = start_timestamp.elapsed().as_millis();
-            total_time += elapsed;
-            info!("Finished in {} ms", elapsed);
+
+            let elapsed_time = start_time.elapsed().as_millis();
+            total_time += elapsed_time;
+            info!("Finished processing {:?} in {} ms", readable_name, elapsed_time);
         }
     }
 
     info!("Total time: {} ms", total_time);
-
     Ok(())
 }
