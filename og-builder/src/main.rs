@@ -22,7 +22,10 @@ mod preamble;
 fn main() -> Result<()> {
     env_logger::init();
     let args = Cli::parse();
+
+    info!("Parsed command-line arguments: {:?}", args);
     let root = paths::get_git_root()?;
+    info!("Working directory: {:?}", &root);
 
     let config_path = Path::new(&root).join("ogconfig.toml");
     let config = parser::parse_config(&config_path)?;

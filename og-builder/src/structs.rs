@@ -1,5 +1,5 @@
 use std::fmt;
-use std::fmt::{Display, Formatter};
+use std::fmt::{Debug, Display, Formatter};
 use clap::Parser;
 use serde::Deserialize;
 #[derive(Deserialize, Debug)]
@@ -65,7 +65,7 @@ pub struct ListConfig {
     pub(crate) margin: i32,
 }
 
-#[derive(Parser)]
+#[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
 pub struct Cli {
     #[arg(short, long, value_delimiter = ',', default_value = "posts")]
