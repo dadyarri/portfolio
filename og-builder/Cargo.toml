@@ -6,7 +6,6 @@ edition = "2021"
 [dependencies]
 toml = "0.8.19"
 regex = "1.7"
-tera = "1"
 walkdir = "2.5.0"
 serde = { version = "1.0.210", features = ["derive"] }
 anyhow = "1.0.89"
