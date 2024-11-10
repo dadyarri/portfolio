@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use clap::Parser;
 use serde::Deserialize;
 use std::fmt;
@@ -92,7 +93,10 @@ impl Display for BorderConfig {
 
 #[derive(Deserialize, Debug, Default)]
 pub struct SectionConfig {
-    pub(crate) preamble_key: String,
+    pub(crate) preamble_key: Option<String>,
+    pub(crate) format: Option<String>,
+    #[serde(default)]
+    pub(crate) default_values: HashMap<String, String>,
     #[serde(default)]
     pub(crate) wrap_lines: bool,
     #[serde(default)]
@@ -111,13 +115,38 @@ pub struct SectionConfig {
     pub(crate) list: Option<ListConfig>,
 }
 
+impl SectionConfig {
+    // Custom validation method to ensure that either `preamble_key` or `format` is provided, but not both.
+    pub fn validate(&self) -> Result<(), String> {
+        match (&self.preamble_key, &self.format) {
+            (None, None) => Err("Either `preamble_key` or `format` must be provided.".to_string()),
+            (Some(_), Some(_)) => Err("Only one of `preamble_key` or `format` should be provided.".to_string()),
+            _ => Ok(()),
+        }
+    }
+
+    pub fn is_simple(&self) -> Result<bool, String> {
+        match (&self.preamble_key, &self.format) {
+            (None, Some(_)) => Ok(false),
+            (Some(_), None) => Ok(true),
+            _ => Err("Invalid section".to_string()),
+        }
+    }
+}
+
 impl Display for SectionConfig {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        let key_or_format = match (&self.preamble_key, &self.format) {
+            (Some(preamble_key), None) => format!("preamble_key: '{}'", preamble_key),
+            (None, Some(format)) => format!("format: '{}'", format),
+            _ => "Invalid configuration: both preamble_key and format are either empty or both present".to_string(),
+        };
+
         write!(
             f,
-            "SectionConfig {{ preamble_key: '{}' optional: {}}}",
-            self.preamble_key,
-            self.optional,
+            "SectionConfig {{ {}, optional: {} }}",
+            key_or_format,
+            self.optional
         )
     }
 }

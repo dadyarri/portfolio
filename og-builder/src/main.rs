@@ -1,16 +1,15 @@
 use crate::drawing::*;
-use crate::structs::{Cli, FontWeight, OgConfig, Side};
+use crate::structs::{Cli, OgConfig};
 use anyhow::{anyhow, Context, Result};
 use chrono::NaiveDate;
 use clap::Parser;
-use log::{debug, error, info, warn};
+use log::{error, info, warn};
 use rusttype::Font;
 use std::collections::HashMap;
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::{PathBuf};
 use std::time::Instant;
-use svg::node::element::{Rectangle, Text};
-use svg::{Document, Node};
+use svg::{Node};
 use walkdir::WalkDir;
 
 mod parser;
@@ -109,94 +108,131 @@ fn process_content(content_path: &PathBuf, config: &OgConfig, fonts: &HashMap<St
 
                     // Draw sections
                     for section in &config.sections {
+                        section.validate().unwrap();
                         let font = fonts.get(&section.font_family).unwrap_or(fonts.values().next().unwrap());
                         let font_family = if !section.font_family.is_empty() { &section.font_family } else { fonts.keys().next().unwrap() };
 
-                        match preamble::get_nested_value(&preamble, &section.preamble_key) {
-                            None => {
-                                if section.optional {
-                                    warn!("{0} is not in preamble of {1}", section.preamble_key, readable_name)
-                                } else {
-                                    return Err(anyhow!("{0} is not in preamble of {1}", section.preamble_key, readable_name));
+                        match section.is_simple() {
+                            Ok(true) => {
+                                match preamble::get_nested_value(&preamble, section.preamble_key.as_deref().unwrap_or("")) {
+                                    None => {
+                                        if section.optional {
+                                            warn!("{0:#?} is not in preamble of {1}", section.preamble_key, readable_name)
+                                        } else {
+                                            return Err(anyhow!("{0:#?} is not in preamble of {1}", section.preamble_key, readable_name));
+                                        }
+                                    }
+                                    Some(value) => {
+                                        if let Some(list_options) = &section.list {
+                                            let value_arr: Vec<&str> = value
+                                                .as_array()
+                                                .unwrap()
+                                                .iter()
+                                                .map(|i| i.as_str().unwrap())
+                                                .collect();
+
+                                            if let Some(background_options) = &section.background {
+                                                let mut current_x = config.image.padding;
+                                                for item in value_arr {
+                                                    let label_width = text::measure_text_width(item, &font, section.font_size).unwrap_or(0f32) as i32;
+                                                    let item_background = create_rectangle(
+                                                        current_x,
+                                                        current_y,
+                                                        label_width + (background_options.padding * 2),
+                                                        section.font_size * section.line_height + (background_options.padding * 2),
+                                                        &background_options.fill,
+                                                    );
+
+                                                    let text_element = create_text(
+                                                        item,
+                                                        font_family,
+                                                        section.fill.clone(),
+                                                        section.font_size,
+                                                        &section.font_weight,
+                                                        current_x + background_options.padding,
+                                                        current_y + background_options.padding + section.font_size,
+                                                    );
+
+                                                    nodes.push(item_background.into());
+                                                    nodes.push(text_element.into());
+
+                                                    current_x += label_width + (list_options.margin * 3);
+                                                }
+                                            }
+                                        } else {
+                                            let current_x = config.image.padding;
+                                            let value_str = value.as_str().unwrap();
+
+                                            if section.wrap_lines {
+                                                let wrapped_lines = text::wrap_text(value_str, &font, section.font_size, (config.image.width - (config.image.padding * 15)) as f32)?;
+
+                                                for line in wrapped_lines {
+                                                    let text_element = create_text(
+                                                        &line,
+                                                        font_family,
+                                                        section.fill.clone(),
+                                                        section.font_size,
+                                                        &section.font_weight,
+                                                        current_x,
+                                                        current_y,
+                                                    );
+
+                                                    nodes.push(text_element.into());
+                                                    current_y += section.font_size * section.line_height;
+                                                }
+                                            } else {
+                                                let value = match &section.date_format {
+                                                    None => value_str.to_string(),
+                                                    Some(date_format) => NaiveDate::parse_from_str(value_str, "%Y-%m-%d")?.format(date_format).to_string(),
+                                                };
+
+                                                let text_element = create_text(
+                                                    &value,
+                                                    font_family,
+                                                    section.fill.clone(),
+                                                    section.font_size,
+                                                    &section.font_weight,
+                                                    current_x,
+                                                    current_y,
+                                                );
+
+                                                nodes.push(text_element.into());
+                                            }
+                                        }
+                                    }
                                 }
                             }
-                            Some(value) => {
-                                if let Some(list_options) = &section.list {
-                                    let value_arr: Vec<&str> = value
-                                        .as_array()
-                                        .unwrap()
-                                        .iter()
-                                        .map(|i| i.as_str().unwrap())
-                                        .collect();
-
-                                    if let Some(background_options) = &section.background {
-                                        let mut current_x = config.image.padding;
-                                        for item in value_arr {
-                                            let label_width = text::measure_text_width(item, &font, section.font_size).unwrap_or(0f32) as i32;
-                                            let item_background = create_rectangle(
-                                                current_x,
-                                                current_y,
-                                                label_width + (background_options.padding * 2),
-                                                section.font_size * section.line_height + (background_options.padding * 2),
-                                                &background_options.fill,
-                                            );
-
-                                            let text_element = create_text(
-                                                item,
-                                                font_family,
-                                                section.fill.clone(),
-                                                section.font_size,
-                                                &section.font_weight,
-                                                current_x + background_options.padding,
-                                                current_y + background_options.padding + section.font_size,
-                                            );
-
-                                            nodes.push(item_background.into());
-                                            nodes.push(text_element.into());
-
-                                            current_x += label_width + (list_options.margin * 3);
+                            Ok(false) => {
+                                // Formattable section (using format)
+                                if let Some(format) = &section.format {
+                                    let mut formatted_string = format.clone();
+                                    for key in extract_keys_from_format(format) {
+                                        if let Some(value) = preamble::get_nested_value(&preamble, &key) {
+                                            formatted_string = formatted_string.replace(&format!("{{{}}}", key), value.as_str().unwrap_or(""));
+                                        } else if let Some(default_value) = &section.default_values.get(&key) {
+                                            formatted_string = formatted_string.replace(&format!("{{{}}}", key), default_value);
+                                            warn!("Key '{}' not found in preamble for format. Using default value: '{}'.", key, default_value);
+                                        } else {
+                                            warn!("Key '{}' not found in preamble for format and no default value provided.", key);
                                         }
                                     }
-                                } else {
-                                    let current_x = config.image.padding;
-                                    let value_str = value.as_str().unwrap();
 
-                                    if section.wrap_lines {
-                                        let wrapped_lines = text::wrap_text(value_str, &font, section.font_size, (config.image.width - (config.image.padding * 15)) as f32)?;
+                                    let text_element = create_text(
+                                        &formatted_string,
+                                        font_family,
+                                        section.fill.clone(),
+                                        section.font_size,
+                                        &section.font_weight,
+                                        config.image.padding,
+                                        current_y,
+                                    );
 
-                                        for line in wrapped_lines {
-                                            let text_element = create_text(
-                                                &line,
-                                                font_family,
-                                                section.fill.clone(),
-                                                section.font_size,
-                                                &section.font_weight,
-                                                current_x,
-                                                current_y,
-                                            );
-
-                                            nodes.push(text_element.into());
-                                            current_y += section.font_size * section.line_height;
-                                        }
-                                    } else {
-                                        let value = match &section.date_format {
-                                            None => value_str.to_string(),
-                                            Some(date_format) => NaiveDate::parse_from_str(value_str, "%Y-%m-%d")?.format(date_format).to_string(),
-                                        };
-
-                                        let text_element = create_text(
-                                            &value,
-                                            font_family,
-                                            section.fill.clone(),
-                                            section.font_size,
-                                            &section.font_weight,
-                                            current_x,
-                                            current_y,
-                                        );
-
-                                        nodes.push(text_element.into());
-                                    }
+                                    nodes.push(text_element.into());
                                 }
+                            }
+                            Err(err) => {
+                                error!("Invalid section configuration: {}", err);
+                                return Err(anyhow::anyhow!(err));
                             }
                         }
 
@@ -231,4 +267,22 @@ fn process_content(content_path: &PathBuf, config: &OgConfig, fonts: &HashMap<St
 
     info!("Total time: {} ms", total_time);
     Ok(())
+}
+
+fn extract_keys_from_format(format: &str) -> Vec<String> {
+    let mut keys = Vec::new();
+    let mut start = None;
+    for (i, ch) in format.chars().enumerate() {
+        match ch {
+            '{' => start = Some(i + 1),
+            '}' => {
+                if let Some(s) = start {
+                    keys.push(format[s..i].to_string());
+                    start = None;
+                }
+            }
+            _ => {}
+        }
+    }
+    keys
 }
