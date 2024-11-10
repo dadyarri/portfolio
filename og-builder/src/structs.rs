@@ -95,8 +95,12 @@ impl Default for FontWeight {
     }
 }
 impl Display for FontWeight {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "{:?}", self)
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        let str = match self {
+            FontWeight::Regular => "normal".to_string(),
+            FontWeight::Bold => "bold".to_string(),
+        };
+        write!(f, "{}", str)
     }
 }
 
