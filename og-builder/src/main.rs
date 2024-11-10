@@ -1,7 +1,7 @@
 use crate::drawing::*;
 use crate::structs::{Cli, OgConfig};
 use anyhow::{anyhow, Context, Result};
-use chrono::NaiveDate;
+use chrono::{DateTime, NaiveDate};
 use clap::Parser;
 use log::{error, info, warn};
 use rusttype::Font;
@@ -208,7 +208,18 @@ fn process_content(content_path: &PathBuf, config: &OgConfig, fonts: &HashMap<St
                                     let mut formatted_string = format.clone();
                                     for key in extract_keys_from_format(format) {
                                         if let Some(value) = preamble::get_nested_value(&preamble, &key) {
-                                            formatted_string = formatted_string.replace(&format!("{{{}}}", key), value.as_str().unwrap_or(""));
+                                            let value_str = value.as_str().unwrap_or("");
+                                            if let Some(date_format) = &section.date_format {
+                                                if let Ok(date) = NaiveDate::parse_from_str(value_str, "%Y-%m-%d") {
+                                                    formatted_string = formatted_string.replace(&format!("{{{}}}", key), &date.format(date_format).to_string());
+                                                } else if let Ok(datetime) = DateTime::parse_from_rfc3339(value_str) {
+                                                    formatted_string = formatted_string.replace(&format!("{{{}}}", key), &datetime.format(date_format).to_string());
+                                                } else {
+                                                    formatted_string = formatted_string.replace(&format!("{{{}}}", key), value_str);
+                                                }
+                                            } else {
+                                                formatted_string = formatted_string.replace(&format!("{{{}}}", key), value_str);
+                                            }
                                         } else if let Some(default_value) = &section.default_values.get(&key) {
                                             formatted_string = formatted_string.replace(&format!("{{{}}}", key), default_value);
                                             warn!("Key '{}' not found in preamble for format. Using default value: '{}'.", key, default_value);
