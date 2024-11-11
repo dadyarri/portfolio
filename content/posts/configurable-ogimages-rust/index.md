@@ -84,6 +84,8 @@ pub fn get_nested_value<'a>(preamble: &'a Value, keys: &str) -> Option<&'a Value
 
 Ниже представлен пример конфигурации для Github Actions:
 
+1. Когда загружаются изменения в новую ветку, название которой начинается с `posts/` или `minis/` (в таких ветках я работаю над черновиками), склонируем репозиторий, чтобы иметь возможность дальше работать в нём с правами на запись:  
+
 ```yaml
 name: Create Pull Request on new post
 
@@ -102,6 +104,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+```
+
+2. Проверим, нужно ли создать новый pull-request (необходимо, чтобы не получать ошибки сценария, когда изменения загружаются повторно в уже существовавшую ветку):
+
+```yaml
 
       - name: Check if new pull request is needed to create
         id: get_pr
@@ -109,12 +116,24 @@ jobs:
           EXISTED_PULLS_FOR_THE_BRANCH=$(gh pr list -B main -H ${{ github.ref_name }} --json id)
           echo "existed_pulls=$EXISTED_PULLS_FOR_THE_BRANCH" >> $GITHUB_OUTPUT
 
+```
+
+3. Создадим черновой pull-request, подставив всю информацию и назначив меня ответственным:
+
+```yaml
+
       - name: Create Pull Request
         id: create_pr
         if: steps.get_pr.outputs.existed_pulls == '[]'
         run: |
           pr_url=$(gh pr create -B main -H "${{ github.ref_name }}" -t "Draft of ${{ github.ref_name }}" -b "This pull request contains the draft for the new post." -a dadyarri -d)
           echo "pr_url=$pr_url" >> $GITHUB_OUTPUT
+
+```
+
+4. Запустим генератор. Он создаст недостающее изображение и положит его рядом с новой статьёй:
+
+```yaml
 
       - name: Generate OG images
         if: steps.get_pr.outputs.existed_pulls == '[]'
@@ -125,6 +144,11 @@ jobs:
         env:
           RUST_LOG: info
 
+```
+
+5. Обновим репозиторий, добавив в открытый pull-request коммит с новым изображением:
+
+```yaml
       - name: Push new OG images to the repo
         if: steps.get_pr.outputs.existed_pulls == '[]'
         run: |
@@ -139,118 +163,11 @@ jobs:
 
 Примеры изображений, созданных с использованием новой конфигурации, показывают, насколько легко теперь изменить дизайн без необходимости пересборки кода. Новый подход значительно упрощает внесение изменений и позволяет быстро адаптировать внешний вид в соответствии с новыми требованиями.
 
-Например для моих изображений, которые выглядят так:
+Например мои изображения создаются из конфигурации, которую я привёл ранее:
 
 {{ resize_image(path="posts/configurable-ogimages-rust/og-image.png", width=1200, height=630, op="scale") }}
 
-Конфигурация выглядит так:
-
-```toml
-[image]
-# Ширина выходного изображения в пикселях
-width = 1200
-
-# Высота выходного изображения в пикселях
-height = 630
-
-# Отступ вокруг содержимого изображения в пикселях
-padding = 20
-
-[[fonts]]
-# Название шрифта для использования в изображении
-name = "JetBrains Mono"
-
-# Путь к файлу шрифта, относительно корня репозитория
-path = "fonts/jetbrains-mono.ttf"
-
-[[fonts]]
-name = "JetBrains Mono"
-path = "fonts/jetbrains-mono-bold.ttf"
-
-[[fonts]]
-name = "Rubik"
-path = "fonts/rubik.ttf"
-
-[[fonts]]
-name = "Rubik"
-path = "fonts/rubik-bold.ttf"
-
-[background]
-# Цвет фона изображения в формате HEX
-fill = "#121212"
-
-[[background.borders]]
-# Цвет границы изображения в формате HEX
-stroke = "#3F5878"
-
-# Толщина границы в пикселях
-stroke_width = 20
-
-# Сторона изображения, на которой будет отображаться граница ("Left", "Right", "Top", "Bottom")
-side = "Bottom"
-
-[[sections]]
-# Ключ из преамбулы, который определяет содержимое этого раздела (например, заголовок)
-preamble_key = "title"
-
-# Перенос текста на новую строку, если он превышает ширину изображения
-wrap_lines = true
-
-# Шрифт для текста в этом разделе
-font_family = "Rubik"
-
-# Размер шрифта для текста в пикселях
-font_size = 60
-
-# Толщина шрифта ("Regular" или "Bold")
-font_weight = "Bold"
-
-# Цвет текста в формате HEX
-fill = "#f2f8f8"
-
-[[sections]]
-# Формат для объединения нескольких ключей в одну строку. Фигурные скобки `{}` используются для указания заполнителей
-format = "{date} :: {author}"
-
-# Значения по умолчанию для ключей, отсутствующих в преамбуле
-default_values = { author = "dadyarri" }
-
-# Шрифт для форматированного текста
-font_family = "JetBrains Mono"
-
-# Размер шрифта для форматированного текста в пикселях
-font_size = 40
-
-# Цвет текста в формате HEX
-fill = "#f2f8f8"
-
-# Формат даты для отображения в этом разделе, использующий конвенции `chrono`
-date_format = "%d.%m.%Y"
-
-[[sections]]
-# Ключ из преамбулы, который используется в этом разделе. Этот раздел является опциональным
-preamble_key = "taxonomies.tags"
-
-# Указывает, что данный раздел опционален. Если true, отсутствие данных не приведёт к ошибке
-optional = true
-
-# Шрифт для этого раздела
-font_family = "JetBrains Mono"
-
-# Размер шрифта для текста в этом разделе в пикселях
-font_size = 25
-
-# Цвет текста в формате HEX
-fill = "#121212"
-
-# Настройка фона для данного раздела
-background = { fill = "#f2f8f8", padding = 10 }
-
-# Настройка списка для отображения элементов в этом разделе
-list = { margin = 10 }
-```
-
-Для демонстрации изменений возьмём, например светлую тему моего же сайта и изменив всего пару параметров запустим генератор снова:
+Для демонстрации изменений возьмём, например, светлую тему моего же сайта и изменив всего пару параметров запустим генератор снова:
 
 ```toml
 [background]
@@ -265,3 +182,11 @@ background = { fill = "#121212", padding = 10 }
 ```
 
 {{ resize_image(path="posts/configurable-ogimages-rust/1.png", width=1200, height=630, op="scale") }}
+
+Так можно изменить любой параметр и он тут же повлияет на результат.
+
+# Заключение
+
+Использование TOML и Github Actions позволило значительно улучшить гибкость и автоматизацию генерации Open Graph изображений. Эти изменения упрощают настройку дизайна изображений и устраняют необходимость пересборки кода.
+
+Полный исходный код можно посмотреть на [Github](https://github.com/dadyarri/portfolio/tree/main/og-builder) моего сайта, а собранные под Windows и Linux бинарники можно найти [там же](https://github.com/dadyarri/portfolio/tree/main/bin). Текущая версия будет работать с любым проектом на Zola, так как там достаточно строгая структура, которую я реализовал у себя.
