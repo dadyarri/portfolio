@@ -3,7 +3,7 @@ use crate::structs::{Cli, OgConfig};
 use anyhow::{anyhow, Context, Result};
 use chrono::{DateTime, NaiveDate};
 use clap::Parser;
-use log::{error, info, warn};
+use log::{debug, error, info, warn};
 use rusttype::Font;
 use std::collections::HashMap;
 use std::fs;
@@ -24,10 +24,10 @@ mod drawing;
 fn main() -> Result<()> {
     env_logger::init();
     let args = Cli::parse();
-    info!("Parsed command-line arguments: {:?}", args);
+    debug!("Parsed command-line arguments: {:?}", args);
 
     let root_path = paths::get_git_root()?;
-    info!("Working directory: {:?}", root_path);
+    debug!("Working directory: {:?}", root_path);
 
     let config_path = root_path.join("ogconfig.toml");
     let config = parser::parse_config(&config_path)?;
@@ -54,7 +54,7 @@ fn load_fonts<'a>(config: &'a OgConfig, root: &'a PathBuf) -> Result<HashMap<Str
         match fs::read(&font_path) {
             Ok(font_data) => {
                 if let Some(font) = Font::try_from_vec(font_data) {
-                    info!("Loaded font: {:?}", font_config.name);
+                    debug!("Loaded font: {:?}", font_config.name);
                     fonts.insert(font_config.name.clone(), font);
                 } else {
                     warn!("Failed to parse font at {:?}", font_path);
