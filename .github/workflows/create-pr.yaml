@@ -57,19 +57,6 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install Jetbrains Mono font
-        if: steps.get_pr.outputs.existed_pulls == '[]'
-        id: install_font
-        run: |
-          wget -O jetbrains-mono.zip https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip
-          unzip -d jetbrains-mono/ jetbrains-mono.zip
-          mkdir -p /usr/share/fonts/
-          mv jetbrains-mono/fonts/ttf/* /usr/share/fonts/
-          rm -rf jetbrains-mono
-          rm -rf jetbrains-mono.zip
-          fc-cache -fv
-          fc-list | grep -qi "jetbrains" || { echo "Font not installed"; exit 1; }
-
       - name: Checkout pull request branch
         if: steps.get_pr.outputs.existed_pulls == '[]'
         run: |
@@ -83,7 +70,7 @@ jobs:
         run: |
           cd bin
           chmod +x og-builder
-          ./og-builder --theme dapollo --sections 'posts,minis'
+          ./og-builder --sections 'posts,minis'
         env:
           RUST_LOG: info
 
