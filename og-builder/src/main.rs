@@ -11,6 +11,7 @@ use std::path::{PathBuf};
 use std::time::Instant;
 use svg::{Node};
 use walkdir::WalkDir;
+use rayon::prelude::*;
 
 mod parser;
 mod structs;
@@ -72,25 +73,24 @@ fn process_content(content_path: &PathBuf, config: &OgConfig, fonts: &HashMap<St
     }
 
     let root_path = paths::get_git_root()?;
-    let mut total_time = 0;
 
-    for entry in WalkDir::new(content_path).max_depth(2).into_iter() {
-        let file = entry?;
+    WalkDir::new(content_path).max_depth(2).into_iter().par_bridge().for_each(|entry| {
+        let file = entry.unwrap();
         let file_name = file.file_name().to_string_lossy();
 
         if file_name.ends_with(".md") && !file_name.starts_with('_') {
             let post_path = file.path();
-            let readable_name = paths::get_readable_directory(&mut post_path.to_path_buf())?;
+            let readable_name = paths::get_readable_directory(&mut post_path.to_path_buf()).unwrap();
             info!("Processing file: {:?}", readable_name);
 
             let start_time = Instant::now();
-            let absolute_path = post_path.canonicalize()?;
-            let absolute_path_str = absolute_path.to_str().ok_or(anyhow!("Invalid file path"))?;
+            let absolute_path = post_path.canonicalize().unwrap();
+            let absolute_path_str = absolute_path.to_str().ok_or(anyhow!("Invalid file path")).unwrap();
 
             match parser::parse_preamble(absolute_path_str) {
                 Ok(preamble) => {
                     // Calculate starting Y coordinate by determining the total height of content
-                    let total_height = calculate_total_height(config, &preamble, fonts)?;
+                    let total_height = calculate_total_height(config, &preamble, fonts).unwrap();
                     let mut current_y = (config.image.height - total_height) / 2 + config.image.padding;
 
                     // Create new document by adding nodes
@@ -119,7 +119,7 @@ fn process_content(content_path: &PathBuf, config: &OgConfig, fonts: &HashMap<St
                                         if section.optional {
                                             warn!("{0:#?} is not in preamble of {1}", section.preamble_key, readable_name)
                                         } else {
-                                            return Err(anyhow!("{0:#?} is not in preamble of {1}", section.preamble_key, readable_name));
+                                            anyhow!("{0:#?} is not in preamble of {1}", section.preamble_key, readable_name);
                                         }
                                     }
                                     Some(value) => {
@@ -164,7 +164,7 @@ fn process_content(content_path: &PathBuf, config: &OgConfig, fonts: &HashMap<St
                                             let value_str = value.as_str().unwrap();
 
                                             if section.wrap_lines {
-                                                let wrapped_lines = text::wrap_text(value_str, &font, section.font_size, (config.image.width - (config.image.padding * 15)) as f32)?;
+                                                let wrapped_lines = text::wrap_text(value_str, &font, section.font_size, (config.image.width - (config.image.padding * 15)) as f32).unwrap();
 
                                                 for line in wrapped_lines {
                                                     let text_element = create_text(
@@ -183,7 +183,7 @@ fn process_content(content_path: &PathBuf, config: &OgConfig, fonts: &HashMap<St
                                             } else {
                                                 let value = match &section.date_format {
                                                     None => value_str.to_string(),
-                                                    Some(date_format) => NaiveDate::parse_from_str(value_str, "%Y-%m-%d")?.format(date_format).to_string(),
+                                                    Some(date_format) => NaiveDate::parse_from_str(value_str, "%Y-%m-%d").unwrap().format(date_format).to_string(),
                                                 };
 
                                                 let text_element = create_text(
@@ -243,7 +243,7 @@ fn process_content(content_path: &PathBuf, config: &OgConfig, fonts: &HashMap<St
                             }
                             Err(err) => {
                                 error!("Invalid section configuration: {}", err);
-                                return Err(anyhow::anyhow!(err));
+                                anyhow!(err);
                             }
                         }
 
@@ -255,28 +255,26 @@ fn process_content(content_path: &PathBuf, config: &OgConfig, fonts: &HashMap<St
                     let svg_path = absolute_path.parent().unwrap().join("og-image.svg");
                     let png_path = absolute_path.parent().unwrap().join("og-image.png");
 
-                    svg::save(&svg_path, &document)?;
+                    svg::save(&svg_path, &document).unwrap();
                     let font_paths: Vec<PathBuf> = config.fonts
                         .iter()
                         .map(|font| root_path.join(&font.path))
                         .collect();
                     image::save_png(&svg_path, &png_path, &font_paths)
-                        .with_context(|| format!("Failed to save PNG from SVG: {:?}", &svg_path))?;
-                    fs::remove_file(&svg_path)?;
+                        .with_context(|| format!("Failed to save PNG from SVG: {:?}", &svg_path)).unwrap();
+                    fs::remove_file(&svg_path).unwrap();
                 }
                 Err(e) => {
                     error!("Error processing file {:?}: {}", readable_name, e);
-                    return Err(e);
+                    anyhow!(e);
                 }
             }
 
             let elapsed_time = start_time.elapsed().as_millis();
-            total_time += elapsed_time;
             info!("Finished processing {:?} in {} ms", readable_name, elapsed_time);
         }
-    }
+    });
 
-    info!("Total time: {} ms", total_time);
     Ok(())
 }
 
