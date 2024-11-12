@@ -77,8 +77,13 @@ jobs:
       - name: Push new OG images to the repo
         if: steps.get_pr.outputs.existed_pulls == '[]'
         run: |
-          git add .
-          git commit -m "updated og-images"
-          git push
+          # Check for any changes
+          if [[ -n $(git status --porcelain) ]]; then
+            git add .
+            git commit -m "updated og-images"
+            git push
+          else
+            echo "No changes to commit"
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
