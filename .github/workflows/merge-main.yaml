@@ -1,0 +1,41 @@
+name: Update OG images on merge to main
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  update-og-images:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Generate OG images
+        id: generate_images
+        run: |
+          cd bin
+          chmod +x og-builder
+          ./og-builder --sections '${{ steps.branch_name.outputs.content_type }}s'
+        env:
+          RUST_LOG: info
+
+      - name: Push new OG images to the repo
+        run: |
+          # Check for any changes
+          if [[ -n $(git status --porcelain) ]]; then
+            git add .
+            git commit -m "updated og-images"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
