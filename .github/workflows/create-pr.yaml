@@ -70,15 +70,20 @@ jobs:
         run: |
           cd bin
           chmod +x og-builder
-          ./og-builder --sections 'posts,minis'
+          ./og-builder --sections '${{ steps.branch_name.outputs.content_type }}s'
         env:
           RUST_LOG: info
 
       - name: Push new OG images to the repo
         if: steps.get_pr.outputs.existed_pulls == '[]'
         run: |
-          git add .
-          git commit -m "updated og-images"
-          git push
+          # Check for any changes
+          if [[ -n $(git status --porcelain) ]]; then
+            git add .
+            git commit -m "updated og-images"
+            git push
+          else
+            echo "No changes to commit"
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
