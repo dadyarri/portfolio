@@ -23,7 +23,7 @@ comment = true
 
 Объявим класс для этой конфигурации с авто-свойствами:
 
-```csharp
+```cs
 public class SomeAppConfiguration
 {
     public required string Token { get; set; }
@@ -33,18 +33,18 @@ public class SomeAppConfiguration
 
 Спарсим её, используя стандартные средства чтения конфигурации из `Microsoft.Extensions.Configuration`:
 
-```csharp
+```cs
 builder.Services.Configure<SomeAppConfiguration>(builder.Configuration.GetRequiredSection("SomeApp"));
 ```
 
 А затем, использовав добавленный в DI этим вызовом `IConfiguration<SomeAppConfiguration>`, добавим ещё и просто `SomeAppConfiguration`:
 
-```csharp
+```cs
 builder.Services.AddSingleton(resolver => resolver.GetRequiredService<IOptions<SomeAppConfiguration>>().Value);
 ```
 
 Теперь можно, например, используя MinimalAPI получать доступ к конфигурации так:
 
-```csharp
+```cs
 app.MapGet((SomeAppConfiguration config) => {});
 ```
