@@ -42,6 +42,7 @@ og_image = true
   - Поддержка тем
   - Поддержка плагинов (простое встраивание дополнительного функционала в процесс сборки сайта)
   - Генерация Open Graph мета-тегов
+  - Поддержка [resume.json](https://jsonresume.org/) с кастомными темами
 
 # Технология
 
@@ -81,7 +82,8 @@ og_image = true
 │   └── main.scss
 ├── public
 ├── static/
-│   └── index.js
+│   ├── index.js
+│   └── resume.json
 ├── themes/
 │   └── theme1/
 │       └── theme.toml
