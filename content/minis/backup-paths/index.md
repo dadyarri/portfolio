@@ -53,3 +53,7 @@ comment = true
 # Logitech G HUB
 
 - `%LOCALAPPDATA%\LGHUB\settings.db` &mdash; Настройки устройств и самого приложения
+
+# PowerToys
+
+Нужно вручную экпортировать данные (General -> Backup & Restore)
