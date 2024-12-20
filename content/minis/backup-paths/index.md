@@ -49,3 +49,7 @@ comment = true
 - `%APPDATA%\Code\User\settings.json` &mdash; Настройки
 - `%USERPROFILE%\.vscode\extensions\extensions.json` &mdash; Список расширений
 - `%USERPROFILE%\.vscode\argv.json` &mdash; Глобальные аргументы для запуска
+
+# Logitech G HUB
+
+- `%LOCALAPPDATA%\LGHUB\settings.db` &mdash; Настройки устройств и самого приложения
