@@ -11,6 +11,10 @@ comment = true
 
 <!--more-->
 
+# Установленные через `winget` приложения
+
+`winget export -o path-to-file.json` сохранит список установленных приложений, `winget import path-to-file.json` установит все приложения из этого списка
+
 # Brave (любой Chromium браузер)
 
 - `%LOCALAPPDATA%\BraveSoftware\Brave-Browser\User Data\Default` &mdash; Базовая директория пользовательских данных
