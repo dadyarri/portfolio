@@ -1,7 +1,7 @@
 +++
 title = "Пути для бэкапа приложений"
 date = "2024-12-22"
-draft = true
+draft = false
 
 [extra]
 comment = true
@@ -9,3 +9,39 @@ comment = true
 
 Собрал свой список приложений и пути, где они хранят свои конфиги, чтобы ничего не потерять при бэкапе
 
+<!--more-->
+
+# Brave (любой Chromium браузер)
+
+- `%LOCALAPPDATA%\BraveSoftware\Brave-Browser\User Data\Default` &mdash; Базовая директория пользовательских данных
+  - `Bookmarks` &mdash; Закладки
+  - `Preferences` &mdash; Настройки
+  - `Secure Preferences` &mdash; Настройки безопасности
+  - `Top Sites` &mdash; Часто посещаемые сайты
+  - `History` &mdash; История посещений, загрузок
+
+# SSH
+
+- `%USERPROFILE%\.ssh` &mdash; SSH-ключи
+
+# GnuPG
+
+Писал об этом отдельную [шпаргалку](/minis/backup-gpg)
+
+# Git
+
+- `%USERPROFILE%\.gitconfig` (или, как у меня `%USERPROFILE%\.config\git\config`) &mdash; Глобальные настройки
+
+# PowerShell
+
+- `%USERPROFILE%\Documents\PowerShell\Microsoft.PowerShell_profile.ps1` &mdash; Профиль PowerShell
+
+# Alacritty (эмулятор терминала)
+
+- `%APPDATA%\alacritty\alacritty.toml` &mdash; Конфиг терминала
+
+# Visual Studio Code
+
+- `%APPDATA%\Code\User\settings.json` &mdash; Настройки
+- `%USERPROFILE%\.vscode\extensions\extensions.json` &mdash; Список расширений
+- `%USERPROFILE%\.vscode\argv.json` &mdash; Глобальные аргументы для запуска
