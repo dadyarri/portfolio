@@ -5,6 +5,7 @@ draft = false
 
 [taxonomies]
 tags = ["Rust", "Блог"]
+cycle = ["ogimages"]
 
 [extra]
 comment = true
