@@ -1,0 +1,12 @@
+.cycle {
+    background-color: var(--bg-2);
+    padding: 15px;
+    margin: 20px 0;
+    width: auto;
+
+    & li.active span {
+        background-color: var(--primary-color);
+        color: var(--hover-color);
+        display: inline;
+    }
+}
