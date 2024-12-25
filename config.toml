@@ -17,7 +17,7 @@ theme = "dapollo"
 # Language
 default_language = "ru"
 
-taxonomies = [{ name = "tags" }]
+taxonomies = [{ name = "tags" }, { name = "cycle" }]
 
 [markdown]
 # Whether to do syntax highlighting
