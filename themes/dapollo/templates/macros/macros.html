@@ -181,6 +181,36 @@
             </div>
         </div>
 
+        {% if page.taxonomies.cycle %}
+
+        {% set cycle_name = page.taxonomies.cycle[0] -%}
+
+
+        <div class="cycle">
+
+            {% set cycle = get_taxonomy_term(kind="cycle", term=cycle_name) -%}
+            {% set section = get_section(path="posts/_index.md") -%}
+            {% set cycle_title = section.extra.cycles | get(key=cycle_name) -%}
+
+            <p>Этот пост &mdash; часть цикла "{{ cycle_title }}", куда входят следующие посты:</p>
+
+            <ul>
+                {% for post in cycle.pages | sort(attribute="date") %}
+
+                    {% if post.path == page.path %}
+                        <li class="active">
+                            <span>{{post.title}}</span>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{post.path}}">{{post.title}}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
         {% if page.extra.tldr %}
         <div class="tldr">
             <strong>tl;dr:</strong>
