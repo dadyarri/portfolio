@@ -5,6 +5,7 @@ draft = false
 
 [taxonomies]
 tags = ["Болтология"]
+cycle = ["ssg"]
 
 [extra]
 comment = true
