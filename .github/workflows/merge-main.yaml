@@ -23,7 +23,7 @@ jobs:
         run: |
           cd bin
           chmod +x og-builder
-          ./og-builder --sections '${{ steps.branch_name.outputs.content_type }}s'
+          ./og-builder
         env:
           RUST_LOG: info
 
