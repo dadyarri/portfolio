@@ -197,15 +197,15 @@
             <ul>
                 {% for post in cycle.pages | sort(attribute="date") %}
 
-                    {% if post.path == page.path %}
-                        <li class="active">
-                            <span>{{post.title}}</span>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a href="{{post.path}}">{{post.title}}</a>
-                        </li>
-                    {% endif %}
+                {% if post.path == page.path %}
+                <li class="active">
+                    <span>{{post.title}}</span>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{{post.path}}">{{post.title}}</a>
+                </li>
+                {% endif %}
                 {% endfor %}
             </ul>
         </div>
@@ -255,6 +255,52 @@
 
         <section class="body">
             {{ page.content | safe }}
+
+            {% if page.taxonomies.cycle %}
+
+                {% set cycle_name = page.taxonomies.cycle[0] -%}
+                {% set cycle = get_taxonomy_term(kind="cycle", term=cycle_name) -%}
+                {% set pages = cycle.pages | sort(attribute="date") -%}
+                {% set pages_len = pages | length -%}
+                {% set pages_len = pages_len - 1 -%}
+
+                {% set_global current_index = 0 %}
+
+                {% for post in pages %}
+                    {% if post.path == page.path %}
+                        {% set_global current_index = loop.index0 -%}
+                    {% endif %}
+                {% endfor %}
+
+                {% if current_index > 0 %}
+                    {% set index = current_index - 1 %}
+                    {% set_global previous_post = pages[index] %}
+                {% endif %}
+
+                {% if current_index < pages_len %}
+                    {% set index=current_index + 1 %}
+                    {% set_global next_post=pages[index] %}
+                {% endif %}
+
+                <nav class="pagination">
+                    {% if previous_post %}
+                    <p>
+                        <b>Предыдущая часть: </b>
+                        <a href="{{ previous_post.path }}" class="prev">← {{ previous_post.title }}</a>
+                    </p>
+                        
+                    {% endif %}
+
+                    {% if next_post %}
+                        <p>
+                            <b>Следующая часть: </b>
+                            <a href="{{ next_post.path }}" class="prev">{{ next_post.title }} →</a>
+                        </p>
+                    {% endif %}
+                </nav>
+
+
+            {% endif %}
         </section>
     </article>
 </main>
