@@ -91,10 +91,6 @@ main .pagination-loader-container {
 
 /*! Custom CSS */
 
-.gsc-reactions-count {
-  display: none;
-}
-
 .gsc-timeline {
   flex-direction: column-reverse;
 }
