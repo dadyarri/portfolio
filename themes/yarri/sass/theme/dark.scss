@@ -1,16 +1,16 @@
-$bg-0: #181616;
+$bg-0: #222436;
 $bg-1: lighten($bg-0, 5%);
 $bg-2: lighten($bg-1, 10%);
 
-$text-0: #C5C9C5;
+$text-0: #c8d3f5;
 $text-1: darken($text-0, 5%);
 
-$bg-selection: #2D4F67;
-$text-selection: #C8C093;
+$bg-selection: #2d3f76;
+$text-selection: #{$text-1};
 
-$primary-color: #8BA4B0;
+$primary-color: #444a73;
 
-:root.dark {
+:root {
   --text-0: #{$text-0};
   --text-1: #{$text-1};
 
@@ -24,7 +24,7 @@ $primary-color: #8BA4B0;
   --border-color: var(--bg-2);
 
   --primary-color: #{$primary-color};
-  --hover-color: white;
+  --hover-color: #828bb8;
 
   .social > img {
     filter: invert(1);

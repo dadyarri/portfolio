@@ -10,9 +10,6 @@
 @import "parts/tags.scss";
 
 :root {
-  /* Used for: block comment, hr, ... */
-  --border-color: var(--border-color);
-
   /* Fonts */
   --text-font: 'Jetbrains Mono';
   --header-font: 'Rubik';
@@ -24,7 +21,7 @@
 }
 
 :root::-webkit-scrollbar-track {
-  background-color: var(--border-color);
+  background-color: var(--bg-1);
 }
 
 :root::-webkit-scrollbar-thumb {

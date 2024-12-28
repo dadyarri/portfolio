@@ -15,7 +15,7 @@
     {% endfor %}
     {% endif %}
 
-    {% if page.extra.og_image%}
+    {% if page.extra.og_image %}
     <meta property="og:image" content={{ get_url(path=[current_path, 'og-image.png'] | join(sep=''))}} />
     {% endif %}
 
@@ -70,12 +70,7 @@
     <link rel="manifest" href={{ get_url(path="site.webmanifest" ) }} />
 
     {# Font from cdn or disk #}
-    {% if config.extra.use_cdn | default(value=false) %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jetbrains-mono@1.0.6/css/jetbrains-mono.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/space-grotesk@4.5.8/index.min.css">
-    {% else %}
     <link href={{ get_url(path="fonts.css" ) }} rel="stylesheet" />
-    {% endif %}
 
     {# Fancy Codeblock #}
     {% if config.extra.fancy_code %}
@@ -92,58 +87,12 @@
     <script src={{ get_url(path="js/note.js" ) }}></script>
     {% endif %}
 
-    {% if config.extra.mathjax | default(value=false) %}
-    {% if config.extra.mathjax_dollar_inline_enable | default(value=false) %}
-    <script>
-        MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']]
-            }
-        };
-    </script>
-    {% endif %}
-    <script type="text/javascript" id="MathJax-script" async
-        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-        </script>
-    {% endif %}
-
     {# RSS #}
     <link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ get_url(path=" atom.xml",
         trailing_slash=false) }}">
 
-
-    {% set theme = config.extra.theme | default(value="toggle") %}
-    {% if theme == "dark" %}
+    {# Styles #}
     <link rel="stylesheet" type="text/css" href="{{ get_url(path='theme/dark.css') }}" />
-    {% elif theme == "light" %}
-    <link rel="stylesheet" type="text/css" href={{ get_url(path="theme/light.css" ) }} />
-    {% elif theme == "auto" %}
-    <link rel="stylesheet" type="text/css" href={{ get_url(path="theme/light.css" ) }} />
-    <link rel="stylesheet" type="text/css" href="{{ get_url(path='theme/dark.css') }}"
-        media="(prefers-color-scheme: dark)" />
-    {% elif theme == "toggle" %}
-    <link rel="stylesheet" type="text/css" href={{ get_url(path="theme/light.css" ) }} />
-    <link id="darkModeStyle" rel="stylesheet" type="text/css" href="{{ get_url(path='theme/dark.css') }}" />
-    {% endif %}
-
-    <!-- Set the correct theme in the script -->
-    <script src={{ get_url(path="js/themetoggle.js" ) }}></script>
-    {% if theme == "dark" %}
-    <script>setTheme("dark");</script>
-    {% elif theme == "light" %}
-    <script>setTheme("light");</script>
-    {% elif theme == "auto" %}
-    <script>
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            setTheme("dark");
-        } else {
-            setTheme("light");
-        }
-    </script>
-    {% else %}
-    <script>setTheme(getSavedTheme());</script>
-    {% endif %}
-
     <link rel="stylesheet" type="text/css" media="screen" href={{ get_url(path="main.css" ) }} />
 
     {% if config.extra.stylesheets %}
