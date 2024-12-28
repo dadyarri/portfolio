@@ -90,7 +90,7 @@ header .socials {
 }
 
 .meta {
-    color: #999;
+    color: var(--text-1);
     display: flexbox;
     /* This changes the meta class to use flexbox, which ensures inline display */
     align-items: center;

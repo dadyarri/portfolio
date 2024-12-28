@@ -12,7 +12,7 @@ generate_feeds = true
 feed_filenames = ["rss.xml"]
 
 # Name of the used theme
-theme = "dapollo"
+theme = "yarri"
 
 # Language
 default_language = "ru"

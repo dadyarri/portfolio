@@ -1,5 +1,5 @@
-name = "dapollo"
-description = "Modern and minimalistic blog theme"
+name = "yarri"
+description = "Modern and minimalistic blog theme based on kanagawa"
 min_version = "0.14.0"
 license = "MIT"
 homepage = "https://github.com/dadyarri/portfolio"
