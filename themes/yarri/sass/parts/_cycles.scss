@@ -3,7 +3,8 @@
     padding: 15px;
     margin: 20px 0;
     width: fit-content;
-    border-radius: 15px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
 
     & li.active span {
         background-color: var(--border-color);
