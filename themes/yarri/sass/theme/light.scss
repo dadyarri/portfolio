@@ -1,9 +1,14 @@
-$bg-0: #F2F8F8;
+$bg-0: #F2ECBC;
 $bg-1: darken($bg-0, 2%);
 $bg-2: darken($bg-1, 8%);
 
-$text-0: darken($bg-0, 87%);
-$text-1: darken($bg-0, 60%);
+$text-0: #545464;
+$text-1: darken($text-0, 5%);
+
+$bg-selection: #C9CBD1;
+$text-selection: #43436C;
+
+$primary-color: #4D699B;
 
 :root.light {
   --text-0: #{$text-0};
@@ -13,13 +18,12 @@ $text-1: darken($bg-0, 60%);
   --bg-1: #{$bg-1};
   --bg-2: #{$bg-2};
 
+  --bg-selection: #{$bg-selection};
+  --text-selection: #{$text-1};
+
   --border-color: var(--bg-2);
 
-  --primary-color: #31445E;
+  --primary-color: #{$primary-color};
   --hover-color: var(--bg-2);
 
-  // invert colour on hover for consistency 
-  .social :hover {
-    filter: invert(1)
-  }
 }
