@@ -68,13 +68,17 @@ header .socials {
     border-bottom: unset;
     background-image: unset;
     padding: 2px;
-}
 
-.social>img {
-    border: unset;
-    width: 24px;
-    height: 24px;
-    fill: var(--primary-color);
+    & > svg {
+        border: unset;
+        width: 24px;
+        height: 24px;
+        fill: var(--primary-color);
+
+        & > path {
+            fill: var(--text-0);
+        }
+    }
 }
 
 /* Mobile-specific adjustments */
