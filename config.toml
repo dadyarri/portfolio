@@ -1,11 +1,11 @@
 # The URL the site will be built for
 base_url = "https://dadyarri.ru"
-title = "Личный блог dadyarri"
-description = "Мыслепомойка об IT и всяком вокруг"
+title = "dadyarri"
+description = "Личный блог dadyarri"
 author = "dadyarri"
 
 # Whether to build a search index to be used later on by a JavaScript library
-build_search_index = true
+build_search_index = false
 
 # Whether to generate an rss feed
 generate_feeds = true
@@ -42,3 +42,6 @@ favicon = "/static/favicon.svg"
 fancy_code = true
 dynamic_note = true
 toc = true
+
+
+# TODO: rewrite post cards and dynamic notes
