@@ -1,0 +1,103 @@
+{% import "macros/macros.html" as post_macros %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% if page.extra.meta %}
+    <!-- the meta data config goes here  -->
+    {% for data in page.extra.meta %}
+    <meta {% for key, value in data%} {% if key=="property" and value=="og:title" %} {% set_global
+        page_has_og_title=true -%} {% endif %} {% if key=="property" and value=="og:description" %} {% set_global
+        page_has_og_description=true -%} {% endif %} {% if key=="name" and value=="description" %} {% set_global
+        page_has_description=true -%} {% endif %} {{ key }}="{{ value }}" {% endfor %} />
+    {% endfor %}
+    {% endif %}
+
+    {% if page.extra.og_image %}
+    <meta property="og:image" content={{ get_url(path=[current_path, 'og-image.png'] | join(sep=''))}} />
+    {% endif %}
+
+    {# Site title #}
+    {% set current_path = current_path | default(value="/") %}
+    {% if current_path == "/" %}
+    <title>
+        {{ config.title | default(value="Home") }}
+    </title>
+    {% if not page_has_og_title %}
+    <meta property="og:title" content="{{ config.title | default(value=" Home") }}" />
+    {% endif %}
+
+    {% else %}
+    <title>
+        {% if page.title %} {{ page.title }}
+        {% elif section.title %} {{ section.title }}
+        {% elif config.title %} {{ config.title }}
+        {% else %} Post {% endif %}
+    </title>
+
+    {% if not page_has_og_title %}
+    <meta property="og:title"
+        content="{% if page.title -%}{{ page.title }}{% elif config.title -%}{{ config.title }}{% else -%}Post{% endif -%}" />
+    {% endif %}
+    {% endif %}
+
+    {% if not page_has_og_description %}
+    {% if page.summary %}
+    <meta property="og:description" content="{{ page.summary | striptags | truncate(length=130) }}" />
+    {% elif page.description %}
+    <meta property="og:description" content="{{ page.description }}" />
+    {% elif config.description %}
+    <meta property="og:description" content="{{ config.description }}" />
+    {% endif %}
+    {% endif %}
+
+    {% if not page_has_description %}
+    {% if page.description %}
+    <meta name="description" content="{{ page.description }}" />
+    {% elif config.description %}
+    <meta name="description" content="{{ config.description }}" />
+    {% endif %}
+    {% endif %}
+
+    {# Favicon #}
+    <link rel="icon" type="image/png" href={{ get_url(path="favicon-48x48.png" ) }} sizes="48x48" />
+    <link rel="icon" type="image/svg+xml" href={{ get_url(path="/favicon.svg" ) }} />
+    <link rel="shortcut icon" href={{ get_url(path="/favicon.ico" ) }} />
+    <link rel="apple-touch-icon" sizes="180x180" href={{ get_url(path="apple-touch-icon.png" ) }} />
+    <meta name="apple-mobile-web-app-title" content="dadyarri" />
+    <link rel="manifest" href={{ get_url(path="site.webmanifest" ) }} />
+
+    {# Font from cdn or disk #}
+    <link href={{ get_url(path="fonts.css" ) }} rel="stylesheet" />
+
+    {# Fancy Codeblock #}
+    {% if config.extra.fancy_code %}
+    <script src={{ get_url(path="js/codeblock.js" ) }}></script>
+    {% endif %}
+
+    {# Table of contents #}
+    {% if config.extra.toc | default(value=false) %}
+    <script src={{ get_url(path="js/toc.js" ) }}></script>
+    {% endif %}
+
+    {# Dynamic Note #}
+    {% if config.extra.dynamic_note | default(value=false) %}
+    <script src={{ get_url(path="js/note.js" ) }}></script>
+    {% endif %}
+
+    {# RSS #}
+    <link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ get_url(path=" atom.xml",
+        trailing_slash=false) }}">
+
+    {# Styles #}
+    <link rel="stylesheet" type="text/css" href="{{ get_url(path='theme/dark.css') }}" />
+    <link rel="stylesheet" type="text/css" media="screen" href={{ get_url(path="main.css" ) }} />
+
+    {% if config.extra.stylesheets %}
+    {% for stylesheet in config.extra.stylesheets %}
+    <link rel="stylesheet" href="{{ get_url(path=stylesheet) }}">
+    {% endfor %}
+    {% endif %}
+</head>

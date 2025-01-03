@@ -29,11 +29,11 @@ path = "fonts/rubik-bold.ttf"
 
 [background]
 # Background fill color for the entire image, specified in hex code.
-fill = "#121212"
+fill = "#222436"
 
 [[background.borders]]
 # Border color for the image, specified in hex code.
-stroke = "#3F5878"
+stroke = "#444a73"
 
 # Width of the border, in pixels.
 stroke_width = 20
@@ -58,7 +58,7 @@ font_size = 60
 font_weight = "Bold"
 
 # Text fill color for this section, specified in hex code.
-fill = "#f2f8f8"
+fill = "#c8d3f5"
 
 [[sections]]
 # Format to use for combining multiple keys into a single line. Curly braces `{}` indicate placeholders.
@@ -74,7 +74,7 @@ font_family = "JetBrains Mono"
 font_size = 40
 
 # Fill color for the formatted text, specified in hex code.
-fill = "#f2f8f8"
+fill = "#c8d3f5"
 
 # Date format to use when rendering date values in this section. Follows `chrono` formatting conventions.
 date_format = "%d.%m.%Y"
@@ -93,10 +93,10 @@ font_family = "JetBrains Mono"
 font_size = 25
 
 # Text fill color for this section, specified in hex code.
-fill = "#121212"
+fill = "#222436"
 
 # Optional background configuration for this section.
-background = { fill = "#f2f8f8", padding = 10 }
+background = { fill = "#c8d3f5", padding = 10 }
 
 # List configuration for rendering items in this section.
 list = { margin = 10 }

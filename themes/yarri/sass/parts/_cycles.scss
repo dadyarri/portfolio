@@ -1,0 +1,14 @@
+.cycle {
+    background-color: var(--bg-1);
+    padding: 15px;
+    margin: 20px 0;
+    width: fit-content;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+
+    & li.active span {
+        background-color: var(--border-color);
+        color: var(--hover-color);
+        display: inline;
+    }
+}

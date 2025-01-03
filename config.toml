@@ -1,18 +1,18 @@
 # The URL the site will be built for
 base_url = "https://dadyarri.ru"
-title = "Личный блог dadyarri"
-description = "Мыслепомойка об IT и всяком вокруг"
+title = "dadyarri"
+description = "Личный блог dadyarri"
 author = "dadyarri"
 
 # Whether to build a search index to be used later on by a JavaScript library
-build_search_index = true
+build_search_index = false
 
 # Whether to generate an rss feed
 generate_feeds = true
 feed_filenames = ["rss.xml"]
 
 # Name of the used theme
-theme = "dapollo"
+theme = "yarri"
 
 # Language
 default_language = "ru"
@@ -23,12 +23,11 @@ taxonomies = [{ name = "tags" }, { name = "cycle" }]
 # Whether to do syntax highlighting
 # Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
 highlight_code = true
-highlight_theme = "one-dark"
+extra_syntaxes_and_themes = ["highlight_themes"]
+highlight_theme = "tokyonight_moon"
 render_emoji = true
 
 [extra]
-# Put all your custom variables here
-theme = "toggle"
 socials = [
     { name = "github", url = "https://github.com/dadyarri", icon = "github" },
     { name = "telegram", url = "https://t.me/dadyarri", icon = "telegram" },
@@ -43,3 +42,6 @@ favicon = "/static/favicon.svg"
 fancy_code = true
 dynamic_note = true
 toc = true
+
+
+# TODO: rewrite post cards and dynamic notes
