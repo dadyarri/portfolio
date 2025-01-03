@@ -23,14 +23,20 @@
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     overflow: hidden;
+    padding: 15px;
 }
 
-.card-info {
-    padding: 0 24px 24px 24px;
+.card-link {
+    border-bottom: none;
+
+    &:hover {
+        background-color: unset;
+        color: unset;
+    }
 }
 
-.card-title {
-    margin-top: 0.7em;
+.card-title::before {
+    content: "";
 }
 
 .card-image {

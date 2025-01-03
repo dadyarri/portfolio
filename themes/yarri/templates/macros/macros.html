@@ -14,10 +14,30 @@
 </main>
 {% endmacro %}
 
-{% macro list_posts(pages, simple=false) %}
-<ul>
+{% macro list_posts(pages) %}
+<div class="cards">
     {%- for page in pages %}
-    <li class="list-item">
+    <div class="card">
+        <a href="{{ page.permalink }}" class="card-link">
+            <h3 class="card-title">{{ page.title }}</h3>
+        </a>
+        <div class="card-info">
+            <span>
+                <time>{{ page.date | date(format="%d.%m.%Y") }}</time>
+            </span>
+            {{ post_macros::tags(page=page) }}
+        </div>
+        <div class="card-description">
+            {% if page.description %}
+            {{ page.description }}
+            {% elif page.summary %}
+            {{ page.summary | safe }}
+            {% else %}
+            {% set hide_read_more = true %}
+            {% endif %}
+        </div>
+    </div>
+    {# <li class="list-item">
         <section>
             <div class="post-header">
                 <div>
@@ -30,10 +50,7 @@
                         {% endif %}
                     </h1>
 
-                    <span>
-                        <time>{{ page.date | date(format="%Y-%m-%d") }}</time>
-                        {{ post_macros::tags(page=page) }}
-                    </span>
+
                     {% else %}
                     <h2>
                         <a href={{ page.permalink }}>{{page.title}}</a>
@@ -46,15 +63,7 @@
 
                     {% if not simple %}
                     <div class="meta">
-                        <div class="description">
-                            {% if page.description %}
-                            {{ page.description }}
-                            {% elif page.summary %}
-                            {{ page.summary | safe }}
-                            {% else %}
-                            {% set hide_read_more = true %}
-                            {% endif %}
-                        </div>
+
 
                         {% if not hide_read_more %}
                         <a class="readmore" href={{ page.permalink }}>Читать дальше ⟶</a>
@@ -64,9 +73,9 @@
                 </div>
             </div>
         </section>
-    </li>
+    </li> #}
     {% endfor -%}
-</ul>
+</div>
 {% endmacro list_posts %}
 
 {% macro list_terms(terms) %}
@@ -84,7 +93,22 @@
 
 {% macro tags(page, short=false) %}
 {%- if page.taxonomies and page.taxonomies.tags %}
-<span class="post-tags-inline">
+
+<div class="tags">
+    <div class="tag tag-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+            <path
+                d="M345 39.1L472.8 168.4c52.4 53 52.4 138.2 0 191.2L360.8 472.9c-9.3 9.4-24.5 9.5-33.9 .2s-9.5-24.5-.2-33.9L438.6 325.9c33.9-34.3 33.9-89.4 0-123.7L310.9 72.9c-9.3-9.4-9.2-24.6 .2-33.9s24.6-9.2 33.9 .2zM0 229.5L0 80C0 53.5 21.5 32 48 32l149.5 0c17 0 33.3 6.7 45.3 18.7l168 168c25 25 25 65.5 0 90.5L277.3 442.7c-25 25-65.5 25-90.5 0l-168-168C6.7 262.7 0 246.5 0 229.5zM144 144a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z" />
+        </svg>
+    </div>
+    {%- for tag in page.taxonomies.tags %}
+    <a class="tag" href="{{ get_taxonomy_url(kind='tags', name=tag) | safe }}">
+        <div>{{tag}}</div>
+    </a>
+    {% endfor -%}
+</div>
+
+{# <span class="post-tags-inline">
     {%- if short %}
     ::
     {%- set sep = "," -%}
@@ -96,7 +120,8 @@
     <a class="post-tag" href="{{ get_taxonomy_url(kind='tags', name=tag) | safe }}">{{ tag }}</a>
     <span>{%- if not loop.last %}{{ sep | safe }}{% endif -%}</span>
     {% endfor -%}
-</span>
+</span> #}
+
 {% endif -%}
 {% endmacro tags %}
 
@@ -258,49 +283,45 @@
 
             {% if page.taxonomies.cycle %}
 
-                {% set cycle_name = page.taxonomies.cycle[0] -%}
-                {% set cycle = get_taxonomy_term(kind="cycle", term=cycle_name) -%}
-                {% set pages = cycle.pages | sort(attribute="date") -%}
-                {% set pages_len = pages | length -%}
-                {% set pages_len = pages_len - 1 -%}
+            {% set cycle_name = page.taxonomies.cycle[0] -%}
+            {% set cycle = get_taxonomy_term(kind="cycle", term=cycle_name) -%}
+            {% set pages = cycle.pages | sort(attribute="date") -%}
+            {% set pages_len = pages | length -%}
+            {% set pages_len = pages_len - 1 -%}
 
-                {% set_global current_index = 0 %}
+            {% set_global current_index = 0 %}
 
-                {% for post in pages %}
-                    {% if post.path == page.path %}
-                        {% set_global current_index = loop.index0 -%}
-                    {% endif %}
-                {% endfor %}
+            {% for post in pages %}
+            {% if post.path == page.path %}
+            {% set_global current_index = loop.index0 -%}
+            {% endif %}
+            {% endfor %}
 
-                {% if current_index > 0 %}
-                    {% set index = current_index - 1 %}
-                    {% set_global previous_post = pages[index] %}
+            {% if current_index > 0 %}
+            {% set index = current_index - 1 %}
+            {% set_global previous_post = pages[index] %}
+            {% endif %}
+
+            {% if current_index < pages_len %} {% set index=current_index + 1 %} {% set_global next_post=pages[index] %}
+                {% endif %} <nav class="pagination">
+                {% if previous_post %}
+                <p>
+                    <b>Предыдущая часть: </b>
+                    <a href="{{ previous_post.path }}" class="prev">← {{ previous_post.title }}</a>
+                </p>
+
                 {% endif %}
 
-                {% if current_index < pages_len %}
-                    {% set index=current_index + 1 %}
-                    {% set_global next_post=pages[index] %}
+                {% if next_post %}
+                <p>
+                    <b>Следующая часть: </b>
+                    <a href="{{ next_post.path }}" class="prev">{{ next_post.title }} →</a>
+                </p>
                 {% endif %}
-
-                <nav class="pagination">
-                    {% if previous_post %}
-                    <p>
-                        <b>Предыдущая часть: </b>
-                        <a href="{{ previous_post.path }}" class="prev">← {{ previous_post.title }}</a>
-                    </p>
-                        
-                    {% endif %}
-
-                    {% if next_post %}
-                        <p>
-                            <b>Следующая часть: </b>
-                            <a href="{{ next_post.path }}" class="prev">{{ next_post.title }} →</a>
-                        </p>
-                    {% endif %}
                 </nav>
 
 
-            {% endif %}
+                {% endif %}
         </section>
     </article>
 </main>
