@@ -1,0 +1,25 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Это сайт, статически сгенерированный из markdown-документов.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dadyarri/portfolio.git"
+  },
+  "author": "dadyarri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dadyarri/portfolio/issues"
+  },
+  "homepage": "https://dadyarri.ru",
+  "dependencies": {
+    "astro": "^5.1.2"
+  }
+}

@@ -1,1 +1,2 @@
-public/
+.astro
+node_modules/
