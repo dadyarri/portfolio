@@ -1,0 +1,28 @@
+---
+import type { DataEntryMap } from "astro:content";
+import PostCard from "./PostCard.astro";
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+    posts: CollectionEntry<'posts'>[]
+}
+
+const { posts }: Props = Astro.props;
+---
+
+<div class="cards">
+    {
+        posts.map((post) => (
+            <PostCard post={post}/>
+        ))
+    }
+</div>
+
+<style lang="scss">
+    .cards {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        padding: 12px 0;
+    }
+</style>

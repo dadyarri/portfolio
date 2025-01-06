@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import PageTitle from "../components/PageTitle.astro";
 import Layout from "../layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
-import PostCard from "@components/PostCard.astro";
+import PostCards from "@components/PostCards.astro";
 
 const allPosts = (await getCollection("posts")).sort(
     (a, b) => b.data.date.getTime() - a.data.date.getTime(),
@@ -27,13 +27,7 @@ const allPosts = (await getCollection("posts")).sort(
         <a href="/posts">Все</a>
     </div>
 
-    <div>
-        {
-            allPosts.map((post) => (
-                <PostCard post={post}/>
-            ))
-        }
-    </div>
+    <PostCards posts={allPosts}/>
 </Layout>
 
 <style lang="scss">
