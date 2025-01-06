@@ -19,9 +19,12 @@
   "homepage": "https://dadyarri.ru",
   "dependencies": {
     "astro": "^5.1.3",
+    "astro-icon": "^1.1.5",
     "typescript": "^5.7.2"
   },
   "devDependencies": {
+    "@iconify-json/fa6-brands": "^1.2.5",
+    "@iconify-json/fa6-regular": "^1.2.3",
     "sass-embedded": "^1.83.1"
   }
 }
