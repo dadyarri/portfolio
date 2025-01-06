@@ -1,11 +1,80 @@
 ---
+import { Icon } from "astro-icon/components";
+import type { CollectionEntry } from "astro:content";
+import { formatDate } from "@utils/date";
+
+type Props = {
+    post: CollectionEntry<"posts">;
+};
+
 const { post } = Astro.props;
+const path = `/${post.collection}/${post.id}`
 ---
 
 <div class="card">
-    <a href={`posts/${post.id}`}>{post.data.title}</a>
+    <div class="card-content">
+        <a href={path} class="card-link">{post.data.title}</a>
+        <div class="card-info">
+            <div class="tags">
+                <div class="tag tag-icon">
+                    <Icon name="fa6-solid:calendar-days" />
+                </div>
+                <date>{formatDate(post.data.date)}</date>
+            </div>
+            <div class="tags">
+                <div class="tag tag-icon">
+                    <Icon name="fa6-solid:clock" />
+                </div>
+                <!-- TODO: Add reading time <span>{post.data.reading_time}</span> -->
+            </div>
+            <div class="tags">
+                <div class="tag tag-icon">
+                    <Icon name="fa6-solid:tags" />
+                </div>
+                {post.data.tags.map((tag) => <div class="tag">{tag}</div>)}
+            </div>
+        </div>
+        <div class="card-description">
+            <!--TODO: Add rendering post's intro -->
+        </div>
+    </div>
+    <a class="card-button" href={path}>
+        <Icon name="fa6-solid:chevron-right" />
+    </a>
 </div>
 
 <style lang="scss">
+    .card {
+        min-height: 100px;
+        background: var(--bg-1);
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        padding: 15px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
 
+    .card-link {
+        border-bottom: none;
+
+        &:hover {
+            background-color: unset;
+            color: unset;
+        }
+    }
+
+    .card-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: var(--border-radius);
+        background-color: var(--bg-2);
+        width: 3rem;
+
+        & svg {
+            fill: var(--text-1);
+        }
+    }
 </style>
