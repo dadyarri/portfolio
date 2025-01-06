@@ -151,9 +151,9 @@
                     {% set section = get_section(path="posts/_index.md") -%}
                     {% set cycle_title = section.extra.cycles | get(key=cycle_name) -%}
 
-                    <p>Этот пост &mdash; часть цикла "{{ cycle_title }}", куда входят следующие посты:</p>
+                    <h2>Цикл "{{ cycle_title }}"</h2>
 
-                    <ul>
+                    <ol>
                         {% for post in cycle.pages | sort(attribute="date") %}
 
                         {% if post.path == page.path %}
@@ -166,7 +166,7 @@
                         </li>
                         {% endif %}
                         {% endfor %}
-                    </ul>
+                    </ol>
                 </div>
                 {% endif %}
 

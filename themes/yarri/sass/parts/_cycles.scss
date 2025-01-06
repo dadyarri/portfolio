@@ -6,9 +6,18 @@
     border-radius: var(--border-radius);
     border: 1px solid var(--border-color);
 
+    & li {
+        margin: 5px 0;
+    }
+
     & li.active span {
-        background-color: var(--border-color);
-        color: var(--hover-color);
+        background-color: var(--bg-2);
+        color: var(--text-1);
         display: inline;
     }
+
+    & h2::before {
+        content: '';
+    }
+
 }
