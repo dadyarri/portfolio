@@ -1,0 +1,23 @@
+.cycle {
+    background-color: var(--bg-1);
+    padding: 15px;
+    margin: 20px 0;
+    width: fit-content;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+
+    & li {
+        margin: 5px 0;
+    }
+
+    & li.active span {
+        background-color: var(--bg-2);
+        color: var(--text-1);
+        display: inline;
+    }
+
+    & h2::before {
+        content: '';
+    }
+
+}

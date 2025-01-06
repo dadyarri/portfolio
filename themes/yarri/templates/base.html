@@ -1,0 +1,48 @@
+{% import "macros/macros.html" as post_macros %}
+
+<!DOCTYPE html>
+<html lang="en">
+<html>
+
+{% include "partials/header.html" %}
+
+<body>
+    <div id="snowflakes-container"></div>
+    <div class="content">
+        {% include "partials/nav.html" %}
+
+        {# Post page is the default #}
+        {% block main_content %}
+        Nothing here?!
+        {% endblock main_content %}
+
+        {% if page.extra.comment | default(value=false) and not page.draft %}
+        <hr class="after-post-divider">
+        <div class="giscus"></div>
+        {% include "_giscus_script.html" %}
+        {% endif %}
+
+    </div>
+    <script src="https://unpkg.com/magic-snowflakes/dist/snowflakes.min.js"></script>
+    <script>
+        const now = new Date();
+        const year = now.getFullYear();
+
+        const startDate = new Date(year, 11, 12); // December 12 (month is zero-based)
+        const endDate = new Date(year + 1, 0, 15); // January 15 of next year
+
+        if (now < startDate) {
+            startDate.setFullYear(year - 1);
+            endDate.setFullYear(year);
+        }
+
+        if (now >= startDate && now <= endDate) {
+            var sf = new Snowflakes({
+                color: "#626aa2",
+                maxSize: 15
+            });
+        }
+    </script>
+</body>
+
+</html>

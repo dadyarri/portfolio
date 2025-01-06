@@ -3,6 +3,9 @@ title = "Связывание конфигурации из JSON с модель
 date = "2024-10-26"
 draft = false
 
+[taxonomies]
+tags = ["ASP.NET"]
+
 [extra]
 comment = true
 +++

@@ -1,0 +1,25 @@
+.tags {
+  display: flex;
+  flex-direction: row;
+}
+
+.tag {
+  background-color: var(--bg-2);
+  border-radius: var(--border-radius);
+  padding: 5px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  border-bottom: unset;
+
+  &.tag-icon {
+    width: 24px;
+  }
+
+  & svg {
+    fill: var(--text-1)
+  }
+}

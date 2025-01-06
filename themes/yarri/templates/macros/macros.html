@@ -1,0 +1,305 @@
+{% macro declension(count, singular, genitive_singular, genitive_plural) %}
+{% set mod = count % 100 %}
+{% set last_digit = count % 10 %}
+{% if mod >= 11 and mod <= 14 %} {{ count }} {{ genitive_plural }} {% else %} {% if last_digit==1 %} {{ count }} {{
+    singular }} {% elif last_digit>= 2 and last_digit <= 4 %} {{ count }} {{ genitive_singular }} {% else %} {{ count }}
+        {{ genitive_plural }} {% endif %} {% endif %} {% endmacro %} {% macro list_tag_posts(pages, tag_name=false) %}
+        {% if tag_name %} <div class="page-header">
+        Посты с меткой :: {{ tag_name }}<span class="primary-color" style="font-size: 1.6em">.</span>
+        </div>
+        {% else %}
+        <div class="page-header">
+            Все статьи<span class="primary-color" style="font-size: 1.6em">.</span>
+        </div>
+        {% endif %}
+
+        <main class="list">
+            {{ post_macros::list_posts(pages=pages) }}
+        </main>
+        {% endmacro %}
+
+        {% macro list_posts(pages) %}
+        <div class="cards">
+            {%- for page in pages %}
+            <div class="card">
+                <a href="{{ page.permalink }}" class="card-link">
+                    <h3 class="card-title">{{ page.title }}</h3>
+                </a>
+                {{ post_macros::post_meta(page=page) }}
+                <div class="card-description">
+                    {% if page.description %}
+                    {{ page.description }}
+                    {% elif page.summary %}
+                    {{ page.summary | safe }}
+                    {% else %}
+                    {% set hide_read_more = true %}
+                    {% endif %}
+                </div>
+                <a class="readmore" href="{{ page.permalink }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+                </a>
+            </div>
+            {% endfor -%}
+        </div>
+        {% endmacro list_posts %}
+
+        {% macro post_meta(page) %}
+        <div class="card-info">
+            <div class="tags">
+                <div class="tag tag-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 448 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <path
+                            d="M152 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40L64 64C28.7 64 0 92.7 0 128l0 16 0 48L0 448c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-256 0-48 0-16c0-35.3-28.7-64-64-64l-40 0 0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40L152 64l0-40zM48 192l352 0 0 256c0 8.8-7.2 16-16 16L64 464c-8.8 0-16-7.2-16-16l0-256z" />
+                    </svg>
+                </div>
+                <time>{{ page.date | date(format="%d.%m.%Y") }}</time>
+            </div>
+            <div class="tags">
+                <div class="tag tag-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+                        <path
+                            d="M464 256A208 208 0 1 1 48 256a208 208 0 1 1 416 0zM0 256a256 256 0 1 0 512 0A256 256 0 1 0 0 256zM232 120l0 136c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2 280 120c0-13.3-10.7-24-24-24s-24 10.7-24 24z" />
+                    </svg>
+                </div>
+                {{ post_macros::declension(count=page.reading_time, singular="минута", genitive_singular="минуты",
+                genitive_plural="минут") }}
+            </div>
+            <hr />
+            {{ post_macros::tags(page=page) }}
+        </div>
+        {% endmacro %}
+
+        {% macro list_terms(terms) %}
+        <ul>
+            {%- for term in terms %}
+            <section class="list-item">
+                <h1 class="title">
+                    <a href={{ term.permalink }}>{{term.name}}</a>
+                </h1>
+            </section>
+
+            {% endfor -%}
+        </ul>
+        {% endmacro list_terms %}
+
+        {% macro tags(page, short=false) %}
+        {%- if page.taxonomies and page.taxonomies.tags %}
+
+        <div class="tags">
+            <div class="tag tag-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                    <path
+                        d="M345 39.1L472.8 168.4c52.4 53 52.4 138.2 0 191.2L360.8 472.9c-9.3 9.4-24.5 9.5-33.9 .2s-9.5-24.5-.2-33.9L438.6 325.9c33.9-34.3 33.9-89.4 0-123.7L310.9 72.9c-9.3-9.4-9.2-24.6 .2-33.9s24.6-9.2 33.9 .2zM0 229.5L0 80C0 53.5 21.5 32 48 32l149.5 0c17 0 33.3 6.7 45.3 18.7l168 168c25 25 25 65.5 0 90.5L277.3 442.7c-25 25-65.5 25-90.5 0l-168-168C6.7 262.7 0 246.5 0 229.5zM144 144a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z" />
+                </svg>
+            </div>
+            {%- for tag in page.taxonomies.tags %}
+            <a class="tag" href="{{ get_taxonomy_url(kind='tags', name=tag) | safe }}">
+                <div>{{tag}}</div>
+            </a>
+            {% endfor -%}
+            {% if page.draft %}
+                <span class="tag">Черновик</span>
+            {% endif %}
+        </div>
+
+        {% endif -%}
+        {% endmacro tags %}
+
+        {% macro page_header(title) %}
+        <div class="page-header">
+            {{ title }}<span class="primary-color" style="font-size: 1.6em">.</span>
+        </div>
+        {% endmacro content %}
+
+        {% macro home_page(section) %}
+        <main>
+            <article>
+                <section class="body">
+                    {{post_macros::page_header(title=section.title)}}
+                    {{ section.content | safe }}
+
+
+                    <h1>Последние посты <a href="/posts">Все</a></h1>
+
+                    {% set posts = get_section(path="posts/_index.md") %}
+
+                    {{ post_macros::list_posts(pages=posts.pages | slice(end=3), simple=true) }}
+
+                </section>
+            </article>
+        </main>
+        {% endmacro home_page %}
+
+        {% macro content(page) %}
+        <main>
+            <article>
+                <div class="title">
+                    {{ post_macros::page_header(title=page.title) }}
+
+                    {{ post_macros::post_meta(page=page) }}
+                </div>
+
+                {% if page.taxonomies.cycle %}
+
+                {% set cycle_name = page.taxonomies.cycle[0] -%}
+
+                <div class="cycle">
+
+                    {% set cycle = get_taxonomy_term(kind="cycle", term=cycle_name) -%}
+                    {% set section = get_section(path="posts/_index.md") -%}
+                    {% set cycle_title = section.extra.cycles | get(key=cycle_name) -%}
+
+                    <h2>Цикл "{{ cycle_title }}"</h2>
+
+                    <ol>
+                        {% for post in cycle.pages | sort(attribute="date") %}
+
+                        {% if post.path == page.path %}
+                        <li class="active">
+                            <span>{{post.title}}</span>
+                        </li>
+                        {% else %}
+                        <li>
+                            <a href="{{post.path}}">{{post.title}}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+                    </ol>
+                </div>
+                {% endif %}
+
+                {% if page.extra.tldr %}
+                <div class="tldr">
+                    <strong>tl;dr:</strong>
+                    {{ page.extra.tldr }}
+                </div>
+                {% endif %}
+
+                {# Optional table of contents #}
+                {% if page.extra.toc | default(value=false) %}
+                {% if page.toc %}
+                <div class="toc-container">
+                    <h1 class="toc-title">Содержание</h1>
+                    <ul class="toc-list">
+                        {% for h1 in page.toc %}
+                        <li>
+                            <a href="{{ h1.permalink | safe }}">{{ h1.title }}</a>
+                            {% if h1.children %}
+                            <ul>
+                                {% for h2 in h1.children %}
+                                <li>
+                                    <a href="{{ h2.permalink | safe }}">{{ h2.title }}</a>
+                                </li>
+
+                                {% if h2.children %}
+                                <ul>
+                                    {% for h3 in h2.children %}
+                                    <li>
+                                        <a href="{{ h3.permalink | safe }}">{{ h3.title }}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                {% endif %}
+
+                <section class="body">
+                    {{ page.content | safe }}
+
+                    {% if page.taxonomies.cycle %}
+
+                    {% set cycle_name = page.taxonomies.cycle[0] -%}
+                    {% set cycle = get_taxonomy_term(kind="cycle", term=cycle_name) -%}
+                    {% set pages = cycle.pages | sort(attribute="date") -%}
+                    {% set pages_len = pages | length -%}
+                    {% set pages_len = pages_len - 1 -%}
+
+                    {% set_global current_index = 0 %}
+
+                    {% for post in pages %}
+                    {% if post.path == page.path %}
+                    {% set_global current_index = loop.index0 -%}
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if current_index > 0 %}
+                    {% set index = current_index - 1 %}
+                    {% set_global previous_post = pages[index] %}
+                    {% endif %}
+
+                    {% if current_index < pages_len %} {% set index=current_index + 1 %} {% set_global
+                        next_post=pages[index] %} {% endif %} <nav class="pagination">
+                        {% if previous_post %}
+                        <p>
+                            <b>Предыдущая часть: </b>
+                            <a href="{{ previous_post.path }}" class="prev">← {{ previous_post.title }}</a>
+                        </p>
+
+                        {% endif %}
+
+                        {% if next_post %}
+                        <p>
+                            <b>Следующая часть: </b>
+                            <a href="{{ next_post.path }}" class="prev">{{ next_post.title }} →</a>
+                        </p>
+                        {% endif %}
+                        </nav>
+
+
+                        {% endif %}
+                </section>
+            </article>
+        </main>
+        {% endmacro content %}
+
+        {% macro cards_posts(pages) %}
+        <div class="cards">
+            {%- for page in pages %}
+            <div class="card">
+                {% if page.extra.local_image %}
+                <img class="card-image" alt={{ page.extra.local_image }}
+                    src="{{ get_url(path=page.extra.local_image) }}" />
+                {% elif page.extra.remote_image %}
+                <img class="card-image" alt={{ page.extra.remote_image }} src="{{ page.extra.remote_image }}" />
+                {% else %}
+                <div class="card-image-placeholder"></div>
+                {% endif %}
+
+                <div class="card-info">
+                    <h1 class="card-title">
+                        {% if page.extra.link_to %}
+                        <a href={{ page.extra.link_to }}>{{page.title}}</a>
+                        {% else %}
+                        <a href={{ page.permalink }}>{{page.title}}</a>
+                        {% endif %}
+                    </h1>
+
+                    <div class="meta">
+                        {%- if page.date %}
+                        <time>{{ page.date | date(format="%Y-%m-%d") }}</time>
+                        {% endif -%}
+                        {% if page.draft %}
+                        <span class="draft-label">ЧЕРНОВИК</span>
+                        {% endif %}
+                    </div>
+
+                    <div class="card-description">
+                        {% if page.description %}
+                        {{ page.description }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {% endfor -%}
+        </div>
+        {% endmacro cards_posts %}

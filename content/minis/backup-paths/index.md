@@ -3,6 +3,9 @@ title = "Пути для бэкапа приложений"
 date = "2024-12-22"
 draft = false
 
+[taxonomies]
+tags = ["Бэкап"]
+
 [extra]
 comment = true
 +++
