@@ -3,6 +3,9 @@ title = "Бэкап GnuPG ключей"
 date = "2024-10-07"
 draft = false
 
+[taxonomies]
+tags = ["Бэкап"]
+
 [extra]
 comment = true
 +++
