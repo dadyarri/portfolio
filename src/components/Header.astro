@@ -1,0 +1,50 @@
+---
+import { Icon } from "astro-icon/components";
+import { socials } from "../data/socials.json";
+import { links } from "../data/links.json";
+---
+
+<header>
+    <div class="main">
+        <a href="/">dadyarri</a>
+        <div class="socials">
+            {
+                socials.map((social) => (
+                    <a href={social.href} aria-label={social.label}>
+                        <Icon name={social.icon} width={20} />
+                    </a>
+                ))
+            }
+        </div>
+    </div>
+    <nav>
+        {
+            links.map((link) => (
+                <a href={link.href}>
+                    {link.label}
+                </a>
+            ))
+        }
+    </nav>
+</header>
+
+<style lang="scss">
+    header {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 1em 0;
+
+        & .main {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+    }
+</style>
