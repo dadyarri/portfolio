@@ -20,6 +20,9 @@
   },
   "homepage": "https://dadyarri.ru",
   "dependencies": {
-    "astro": "^5.1.2"
+    "@astrojs/svelte": "^7.0.3",
+    "astro": "^5.1.2",
+    "svelte": "^5.16.2",
+    "typescript": "^5.7.2"
   }
 }
