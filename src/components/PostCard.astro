@@ -1,0 +1,11 @@
+---
+const { post } = Astro.props;
+---
+
+<div class="card">
+    <a href={`posts/${post.id}`}>{post.data.title}</a>
+</div>
+
+<style lang="scss">
+
+</style>
