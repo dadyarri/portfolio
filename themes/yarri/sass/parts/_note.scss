@@ -16,6 +16,8 @@
 
 .note-toggle,
 .note-header {
+  font-family: var(--header-font);
+  font-weight: 700;
   color: var(--note-header-color);
   background-color: var(--note-header-bg);
   padding: 10px 25px;
@@ -72,7 +74,7 @@
 
 .note-icon::before {
   content: '✎';
-  color: var(--primary-color);
+  color: var(--text-color-1);
   position: absolute;
   left: 20px;
   top: 50%;
