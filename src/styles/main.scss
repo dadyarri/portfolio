@@ -1,0 +1,57 @@
+@import url("parts/_fonts.scss");
+
+@import url("themes/dark.scss");
+
+:root {
+    /* Fonts */
+    --text-font: "Jetbrains Mono";
+    --header-font: "Rubik";
+    --code-font: "Jetbrains Mono";
+
+    --border-radius: 4px;
+
+    &::-webkit-scrollbar {
+        width: 13px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: var(--bg-1);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--primary-color);
+        margin: 20px;
+    }
+}
+
+html {
+    background-color: var(--bg-0);
+    color: var(--text-0);
+    font-family: var(--text-font);
+    line-height: 1.6em;
+}
+
+.content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px;
+    word-wrap: break-word;
+}
+
+@media all and (min-width: 640px) {
+    html {
+        font-size: 16.5px;
+    }
+}
+
+@media all and (min-width: 720px) {
+    html {
+        font-size: 17px;
+    }
+}
+
+@media all and (min-width: 960px) {
+    html {
+        font-size: 18px;
+    }
+}
