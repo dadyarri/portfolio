@@ -1,16 +1,18 @@
+@use "sass:color";
+
 $bg-0: #222436;
-$bg-1: lighten($bg-0, 5%);
-$bg-3: lighten($bg-0, 10%);
-$bg-2: lighten($bg-1, 10%);
+$bg-1: color.adjust($bg-0, $lightness: 5%);
+$bg-3: color.adjust($bg-0, $lightness: 10%);
+$bg-2: color.adjust($bg-1, $lightness: 10%);
 
 $text-0: #c8d3f5;
-$text-1: darken($text-0, 5%);
+$text-1: color.adjust($text-0, $lightness: -5%);
 
 $bg-selection: #2d3f76;
 $text-selection: #{$text-1};
 
 $primary-color: #444a73;
-$primary-color-hover: lighten($primary-color, 15%);
+$primary-color-hover: color.adjust($primary-color, $lightness: 15%);
 
 :root {
     --text-0: #{$text-0};
