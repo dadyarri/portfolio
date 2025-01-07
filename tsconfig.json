@@ -27,6 +27,12 @@
       ],
       "@utils/*": [
         "src/utils/*"
+      ],
+      "@styles/*": [
+        "src/styles/*"
+      ],
+      "@layouts/*": [
+        "src/layouts/*"
       ]
     }
   }
