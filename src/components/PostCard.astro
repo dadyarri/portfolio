@@ -2,13 +2,22 @@
 import { Icon } from "astro-icon/components";
 import type { CollectionEntry } from "astro:content";
 import { formatDate } from "@utils/date";
+import { getWordDeclension } from "@utils/declension";
+import type { RenderedContent } from "astro:content";
 
 type Props = {
     post: CollectionEntry<"posts">;
 };
 
+type ModifiedFrontmatter = {
+    readingTime: number
+}
+
 const { post } = Astro.props;
-const path = `/${post.collection}/${post.id}`
+const path = `/${post.collection}/${post.id}`;
+const rendered = post.rendered as RenderedContent;
+const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter).readingTime
+
 ---
 
 <div class="card">
@@ -25,7 +34,7 @@ const path = `/${post.collection}/${post.id}`
                 <div class="tag tag-icon">
                     <Icon name="fa6-solid:clock" />
                 </div>
-                <!-- TODO: Add reading time <span>{post.data.reading_time}</span> -->
+                <span>{getWordDeclension(readingTime, ["минута", "минуты", "минут"])}</span>
             </div>
             <div class="tags">
                 <div class="tag tag-icon">
