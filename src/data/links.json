@@ -3,10 +3,6 @@
         {
             "label": "/Посты",
             "href": "/posts"
-        },
-        {
-            "label": "/Шпаргалки",
-            "href": "/minis"
         }
     ]
 }
