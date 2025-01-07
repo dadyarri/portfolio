@@ -4,6 +4,7 @@ import type { CollectionEntry } from "astro:content";
 import { formatDate } from "@utils/date";
 import { getWordDeclension } from "@utils/declension";
 import type { RenderedContent } from "astro:content";
+import { splitArrayByElement } from "@utils/data";
 
 type Props = {
     post: CollectionEntry<"posts">;
@@ -15,9 +16,15 @@ type ModifiedFrontmatter = {
 
 const { post } = Astro.props;
 const path = `/${post.collection}/${post.id}`;
+
 const rendered = post.rendered as RenderedContent;
 const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter)
     .readingTime;
+
+const preview = splitArrayByElement(
+    post.rendered?.html.split("\n")!,
+    "<!--more-->",
+).preview.join("");
 ---
 
 <div class="card">
@@ -53,9 +60,7 @@ const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter)
                 {post.data.tags.map((tag) => <div class="tag">{tag}</div>)}
             </div>
         </div>
-        <div class="card-description">
-            <!--TODO: Add rendering post's intro -->
-        </div>
+        <div class="card-description" set:html={preview} />
     </div>
     <a class="card-button" href={path}>
         <Icon name="fa6-solid:chevron-right" />
@@ -97,10 +102,21 @@ const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter)
         align-items: center;
         border-radius: var(--border-radius);
         background-color: var(--bg-2);
-        width: 3rem;
+        width: 120px;
 
         & svg {
             fill: var(--text-1);
+        }
+    }
+
+    @media (max-width: 650px) {
+        .card {
+            flex-direction: column;
+        }
+
+        .card-button {
+            width: 100%;
+            height: 30px;
         }
     }
 </style>
