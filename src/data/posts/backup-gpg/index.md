@@ -1,14 +1,10 @@
-+++
-title = "Бэкап GnuPG ключей"
-date = "2024-10-07"
-draft = false
+---
+title:  "Бэкап GnuPG ключей"
+date:  "2024-10-07"
+draft:  false
 
-[taxonomies]
-tags = ["Бэкап"]
-
-[extra]
-comment = true
-+++
+tags:  ["Бэкап"]
+---
 
 О том, как сохранить GnuPG ключи для удобства переноса между машинами
 

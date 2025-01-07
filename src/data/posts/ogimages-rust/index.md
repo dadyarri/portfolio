@@ -1,17 +1,12 @@
-+++
-title = "Генерация Open Graph изображений на Rust"
-date = "2024-10-17"
-draft = false
+---
+title: "Генерация Open Graph изображений на Rust"
+date: "2024-10-17"
+draft: false
 
-[taxonomies]
-tags = ["Rust", "Блог"]
-cycle = ["ogimages"]
+tags: ["Rust", "Блог"]
+cycle: ["ogimages"]
 
-[extra]
-comment = true
-toc = true
-og_image = "og-image.jpeg"
-+++
+---
 
 Иногда случается так, что меня резко переклинивает и я начинаю заниматься тем, чего вообще не делал или к чему давно не прикасался.
 

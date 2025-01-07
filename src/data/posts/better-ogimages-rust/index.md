@@ -1,17 +1,11 @@
-+++
-title = "Ускоряем генерацию Open Graph изображений на Rust"
-date = "2024-10-25"
-draft = false
+---
+title: "Ускоряем генерацию Open Graph изображений на Rust"
+date: "2024-10-25"
+draft: false
 
-[taxonomies]
-tags = ["Rust", "Блог"]
-cycle = ["ogimages"]
-
-[extra]
-comment = true
-toc = true
-og_image = "og-image.jpeg"
-+++
+tags: ["Rust", "Блог"]
+series: "ogimages"
+---
 
 Я уже говорил, что решение по генерации изображений для соцсетей из прошлой [статьи](/posts/ogimages-rust) неидеально &mdash; оно требует установленного Google Chrome, запускает его, ждёт пока страница загрузится и потом делает скриншот.
 

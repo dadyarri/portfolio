@@ -1,14 +1,10 @@
-+++
-title = "Связывание конфигурации из JSON с моделью в ASP.NET"
-date = "2024-10-26"
-draft = false
+---
+title:  "Связывание конфигурации из JSON с моделью в ASP.NET"
+date:  "2024-10-26"
+draft:  false
 
-[taxonomies]
-tags = ["ASP.NET"]
-
-[extra]
-comment = true
-+++
+tags:  ["ASP.NET"]
+---
 
 Как удобнее использовать конфигурацию из `appsettings.json` в ASP.NET
 
