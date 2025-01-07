@@ -10,19 +10,21 @@ type Props = {
 };
 
 type ModifiedFrontmatter = {
-    readingTime: number
-}
+    readingTime: number;
+};
 
 const { post } = Astro.props;
 const path = `/${post.collection}/${post.id}`;
 const rendered = post.rendered as RenderedContent;
-const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter).readingTime
-
+const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter)
+    .readingTime;
 ---
 
 <div class="card">
     <div class="card-content">
-        <a href={path} class="card-link">{post.data.title}</a>
+        <div class="card-link">
+            <a href={path}>{post.data.title}</a>
+        </div>
         <div class="card-info">
             <div class="tags">
                 <div class="tag tag-icon">
@@ -34,7 +36,15 @@ const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter).read
                 <div class="tag tag-icon">
                     <Icon name="fa6-solid:clock" />
                 </div>
-                <span>{getWordDeclension(readingTime, ["минута", "минуты", "минут"])}</span>
+                <span
+                    >{
+                        getWordDeclension(readingTime, [
+                            "минута",
+                            "минуты",
+                            "минут",
+                        ])
+                    }</span
+                >
             </div>
             <div class="tags">
                 <div class="tag tag-icon">
@@ -66,7 +76,14 @@ const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter).read
     }
 
     .card-link {
-        border-bottom: none;
+        font-family: var(--header-font);
+        font-weight: 700;
+        font-size: 1.5rem;
+        margin: 20px 0;
+
+        & a {
+            border-bottom: none;
+        }
 
         &:hover {
             background-color: unset;
