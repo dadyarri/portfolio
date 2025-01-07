@@ -5,8 +5,13 @@ import icon from 'astro-icon';
 
 import netlify from '@astrojs/netlify';
 
+import { remarkReadingTime } from './src/remark/reading-time.mjs';
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [icon()],
-  adapter: netlify()
+  adapter: netlify(),
+  markdown: {
+    remarkPlugins: [remarkReadingTime]
+  }
 });
