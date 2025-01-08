@@ -1,6 +1,9 @@
 ---
 import Header from "@components/Header.astro";
+import PageTitle from "@components/PageTitle.astro";
 import "@styles/main.scss";
+
+const { title = "dadyarri" } = Astro.props;
 ---
 
 <!doctype html>
@@ -10,11 +13,20 @@ import "@styles/main.scss";
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>dadyarri</title>
+
+		<title>{title}</title>
+		<meta property="og:title" content={title} />
+
+		<meta name="description" content="Личный блог dadyarri"/>
+		<meta property="og:description" content="Личный блог dadyarri" />
+		
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://dadyarri.ru" />
 	</head>
 	<body>
 		<div class="content">
 			<Header />
+			<PageTitle title={title} />
 			<slot />
 		</div>
 	</body>
