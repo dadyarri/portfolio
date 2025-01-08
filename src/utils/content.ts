@@ -1,6 +1,6 @@
 import { getCollection } from 'astro:content'
 
-export const getPosts = async (max?: number) => {
+export const getPosts = async () => {
 	let posts = await getCollection('posts')
 
 	if (posts == undefined) {
@@ -10,7 +10,6 @@ export const getPosts = async (max?: number) => {
 	return posts
 		.filter((post) => !post.data.draft)
 		.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-		.slice(0, max)
 }
 
 export const getTags = async () => {
