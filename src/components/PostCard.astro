@@ -14,7 +14,7 @@ type ModifiedFrontmatter = {
 };
 
 const { post } = Astro.props;
-const path = `/${post.collection}/${post.id}`;
+const path = `/${post.data.category.id}/${post.id}`;
 
 const rendered = post.rendered as RenderedContent;
 const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter)

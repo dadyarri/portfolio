@@ -1,0 +1,11 @@
+---
+import PostCards from "@components/PostCards.astro";
+import Layout from "@layouts/Layout.astro";
+import { filterPostsByCategory } from "@utils/content";
+
+const allMinis = await filterPostsByCategory('minis');
+---
+
+<Layout title="Шпаргалки">
+    <PostCards posts={allMinis}/>
+</Layout>
