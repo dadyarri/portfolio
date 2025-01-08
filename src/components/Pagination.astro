@@ -10,17 +10,21 @@ type Props = {
 const { pagesAmount, category, currentPage } = Astro.props;
 ---
 
-<div class="pagination">
-    {
-        Array.from({ length: pagesAmount }, (_, i) => i + 1).map((page) => (
-            <PaginationItem
-                currentPage={currentPage}
-                page={page}
-                category={category}
-            />
-        ))
-    }
-</div>
+{
+    pagesAmount > 1 && (
+        <div class="pagination">
+            {Array.from({ length: pagesAmount }, (_, i) => i + 1).map(
+                (page) => (
+                    <PaginationItem
+                        currentPage={currentPage}
+                        page={page}
+                        category={category}
+                    />
+                ),
+            )}
+        </div>
+    )
+}
 
 <style lang="scss">
     .pagination {
