@@ -12,3 +12,16 @@ const { page, category, currentPage } = Astro.props;
     href=`/${category}/${page}`
     class:list={["tag", { active: page === currentPage }]}>{page}</a
 >
+
+<style lang="scss">
+    .tag {
+        background-color: unset;
+        border: 2px solid var(--bg-1);
+
+        &.active {
+            border: unset;
+            background-color: var(--bg-1);
+            color: var(--text-1)
+        }
+    }
+</style>
