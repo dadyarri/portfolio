@@ -3,7 +3,6 @@ import { Icon } from "astro-icon/components";
 import { formatDate } from "@utils/date";
 import { getWordDeclension } from "@utils/declension";
 import type { CollectionEntry, RenderedContent } from "astro:content";
-import { getCollection } from "astro:content";
 import { getTagLabel } from "@utils/content";
 
 type Props = {
@@ -45,7 +44,7 @@ const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter)
         </div>
         {
             post.data.tags.map(async (tag) => (
-                <div class="tag">{await getTagLabel(tag.id)}</div>
+                <a class="tag" href=`/tags/${tag.id}`>{await getTagLabel(tag.id)}</a>
             ))
         }
     </div>
