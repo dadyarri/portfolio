@@ -4,6 +4,7 @@ import PageTitle from "@components/PageTitle.astro";
 import PostInfo from "@components/PostInfo.astro";
 import TableOfContents from "@components/TableOfContents.astro";
 import "@styles/main.scss";
+import { getTagLabel } from "@utils/content";
 import { splitArrayByElement, stripHtml } from "@utils/data";
 import type { MarkdownHeading } from "astro";
 import type { CollectionEntry } from "astro:content";
@@ -72,8 +73,8 @@ const ld = {
         <meta property="article:section" content="Tech" />
 
         {
-            post.data.tags.map((tag) => (
-                <meta property="article:tag" content={tag} />
+            post.data.tags.map(async (tag) => (
+                <meta property="article:tag" content={await getTagLabel(tag.id)} />
             ))
         }
 
