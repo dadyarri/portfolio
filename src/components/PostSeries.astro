@@ -1,0 +1,32 @@
+---
+import { filterPostsBySeries, getSeriesLabel } from "@utils/content";
+
+type Props = {
+    series: string;
+    currentPost: string;
+};
+
+const { series, currentPost } = Astro.props;
+
+const posts = await filterPostsBySeries(series);
+const seriesLabel = await getSeriesLabel(series);
+---
+
+<nav class="card">
+    <div>
+        <h1 class="card-title">Цикл "{seriesLabel}"</h1>
+        <ul>
+            {posts.map(post => <li>
+                <a href=`/${post.data.category.id}/${post.id}` class:list={[{"active": currentPost === post.id}]}>{post.data.title}</a>
+            </li>)}
+        </ul>
+    </div>
+</nav>
+
+<style lang="scss">
+a.active {
+    background-color: var(--bg-2);
+        color: var(--text-1);
+        display: inline;
+}
+</style>
