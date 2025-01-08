@@ -14,5 +14,6 @@ $headings: (
   h#{$level} {
     font-size: map.get($styles, font-size);
     font-family: var(--header-font);
+    line-height: 100%;
   }
 }
