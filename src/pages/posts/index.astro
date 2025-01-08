@@ -1,0 +1,11 @@
+---
+import PostCards from "@components/PostCards.astro";
+import Layout from "@layouts/Layout.astro";
+import { filterPostsByCategory } from "@utils/content";
+
+const allPosts = await filterPostsByCategory('posts');
+---
+
+<Layout title="Посты">
+    <PostCards posts={allPosts}/>
+</Layout>
