@@ -1,0 +1,25 @@
+---
+import type { GetStaticPaths } from "astro";
+import { render, type CollectionEntry } from "astro:content";
+import { getPosts } from "@utils/content";
+import Layout from "@layouts/Layout.astro";
+import PageTitle from "@components/PageTitle.astro";
+
+export const getStaticPaths = ( async () => {
+    const posts = await getPosts()
+    return posts.map((post) => ({
+		params: { id: post.id },
+		props: post
+	}))
+}) satisfies GetStaticPaths;
+
+type Props = CollectionEntry<'posts'>
+const post = Astro.props
+const { Content, headings, remarkPluginFrontmatter } = await render(post)
+---
+
+<Layout>
+    <PageTitle title={post.data.title}></PageTitle>
+
+    <Content/>
+</Layout>
