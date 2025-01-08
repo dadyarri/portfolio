@@ -1,10 +1,10 @@
 ---
-import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
 import PostCards from "@components/PostCards.astro";
+import { filterPostsByCategory } from "@utils/content";
 
-const allPosts = (await getCollection("posts")).sort(
+const allPosts = (await filterPostsByCategory('posts')).sort(
     (a, b) => b.data.date.getTime() - a.data.date.getTime(),
 ).slice(0, 3);
 ---
