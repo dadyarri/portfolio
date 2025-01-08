@@ -1,7 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
 import type { CollectionEntry } from "astro:content";
-import type { RenderedContent } from "astro:content";
 import { splitArrayByElement } from "@utils/data";
 import PostInfo from "./PostInfo.astro";
 
@@ -9,16 +8,8 @@ type Props = {
     post: CollectionEntry<"posts">;
 };
 
-type ModifiedFrontmatter = {
-    readingTime: number;
-};
-
 const { post } = Astro.props;
 const path = `/${post.data.category.id}/${post.id}`;
-
-const rendered = post.rendered as RenderedContent;
-const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter)
-    .readingTime;
 
 const preview = splitArrayByElement(
     post.rendered?.html.split("\n")!,
