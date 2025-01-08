@@ -7,11 +7,11 @@ type Props = {
 };
 
 export type TableOfContentItem = {
-	depth: number
-	text: string
-	slug: string
-	subheadings: TableOfContentItem[]
-}
+    depth: number;
+    text: string;
+    slug: string;
+    subheadings: TableOfContentItem[];
+};
 
 const { headings } = Astro.props;
 
@@ -26,10 +26,13 @@ function buildToc(headings: MarkdownHeading[]): TableOfContentItem[] {
             depth: heading.depth,
             text: heading.text,
             slug: heading.slug,
-            subheadings: []
+            subheadings: [],
         };
 
-        while (stack.length > 0 && stack[stack.length - 1].depth >= heading.depth) {
+        while (
+            stack.length > 0 &&
+            stack[stack.length - 1].depth >= heading.depth
+        ) {
             stack.pop();
         }
 
@@ -46,30 +49,11 @@ function buildToc(headings: MarkdownHeading[]): TableOfContentItem[] {
 }
 ---
 
-<nav class="toc">
-    <h1 class="toc-title">Содержание</h1>
-    <ul>
-        {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
-    </ul>
+<nav class="card">
+    <div>
+        <h1 class="card-title">Содержание</h1>
+        <ul>
+            {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
+        </ul>
+    </div>
 </nav>
-
-<style lang="scss">
-    .toc {
-        min-height: 100px;
-        background: var(--bg-1);
-        border: 1px solid var(--border-color);
-        border-radius: var(--border-radius);
-        overflow: hidden;
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        margin: 10px 0;
-    }
-
-    .toc-title {
-        margin-top: 10px;
-        margin-bottom: 5px;
-    }
-</style>
-
