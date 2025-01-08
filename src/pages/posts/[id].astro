@@ -4,6 +4,7 @@ import { render, type CollectionEntry } from "astro:content";
 import { getPosts } from "@utils/content";
 import Layout from "@layouts/Layout.astro";
 import PageTitle from "@components/PageTitle.astro";
+import PostInfo from "@components/PostInfo.astro";
 
 export const getStaticPaths = ( async () => {
     const posts = await getPosts()
@@ -15,11 +16,11 @@ export const getStaticPaths = ( async () => {
 
 type Props = CollectionEntry<'posts'>
 const post = Astro.props
-const { Content, headings, remarkPluginFrontmatter } = await render(post)
+const { Content, headings } = await render(post)
 ---
 
 <Layout>
     <PageTitle title={post.data.title}></PageTitle>
-
+    <PostInfo post={post}/>
     <Content/>
 </Layout>
