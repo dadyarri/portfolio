@@ -10,3 +10,8 @@ export function splitArrayByElement(array: string[], element: string): { preview
 
     return { preview, content };
 }
+
+export function stripHtml(input: string): string {
+    // Use a regular expression to match HTML tags and replace them with an empty string
+    return input.replace(/<\/?[^>]+(>|$)/g, "");
+}
