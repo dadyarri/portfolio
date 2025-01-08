@@ -42,5 +42,7 @@ export const getSeriesLabel = async (id: string) => {
 
 export const filterPostsBySeries = async (series: string) => {
 	const posts = await getPosts()
-	return posts.filter((post) => post.data.series?.id === series)
+	return posts
+	.filter((post) => post.data.series?.id === series)
+	.sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
 }
