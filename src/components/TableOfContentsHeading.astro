@@ -1,0 +1,26 @@
+---
+import type { TableOfContentItem } from './TableOfContents.astro'
+
+const { heading } = Astro.props
+
+export interface Props {
+	heading: TableOfContentItem
+}
+---
+
+<li>
+	<a
+		href={'#' + heading.slug}
+	>
+		{heading.text}
+	</a>
+	{
+		heading.subheadings.length > 0 && (
+			<ul>
+				{heading.subheadings.map((subheading) => (
+					<Astro.self heading={subheading} />
+				))}
+			</ul>
+		)
+	}
+</li>

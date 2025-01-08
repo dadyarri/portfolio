@@ -2,6 +2,7 @@
 import Header from "@components/Header.astro";
 import PageTitle from "@components/PageTitle.astro";
 import PostInfo from "@components/PostInfo.astro";
+import TableOfContents from "@components/TableOfContents.astro";
 import "@styles/main.scss";
 import { splitArrayByElement, stripHtml } from "@utils/data";
 import type { MarkdownHeading } from "astro";
@@ -88,6 +89,7 @@ const ld = {
             <Header />
             <PageTitle title={post.data.title} />
             <PostInfo post={post} />
+            {headings.length > 0 && <TableOfContents headings={headings}/>}
             <slot />
         </div>
     </body>
