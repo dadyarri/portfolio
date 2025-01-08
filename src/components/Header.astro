@@ -1,7 +1,9 @@
 ---
 import { Icon } from "astro-icon/components";
 import { socials } from "@data/socials.json";
-import { links } from "@data/links.json";
+import { getCollection } from "astro:content";
+
+const categroies = await getCollection("categories");
 ---
 
 <header>
@@ -22,7 +24,7 @@ import { links } from "@data/links.json";
         </div>
     </div>
     <nav>
-        {links.map((link) => <a href={link.href}>{link.label}</a>)}
+        {categroies.map(category => <a href={`/${category.id}`}>{category.data.label}</a>)}
     </nav>
 </header>
 

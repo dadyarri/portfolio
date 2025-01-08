@@ -8,7 +8,8 @@ const posts = defineCollection({
     date: z.coerce.date(),
     draft: z.boolean().default(false),
     tags: z.array(z.string()),
-    series: reference("series").optional()
+    series: reference("series").optional(),
+    category: reference("categories").default("posts"),
   }),
 });
 
@@ -19,6 +20,11 @@ const series = defineCollection({
   })
 })
 
-// Expose your defined collection to Astro
-// with the `collections` export
-export const collections = { posts, series};
+const categories = defineCollection({
+  loader: glob({pattern: "**/[^_]*.json", base: "./src/data/categories"}),
+  schema: z.object({
+    label: z.string()
+  })
+})
+
+export const collections = { posts, series, categories };
