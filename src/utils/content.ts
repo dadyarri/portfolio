@@ -34,3 +34,13 @@ export const getTags = async () => {
 	const tags = await getCollection("tags");
 	return tags;
 }
+
+export const getSeriesLabel = async (id: string) => {
+	const series = await getCollection("series");
+	return series.find(s => s.id === id)?.data.label
+}
+
+export const filterPostsBySeries = async (series: string) => {
+	const posts = await getPosts()
+	return posts.filter((post) => post.data.series?.id === series)
+}
