@@ -2,9 +2,7 @@
 import type { GetStaticPaths } from "astro";
 import { render, type CollectionEntry } from "astro:content";
 import { getPosts } from "@utils/content";
-import Layout from "@layouts/Layout.astro";
-import PageTitle from "@components/PageTitle.astro";
-import PostInfo from "@components/PostInfo.astro";
+import PostLayout from "@layouts/PostLayout.astro";
 
 export const getStaticPaths = ( async () => {
     const posts = await getPosts()
@@ -19,8 +17,6 @@ const post = Astro.props
 const { Content, headings } = await render(post)
 ---
 
-<Layout>
-    <PageTitle title={post.data.title}></PageTitle>
-    <PostInfo post={post}/>
+<PostLayout post={post}, headings={headings}>
     <Content/>
-</Layout>
+</PostLayout>
