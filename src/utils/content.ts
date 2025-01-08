@@ -1,4 +1,4 @@
-import { getCollection } from 'astro:content'
+import { getCollection, type CollectionEntry } from 'astro:content'
 
 export const getPosts = async () => {
 	let posts = await getCollection('posts')
@@ -12,7 +12,7 @@ export const getPosts = async () => {
 		.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
 
-export const getPostByTag = async (tag: string) => {
+export const getPostByTag = async (tag: string): Promise<CollectionEntry<'posts'>[]> => {
 	const posts = await getPosts()
 	const lowercaseTag = tag.toLowerCase()
 	return posts.filter((post) => {
@@ -28,4 +28,9 @@ export const filterPostsByCategory = async (category: string) => {
 export const getTagLabel = async (id: string) => {
 	const tags = await getCollection("tags");
 	return tags.find(tag => tag.id === id)?.data.label
+}
+
+export const getTags = async () => {
+	const tags = await getCollection("tags");
+	return tags;
 }
