@@ -2,6 +2,7 @@
 import Header from "@components/Header.astro";
 import PageTitle from "@components/PageTitle.astro";
 import PostInfo from "@components/PostInfo.astro";
+import PostSeries from "@components/PostSeries.astro";
 import TableOfContents from "@components/TableOfContents.astro";
 import "@styles/main.scss";
 import { getTagLabel } from "@utils/content";
@@ -90,6 +91,7 @@ const ld = {
             <Header />
             <PageTitle title={post.data.title} />
             <PostInfo post={post} />
+            {post.data.series && <PostSeries series={post.data.series.id}/>}
             {headings.length > 0 && <TableOfContents headings={headings}/>}
             <slot />
         </div>
