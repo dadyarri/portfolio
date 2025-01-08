@@ -3,7 +3,7 @@ title:  "Полиморфная сериализация в Kotlin и C#"
 date:  "2024-03-26"
 draft:  false
 
-tags:  ["C#", "Kotlin"]
+tags:  ["csharp", "kotlin"]
 
 ---
 

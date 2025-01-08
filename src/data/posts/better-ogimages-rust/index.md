@@ -3,7 +3,7 @@ title: "Ускоряем генерацию Open Graph изображений н
 date: "2024-10-25"
 draft: false
 
-tags: ["Rust", "Блог"]
+tags: ["rust", "blog"]
 series: "ogimages"
 ---
 

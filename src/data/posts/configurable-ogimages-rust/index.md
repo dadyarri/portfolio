@@ -3,7 +3,7 @@ title: "Настраиваемые Open Graph изображения на Rust"
 date: "2024-11-30"
 draft: false
 
-tags: ["Rust", "Блог"]
+tags: ["rust", "blog"]
 cycle: "ogimages"
 ---
 

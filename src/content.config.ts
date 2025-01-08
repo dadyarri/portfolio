@@ -7,7 +7,7 @@ const posts = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     draft: z.boolean().default(false),
-    tags: z.array(z.string()),
+    tags: z.array(reference("tags")),
     series: reference("series").optional(),
     category: reference("categories").default("posts"),
   }),
@@ -27,4 +27,11 @@ const categories = defineCollection({
   })
 })
 
-export const collections = { posts, series, categories };
+const tags = defineCollection({
+  loader: glob({pattern: "**/[^_]*.json", base: "./src/data/tags"}),
+  schema: z.object({
+    label: z.string()
+  })
+})
+
+export const collections = { posts, series, categories, tags };

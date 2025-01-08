@@ -3,7 +3,7 @@ title:  "Связывание конфигурации из JSON с модель
 date:  "2024-10-26"
 draft:  false
 
-tags:  ["ASP.NET"]
+tags:  ["aspnet"]
 category: "minis"
 ---
 
