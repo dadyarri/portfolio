@@ -1,6 +1,5 @@
 ---
 import { getCollection } from "astro:content";
-import PageTitle from "@components/PageTitle.astro";
 import Layout from "@layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
 import PostCards from "@components/PostCards.astro";
@@ -10,9 +9,7 @@ const allPosts = (await getCollection("posts")).sort(
 ).slice(0, 3);
 ---
 
-<Layout>
-    <PageTitle title="Обо мне" />
-
+<Layout title="Обо мне">
     <p>
         Салют! <Icon name="fa6-regular:hand-peace" /> Меня зовут Даниил, я C#/.NET
         бэкенд-разработчик. В компании <a href="https://sicon.ru"
