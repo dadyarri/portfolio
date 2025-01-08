@@ -1,0 +1,14 @@
+---
+type Props = {
+    page: number;
+    currentPage: number;
+    category: string;
+};
+
+const { page, category, currentPage } = Astro.props;
+---
+
+<a
+    href=`/${category}/${page}`
+    class:list={["tag", { active: page === currentPage }]}>{page}</a
+>

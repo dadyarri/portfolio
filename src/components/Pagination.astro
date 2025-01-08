@@ -1,0 +1,32 @@
+---
+import PaginationItem from "./PaginationItem.astro";
+
+type Props = {
+    currentPage: number;
+    pagesAmount: number;
+    category: string;
+};
+
+const { pagesAmount, category, currentPage } = Astro.props;
+---
+
+<div class="pagination">
+    {
+        Array.from({ length: pagesAmount }, (_, i) => i + 1).map((page) => (
+            <PaginationItem
+                currentPage={currentPage}
+                page={page}
+                category={category}
+            />
+        ))
+    }
+</div>
+
+<style lang="scss">
+    .pagination {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+    }
+</style>
