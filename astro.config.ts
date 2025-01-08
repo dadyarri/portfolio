@@ -13,5 +13,9 @@ export default defineConfig({
   adapter: netlify(),
   markdown: {
     remarkPlugins: [remarkReadingTime]
+  },
+  redirects: {
+    "/posts": "/posts/1",
+    "/minis": "/minis/1"
   }
 });
