@@ -111,9 +111,9 @@ series:  "ssg"
 
 Уже готова базовая структура (перечень команд, опции командной строки, система плагинов), автоматическая сборка бинарников под все операционные системы с публикацией пре-релиза на [Github](https://github.com/dadyarri/brodsky/releases) и команда `init`:
 
-{{ resize_image(path="posts/ssg-with-blackjack-and-plugins/brodsky-help.png", width=1033, height=532, op="scale") }}
-{{ resize_image(path="posts/ssg-with-blackjack-and-plugins/brodsky-init.png", width=1315, height=221, op="scale") }}
-{{ resize_image(path="posts/ssg-with-blackjack-and-plugins/generated-project.png", width=1128, height=611, op="scale") }}
+![Image](brodsky-help.png)
+![Image](brodsky-init.png)
+![Image](generated-project.png)
 
 # Заключение
 

@@ -233,7 +233,7 @@ fs::remove_file(&svg_path)?; // Удалим SVG
 
 Запустим полученное приложение. С его помощью 6 изображений в среднем генерируются за ~300 миллисекунд:
 
-{{ resize_image(path="posts/better-ogimages-rust/1.png", width=936, height=398, op="scale") }}
+![Image](1.png)
 
 # Дальнейшие планы
 

@@ -99,54 +99,48 @@ jobs:
 2. Проверим, нужно ли создать новый pull-request (необходимо, чтобы не получать ошибки сценария, когда изменения загружаются повторно в уже существовавшую ветку):
 
 ```yaml
-
-      - name: Check if new pull request is needed to create
-        id: get_pr
-        run: |
-          EXISTED_PULLS_FOR_THE_BRANCH=$(gh pr list -B main -H ${{ github.ref_name }} --json id)
-          echo "existed_pulls=$EXISTED_PULLS_FOR_THE_BRANCH" >> $GITHUB_OUTPUT
-
+- name: Check if new pull request is needed to create
+  id: get_pr
+  run: |
+    EXISTED_PULLS_FOR_THE_BRANCH=$(gh pr list -B main -H ${{ github.ref_name }} --json id)
+    echo "existed_pulls=$EXISTED_PULLS_FOR_THE_BRANCH" >> $GITHUB_OUTPUT
 ```
 
 3. Создадим черновой pull-request, подставив всю информацию и назначив меня ответственным:
 
 ```yaml
-
-      - name: Create Pull Request
-        id: create_pr
-        if: steps.get_pr.outputs.existed_pulls == '[]'
-        run: |
-          pr_url=$(gh pr create -B main -H "${{ github.ref_name }}" -t "Draft of ${{ github.ref_name }}" -b "This pull request contains the draft for the new post." -a dadyarri -d)
-          echo "pr_url=$pr_url" >> $GITHUB_OUTPUT
-
+- name: Create Pull Request
+  id: create_pr
+  if: steps.get_pr.outputs.existed_pulls == '[]'
+  run: |
+    pr_url=$(gh pr create -B main -H "${{ github.ref_name }}" -t "Draft of ${{ github.ref_name }}" -b "This pull request contains the draft for the new post." -a dadyarri -d)
+    echo "pr_url=$pr_url" >> $GITHUB_OUTPUT
 ```
 
 4. Запустим генератор. Он создаст недостающее изображение и положит его рядом с новой статьёй:
 
 ```yaml
-
-      - name: Generate OG images
-        if: steps.get_pr.outputs.existed_pulls == '[]'
-        run: |
-          cd bin
-          chmod +x og-builder
-          ./og-builder --sections 'posts,minis'
-        env:
-          RUST_LOG: info
-
+- name: Generate OG images
+  if: steps.get_pr.outputs.existed_pulls == '[]'
+  run: |
+    cd bin
+    chmod +x og-builder
+    ./og-builder --sections 'posts,minis'
+  env:
+    RUST_LOG: info
 ```
 
 5. Обновим репозиторий, добавив в открытый pull-request коммит с новым изображением:
 
 ```yaml
-      - name: Push new OG images to the repo
-        if: steps.get_pr.outputs.existed_pulls == '[]'
-        run: |
-          git add .
-          git commit -m "updated og-images"
-          git push
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+- name: Push new OG images to the repo
+  if: steps.get_pr.outputs.existed_pulls == '[]'
+  run: |
+    git add .
+    git commit -m "updated og-images"
+    git push
+  env:
+    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 # Примеры и результаты
@@ -155,7 +149,7 @@ jobs:
 
 Например мои изображения создаются из конфигурации, которую я привёл ранее:
 
-{{ resize_image(path="posts/configurable-ogimages-rust/og-image.png", width=1200, height=630, op="scale") }}
+![Image](og-image.png)
 
 Для демонстрации изменений возьмём, например, светлую тему моего же сайта и изменив всего пару параметров запустим генератор снова:
 
@@ -171,7 +165,7 @@ fill = "#101E1E"
 background = { fill = "#121212", padding = 10 }
 ```
 
-{{ resize_image(path="posts/configurable-ogimages-rust/1.png", width=1200, height=630, op="scale") }}
+![Image](1.png)
 
 Так можно изменить любой параметр и он тут же повлияет на результат.
 
