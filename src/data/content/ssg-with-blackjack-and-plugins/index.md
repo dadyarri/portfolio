@@ -111,9 +111,13 @@ series:  "ssg"
 
 Уже готова базовая структура (перечень команд, опции командной строки, система плагинов), автоматическая сборка бинарников под все операционные системы с публикацией пре-релиза на [Github](https://github.com/dadyarri/brodsky/releases) и команда `init`:
 
-![Image](brodsky-help.png)
-![Image](brodsky-init.png)
-![Image](generated-project.png)
+![Команда help](brodsky-help.png)
+
+
+![Команда init](brodsky-init.png)
+
+
+![Созданный с помощью init проект](generated-project.png)
 
 # Заключение
 

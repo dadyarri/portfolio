@@ -19,7 +19,7 @@ category: "minis"
 gpg --list-secret-keys --keyid-format LONG
 ```
 
-![list-keys](1.png)
+![Список GPG-ключей](1.png)
 
 2. Сохранение публичного ключа
 
