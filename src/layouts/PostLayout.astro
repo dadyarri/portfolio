@@ -1,4 +1,5 @@
 ---
+import Comments from "@components/Comments.astro";
 import Header from "@components/Header.astro";
 import PageTitle from "@components/PageTitle.astro";
 import PostInfo from "@components/PostInfo.astro";
@@ -94,6 +95,8 @@ const ld = {
             {post.data.series && <PostSeries series={post.data.series.id} currentPost={post.id}/>}
             {headings.length > 0 && <TableOfContents headings={headings}/>}
             <slot />
+            <hr/>
+            <Comments/>
         </div>
     </body>
 </html>
