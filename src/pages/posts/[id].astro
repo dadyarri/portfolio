@@ -4,19 +4,19 @@ import { render, type CollectionEntry } from "astro:content";
 import { filterPostsByCategory } from "@utils/content";
 import PostLayout from "@layouts/PostLayout.astro";
 
-export const getStaticPaths = ( async () => {
-    const posts = await filterPostsByCategory('posts')
+export const getStaticPaths = (async () => {
+    const posts = await filterPostsByCategory("posts");
     return posts.map((post) => ({
-		params: { id: post.id },
-		props: post
-	}))
+        params: { id: post.id },
+        props: post,
+    }));
 }) satisfies GetStaticPaths;
 
-type Props = CollectionEntry<'posts'>
-const post = Astro.props
-const { Content, headings } = await render(post)
+type Props = CollectionEntry<"posts">;
+const post = Astro.props;
+const { Content, headings } = await render(post);
 ---
 
-<PostLayout post={post}, headings={headings}>
-    <Content/>
+<PostLayout post={post} , headings={headings}>
+    <Content />
 </PostLayout>
