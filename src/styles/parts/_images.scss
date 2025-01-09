@@ -1,0 +1,21 @@
+div.image {
+
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &>img {
+        max-width: 1000px;
+        height: auto;
+    }
+
+    &>hr{
+        width: 80%;
+    }
+
+    &>p {
+        text-align: center;
+        font-family: var(--header-font);
+    }
+}
