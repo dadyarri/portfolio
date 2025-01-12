@@ -1,0 +1,19 @@
+@use "sass:map";
+
+$headings: (
+  1: (font-size: 1.6rem),
+  2: (font-size: 1.5rem),
+  3: (font-size: 1.3rem),
+  4: (font-size: 1.2rem),
+  5: (font-size: 1.1rem),
+  6: (font-size: 1rem)
+);
+
+// Loop through the headings map
+@each $level, $styles in $headings {
+  h#{$level} {
+    font-size: map.get($styles, font-size);
+    font-family: var(--header-font);
+    line-height: 100%;
+  }
+}
