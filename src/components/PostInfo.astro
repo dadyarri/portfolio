@@ -3,7 +3,7 @@ import { Icon } from "astro-icon/components";
 import { formatDate } from "@utils/date";
 import { getWordDeclension } from "@utils/declension";
 import type { CollectionEntry, RenderedContent } from "astro:content";
-import { getTagLabel } from "@utils/content";
+import { getSeriesLabel, getTagLabel } from "@utils/content";
 
 type Props = {
     post: CollectionEntry<"posts">;
@@ -48,4 +48,10 @@ const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter)
             ))
         }
     </div>
+    {post.data.series && <div class="tags">
+        <div class="tag tag-icon">
+            <Icon name="carbon:collapse-categories"/>
+        </div>
+        <a class="tag" href=`/series/${post.data.series.id}`>{await getSeriesLabel(post.data.series.id)}</a>
+    </div>}
 </div>
