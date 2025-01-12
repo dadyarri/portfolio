@@ -24,13 +24,13 @@ const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter)
 <div class="card-info">
     <div class="tags">
         <div class="tag tag-icon">
-            <Icon name="fa6-solid:calendar-days" />
+            <Icon name="carbon:calendar" />
         </div>
         <date>{formatDate(post.data.date)}</date>
     </div>
     <div class="tags">
         <div class="tag tag-icon">
-            <Icon name="fa6-solid:clock" />
+            <Icon name="carbon:time" />
         </div>
         <span
             >{
@@ -40,7 +40,7 @@ const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter)
     </div>
     <div class="tags">
         <div class="tag tag-icon">
-            <Icon name="fa6-solid:tags" />
+            <Icon name="carbon:tag-group" />
         </div>
         {
             post.data.tags.map(async (tag) => (
