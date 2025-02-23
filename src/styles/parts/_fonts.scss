@@ -1,0 +1,31 @@
+@font-face {
+    font-family: "Jetbrains Mono";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/jetbrains-mono.ttf"), local("ttf");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Jetbrains Mono";
+    font-style: normal;
+    font-weight: 700;
+    src: url("/fonts/jetbrains-mono-bold.ttf"), local("ttf");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/rubik.ttf"), local("ttf");
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Rubik";
+    font-style: normal;
+    font-weight: 700;
+    src: url("/fonts/rubik-bold.ttf"), local("ttf");
+    font-display: swap;
+}
