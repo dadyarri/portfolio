@@ -1,7 +1,7 @@
 +++
 title = "Как я настроил свой домашний сервер вне дома"
-date = "2025-02-22"
-draft = true
+date = "2025-02-23"
+draft = false
 
 [taxonomies]
 tags = ["Болтология", "Self-hosting"]
