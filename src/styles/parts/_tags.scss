@@ -1,26 +1,39 @@
+// Tag variables
+$tag-padding: 5px;
+$tag-margin-right: 10px;
+$tag-margin-bottom: 5px;
+$tag-height: 24px;
+$tag-icon-size: 24px;
+
+// Tag mixins
+@mixin tag-base {
+    background-color: var(--bg-2);
+    border-radius: var(--border-radius);
+    padding: $tag-padding;
+    margin-right: $tag-margin-right;
+    margin-bottom: $tag-margin-bottom;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: $tag-height;
+    border-bottom: unset;
+}
+
+// Tag styles
 .tags {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .tag {
-  background-color: var(--bg-2);
-  border-radius: var(--border-radius);
-  padding: 5px;
-  margin-right: 10px;
-  margin-bottom: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 24px;
-  border-bottom: unset;
+    @include tag-base;
 
-  &.tag-icon {
-    width: 24px;
-  }
+    &.tag-icon {
+        width: $tag-icon-size;
+    }
 
-  & svg {
-    fill: var(--text-1)
-  }
+    svg {
+        fill: var(--text-1);
+    }
 }

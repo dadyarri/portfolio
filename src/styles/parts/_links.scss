@@ -1,8 +1,19 @@
-a {
-    border-bottom: 3px solid var(--border-color);
+// Link variables
+$link-border-width: 3px;
+$link-transition-duration: 0.1s;
+$link-transition-timing: ease;
+
+// Link mixins
+@mixin link-base {
+    border-bottom: $link-border-width solid var(--border-color);
     color: inherit;
     text-decoration: none;
     position: relative;
     z-index: 1;
-    transition: all .1s ease;
+    transition: all $link-transition-duration $link-transition-timing;
+}
+
+// Link styles
+a {
+    @include link-base;
 }

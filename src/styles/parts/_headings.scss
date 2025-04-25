@@ -1,19 +1,24 @@
 @use "sass:map";
 
-$headings: (
-  1: (font-size: 1.6rem),
-  2: (font-size: 1.5rem),
-  3: (font-size: 1.3rem),
-  4: (font-size: 1.2rem),
-  5: (font-size: 1.1rem),
-  6: (font-size: 1rem)
-);
+// Heading variables
+$heading-base-size: 1rem;
+$heading-scale-factor: 0.1;
 
-// Loop through the headings map
-@each $level, $styles in $headings {
-  h#{$level} {
-    font-size: map.get($styles, font-size);
+// Heading mixins
+@mixin heading-base {
     font-family: var(--header-font);
     line-height: 100%;
-  }
+}
+
+// Generate heading sizes using a function
+@function calculate-heading-size($level) {
+    @return $heading-base-size + ($heading-scale-factor * (7 - $level));
+}
+
+// Heading styles
+@for $level from 1 through 6 {
+    h#{$level} {
+        font-size: calculate-heading-size($level);
+        @include heading-base;
+    }
 }

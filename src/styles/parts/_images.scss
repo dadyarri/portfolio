@@ -1,21 +1,34 @@
-div.image {
+// Image variables
+$image-max-width: 1000px;
+$image-caption-width: 80%;
 
+// Image mixins
+@mixin image-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
 
-    &>img {
-        max-width: 1000px;
+@mixin image-caption {
+    text-align: center;
+    font-family: var(--header-font);
+}
+
+// Image styles
+div.image {
+    @include image-container;
+
+    img {
+        max-width: $image-max-width;
         height: auto;
     }
 
-    &>hr{
-        width: 80%;
+    hr {
+        width: $image-caption-width;
     }
 
-    &>p {
-        text-align: center;
-        font-family: var(--header-font);
+    p {
+        @include image-caption;
     }
 }
