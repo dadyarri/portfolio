@@ -13,6 +13,12 @@ const { pagesAmount, category, currentPage } = Astro.props;
 {
     pagesAmount > 1 && (
         <div class="pagination">
+            {currentPage > 1 && (<PaginationItem
+                currentPage={currentPage}
+                page={currentPage - 1}
+                category={category}
+                icon={"carbon:chevron-left"}
+            />)}
             {Array.from({ length: pagesAmount }, (_, i) => i + 1).map(
                 (page) => (
                     <PaginationItem
@@ -22,6 +28,12 @@ const { pagesAmount, category, currentPage } = Astro.props;
                     />
                 ),
             )}
+            {currentPage < pagesAmount && (<PaginationItem
+                currentPage={currentPage}
+                page={currentPage + 1}
+                category={category}
+                icon={"carbon:chevron-right"}
+            />)}
         </div>
     )
 }

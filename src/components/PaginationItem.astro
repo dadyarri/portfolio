@@ -1,16 +1,19 @@
 ---
+import { Icon } from 'astro-icon/components';
+
 type Props = {
     page: number;
     currentPage: number;
     category: string;
+    icon?: string
 };
 
-const { page, category, currentPage } = Astro.props;
+const { page, category, currentPage, icon } = Astro.props;
 ---
 
 <a
     href=`/${category}/${page}`
-    class:list={["tag", { active: page === currentPage }]}>{page}</a
+    class:list={["tag", { active: page === currentPage }]}>{icon ? <Icon name={icon} width={20} /> : page}</a
 >
 
 <style lang="scss">
