@@ -8,7 +8,7 @@ export const getPosts = async () => {
 	}
 
 	return posts
-		.filter((post) => !post.data.draft)
+		.filter((post) => import.meta.env.DEV || !post.data.draft)
 		.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
 
