@@ -12,18 +12,20 @@ $tag-icon-size: 24px;
     padding: $tag-padding;
     margin-right: $tag-margin-right;
     margin-bottom: $tag-margin-bottom;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: $tag-height;
+    min-height: $tag-height;
     border-bottom: unset;
+    white-space: normal;
+    word-break: break-word;
 }
 
 // Tag styles
 .tags {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-wrap: wrap;
+    align-items: flex-start;
 }
 
 .tag {
@@ -31,6 +33,7 @@ $tag-icon-size: 24px;
 
     &.tag-icon {
         width: $tag-icon-size;
+        height: $tag-icon-size;
     }
 
     svg {
