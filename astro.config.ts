@@ -12,7 +12,10 @@ export default defineConfig({
   integrations: [icon()],
   adapter: netlify(),
   markdown: {
-    remarkPlugins: [remarkReadingTime]
+    remarkPlugins: [remarkReadingTime],
+    shikiConfig: {
+      theme: "tokyo-night"
+    }
   },
   redirects: {
     "/posts": "/posts/1",
