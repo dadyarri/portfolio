@@ -8,6 +8,7 @@ $image-caption-width: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 1rem;
 }
 
 @mixin image-caption {
@@ -21,7 +22,9 @@ div.image {
 
     img {
         max-width: $image-max-width;
+        width: 100%;
         height: auto;
+        padding: 0 1rem;
     }
 
     hr {
