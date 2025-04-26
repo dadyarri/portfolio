@@ -1,0 +1,67 @@
+---
+import type { TimelineItem } from "@type/cv";
+
+interface Props {
+  items: TimelineItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="cv-timeline">
+  {items.map((item) => (
+    <div class="cv-timeline-item">
+      <div class="cv-timeline-date">{item.date}</div>
+      <div class="cv-timeline-content">
+        <h3 class="text-xl font-semibold">{item.title}</h3>
+        {item.subtitle && <h4 class="text-lg text-gray-600">{item.subtitle}</h4>}
+        {item.description && (
+          <ol class="list-decimal list-inside mt-2 space-y-1">
+            {item.description.map((point) => (
+              <li>{point}</li>
+            ))}
+          </ol>
+        )}
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .cv-timeline {
+    position: relative;
+  }
+
+  .cv-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--theme-color);
+  }
+
+  .cv-timeline-item {
+    position: relative;
+    padding-left: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .cv-timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -0.5rem;
+    top: 0.5rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: var(--theme-color);
+  }
+
+  .cv-timeline-date {
+    font-weight: 500;
+    color: var(--theme-color);
+    margin-bottom: 0.5rem;
+  }
+</style> 

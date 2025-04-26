@@ -1,7 +1,46 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import CVHeader from "@components/CVHeader.astro";
+import CVSection from "@components/CVSection.astro";
+import CVTimeline from "@components/CVTimeline.astro";
+import CVSkills from "@components/CVSkills.astro";
+import CVContact from "@components/CVContact.astro";
+import type { CVData } from "@type/cv";
+import { personalInfo, contactInfo, workExperience, education, skills } from "@data/cv.json";
+
+const typedContactInfo = contactInfo as CVData['contactInfo'];
+
 ---
 
 <Layout title="Резюме">
+  <div>
+    <CVHeader
+      name={personalInfo.name}
+      title={personalInfo.title}
+      photo={personalInfo.photo}
+      summary={personalInfo.summary}
+    />
 
+    <div>
+      <div>
+        <CVSection title="Опыт работы">
+          <CVTimeline items={workExperience} />
+        </CVSection>
+
+        <CVSection title="Образование">
+          <CVTimeline items={education} />
+        </CVSection>
+
+        <CVSection title="Навыки">
+          <CVSkills categories={skills} />
+        </CVSection>
+      </div>
+
+      <div>
+        <CVSection title="Контакты">
+          <CVContact contacts={typedContactInfo} />
+        </CVSection>
+      </div>
+    </div>
+  </div>
 </Layout>
