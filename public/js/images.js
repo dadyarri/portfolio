@@ -23,14 +23,14 @@ document.addEventListener('DOMContentLoaded', function () {
     document.body.appendChild(modal);
 
     // Close modal when clicking outside the image
-    modal.addEventListener('click', function(e) {
+    modal.addEventListener('click', function (e) {
         if (e.target === modal) {
             modal.style.display = 'none';
         }
     });
 
     // Close modal when pressing Escape key
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && modal.style.display === 'flex') {
             modal.style.display = 'none';
         }
@@ -58,8 +58,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Append the <img>, <hr>, and alt text to the new <div>
         div.appendChild(clonedImg);
-        div.appendChild(hr);
-        div.appendChild(altText);
+        
+        // Only append hr and alt text if alt text exists
+        if (img.alt && img.alt.trim() !== '') {
+            div.appendChild(hr);
+            div.appendChild(altText);
+        }
 
         div.classList.add('image');
 
