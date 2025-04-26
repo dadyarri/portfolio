@@ -1,12 +1,13 @@
 import rss from '@astrojs/rss';
 import { getPosts } from '@utils/content';
 import { splitArrayByElement, stripHtml } from '@utils/data';
+import type { APIContext, AstroGlobal, AstroSharedContext } from 'astro';
 
-export async function GET(context: any) {
+export async function GET(context: APIContext) {
   return rss({
     title: 'Личный блог dadyarri',
     description: 'Опыт разработки, наблюдения и хобби',
-    site: context.site,
+    site: context.site!,
     items: (await getPosts()).map((post) => ({
         title: post.data.title,
         pubDate: post.data.date,
