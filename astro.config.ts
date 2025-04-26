@@ -9,6 +9,7 @@ import { remarkReadingTime } from './src/remark/reading-time.mjs';
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://dadyarri.ru",
   integrations: [icon()],
   adapter: netlify(),
   markdown: {
