@@ -1,5 +1,5 @@
-@use "_mixins" as *;
 @use "sass:map";
+@use "_mixins" as *;
 @use "_variables" as *;
 
 
@@ -22,9 +22,7 @@ $card-link-font-size: 1.5rem;
     overflow: hidden;
     padding: map.get($spacing, 'md');
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin: map.get($spacing, 'sm') 0;
+    flex-direction: column;
 }
 
 @mixin card-preview-base {
@@ -41,7 +39,8 @@ $card-link-font-size: 1.5rem;
     border-radius: map.get($border-radius, 'md');
     background-color: var(--bg-2);
     min-width: 50px;
-    margin-left: map.get($spacing, 'sm');
+    min-height: 3rem;
+    margin-top: auto;
 }
 
 // Card styles

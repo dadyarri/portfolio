@@ -19,9 +19,17 @@ const { posts }: Props = Astro.props;
 
 <style lang="scss">
     .cards {
-        display: flex;
-        flex-direction: column;
+        display: grid;
+        grid-template-columns: 1fr;
         gap: 24px;
         padding: 12px 0;
+        margin-bottom: 48px;
+
+        @media (min-width: 1024px) {
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: masonry;
+            gap: 24px 32px;
+            align-items: start;
+        }
     }
 </style>
