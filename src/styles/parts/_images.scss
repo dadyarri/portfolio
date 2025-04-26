@@ -1,3 +1,6 @@
+@use "sass:map";
+@use "_variables" as *;
+
 // Image variables
 $image-max-width: 1000px;
 $image-caption-width: 80%;
@@ -8,7 +11,9 @@ $image-caption-width: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 1rem;
+    justify-content: center;
+    padding: 0 map.get($spacing, 'md');
+    margin: 0 auto;
 }
 
 @mixin image-caption {
@@ -21,17 +26,21 @@ div.image {
     @include image-container;
 
     img {
-        max-width: $image-max-width;
+        max-width: map.get($container-widths, 'lg');
         width: 100%;
         height: auto;
-        padding: 0 1rem;
+        padding: 0;
+        margin: 0 auto;
+        display: block;
     }
 
     hr {
-        width: $image-caption-width;
+        width: 80%;
+        margin: map.get($spacing, 'md') auto;
     }
 
     p {
         @include image-caption;
+        margin: map.get($spacing, 'sm') auto;
     }
 }

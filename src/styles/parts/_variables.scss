@@ -1,0 +1,58 @@
+// Spacing system
+$spacing-unit: 8px;
+$spacing: (
+  'xs': $spacing-unit,      // 8px
+  'sm': $spacing-unit * 2,  // 16px
+  'md': $spacing-unit * 3,  // 24px
+  'lg': $spacing-unit * 4,  // 32px
+  'xl': $spacing-unit * 6,  // 48px
+  'xxl': $spacing-unit * 8, // 64px
+);
+
+// Border radius system
+$border-radius: (
+  'sm': 4px,
+  'md': 8px,
+  'lg': 12px,
+  'xl': 16px,
+  'full': 9999px,
+);
+
+// Shadows
+$shadows: (
+  'sm': 0 1px 2px rgba(0, 0, 0, 0.1),
+  'md': 0 4px 6px rgba(0, 0, 0, 0.1),
+  'lg': 0 10px 15px rgba(0, 0, 0, 0.1),
+  'xl': 0 20px 25px rgba(0, 0, 0, 0.1),
+);
+
+// Transitions
+$transition: (
+  'fast': 0.15s ease,
+  'normal': 0.3s ease,
+  'slow': 0.5s ease,
+);
+
+// Z-index layers
+$z-layers: (
+  'base': 1,
+  'dropdown': 100,
+  'modal': 1000,
+  'tooltip': 2000,
+);
+
+// Container widths
+$container-widths: (
+  'sm': 640px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1280px,
+);
+
+// Breakpoints (if not already defined in mixins)
+$breakpoints: (
+  'sm': 640px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1280px,
+); 

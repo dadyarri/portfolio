@@ -1,3 +1,6 @@
+@use "sass:map";
+@use "_variables" as *;
+
 // Code variables
 $code-padding: 0.1em 0.2em;
 $pre-padding: 1em;
@@ -13,13 +16,13 @@ $line-number-min-width: 60px;
 // Code mixins
 @mixin code-base {
     background-color: var(--bg-1);
-    border-radius: var(--border-radius);
+    border-radius: map.get($border-radius, 'md');
     font-family: var(--code-font);
 }
 
 @mixin scrollbar-styles {
     &::-webkit-scrollbar {
-        width: $scrollbar-width;
+        width: 16px;
     }
 
     &::-webkit-scrollbar-track {
@@ -28,7 +31,7 @@ $line-number-min-width: 60px;
 
     &::-webkit-scrollbar-thumb {
         background-color: var(--primary-color);
-        margin: $scrollbar-margin;
+        margin: map.get($spacing, 'md');
     }
 }
 
@@ -43,23 +46,23 @@ $line-number-min-width: 60px;
     justify-content: space-between;
     align-items: center;
     background: var(--bg-3);
-    padding: $code-footer-padding;
+    padding: map.get($spacing, 'xs') map.get($spacing, 'md');
     border-top: 1px solid var(--border-color);
 }
 
 // Code styles
 code {
     @include code-base;
-    padding: $code-padding;
+    padding: 0.1em 0.2em;
     border: 1px solid var(--border-color);
 }
 
 pre {
     @include code-base;
     @include scrollbar-styles;
-    line-height: $pre-line-height;
+    line-height: 1.4;
     overflow-x: auto;
-    padding: $pre-padding;
+    padding: map.get($spacing, 'md');
     position: relative;
     margin: 0;
 
@@ -96,7 +99,7 @@ pre {
         tbody td:first-child {
             text-align: center;
             user-select: none;
-            min-width: $line-number-min-width;
+            min-width: 60px;
             border-right: none;
         }
 
@@ -109,9 +112,9 @@ pre {
 
 .code-container {
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+    border-radius: map.get($border-radius, 'md');
     overflow: hidden;
-    margin-bottom: 1em;
+    margin-bottom: map.get($spacing, 'md');
 }
 
 .code-footer {
@@ -119,7 +122,7 @@ pre {
 }
 
 .code-label {
-    font-size: $code-label-font-size;
+    font-size: 12px;
     color: var(--text-0);
 }
 
@@ -127,10 +130,10 @@ pre {
     background: var(--primary-color);
     color: var(--text-0);
     border: none;
-    padding: $clipboard-button-padding;
-    border-radius: $clipboard-button-border-radius;
+    padding: 0.4em 0.8em;
+    border-radius: map.get($border-radius, 'sm');
     cursor: pointer;
-    font-size: $code-label-font-size;
+    font-size: 12px;
 
     &:hover {
         background: var(--primary-color-hover);

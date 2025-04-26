@@ -1,19 +1,21 @@
 @use "sass:color";
+@use "sass:map";
+@use "_variables" as *;
 
 // Callout base styles
 .callout {
-    padding: 1rem;
-    margin: 1.5rem 0;
-    border-radius: var(--border-radius);
+    padding: map.get($spacing, 'md');
+    margin: map.get($spacing, 'lg') 0;
+    border-radius: map.get($border-radius, 'md');
     border-left: 4px solid;
     background-color: var(--bg-1);
     
     &-title {
         font-weight: 600;
-        margin-bottom: 0.5rem;
+        margin-bottom: map.get($spacing, 'xs');
         display: flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: map.get($spacing, 'xs');
     }
 
     &-content {

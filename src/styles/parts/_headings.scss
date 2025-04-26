@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "_variables" as *;
 
 // Heading variables
 $heading-base-size: 1rem;
@@ -8,11 +9,12 @@ $heading-scale-factor: 0.1;
 @mixin heading-base {
     font-family: var(--header-font);
     line-height: 100%;
+    margin: map.get($spacing, 'md') 0 map.get($spacing, 'sm');
 }
 
 // Generate heading sizes using a function
 @function calculate-heading-size($level) {
-    @return $heading-base-size + ($heading-scale-factor * (7 - $level));
+    @return 1rem + (0.1 * (7 - $level));
 }
 
 // Heading styles

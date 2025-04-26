@@ -1,4 +1,6 @@
 @use "_mixins" as *;
+@use "sass:map";
+@use "_variables" as *;
 
 
 // Card variables
@@ -13,16 +15,16 @@ $card-link-font-size: 1.5rem;
 
 // Card mixins
 @mixin card-base {
-    min-height: $card-min-height;
+    min-height: 100px;
     background: var(--bg-1);
     border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
+    border-radius: map.get($border-radius, 'md');
     overflow: hidden;
-    padding: $card-padding;
+    padding: map.get($spacing, 'md');
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: $card-margin 0;
+    margin: map.get($spacing, 'sm') 0;
 }
 
 @mixin card-preview-base {
@@ -36,10 +38,10 @@ $card-link-font-size: 1.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: var(--border-radius);
+    border-radius: map.get($border-radius, 'md');
     background-color: var(--bg-2);
-    min-width: $card-button-min-width;
-    margin-left: $card-button-margin;
+    min-width: 50px;
+    margin-left: map.get($spacing, 'sm');
 }
 
 // Card styles
@@ -61,14 +63,14 @@ $card-link-font-size: 1.5rem;
 }
 
 .card-title {
-    margin: $card-title-margin;
+    margin: map.get($spacing, 'sm') 0 map.get($spacing, 'xs');
 }
 
 .card-link {
     font-family: var(--header-font);
     font-weight: 700;
-    font-size: $card-link-font-size;
-    margin: $card-link-margin;
+    font-size: 1.5rem;
+    margin: map.get($spacing, 'md') 0;
 
     a {
         border-bottom: none;
