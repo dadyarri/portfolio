@@ -27,8 +27,9 @@ const preview = splitArrayByElement(
         </div>
         <PostInfo post={post}/>
         <div class="card-description" set:html={preview} />
+        <a class="card-button" href={path}>
+            <Icon name="fa6-solid:chevron-right" />
+        </a>
     </div>
-    <a class="card-button" href={path}>
-        <Icon name="fa6-solid:chevron-right" />
-    </a>
+    
 </div>
