@@ -4,25 +4,28 @@ import { Icon } from "astro-icon/components";
 import PostCards from "@components/PostCards.astro";
 import { filterPostsByCategory } from "@utils/content";
 
-const allPosts = (await filterPostsByCategory('posts')).slice(0, 4);
+const allPosts = (await filterPostsByCategory("posts")).slice(0, 4);
 ---
 
 <Layout title="Обо мне">
     <p>
-        Салют! <Icon name="fa6-regular:hand-peace" /> Меня зовут Даниил, в интернете обычно мелькаю как <i>dadyarri</i>, я C#/.NET
-        бэкенд-разработчик. В компании <a href="https://sicon.ru"
-            >«Системы и технологии»</a
-        > я занимаюсь улучшением микросервисной архитектуры, написанием тулингов
-        вокруг процесса разработки, сборкой дистрибутивов и R&D. В этом блоге я периодически
-        делюсь своим опытом разработки, наблюдениями и хобби.
+        Салют! <Icon name="fa6-regular:hand-peace" /> Меня зовут Даниил, в интернете
+        обычно мелькаю как <i>dadyarri</i>, я C#/.NET бэкенд-разработчик. В
+        компании <a href="https://sicon.ru">«Системы и технологии»</a> я занимаюсь
+        улучшением микросервисной архитектуры, написанием тулингов вокруг процесса
+        разработки, сборкой дистрибутивов и R&D. В этом блоге я периодически делюсь
+        своим опытом разработки, наблюдениями и хобби.
     </p>
 
     <div class="posts-header">
         <h2>Последние посты</h2>
-        <a href="/posts">Все</a>
+        <div>
+            <a href="/posts">Все</a>
+            <a href="/rss.xml" target="_blank"><Icon name="carbon:rss" /> RSS feed</a>
+        </div>
     </div>
 
-    <PostCards posts={allPosts}/>
+    <PostCards posts={allPosts} />
 </Layout>
 
 <style lang="scss">
