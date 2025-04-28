@@ -5,26 +5,14 @@ type Props = {
     page: number;
     currentPage: number;
     category: string;
-    icon?: string
+    icon?: string,
+    label?: string
 };
 
-const { page, category, currentPage, icon } = Astro.props;
+const { page, category, currentPage, icon, label } = Astro.props;
 ---
 
 <a
     href=`/${category}/${page}`
-    class:list={["tag", { active: page === currentPage }]}>{icon ? <Icon name={icon} width={20} /> : page}</a
->
-
-<style lang="scss">
-    .tag {
-        background-color: unset;
-        border: 2px solid var(--bg-1);
-
-        &.active {
-            border: unset;
-            background-color: var(--bg-1);
-            color: var(--text-1)
-        }
-    }
-</style>
+    class:list={["pagination-button", { active: page === currentPage }]}>{icon && label ? <><Icon name={icon} width={20} /><span>{label}</span></> : page}
+</a>

@@ -1,0 +1,17 @@
+---
+import { Icon } from 'astro-icon/components';
+
+type Props = {
+    page: number;
+    category: string
+};
+
+const { page, category } = Astro.props;
+---
+
+<a
+    href=`/${category}/${page}`
+    class="pagination-button">
+    <Icon name="carbon:chevron-left" width={20} />
+    <span>В будущее</span>
+</a>

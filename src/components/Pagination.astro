@@ -1,5 +1,7 @@
 ---
 import PaginationItem from "./PaginationItem.astro";
+import PaginationItemNext from "./PaginationItemNext.astro";
+import PaginationItemPrev from "./PaginationItemPrev.astro";
 
 type Props = {
     currentPage: number;
@@ -13,12 +15,12 @@ const { pagesAmount, category, currentPage } = Astro.props;
 {
     pagesAmount > 1 && (
         <div class="pagination">
-            {currentPage > 1 && (<PaginationItem
-                currentPage={currentPage}
-                page={currentPage - 1}
-                category={category}
-                icon={"carbon:chevron-left"}
-            />)}
+            {currentPage > 1 && (
+                <PaginationItemNext
+                    page={currentPage - 1}
+                    category={category}
+                />
+            )}
             {Array.from({ length: pagesAmount }, (_, i) => i + 1).map(
                 (page) => (
                     <PaginationItem
@@ -28,21 +30,12 @@ const { pagesAmount, category, currentPage } = Astro.props;
                     />
                 ),
             )}
-            {currentPage < pagesAmount && (<PaginationItem
-                currentPage={currentPage}
-                page={currentPage + 1}
-                category={category}
-                icon={"carbon:chevron-right"}
-            />)}
+            {currentPage < pagesAmount && (
+                <PaginationItemPrev
+                    page={currentPage + 1}
+                    category={category}
+                />
+            )}
         </div>
     )
 }
-
-<style lang="scss">
-    .pagination {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 20px;
-    }
-</style>

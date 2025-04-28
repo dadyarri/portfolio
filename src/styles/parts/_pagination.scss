@@ -1,0 +1,20 @@
+@use "_tags" as *;
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+
+    &-button {
+        @include tag-base;
+        background-color: unset;
+        border: 2px solid var(--bg-1);
+
+        &.active {
+            border: unset;
+            background-color: var(--bg-1);
+            color: var(--text-1);
+        }
+    }
+}
