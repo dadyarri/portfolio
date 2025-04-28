@@ -24,7 +24,7 @@ const categroies = await getCollection("categories");
         </div>
     </div>
     <nav>
-        {categroies.map(category => <a href={`/${category.id}`}>{category.data.label}</a>)}
+        {categroies.sort((a, b) => a.data.order - b.data.order).map(category => <a href={`/${category.id}`}>{category.data.label}</a>)}
     </nav>
 </header>
 

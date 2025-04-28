@@ -23,6 +23,7 @@ const series = defineCollection({
 const categories = defineCollection({
   loader: glob({pattern: "**/[^_]*.json", base: "./src/data/categories"}),
   schema: z.object({
+    order: z.number(),
     label: z.string()
   })
 })
