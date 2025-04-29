@@ -98,7 +98,7 @@ const ld = {
             {headings.length > 0 && <TableOfContents headings={headings}/>}
             <slot />
             <hr/>
-            <Comments/>
+            {!post.data.draft && <Comments/>}
         </div>
     </body>
 </html>
