@@ -35,6 +35,8 @@
     "@iconify-json/fa6-regular": "^1.2.3",
     "@iconify-json/fa6-solid": "^1.2.3",
     "sass-embedded": "^1.83.1",
+    "satori": "^0.12.2",
+    "sharp": "^0.34.1",
     "vite": "^6.0.7"
   }
 }
