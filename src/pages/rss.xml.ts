@@ -1,7 +1,7 @@
 import rss from '@astrojs/rss';
 import { getPosts } from '@utils/content';
 import { splitArrayByElement, stripHtml } from '@utils/data';
-import type { APIContext, AstroGlobal, AstroSharedContext } from 'astro';
+import type { APIContext } from 'astro';
 
 export async function GET(context: APIContext) {
   return rss({
