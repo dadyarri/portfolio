@@ -1,13 +1,13 @@
 ---
 import PostCards from "@components/PostCards.astro";
 import Layout from "@layouts/Layout.astro";
-import { filterPostsByCategory } from "@utils/content";
+import { getMinis } from "@utils/content";
 import type { GetStaticPaths } from "astro";
 import { config } from "@data/config.json";
 import Pagination from "@components/Pagination.astro";
 
 export const getStaticPaths = (async ({ paginate }) => {
-    const minis = await filterPostsByCategory("minis");
+    const minis = await getMinis();
     return paginate(minis, { pageSize: config.pageSize });
 }) satisfies GetStaticPaths;
 
@@ -15,7 +15,7 @@ const { page } = Astro.props;
 ---
 
 <Layout title="Шпаргалки">
-    <PostCards posts={page.data} />
+    <PostCards posts={page.data}/>
 
     <Pagination
         currentPage={page.currentPage}

@@ -1,6 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import { getPostByTag, getTags } from "@utils/content";
+import { getPostsByTag, getTags } from "@utils/content";
 import { getWordDeclension } from "@utils/declension";
 
 const tags = await getTags();
@@ -11,7 +11,7 @@ const tags = await getTags();
     <ul>
         {
             tags.map(async tag => (<li>
-                <a href=`/tags/${tag.id}`>{tag.data.label} ({getWordDeclension((await getPostByTag(tag.id)).length, ["пост", "поста", "постов"])})</a>
+                <a href=`/tags/${tag.id}`>{tag.data.label} ({getWordDeclension((await getPostsByTag(tag.id)).length, ["пост", "поста", "постов"])})</a>
             </li>))
         }
     </ul>

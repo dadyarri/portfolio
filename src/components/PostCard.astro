@@ -5,11 +5,11 @@ import { splitArrayByElement } from "@utils/data";
 import PostInfo from "./PostInfo.astro";
 
 type Props = {
-    post: CollectionEntry<"posts">;
+    post: CollectionEntry<"posts"> | CollectionEntry<"minis">;
 };
 
 const { post } = Astro.props;
-const path = `/${post.data.category.id}/${post.id}`;
+const path = `/${post.collection}/${post.id}`;
 
 const preview = splitArrayByElement(
     post.rendered?.html.split("\n")!,

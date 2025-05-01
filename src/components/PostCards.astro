@@ -3,7 +3,7 @@ import PostCard from "@components/PostCard.astro";
 import type { CollectionEntry } from "astro:content";
 
 type Props = {
-    posts: CollectionEntry<'posts'>[]
+    posts: CollectionEntry<'posts'>[] | CollectionEntry<'minis'>[]
 }
 
 const { posts }: Props = Astro.props;

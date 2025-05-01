@@ -6,7 +6,7 @@ import type { CollectionEntry, RenderedContent } from "astro:content";
 import { getSeriesLabel, getTagLabel } from "@utils/content";
 
 type Props = {
-    post: CollectionEntry<"posts">;
+    post: CollectionEntry<"posts"> | CollectionEntry<"minis">;
 };
 
 type ModifiedFrontmatter = {
@@ -14,7 +14,6 @@ type ModifiedFrontmatter = {
 };
 
 const { post } = Astro.props;
-const path = `/${post.collection}/${post.id}`;
 
 const rendered = post.rendered as RenderedContent;
 const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter)
@@ -44,7 +43,7 @@ const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter)
         </div>
         {
             post.data.tags.map(async (tag) => (
-                <a class="tag" href=`/tags/${tag.id}`>{await getTagLabel(tag.id)}</a>
+                <a class="tag" href=`/${post.collection}/tags/${tag.id}`>{await getTagLabel(tag.id)}</a>
             ))
         }
     </div>
@@ -52,6 +51,6 @@ const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter)
         <div class="tag tag-icon">
             <Icon name="carbon:collapse-categories"/>
         </div>
-        <a class="tag" href=`/series/${post.data.series.id}`>{await getSeriesLabel(post.data.series.id)}</a>
+        <a class="tag" href=`/${post.collection}/series/${post.data.series.id}`>{await getSeriesLabel(post.data.series.id)}</a>
     </div>}
 </div>

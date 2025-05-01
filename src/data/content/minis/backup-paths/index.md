@@ -4,7 +4,7 @@ date:  "2024-12-22"
 draft:  false
 
 tags:  ["backup"]
-category: "minis"
+
 
 ---
 

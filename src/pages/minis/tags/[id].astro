@@ -1,7 +1,7 @@
 ---
 import type { GetStaticPaths } from "astro";
 import { type CollectionEntry } from "astro:content";
-import { getPostByTag, getTags } from "@utils/content";
+import { getMinisByTag, getTags } from "@utils/content";
 import Layout from "@layouts/Layout.astro";
 import PostCards from "@components/PostCards.astro";
 
@@ -16,10 +16,10 @@ export const getStaticPaths = ( async () => {
 type Props = CollectionEntry<'tags'>
 const tag = Astro.props
 
-const posts = await getPostByTag(tag.id)
+const posts = await getMinisByTag(tag.id)
 
 ---
 
-<Layout title={`Посты с тегом ${tag.data.label}`}>
+<Layout title={`Шпаргалки с тегом ${tag.data.label}`}>
     <PostCards posts={posts}/>
 </Layout>

@@ -2,7 +2,7 @@
 import type { GetStaticPaths } from "astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 import Layout from "@layouts/Layout.astro";
-import {filterPostsBySeries} from "@utils/content";
+import { getMinisBySeries } from "@utils/content";
 import PostCards from "@components/PostCards.astro";
 
 export const getStaticPaths = ( async () => {
@@ -17,10 +17,10 @@ type Props = CollectionEntry<'series'>
 const series = Astro.props
 const seriesLabel = series.data.label;
 
-const posts = await filterPostsBySeries(series.id);
+const posts = await getMinisBySeries(series.id);
 ---
 
-<Layout title=`Посты в цикле ${seriesLabel}`>
+<Layout title=`Шпаргалки в цикле ${seriesLabel}`>
 
     <PostCards posts={posts}/>
 

@@ -4,7 +4,7 @@ date:  "2024-10-26"
 draft:  false
 
 tags:  ["aspnet"]
-category: "minis"
+
 ---
 
 Как удобнее использовать конфигурацию из `appsettings.json` в ASP.NET

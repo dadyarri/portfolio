@@ -2,14 +2,24 @@ import { z, defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const posts = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/data/content' }),
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/data/content/posts' }),
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
     draft: z.boolean().default(false),
     tags: z.array(reference("tags")),
     series: reference("series").optional(),
-    category: reference("categories").default("posts"),
+  }),
+});
+
+const minis = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/data/content/minis' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    draft: z.boolean().default(false),
+    tags: z.array(reference("tags")),
+    series: reference("series").optional(),
   }),
 });
 
@@ -35,4 +45,4 @@ const tags = defineCollection({
   })
 })
 
-export const collections = { posts, series, categories, tags };
+export const collections = { posts, minis, series, categories, tags };

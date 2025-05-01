@@ -4,7 +4,7 @@ date:  "2024-10-07"
 draft:  false
 
 tags:  ["backup"]
-category: "minis"
+
 ---
 
 О том, как сохранить GnuPG ключи для удобства переноса между машинами

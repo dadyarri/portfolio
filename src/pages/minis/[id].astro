@@ -1,11 +1,11 @@
 ---
 import type { GetStaticPaths } from "astro";
 import { render, type CollectionEntry } from "astro:content";
-import { filterPostsByCategory } from "@utils/content";
+import { getMinis } from "@utils/content";
 import PostLayout from "@layouts/PostLayout.astro";
 
 export const getStaticPaths = ( async () => {
-    const posts = await filterPostsByCategory('minis')
+    const posts = await getMinis()
     return posts.map((post) => ({
 		params: { id: post.id },
 		props: post
