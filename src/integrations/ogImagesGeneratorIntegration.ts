@@ -7,14 +7,28 @@ export function ogImagesGeneratorIntegration(): AstroIntegration {
         hooks: {
             "astro:build:done": ({ dir, pages, logger }) => {
                 const rootPath = fileURLToPath(new URL('..', dir));
-                const publicPath = path.join(rootPath, "public");
-                logger.info(rootPath);
-                logger.info(publicPath);
-                pages.forEach(page => {
-                    if (page.pathname.startsWith("posts") || page.pathname.startsWith("minis")) {
-                        logger.info(page.pathname);
-                    }
-                });
+                const coversPath = path.join(rootPath, "public", "content");
+                const contentPath = path.join(rootPath, "src", "data", "content");
+
+                function isInternalPage(url: string): boolean {
+                    const regex = /\/?(cv|tags|series|\d+)(\/|$)/;
+                    return regex.test(url);
+                }
+
+                pages
+                    .filter(page =>
+                        page.pathname !== "" &&
+                        !isInternalPage(page.pathname)
+                    )
+                    .forEach(page => {
+                        logger.info(`Generating og-image for ${page.pathname}...`);
+
+                        const coverPath = path.join(coversPath, page.pathname, "cover.webp");
+                        const pagePath = path.join(contentPath, page.pathname, "index.md");
+
+                        
+
+                    });
             }
         }
     }
