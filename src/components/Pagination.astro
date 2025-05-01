@@ -4,38 +4,69 @@ import PaginationItemNext from "./PaginationItemNext.astro";
 import PaginationItemPrev from "./PaginationItemPrev.astro";
 
 type Props = {
-    currentPage: number;
-    pagesAmount: number;
-    category: string;
+  currentPage: number;
+  pagesAmount: number;
+  category: string;
 };
 
 const { pagesAmount, category, currentPage } = Astro.props;
+
+function getVisiblePages(current: number, total: number) {
+  const pages: (number | string)[] = [];
+
+  if (total <= 3) {
+    for (let i = 1; i <= total; i++) pages.push(i);
+    return pages;
+  }
+
+  pages.push(1);
+
+  if (current > 2) {
+    pages.push("…");
+  }
+
+  if (current !== 1 && current !== total) {
+    pages.push(current);
+  }
+
+  if (current < total - 1) {
+    pages.push("…");
+  }
+
+  pages.push(total);
+
+  return pages;
+}
+
+const visiblePages = getVisiblePages(currentPage, pagesAmount);
 ---
 
-{
-    pagesAmount > 1 && (
-        <div class="pagination">
-            {currentPage > 1 && (
-                <PaginationItemNext
-                    page={currentPage - 1}
-                    category={category}
-                />
-            )}
-            {Array.from({ length: pagesAmount }, (_, i) => i + 1).map(
-                (page) => (
-                    <PaginationItem
-                        currentPage={currentPage}
-                        page={page}
-                        category={category}
-                    />
-                ),
-            )}
-            {currentPage < pagesAmount && (
-                <PaginationItemPrev
-                    page={currentPage + 1}
-                    category={category}
-                />
-            )}
-        </div>
-    )
-}
+{pagesAmount > 1 && (
+  <div class="pagination">
+    {currentPage > 1 && (
+      <PaginationItemNext
+        page={currentPage - 1}
+        category={category}
+      />
+    )}
+
+    {visiblePages.map((page) =>
+      typeof page === "number" ? (
+        <PaginationItem
+          currentPage={currentPage}
+          page={page}
+          category={category}
+        />
+      ) : (
+        <span class="pagination-ellipsis">…</span>
+      )
+    )}
+
+    {currentPage < pagesAmount && (
+      <PaginationItemPrev
+        page={currentPage + 1}
+        category={category}
+      />
+    )}
+  </div>
+)}
