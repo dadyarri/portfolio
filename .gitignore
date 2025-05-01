@@ -24,3 +24,5 @@ pnpm-debug.log*
 .idea/
 
 .netlify/build
+
+public/content/**/og-image.png
