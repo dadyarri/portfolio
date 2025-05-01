@@ -67,6 +67,9 @@ const ld = {
         <meta property="og:description" content={preview} />
 
         <meta property="og:type" content="article" />
+
+        <meta property="og:image" content=`/content/${post.collection}/${post.id}/og-image.png`/>
+
         <meta
             property="article:published_time"
             content={post.data.date.toISOString()}
