@@ -1,7 +1,7 @@
 +++
 title = "Как моя кампания закончилась, не успев начаться и что я понял про D&D"
 date = "2025-04-26"
-draft = true
+draft = false
 
 [taxonomies]
 tags = ["D&D", "НРИ"]
