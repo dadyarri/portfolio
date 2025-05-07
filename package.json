@@ -6,7 +6,8 @@
     "host": "astro dev --host",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "og": "tsx src/scripts/generate-og-images.ts"
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
     "gray-matter": "^4.0.3",
     "mdast-util-to-string": "^4.0.0",
     "reading-time": "^1.5.0",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   },
   "devDependencies": {
