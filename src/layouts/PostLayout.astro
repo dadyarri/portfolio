@@ -100,7 +100,6 @@ const ld = {
             {post.data.series && <PostSeries series={post.data.series.id} currentPost={post.id}/>}
             {headings.length > 0 && <TableOfContents headings={headings}/>}
             <slot />
-            <hr/>
             {!post.data.draft && <Comments/>}
         </div>
     </body>
