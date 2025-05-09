@@ -119,7 +119,7 @@ function extractFrontmatterFields(content: string, fields: string[]): Frontmatte
 export function extractPageMetadata(path: string): PageMetadata {
 
     const content = fs.readFileSync(path, 'utf-8');
-    const fm = extractFrontmatterFields(content, ["title", "date", "tags"])
+    const fm = extractFrontmatterFields(content, ["title", "date"])
     
     return {
         title: fm["title"] as string,
@@ -132,8 +132,165 @@ export function extractPageMetadata(path: string): PageMetadata {
 
 Теперь, собрав все данные, можно приступать к генерации изображения. Подход простой - используем специальную библиотеку, которая принимает JSX-like объект с необходимыми стилями (из порезанного набора CSS) и элементами и выдаёт оптимальный SVG с правильным позиционированием и динамически рассчитанным положением элементов на изображении.
 
-<!--generateOgImage-->
+```typescript
+export async function generateOgImage(postMetaInfo: PageMetadata, paths: Paths) {
 
-С переходом на новую версию сайта я решил рисовать для каждого поста свою обложку, которую показывать в карточке в списке постов. Но библиотека, которую я использую для генерации SVG не поддерживает такой способ указания `background-image`.
+    const jbFontPath = path.join(paths.fonts, "jetbrains-mono.ttf");
+    const rubikFontPath = path.join(paths.fonts, "rubik-bold.ttf");
 
-Не будет работать ни указание абсолютного пути, ни кодирование изображения в base64. Только абсолютный URL где-то в интернете. Что мне не подходит, ведь этот код запускается до публикации версии сайта с новыми обложками в интернете и попытка подставить адрес новой обложки статьи, которая ещё не вышла приведёт к замене картинки на цветной или прозрачный фон.
+    const jbFont = await readFile(jbFontPath);
+    const rubikFont = await readFile(rubikFontPath);
+
+    const svg = await satori({
+        // Описание дизайна
+    }, {
+        width: 1200,
+        height: 630,
+        fonts: [
+            {
+                name: "jb-mono",
+                data: jbFont,
+                weight: 400,
+                style: "normal"
+            },
+            {
+                name: "rubik",
+                data: rubikFont,
+                weight: 700,
+                style: "normal"
+            }
+        ]
+    });
+
+     const opts = {
+        font: {
+            loadSystemFonts: false
+        },
+    }
+    const resvg = new Resvg(svg, opts)
+    const pngData = resvg.render()
+    const buf = pngData.asPng()
+
+    await writeFile(paths.output, buf);
+}
+```
+
+С переходом на новую версию сайта я решил рисовать через нейросеть для каждого поста свою обложку, которую показывать в карточке в списке постов. И я изначально хотел использовать эту обложку и для генерации OG-изображений. Оказалось, что сделать это не получится. По крайней мере с библиотекой `satori`, которую я использую для генерации SVG. Она просто не поддерживает большинство способов указания `background-image`.
+
+Не будет работать ни указание абсолютного пути до файла на диске, ни кодирование изображения в base64. Только абсолютный URL где-то в интернете. Что мне не подходит, ведь этот код запускается до публикации версии сайта с новыми обложками в интернете и попытка подставить адрес новой обложки статьи, которая ещё не вышла, приведёт к замене картинки на цветной (если был указан `background-color`) или прозрачный фон.
+
+Поэтому придётся пока отказаться от идеи помещать обложку на фон изображения и остаться со стилем, похожим на тот, что был раньше на Zola:
+
+![](./og-image.png)
+
+Теперь, если запустить production-сборку, в папке готового сайта появятся созданные изображения. Думал я, пока не отправил сайт деплоится на Netlify. Если локально все работает, то там интеграция молча падает с ошибкой и сайт собирается без генерации изображений. Моё предположение заключается в том, что Netlify попросту не даёт доступа к файловой системе из пользовательского кода в процессе сборки.
+
+# Переход на хранение изображений в репозитории
+
+Ладно, значит не хранить картинки в репозитории не получится и придётся создавать их средствами Github Actions, как работала моя утилита на Rust.
+
+Перепишем интеграцию в формат отдельного скрипта:
+
+```typescript
+#!/usr/bin/env tsx
+
+import path from "path";
+import { generateOgImage } from "@utils/og";
+import { extractPageMetadata } from "@utils/pages";
+import fs from "fs/promises";
+
+async function main() {
+  const [,, contentSlug] = process.argv;
+
+  if (!contentSlug) {
+    console.error("❌ Content slug is required as argument.");
+    process.exit(1);
+  }
+
+  const rootPath = path.resolve(__dirname, "..", "..");
+  const imagesPath = path.join(rootPath, "public", "content");
+  const fontsPath = path.join(rootPath, "public", "fonts");
+  const contentPath = path.join(rootPath, "src", "data", "content");
+
+  const pagePath = path.join(contentPath, contentSlug, "index.md");
+
+  try {
+    await fs.access(pagePath);
+  } catch {
+    console.error(`❌ Content file ${pagePath} not found.`);
+    process.exit(1);
+  }
+
+  const ogPath = path.join(imagesPath, contentSlug, "og-image.png");
+  const metadata = extractPageMetadata(pagePath);
+
+  await generateOgImage(metadata, { output: ogPath, fonts: fontsPath });
+
+  console.log(`✅ OG image generated for ${contentSlug}`);
+}
+
+main().catch(err => {
+  console.error("Unexpected error:", err);
+  process.exit(1);
+});
+```
+
+Добавим npm-задачу для запуска этого скрипта с помощью `npm run`:
+
+```json
+"scripts": {
+    "og": "tsx src/scripts/generate-og-images.ts"
+}
+```
+
+И настроим запуск через Github Actions:
+
+```yaml
+name: Generate OG images on PR merge
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - 'main'
+
+jobs:
+  update-og-images:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Log branch name
+        run: |
+          echo "Branch name: ${{ github.event.pull_request.head.ref }}"
+
+      - name: Generate OG image for merged content
+        run: |
+          npm run og "${{ github.event.pull_request.head.ref }}"
+
+      - name: Commit and push new OG images
+        run: |
+          if [[ -n $(git status --porcelain) ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add .
+            git commit -m "updated og-image for ${{ github.event.pull_request.head.ref }}"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+```
+
+Теперь, благодаря тому, что ветки с контентом у меня в проекте имеют назание `<тип-контента>/<ид-контента>`, которое совпадает с фактическим расположением контента в проекте при слиянии ветки будет запущен этот скрипт для генерации нужного Open Graph изображения.
