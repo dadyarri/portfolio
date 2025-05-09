@@ -1,18 +1,31 @@
 import { getCollection, type CollectionEntry } from 'astro:content'
 
-export const getPosts = async (): Promise<CollectionEntry<'posts'>[]> => {
-	let posts = await getCollection('posts')
+type SortOrder = 'asc' | 'desc';
+
+export const getPosts = async (order: SortOrder = 'desc'): Promise<CollectionEntry<'posts'>[]> => {
+	let posts = await getCollection('posts');
 
 	if (posts === undefined) {
-		posts = []
+		posts = [];
 	}
 
-	return posts
+	const sortedPosts = posts
 		.filter((post) => import.meta.env.DEV || !post.data.draft)
-		.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-}
+		.sort((a, b) => {
+			const dateA = a.data.date.valueOf();
+			const dateB = b.data.date.valueOf();
 
-export const getMinis = async (): Promise<CollectionEntry<'minis'>[]> => {
+			if (order === 'asc') {
+				return dateA - dateB;
+			} else {
+				return dateB - dateA;
+			}
+		});
+
+	return sortedPosts;
+};
+
+export const getMinis = async (order: SortOrder = 'desc'): Promise<CollectionEntry<'minis'>[]> => {
 	let minis = await getCollection('minis')
 
 	if (minis === undefined) {
@@ -21,7 +34,16 @@ export const getMinis = async (): Promise<CollectionEntry<'minis'>[]> => {
 
 	return minis
 		.filter((post) => import.meta.env.DEV || !post.data.draft)
-		.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+		.sort((a, b) => {
+			const dateA = a.data.date.valueOf();
+			const dateB = b.data.date.valueOf();
+
+			if (order === 'asc') {
+				return dateA - dateB;
+			} else {
+				return dateB - dateA;
+			}
+		})
 }
 
 export const getPostsByTag = async (tag: string): Promise<CollectionEntry<'posts'>[]> => {
@@ -56,13 +78,13 @@ export const getSeriesLabel = async (id: string) => {
 }
 
 export const getPostsBySeries = async (series: string) => {
-	const posts = await getPosts()
+	const posts = await getPosts('asc')
 	return posts
-	.filter((post) => post.data.series?.id === series);
+		.filter((post) => post.data.series?.id === series);
 }
 
 export const getMinisBySeries = async (series: string) => {
-	const posts = await getMinis()
+	const posts = await getMinis('asc')
 	return posts
-	.filter((post) => post.data.series?.id === series);
+		.filter((post) => post.data.series?.id === series);
 }
