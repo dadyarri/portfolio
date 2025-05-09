@@ -77,14 +77,14 @@ export const getSeriesLabel = async (id: string) => {
 	return series.find(s => s.id === id)?.data.label
 }
 
-export const getPostsBySeries = async (series: string) => {
-	const posts = await getPosts('asc')
+export const getPostsBySeries = async (series: string, order: SortOrder = 'asc') => {
+	const posts = await getPosts(order)
 	return posts
 		.filter((post) => post.data.series?.id === series);
 }
 
-export const getMinisBySeries = async (series: string) => {
-	const posts = await getMinis('asc')
+export const getMinisBySeries = async (series: string, order: SortOrder = 'asc') => {
+	const posts = await getMinis(order)
 	return posts
 		.filter((post) => post.data.series?.id === series);
 }

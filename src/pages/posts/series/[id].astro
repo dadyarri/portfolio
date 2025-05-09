@@ -17,7 +17,7 @@ type Props = CollectionEntry<'series'>
 const series = Astro.props
 const seriesLabel = series.data.label;
 
-const posts = await getPostsBySeries(series.id);
+const posts = await getPostsBySeries(series.id, 'desc');
 ---
 
 <Layout title=`Посты в цикле ${seriesLabel}`>

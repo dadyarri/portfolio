@@ -17,7 +17,7 @@ type Props = CollectionEntry<'series'>
 const series = Astro.props
 const seriesLabel = series.data.label;
 
-const posts = await getMinisBySeries(series.id);
+const posts = await getMinisBySeries(series.id, 'desc');
 ---
 
 <Layout title=`Шпаргалки в цикле ${seriesLabel}`>
