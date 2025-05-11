@@ -12,9 +12,9 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
 {
     public override async Task<int> ExecuteAsync(CommandContext context, RootCommandSettings settings)
     {
-        if (settings is { All: false, Content: null })
+        if (settings.Content is null)
         {
-            AnsiConsole.MarkupLine("[red]Please select content item or specify [bold]--all[/] flag[/]");
+            AnsiConsole.MarkupLine("[red]Please select content item[/]");
             return 1;
         }
 
@@ -42,7 +42,7 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
         foreach (var directory in configuration.Directories)
         {
             directory.Path = Path.GetFullPath(Path.Join(configurationDirectory, directory.Path));
-            
+
             if (!Directory.Exists(directory.Path))
             {
                 AnsiConsole.MarkupLine("[red]Directory doesn't exist[/]");
@@ -65,7 +65,7 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
                     AnsiConsole.MarkupLine("[red]Directory doesn't exist[/]");
                     return string.Empty;
                 }
-                
+
                 return dirPath;
             }));
 
@@ -74,6 +74,38 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
                 AnsiConsole.MarkupLineInterpolated($"[red]Font file {fontConfig.Name} not found[/]");
                 return 1;
             }
+        }
+
+        var contentPath = configuration.Directories.FirstOrDefault(e => e.Name == "content");
+
+        if (contentPath is null)
+        {
+            AnsiConsole.MarkupLineInterpolated($"[red]Directory content doesn't exist[/]");
+            return 1;
+        }
+
+        var imagesPath = configuration.Directories.FirstOrDefault(e => e.Name == "images");
+
+        if (imagesPath is null)
+        {
+            AnsiConsole.MarkupLineInterpolated($"[red]Directory images not found[/]");
+            return 1;
+        }
+
+        var postPath = Path.Join(contentPath.Path, settings.Content, "index.md");
+
+        if (!File.Exists(postPath))
+        {
+            AnsiConsole.MarkupLineInterpolated($"[red]Post file not found[/]");
+            return 1;
+        }
+        
+        var coverImage = Path.Join(imagesPath.Path, settings.Content, "cover.webp");
+
+        if (!File.Exists(coverImage))
+        {
+            AnsiConsole.MarkupLineInterpolated($"[red]Cover image not found[/]");
+            return 1;
         }
 
         return 0;

@@ -9,8 +9,4 @@ public class RootCommandSettings : CommandSettings
     [CommandArgument(0, "[content]")]
     public string? Content { get; set; }
 
-    [Description("Flag to generate all images")]
-    [CommandOption("-a|--all")]
-    [DefaultValue(false)]
-    public bool All { get; set; }
 }
