@@ -4,6 +4,7 @@ using OgImages.Configuration;
 using OgImages.Utils;
 using Spectre.Console;
 using Spectre.Console.Cli;
+using YamlDotNet.Serialization;
 using Directory = System.IO.Directory;
 
 namespace OgImages;
@@ -99,7 +100,7 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
             AnsiConsole.MarkupLineInterpolated($"[red]Post file not found[/]");
             return 1;
         }
-        
+
         var coverImage = Path.Join(imagesPath.Path, settings.Content, "cover.webp");
 
         if (!File.Exists(coverImage))
@@ -108,9 +109,15 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
             return 1;
         }
 
+        var postContent = await File.ReadAllTextAsync(postPath);
+        var frontmatterString = FrontmatterRegex().Match(postContent).Groups[1].Value;
+        var frontmatter = new Deserializer().Deserialize<Dictionary<string, object>>(frontmatterString);
+
         return 0;
     }
 
     [GeneratedRegex("#(.*)#")]
     private static partial Regex DirectoryRegex();
+    [GeneratedRegex(@"^---\s*\n(.*?)\n---\s*\n", RegexOptions.Singleline)]
+    private static partial Regex FrontmatterRegex();
 }
