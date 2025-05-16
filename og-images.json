@@ -47,17 +47,20 @@
     {
       "Type": "Text",
       "Content": "{title}",
-      "Color": ""
+      "Color": "255,255,255,255",
+      "Font": "rubik-bold"
     },
     {
       "Type": "Text",
       "Content": "{date}",
-      "Color": ""
+      "Color": "255,255,255,255",
+      "Font": "rubik"
     },
     {
       "Type": "ListOfTexts",
       "Content": "{tags}",
-      "Color": ""
+      "Color": "255,255,255,255",
+      "Font": "jb-mono"
     }
   ]
 }

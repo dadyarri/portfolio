@@ -141,12 +141,13 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
                     case LayerType.Overlay:
                     {
                         var rect = new Rectangle(0, 0, configuration.Canvas.Width, configuration.Canvas.Height);
-                        var color = layer.Background.Split(',').Select(byte.Parse).ToArray();
-                        ctx.Fill(Color.FromRgba(color[0], color[1], color[2], color[3]), rect);
+                        ctx.Fill(ParseRgba(layer.Background), rect);
                         break;
                     }
                     case LayerType.Text:
+                    {
                         break;
+                    }
                     case LayerType.ListOfTexts:
                         break;
                     default:
@@ -173,4 +174,10 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
 
     [GeneratedRegex("{(.*)}")]
     private static partial Regex FrontmatterFieldRegex();
+    
+    Color ParseRgba(string input)
+    {
+        var parsed = input.Split(',').Select(byte.Parse).ToArray();
+        return Color.FromRgba(parsed[0], parsed[1], parsed[2], parsed[3]);   
+    }
 }
