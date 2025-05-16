@@ -2,10 +2,17 @@
 using System.Text.RegularExpressions;
 using OgImages.Configuration;
 using OgImages.Utils;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Drawing.Processing;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using YamlDotNet.Serialization;
+using Color = SixLabors.ImageSharp.Color;
 using Directory = System.IO.Directory;
+using Size = SixLabors.ImageSharp.Size;
 
 namespace OgImages;
 
@@ -111,13 +118,59 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
 
         var postContent = await File.ReadAllTextAsync(postPath);
         var frontmatterString = FrontmatterRegex().Match(postContent).Groups[1].Value;
-        var frontmatter = new Deserializer().Deserialize<Dictionary<string, object>>(frontmatterString);
+        var frontmatter = new Deserializer().Deserialize<Dictionary<string, object?>>(frontmatterString);
+
+        foreach (var kvp in frontmatter)
+        {
+            frontmatter[kvp.Key] = TypeUtils.GuessType(kvp.Value);
+        }
+
+        using var og = new Image<Rgba32>(new SixLabors.ImageSharp.Configuration(), configuration.Canvas.Width,
+            configuration.Canvas.Height);
+        using var cover = Image.Load<Rgba32>(coverImage);
+
+        cover.Mutate(ctx => ctx.Resize(new Size(configuration.Canvas.Width, configuration.Canvas.Height)));
+        og.Mutate(ctx =>
+        {
+            ctx.DrawImage(cover, new Point(0, 0), 1f);
+
+            foreach (var layer in configuration.Layers)
+            {
+                switch (layer.Type)
+                {
+                    case LayerType.Overlay:
+                    {
+                        var rect = new Rectangle(0, 0, configuration.Canvas.Width, configuration.Canvas.Height);
+                        var color = layer.Background.Split(',').Select(byte.Parse).ToArray();
+                        ctx.Fill(Color.FromRgba(color[0], color[1], color[2], color[3]), rect);
+                        break;
+                    }
+                    case LayerType.Text:
+                        break;
+                    case LayerType.ListOfTexts:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        });
+
+        var ogImagePath = Path.Join(imagesPath.Path, settings.Content, "og-image.png");
+        using var ms = new MemoryStream();
+        await using var outputFileStream = new FileStream(ogImagePath, FileMode.OpenOrCreate);
+
+        await og.SaveAsync(ms, new PngEncoder());
+        ms.WriteTo(outputFileStream);
 
         return 0;
     }
 
     [GeneratedRegex("#(.*)#")]
     private static partial Regex DirectoryRegex();
-    [GeneratedRegex(@"^---\s*\n(.*?)\n---\s*\n", RegexOptions.Singleline)]
+
+    [GeneratedRegex(@"^---\s*\n(.*?)\n---", RegexOptions.Singleline)]
     private static partial Regex FrontmatterRegex();
+
+    [GeneratedRegex("{(.*)}")]
+    private static partial Regex FrontmatterFieldRegex();
 }

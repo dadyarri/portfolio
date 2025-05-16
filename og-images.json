@@ -38,5 +38,26 @@
       "Path": "#fonts#/rubik-bold.ttf",
       "Weight": 700
     }
+  ],
+  "Layers": [
+    {
+      "Type": "Overlay",
+      "Background": "0,0,0,128"
+    },
+    {
+      "Type": "Text",
+      "Content": "{title}",
+      "Color": ""
+    },
+    {
+      "Type": "Text",
+      "Content": "{date}",
+      "Color": ""
+    },
+    {
+      "Type": "ListOfTexts",
+      "Content": "{tags}",
+      "Color": ""
+    }
   ]
 }
