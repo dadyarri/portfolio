@@ -11,5 +11,5 @@ public class Canvas
     public int MaxWidth { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter<VerticalAlignment>))]
     public VerticalAlignment VerticalAlignment { get; set; }
-    public string? Background { get; set; }
+    public Backgound Background { get; set; }
 }

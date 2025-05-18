@@ -4,7 +4,16 @@
     "Height": 630,
     "Padding": 20,
     "MaxWidth": 900,
-    "VerticalAlignment": "Center"
+    "VerticalAlignment": "Center",
+    "Background": {
+      "Image": "#images#/#item#/cover.webp",
+      "FallbackColor": "34,36,54,255",
+      "OverlayColor": "34,36,54,200"
+    }
+  },
+  "Content": {
+    "Article": "#content#/#item#/index.md",
+    "OgImage": "#images#/#item#/og-image.png"
   },
   "Directories": [
     {
@@ -44,19 +53,15 @@
   ],
   "Layers": [
     {
-      "Type": "Overlay",
-      "Background": "34,34,54,200"
-    },
-    {
       "Type": "Text",
-      "Content": "{title}",
+      "Format": "{title}",
       "Color": "200,211,245,255",
       "Font": "rubik-bold",
       "FontSize": 64
     },
     {
       "Type": "Text",
-      "Content": "{date|dd.MM.yyyy}",
+      "Format": "{date|dd.MM.yyyy}",
       "Color": "200,211,245,255",
       "Font": "jbmono",
       "FontSize": 48
@@ -65,6 +70,7 @@
       "Type": "ListOfTexts",
       "Content": "{tags}",
       "Color": "255,255,255,255",
+      "Background": "0,0,0,0",
       "Font": "jbmono"
     }
   ]

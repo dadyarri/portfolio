@@ -1,6 +1,9 @@
-﻿namespace OgImages.Utils;
+﻿using System.Text.RegularExpressions;
+using Spectre.Console;
 
-public class FileUtils
+namespace OgImages.Utils;
+
+public partial class FileUtils
 {
     public static string? FindFileUpwards(string fileName)
     {
@@ -26,4 +29,26 @@ public class FileUtils
 
         return null;
     }
+
+    public static string GetFullPath(string expression, Dictionary<string, string> directories)
+    {
+
+        var replaced = DirectoryRegex().Replace(expression, match =>
+        {
+            var dirName = match.Groups[1].Value;
+            if (directories.TryGetValue(dirName, out var dir))
+            {
+                return dir;
+            }
+
+            AnsiConsole.MarkupLineInterpolated($"[red]Directory {dirName} is not defined[/]");
+            throw new Exception("Directory is not defined");
+        });
+        
+        
+        return replaced;
+    }
+
+    [GeneratedRegex("#([^#/]+)#")]
+    private static partial Regex DirectoryRegex();
 }

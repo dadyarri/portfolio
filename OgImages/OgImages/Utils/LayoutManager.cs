@@ -11,57 +11,61 @@ namespace OgImages.Utils;
 
 public partial class LayoutManager
 {
-    private readonly List<Layer> _layers;
+    private readonly IEnumerable<ILayer> _layers;
 
-    public LayoutManager(List<Layer> layers)
+    public LayoutManager(IEnumerable<ILayer> layers)
     {
-        _layers = layers.Where(e => e.Type == LayerType.Text).ToList();
+        _layers = layers;
     }
 
     public void Render(IImageProcessingContext ctx, OgImagesConfiguration config,
-        Dictionary<string, object?> frontmatter)
+        Dictionary<string, object?> frontmatter, Dictionary<string, Tuple<FontFamily, FontStyle>> fonts)
     {
         var startX = config.Canvas.Padding;
 
         var totalHeight = 0f;
         List<float> layerHeights = [];
 
-        var fontsManager = new FontManager(config.Fonts);
-
         foreach (var layer in _layers)
         {
-            var font = fontsManager.GetFont(layer.Font!, layer.FontSize);
-
-            var options = new RichTextOptions(font)
+            if (layer is TextLayer textLayer)
             {
-                WrappingLength = config.Canvas.MaxWidth,
-                WordBreaking = WordBreaking.BreakWord,
-                Origin = new PointF(startX, 0)
-            };
+                fonts.TryGetValue(textLayer.Font, out var fontOptions);
+                ArgumentNullException.ThrowIfNull(fontOptions);
 
-            var content = FrontmatterFieldRegex().Replace(layer.Content!, match =>
-            {
-                var extracted = match.Groups[1].Value;
-                var fieldName = extracted.Split('|')[0];
+                var font = fontOptions.Item1.CreateFont(textLayer.FontSize, fontOptions.Item2);
 
-                if (!frontmatter.TryGetValue(fieldName, out var value))
+                var options = new RichTextOptions(font)
                 {
-                    AnsiConsole.MarkupLineInterpolated($"[red]Field {fieldName} not found[/]");
-                    return string.Empty;
-                }
+                    WrappingLength = config.Canvas.MaxWidth,
+                    WordBreaking = WordBreaking.BreakWord,
+                    Origin = new PointF(startX, 0)
+                };
 
-                if (value is DateTime dateTime)
+                var content = FrontmatterFieldRegex().Replace(textLayer.Format, match =>
                 {
-                    return dateTime.ToString(extracted.Split('|')[1]);
-                }
+                    var extracted = match.Groups[1].Value;
+                    var fieldName = extracted.Split('|')[0];
 
-                return value?.ToString() ?? string.Empty;
-            });
+                    if (!frontmatter.TryGetValue(fieldName, out var value))
+                    {
+                        AnsiConsole.MarkupLineInterpolated($"[red]Field {fieldName} not found[/]");
+                        return string.Empty;
+                    }
 
-            var textSize = TextMeasurer.MeasureSize(content, options);
-            
-            totalHeight += textSize.Height;
-            layerHeights.Add(textSize.Height);
+                    if (value is DateTime dateTime)
+                    {
+                        return dateTime.ToString(extracted.Split('|')[1]);
+                    }
+
+                    return value?.ToString() ?? string.Empty;
+                });
+
+                var textSize = TextMeasurer.MeasureSize(content, options);
+
+                totalHeight += textSize.Height;
+                layerHeights.Add(textSize.Height);
+            }
         }
 
 
@@ -77,41 +81,54 @@ public partial class LayoutManager
 
         var currentY = startY;
 
-        for (var i = 0; i < _layers.Count; i++)
+        foreach (var (item, ind) in _layers.Select((x, i) => (x, i)))
         {
-            var layer = _layers[i];
-
-            var font = fontsManager.GetFont(layer.Font!, layer.FontSize);
-
-            var options = new RichTextOptions(font)
+            switch (item)
             {
-                WrappingLength = config.Canvas.MaxWidth,
-                WordBreaking = WordBreaking.BreakWord,
-                Origin = new PointF(startX, currentY)
-            };
-
-            var content = FrontmatterFieldRegex().Replace(layer.Content!, match =>
-            {
-                var extracted = match.Groups[1].Value;
-                var fieldName = extracted.Split('|')[0];
-
-                if (!frontmatter.TryGetValue(fieldName, out var value))
+                case TextLayer textLayer:
                 {
-                    AnsiConsole.MarkupLineInterpolated($"[red]Field {fieldName} not found[/]");
-                    return string.Empty;
+                    fonts.TryGetValue(textLayer.Font, out var fontOptions);
+
+                    ArgumentNullException.ThrowIfNull(fontOptions);
+                    var font = fontOptions.Item1.CreateFont(textLayer.FontSize, fontOptions.Item2);
+
+                    var options = new RichTextOptions(font)
+                    {
+                        WrappingLength = config.Canvas.MaxWidth,
+                        WordBreaking = WordBreaking.BreakWord,
+                        Origin = new PointF(startX, currentY)
+                    };
+
+                    var content = FrontmatterFieldRegex().Replace(textLayer.Format, match =>
+                    {
+                        var extracted = match.Groups[1].Value;
+                        var fieldName = extracted.Split('|')[0];
+
+                        if (!frontmatter.TryGetValue(fieldName, out var value))
+                        {
+                            AnsiConsole.MarkupLineInterpolated($"[red]Field {fieldName} not found[/]");
+                            return string.Empty;
+                        }
+
+                        if (value is DateTime dateTime)
+                        {
+                            return dateTime.ToString(extracted.Split('|')[1]);
+                        }
+
+                        return value?.ToString() ?? string.Empty;
+                    });
+
+                    ctx.DrawText(options, content, textLayer.Color);
+
+                    currentY += layerHeights[ind] + config.Canvas.Padding;
+                    break;
                 }
 
-                if (value is DateTime dateTime)
+                case ListOfTextsLayer listOfTextsLayer:
                 {
-                    return dateTime.ToString(extracted.Split('|')[1]);
+                    break;
                 }
-
-                return value?.ToString() ?? string.Empty;
-            });
-
-            ctx.DrawText(options, content, ColorUtils.ParseRgba(layer.Color!));
-
-            currentY += layerHeights[i] + config.Canvas.Padding;
+            }
         }
     }
 

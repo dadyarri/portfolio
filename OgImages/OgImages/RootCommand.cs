@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using OgImages.Configuration;
 using OgImages.Utils;
+using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Formats.Png;
@@ -10,8 +11,6 @@ using SixLabors.ImageSharp.Processing;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using YamlDotNet.Serialization;
-using Color = SixLabors.ImageSharp.Color;
-using Directory = System.IO.Directory;
 using Size = SixLabors.ImageSharp.Size;
 
 namespace OgImages;
@@ -39,7 +38,12 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
         AnsiConsole.MarkupLineInterpolated($"[green]Using config file from '{configurationPath}'[/]");
 
         await using var fs = File.OpenRead(configurationPath);
-        var configuration = await JsonSerializer.DeserializeAsync<OgImagesConfiguration>(fs);
+
+        var jsonOptions = new JsonSerializerOptions();
+        jsonOptions.Converters.Add(new ColorJsonConverter());
+        jsonOptions.Converters.Add(new LayerConverter());
+
+        var configuration = await JsonSerializer.DeserializeAsync<OgImagesConfiguration>(fs, jsonOptions);
 
         if (configuration is null)
         {
@@ -47,76 +51,41 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
             return 1;
         }
 
+        var directories = new Dictionary<string, string>();
+
         foreach (var directory in configuration.Directories)
         {
-            directory.Path = Path.GetFullPath(Path.Join(configurationDirectory, directory.Path));
-
-            if (!Directory.Exists(directory.Path))
-            {
-                AnsiConsole.MarkupLine("[red]Directory doesn't exist[/]");
-                return 1;
-            }
+            directories.TryAdd(directory.Name, Path.GetFullPath(Path.Join(configurationDirectory, directory.Path)));
         }
+
+        directories.TryAdd("item", settings.Content);
+
+        var fontCollection = new FontCollection();
+        Dictionary<string, Tuple<FontFamily, FontStyle>> fonts = [];
 
         foreach (var fontConfig in configuration.Fonts)
         {
-            fontConfig.Path = Path.GetFullPath(DirectoryRegex().Replace(fontConfig.Path, match =>
-            {
-                var dirName = match.Groups[1].Value;
-                var dirPath = configuration.Directories
-                    .Where(d => d.Name == dirName)
-                    .Select(d => d.Path)
-                    .FirstOrDefault();
+            var path = FileUtils.GetFullPath(fontConfig.Path, directories);
 
-                if (dirPath is null)
-                {
-                    AnsiConsole.MarkupLine("[red]Directory doesn't exist[/]");
-                    return string.Empty;
-                }
-
-                return dirPath;
-            }));
-
-            if (!File.Exists(fontConfig.Path))
+            if (!File.Exists(path))
             {
                 AnsiConsole.MarkupLineInterpolated($"[red]Font file {fontConfig.Name} not found[/]");
                 return 1;
             }
+
+            var style = fontConfig.Weight switch
+            {
+                400 => FontStyle.Regular,
+                700 => FontStyle.Bold,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            var family = fontCollection.Add(path);
+            fonts.Add(fontConfig.Name, new Tuple<FontFamily, FontStyle>(family, style));
         }
 
-        var contentPath = configuration.Directories.FirstOrDefault(e => e.Name == "content");
-
-        if (contentPath is null)
-        {
-            AnsiConsole.MarkupLineInterpolated($"[red]Directory content doesn't exist[/]");
-            return 1;
-        }
-
-        var imagesPath = configuration.Directories.FirstOrDefault(e => e.Name == "images");
-
-        if (imagesPath is null)
-        {
-            AnsiConsole.MarkupLineInterpolated($"[red]Directory images not found[/]");
-            return 1;
-        }
-
-        var postPath = Path.Join(contentPath.Path, settings.Content, "index.md");
-
-        if (!File.Exists(postPath))
-        {
-            AnsiConsole.MarkupLineInterpolated($"[red]Post file not found[/]");
-            return 1;
-        }
-
-        var coverImage = Path.Join(imagesPath.Path, settings.Content, "cover.webp");
-
-        if (!File.Exists(coverImage))
-        {
-            AnsiConsole.MarkupLineInterpolated($"[red]Cover image not found[/]");
-            return 1;
-        }
-
-        var postContent = await File.ReadAllTextAsync(postPath);
+        var postContent =
+            await File.ReadAllTextAsync(FileUtils.GetFullPath(configuration.Content.Article, directories));
         var frontmatterString = FrontmatterRegex().Match(postContent).Groups[1].Value;
         var frontmatter = new Deserializer().Deserialize<Dictionary<string, object?>>(frontmatterString);
 
@@ -127,27 +96,34 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
 
         using var og = new Image<Rgba32>(new SixLabors.ImageSharp.Configuration(), configuration.Canvas.Width,
             configuration.Canvas.Height);
-        using var cover = Image.Load<Rgba32>(coverImage);
 
-        cover.Mutate(ctx => ctx.Resize(new Size(configuration.Canvas.Width, configuration.Canvas.Height)));
-        og.Mutate(ctx =>
+        var backgroundPath = FileUtils.GetFullPath(configuration.Canvas.Background.Image, directories);
+        if (File.Exists(backgroundPath))
         {
-            ctx.DrawImage(cover, new Point(0, 0), 1f);
-            
-            var overlayConfig = configuration.Layers.FirstOrDefault(e => e.Type == LayerType.Overlay);
+            using var backgroundImage = Image.Load<Rgba32>(backgroundPath);
+            backgroundImage.Mutate(ctx =>
+                ctx.Resize(new Size(configuration.Canvas.Width, configuration.Canvas.Height)));
 
-            if (overlayConfig is not null)
+            og.Mutate(ctx =>
             {
                 var rect = new Rectangle(0, 0, configuration.Canvas.Width, configuration.Canvas.Height);
-                ctx.Fill(ColorUtils.ParseRgba(overlayConfig.Background!), rect);
-            }
-            
-            var lm = new LayoutManager(configuration.Layers);
-            lm.Render(ctx, configuration, frontmatter);
+                ctx.DrawImage(backgroundImage, new Point(0, 0), 1f);
+                ctx.Fill(configuration.Canvas.Background.OverlayColor, rect);
+            });
+        }
+        else
+        {
+            og.Mutate(ctx => ctx.Fill(configuration.Canvas.Background.FallbackColor));
+        }
 
+
+        og.Mutate(ctx =>
+        {
+            var lm = new LayoutManager(configuration.GetTextLayers());
+            lm.Render(ctx, configuration, frontmatter, fonts);
         });
 
-        var ogImagePath = Path.Join(imagesPath.Path, settings.Content, "og-image.png");
+        var ogImagePath = FileUtils.GetFullPath(configuration.Content.OgImage, directories);
         using var ms = new MemoryStream();
         await using var outputFileStream = new FileStream(ogImagePath, FileMode.OpenOrCreate);
 
@@ -156,9 +132,6 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
 
         return 0;
     }
-
-    [GeneratedRegex("#(.*)#")]
-    private static partial Regex DirectoryRegex();
 
     [GeneratedRegex(@"^---\s*\n(.*?)\n---", RegexOptions.Singleline)]
     private static partial Regex FrontmatterRegex();
