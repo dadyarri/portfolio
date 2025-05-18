@@ -119,8 +119,8 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
 
         og.Mutate(ctx =>
         {
-            var lm = new LayoutManager(configuration.GetTextLayers());
-            lm.Render(ctx, configuration, frontmatter, fonts);
+            var lm = new LayoutManager(configuration.Layers);
+            lm.Render(ctx, configuration, frontmatter, fonts, directories);
         });
 
         var ogImagePath = FileUtils.GetFullPath(configuration.Content.OgImage, directories);

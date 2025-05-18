@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text.Json;
+using System.Text.RegularExpressions;
 using OgImages.Configuration;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
@@ -19,7 +20,8 @@ public partial class LayoutManager
     }
 
     public void Render(IImageProcessingContext ctx, OgImagesConfiguration config,
-        Dictionary<string, object?> frontmatter, Dictionary<string, Tuple<FontFamily, FontStyle>> fonts)
+        Dictionary<string, object?> frontmatter, Dictionary<string, Tuple<FontFamily, FontStyle>> fonts,
+        Dictionary<string, string> directories)
     {
         var startX = config.Canvas.Padding;
 
@@ -66,6 +68,55 @@ public partial class LayoutManager
                 totalHeight += textSize.Height;
                 layerHeights.Add(textSize.Height);
             }
+
+            if (layer is ListOfTextsLayer listOfTextsLayer)
+            {
+                fonts.TryGetValue(listOfTextsLayer.Font, out var fontOptions);
+                ArgumentNullException.ThrowIfNull(fontOptions);
+
+                var font = fontOptions.Item1.CreateFont(listOfTextsLayer.FontSize, fontOptions.Item2);
+
+                var options = new RichTextOptions(font)
+                {
+                    WrappingLength = config.Canvas.MaxWidth,
+                    WordBreaking = WordBreaking.BreakWord,
+                    Origin = new PointF(startX, 0)
+                };
+
+                var content = FrontmatterFieldRegex().Replace(listOfTextsLayer.ItemFormat, match =>
+                {
+                    var extracted = match.Groups[1].Value;
+                    var fieldName = extracted.Split('|')[0];
+
+                    if (!frontmatter.TryGetValue(fieldName, out var value))
+                    {
+                        AnsiConsole.MarkupLineInterpolated($"[red]Field {fieldName} not found[/]");
+                        return string.Empty;
+                    }
+
+                    if (value is List<object> list)
+                    {
+                        List<string> data = [];
+                        foreach (string item in list)
+                        {
+                            var path = FileUtils.GetFullPath(
+                                Path.Join(listOfTextsLayer.Source, fieldName, $"{item}.json"),
+                                directories);
+                            var serialized =
+                                JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(path));
+                            data.Add(serialized![extracted.Split('|')[1]]);
+                        }
+
+                        return string.Join(string.Empty, data);
+                    }
+
+                    return value?.ToString() ?? string.Empty;
+                });
+
+                var textSize = TextMeasurer.MeasureSize(content, options);
+                totalHeight += textSize.Height + listOfTextsLayer.Padding;
+                layerHeights.Add(textSize.Height + listOfTextsLayer.Padding);
+            }
         }
 
 
@@ -81,9 +132,9 @@ public partial class LayoutManager
 
         var currentY = startY;
 
-        foreach (var (item, ind) in _layers.Select((x, i) => (x, i)))
+        foreach (var (layer, ind) in _layers.Select((x, i) => (x, i)))
         {
-            switch (item)
+            switch (layer)
             {
                 case TextLayer textLayer:
                 {
@@ -119,16 +170,70 @@ public partial class LayoutManager
                     });
 
                     ctx.DrawText(options, content, textLayer.Color);
-
-                    currentY += layerHeights[ind] + config.Canvas.Padding;
                     break;
                 }
 
                 case ListOfTextsLayer listOfTextsLayer:
                 {
+                    fonts.TryGetValue(listOfTextsLayer.Font, out var fontOptions);
+                    ArgumentNullException.ThrowIfNull(fontOptions);
+
+                    var font = fontOptions.Item1.CreateFont(listOfTextsLayer.FontSize, fontOptions.Item2);
+
+                    var options = new RichTextOptions(font)
+                    {
+                        WrappingLength = config.Canvas.MaxWidth,
+                        WordBreaking = WordBreaking.BreakWord,
+                        Origin = new PointF(startX, 0),
+                    };
+
+                    var content = FrontmatterFieldRegex().Replace(listOfTextsLayer.ItemFormat, match =>
+                    {
+                        var extracted = match.Groups[1].Value;
+                        var fieldName = extracted.Split('|')[0];
+
+                        if (!frontmatter.TryGetValue(fieldName, out var value))
+                        {
+                            AnsiConsole.MarkupLineInterpolated($"[red]Field {fieldName} not found[/]");
+                            return string.Empty;
+                        }
+
+                        if (value is List<object> list)
+                        {
+                            var currentX = startX;
+
+                            foreach (string item in list)
+                            {
+                                var path = FileUtils.GetFullPath(
+                                    Path.Join(listOfTextsLayer.Source, fieldName, $"{item}.json"),
+                                    directories);
+                                var serialized =
+                                    JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(path));
+
+                                var text = serialized![extracted.Split('|')[1]];
+                                var textSize = TextMeasurer.MeasureSize(text, options);
+                                var rect = new RectangleF(currentX, currentY, textSize.Width + listOfTextsLayer.Padding * 2, textSize.Height + listOfTextsLayer.Padding * 2);
+
+                                options.Origin = new PointF(currentX + listOfTextsLayer.Padding / 2, currentY);
+                                
+                                ctx.Fill(listOfTextsLayer.Background, rect);
+                                ctx.DrawText(options, text, listOfTextsLayer.Color);
+                                
+                                currentX += (int)textSize.Width + listOfTextsLayer.Gap * 2;
+                            }
+                        }
+
+                        return value?.ToString() ?? string.Empty;
+                    });
+
+                    var textSize = TextMeasurer.MeasureSize(content, options);
+                    totalHeight += textSize.Height + listOfTextsLayer.Padding;
+                    layerHeights.Add(textSize.Height + listOfTextsLayer.Padding);
                     break;
                 }
             }
+
+            currentY += layerHeights[ind] + config.Canvas.Padding;
         }
     }
 

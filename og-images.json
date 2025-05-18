@@ -27,6 +27,10 @@
     {
       "Name": "content",
       "Path": "src/data/content"
+    },
+    {
+      "Name": "data",
+      "Path": "src/data"
     }
   ],
   "Fonts": [
@@ -68,10 +72,14 @@
     },
     {
       "Type": "ListOfTexts",
-      "Content": "{tags}",
-      "Color": "255,255,255,255",
-      "Background": "0,0,0,0",
-      "Font": "jbmono"
+      "ItemFormat": "{tags|label}",
+      "Color": "200,211,245,255",
+      "Background": "34,36,54,128",
+      "Source": "#data#",
+      "Font": "jbmono",
+      "FontSize": 48,
+      "Padding": 10,
+      "Gap": 20
     }
   ]
 }
