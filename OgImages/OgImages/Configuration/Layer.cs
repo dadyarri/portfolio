@@ -7,4 +7,5 @@ public class Layer
     public string? Background { get; set; }
     public string? Content { get; set; }
     public string? Font { get; set; }
+    public int FontSize { get; set; }
 }

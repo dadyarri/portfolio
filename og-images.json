@@ -48,13 +48,15 @@
       "Type": "Text",
       "Content": "{title}",
       "Color": "255,255,255,255",
-      "Font": "rubik-bold"
+      "Font": "rubik-bold",
+      "FontSize": 64
     },
     {
       "Type": "Text",
       "Content": "{date}",
       "Color": "255,255,255,255",
-      "Font": "rubik"
+      "Font": "rubik",
+      "FontSize": 32
     },
     {
       "Type": "ListOfTexts",
