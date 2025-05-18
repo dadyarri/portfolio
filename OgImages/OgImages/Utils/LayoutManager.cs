@@ -35,7 +35,7 @@ public partial class LayoutManager
             var options = new RichTextOptions(font)
             {
                 WrappingLength = config.Canvas.MaxWidth,
-                WordBreaking = WordBreaking.BreakAll,
+                WordBreaking = WordBreaking.BreakWord,
                 Origin = new PointF(startX, 0)
             };
 

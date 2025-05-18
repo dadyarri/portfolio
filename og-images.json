@@ -3,7 +3,7 @@
     "Width": 1200,
     "Height": 630,
     "Padding": 20,
-    "MaxWidth": 800,
+    "MaxWidth": 900,
     "VerticalAlignment": "Center"
   },
   "Directories": [
@@ -45,19 +45,19 @@
   "Layers": [
     {
       "Type": "Overlay",
-      "Background": "0,0,0,128"
+      "Background": "34,34,54,200"
     },
     {
       "Type": "Text",
       "Content": "{title}",
-      "Color": "255,255,255,255",
+      "Color": "200,211,245,255",
       "Font": "rubik-bold",
       "FontSize": 64
     },
     {
       "Type": "Text",
       "Content": "{date|dd.MM.yyyy}",
-      "Color": "255,255,255,255",
+      "Color": "200,211,245,255",
       "Font": "jbmono",
       "FontSize": 48
     },
@@ -65,7 +65,7 @@
       "Type": "ListOfTexts",
       "Content": "{tags}",
       "Color": "255,255,255,255",
-      "Font": "jb-mono"
+      "Font": "jbmono"
     }
   ]
 }
