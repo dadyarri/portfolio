@@ -30,7 +30,7 @@ jobs:
 
       - name: Generate OG image for merged content
         run: |
-          npm run og "${{ github.event.pull_request.head.ref }}"
+          ./bin/OgImages "${{ github.event.pull_request.head.ref }}"
 
       - name: Commit and push new OG images
         run: |
