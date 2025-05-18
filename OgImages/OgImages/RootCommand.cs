@@ -59,6 +59,8 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
             directories.TryAdd(directory.Name, Path.GetFullPath(Path.Join(configurationDirectory, directory.Path)));
         }
 
+        AnsiConsole.MarkupLineInterpolated($"[gray]Found {directories.Count} directories[/]");
+
         var fontCollection = new FontCollection();
         Dictionary<string, Tuple<FontFamily, FontStyle>> fonts = [];
 
@@ -83,6 +85,8 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
             fonts.Add(fontConfig.Name, new Tuple<FontFamily, FontStyle>(family, style));
         }
 
+        AnsiConsole.MarkupLineInterpolated($"[gray]Found {fonts.Count} fonts[/]");
+
         List<string> contentItems = [];
 
         if (settings.All)
@@ -99,6 +103,8 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
         {
             contentItems = [settings.Content];
         }
+
+        AnsiConsole.MarkupLineInterpolated($"[gray]Running generation for [[{string.Join(", ", contentItems)}]][/]");
 
         foreach (var contentItem in contentItems)
         {
@@ -149,6 +155,8 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
 
             await og.SaveAsync(ms, new PngEncoder());
             ms.WriteTo(outputFileStream);
+
+            AnsiConsole.MarkupLine($"[green]Saved {ogImagePath}[/]");
         }
 
         return 0;
