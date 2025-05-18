@@ -1,7 +1,10 @@
 {
   "Canvas": {
     "Width": 1200,
-    "Height": 630
+    "Height": 630,
+    "Padding": 20,
+    "MaxWidth": 800,
+    "VerticalAlignment": "Center"
   },
   "Directories": [
     {
@@ -53,10 +56,10 @@
     },
     {
       "Type": "Text",
-      "Content": "{date}",
+      "Content": "{date|dd.MM.yyyy}",
       "Color": "255,255,255,255",
-      "Font": "rubik",
-      "FontSize": 32
+      "Font": "jbmono",
+      "FontSize": 48
     },
     {
       "Type": "ListOfTexts",

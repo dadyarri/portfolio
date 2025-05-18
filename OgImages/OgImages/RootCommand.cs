@@ -84,8 +84,6 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
             }
         }
 
-        var fontsManager = new FontManager(configuration.Fonts);
-
         var contentPath = configuration.Directories.FirstOrDefault(e => e.Name == "content");
 
         if (contentPath is null)
@@ -135,49 +133,18 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
         og.Mutate(ctx =>
         {
             ctx.DrawImage(cover, new Point(0, 0), 1f);
+            
+            var overlayConfig = configuration.Layers.FirstOrDefault(e => e.Type == LayerType.Overlay);
 
-            foreach (var layer in configuration.Layers)
+            if (overlayConfig is not null)
             {
-                switch (layer.Type)
-                {
-                    case LayerType.Overlay:
-                    {
-                        var rect = new Rectangle(0, 0, configuration.Canvas.Width, configuration.Canvas.Height);
-                        ctx.Fill(ParseRgba(layer.Background!), rect);
-                        break;
-                    }
-                    case LayerType.Text:
-                    {
-                        var font = fontsManager.GetFont(layer.Font!, layer.FontSize);
-                        var color = ParseRgba(layer.Color!);
-                        var textOptions = new RichTextOptions(font)
-                        {
-                            Origin = new PointF(50, 50),
-                        };
-
-                        var content = FrontmatterFieldRegex().Replace(layer.Content!, match =>
-                        {
-                            var fieldName = match.Groups[1].Value;
-
-                            if (!frontmatter.TryGetValue(fieldName, out var value))
-                            {
-                                AnsiConsole.MarkupLine("[red]Field not found[/]");
-                                return string.Empty;
-                            }
-
-                            return value!.ToString();
-                        });
-
-                        ctx.DrawText(textOptions, content, color);
-                        
-                        break;
-                    }
-                    case LayerType.ListOfTexts:
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                var rect = new Rectangle(0, 0, configuration.Canvas.Width, configuration.Canvas.Height);
+                ctx.Fill(ColorUtils.ParseRgba(overlayConfig.Background!), rect);
             }
+            
+            var lm = new LayoutManager(configuration.Layers);
+            lm.Render(ctx, configuration, frontmatter);
+
         });
 
         var ogImagePath = Path.Join(imagesPath.Path, settings.Content, "og-image.png");
@@ -195,13 +162,4 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
 
     [GeneratedRegex(@"^---\s*\n(.*?)\n---", RegexOptions.Singleline)]
     private static partial Regex FrontmatterRegex();
-
-    [GeneratedRegex("{(.*)}")]
-    private static partial Regex FrontmatterFieldRegex();
-    
-    Color ParseRgba(string input)
-    {
-        var parsed = input.Split(',').Select(byte.Parse).ToArray();
-        return Color.FromRgba(parsed[0], parsed[1], parsed[2], parsed[3]);   
-    }
 }
