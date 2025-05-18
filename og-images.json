@@ -61,7 +61,7 @@
     },
     {
       "Type": "Text",
-      "Format": "{date|dd.MM.yyyy}",
+      "Format": "{date|dd.MM.yyyy} :: dadyarri",
       "Color": "200,211,245,255",
       "Font": "jbmono",
       "FontSize": 48
