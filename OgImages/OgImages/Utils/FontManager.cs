@@ -24,6 +24,6 @@ public class FontManager
             throw new InvalidOperationException($"Font '{name}' not found in collection.");
         }
 
-        return family.CreateFont(size, family.GetAvailableStyles().First());
+        return family.CreateFont(size, name.EndsWith("bold") ? FontStyle.Bold : FontStyle.Regular);
     }
 }
