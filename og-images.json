@@ -74,7 +74,7 @@
       "Type": "ListOfTexts",
       "ItemFormat": "{tags|label}",
       "Color": "200,211,245,255",
-      "Background": "34,36,54,128",
+      "Background": "34,36,54,255",
       "Source": "#data#",
       "Font": "jbmono",
       "FontSize": 48,
