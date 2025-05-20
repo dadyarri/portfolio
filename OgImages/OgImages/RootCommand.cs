@@ -62,7 +62,7 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
         AnsiConsole.MarkupLineInterpolated($"[gray]Found {directories.Count} directories[/]");
 
         var fontCollection = new FontCollection();
-        Dictionary<string, Tuple<FontFamily, FontStyle>> fonts = [];
+        Dictionary<string, ValueTuple<FontFamily, FontStyle>> fonts = [];
 
         foreach (var fontConfig in configuration.Fonts)
         {
@@ -82,7 +82,7 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
             };
 
             var family = fontCollection.Add(path);
-            fonts.Add(fontConfig.Name, new Tuple<FontFamily, FontStyle>(family, style));
+            fonts.Add(fontConfig.Name, (family, style));
         }
 
         AnsiConsole.MarkupLineInterpolated($"[gray]Found {fonts.Count} fonts[/]");
