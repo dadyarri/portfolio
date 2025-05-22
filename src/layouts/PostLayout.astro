@@ -9,6 +9,7 @@ import "@styles/main.scss";
 import { getTagLabel } from "@utils/content";
 import { splitArrayByElement, stripHtml } from "@utils/data";
 import type { MarkdownHeading } from "astro";
+import { Icon } from "astro-icon/components";
 import type { CollectionEntry } from "astro:content";
 
 type Props = {
@@ -118,6 +119,10 @@ const ld = {
                     )
                 }
                 <slot />
+                <a href=`/${post.collection}` class="pagination-button">
+                    <Icon name="carbon:chevron-left" width={20} />
+                    <span>Назад</span>
+                </a>
                 {!post.data.draft && <Comments />}
             </div>
             {
