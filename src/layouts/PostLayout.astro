@@ -68,7 +68,10 @@ const ld = {
 
         <meta property="og:type" content="article" />
 
-        <meta property="og:image" content=`/content/${post.collection}/${post.id}/og-image.png`/>
+        <meta
+            property="og:image"
+            content=`/content/${post.collection}/${post.id}/og-image.png`
+        />
 
         <meta
             property="article:published_time"
@@ -79,7 +82,10 @@ const ld = {
 
         {
             post.data.tags.map(async (tag) => (
-                <meta property="article:tag" content={await getTagLabel(tag.id)} />
+                <meta
+                    property="article:tag"
+                    content={await getTagLabel(tag.id)}
+                />
             ))
         }
 
@@ -88,19 +94,38 @@ const ld = {
 
         <meta property="og:image" content={imageUrl} />
 
-        <script type="application/ld+json" set:html={JSON.stringify(ld)} is:inline />
-        <script src="/js/code.js" is:inline/>
-        <script src="/js/images.js" is:inline/>
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify(ld)}
+            is:inline
+        />
+        <script src="/js/code.js" is:inline></script>
+        <script src="/js/images.js" is:inline></script>
     </head>
     <body>
-        <div class="content">
-            <Header />
-            <PageTitle title={post.data.title} />
-            <PostInfo post={post} />
-            {post.data.series && <PostSeries series={post.data.series.id} currentPost={post.id}/>}
-            {headings.length > 0 && <TableOfContents headings={headings}/>}
-            <slot />
-            {!post.data.draft && <Comments/>}
+        <Header />
+        <div class="post-layout">
+            <div class="content">
+                <PageTitle title={post.data.title} />
+                <PostInfo post={post} />
+                {
+                    post.data.series && (
+                        <PostSeries
+                            series={post.data.series.id}
+                            currentPost={post.id}
+                        />
+                    )
+                }
+                <slot />
+                {!post.data.draft && <Comments />}
+            </div>
+            {
+                headings.length > 0 && (
+                    <aside>
+                        <TableOfContents headings={headings} />
+                    </aside>
+                )
+            }
         </div>
     </body>
 </html>

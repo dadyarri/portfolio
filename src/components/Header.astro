@@ -24,7 +24,13 @@ const categroies = await getCollection("categories");
         </div>
     </div>
     <nav>
-        {categroies.sort((a, b) => a.data.order - b.data.order).map(category => <a href={`/${category.id}`}>{category.data.label}</a>)}
+        {
+            categroies
+                .sort((a, b) => a.data.order - b.data.order)
+                .map((category) => (
+                    <a href={`/${category.id}`}>{category.data.label}</a>
+                ))
+        }
     </nav>
 </header>
 
@@ -35,6 +41,9 @@ const categroies = await getCollection("categories");
         flex-wrap: wrap;
         justify-content: space-between;
         padding: 1em 0;
+        max-width: 1400px;
+        margin: 30px auto;
+        padding: 0 24px;
 
         & .main {
             display: flex;
