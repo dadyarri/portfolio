@@ -1,5 +1,6 @@
 {
   "extends": "astro/tsconfigs/strict",
+  "target": "es6",
   "include": [
     ".astro/types.d.ts",
     "**/*"
