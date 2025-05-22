@@ -25,11 +25,15 @@ const { posts }: Props = Astro.props;
         padding: 12px 0;
         margin-bottom: 48px;
 
-        @media (min-width: 1024px) {
+        @media (min-width: 720px) {
             grid-template-columns: repeat(2, 1fr);
             grid-template-rows: masonry;
             gap: 24px 32px;
             align-items: start;
+        }
+
+        @media (min-width: 1200px) {
+            grid-template-columns: repeat(3, 1fr);
         }
     }
 </style>
