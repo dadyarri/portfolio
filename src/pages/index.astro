@@ -2,9 +2,18 @@
 import Layout from "@layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
 import PostCards from "@components/PostCards.astro";
-import { getPosts } from "@utils/content";
+import { getMinis, getPosts } from "@utils/content";
+import type { CollectionEntry } from "astro:content";
 
-const allPosts = (await getPosts()).slice(0, 4);
+const allPosts: (CollectionEntry<"posts"> | CollectionEntry<"minis">)[] = [
+    ...(await getPosts()),
+    ...(await getMinis())
+].sort((a, b) => {
+  const dateA = new Date(a.data.date!).valueOf();
+  const dateB = new Date(b.data.date!).valueOf();
+
+  return dateB - dateA;
+}).slice(0, 7);
 ---
 
 <Layout title="Обо мне">
@@ -21,7 +30,9 @@ const allPosts = (await getPosts()).slice(0, 4);
         <h2>Последние посты</h2>
         <div>
             <a href="/posts">Все</a>
-            <a href="/rss.xml" target="_blank"><Icon name="carbon:rss" /> RSS feed</a>
+            <a href="/rss.xml" target="_blank"
+                ><Icon name="carbon:rss" /> RSS feed</a
+            >
         </div>
     </div>
 
