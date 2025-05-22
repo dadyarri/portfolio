@@ -12,7 +12,7 @@ $image-caption-width: 80%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0 map.get($spacing, 'md');
+    padding: 0;
     margin: 0 auto;
 }
 
@@ -23,9 +23,11 @@ $image-caption-width: 80%;
 
 // Image styles
 div.image {
+    box-sizing: border-box;
     @include image-container;
 
     img {
+        box-sizing: border-box;
         max-width: map.get($container-widths, 'lg');
         width: 100%;
         height: auto;
