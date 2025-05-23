@@ -19,9 +19,14 @@ jobs:
         with:
           dotnet-version: '9.0.x'
 
+      - name: Build OgImages
+        run: |
+          dotnet publish OgImages/OgImages/OgImages.csproj -r linux-x64 -c Release
+
       - name: Generate OG image for merged content
         run: |
-          ./bin/OgImages --all
+          chmod +x ./OgImages/OgImages/bin/Release/net9.0/linux-x64/OgImages
+          ./OgImages/OgImages/bin/Release/net9.0/linux-x64/OgImages --all
 
       - name: Commit and push new OG images
         run: |
