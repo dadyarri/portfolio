@@ -1,0 +1,79 @@
+---
+import { Icon } from "astro-icon/components";
+import { socials } from "@data/socials.json";
+import { getCollection } from "astro:content";
+
+const categroies = await getCollection("categories");
+---
+
+<header>
+    <div class="main">
+        <a href="/">dadyarri</a>
+        <div class="socials">
+            {
+                socials.map((social) => (
+                    <a
+                        href={social.href}
+                        aria-label={social.label}
+                        class="social"
+                    >
+                        <Icon name={social.icon} width={20} />
+                    </a>
+                ))
+            }
+        </div>
+    </div>
+    <nav>
+        {
+            categroies
+                .sort((a, b) => a.data.order - b.data.order)
+                .map((category) => (
+                    <a href={`/${category.id}`}>{category.data.label}</a>
+                ))
+        }
+    </nav>
+</header>
+
+<style lang="scss">
+    header {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 1em 0;
+        max-width: 1400px;
+        margin: 30px auto;
+        padding: 0 24px;
+
+        & .main {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+    }
+
+    .socials a {
+        border-bottom: unset;
+    }
+
+    nav a {
+        margin: 5px;
+
+        &:hover {
+            background-color: var(--bg-2);
+            color: var(--text-1);
+        }
+    }
+
+    @media (max-width: 650px) {
+        header {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>

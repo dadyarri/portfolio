@@ -1,0 +1,49 @@
+@use "sass:map";
+@use "_variables" as *;
+
+// Image variables
+$image-max-width: 1000px;
+$image-caption-width: 80%;
+
+// Image mixins
+@mixin image-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0 auto;
+}
+
+@mixin image-caption {
+    text-align: center;
+    font-family: var(--header-font);
+}
+
+// Image styles
+div.image {
+    box-sizing: border-box;
+    @include image-container;
+
+    img {
+        box-sizing: border-box;
+        max-width: 100%;
+        max-height: 600px;
+        width: auto;
+        height: auto;
+        padding: 0;
+        margin: 0 auto;
+        display: block;
+    }
+
+    hr {
+        width: 80%;
+        margin: map.get($spacing, 'md') auto;
+    }
+
+    p {
+        @include image-caption;
+        margin: map.get($spacing, 'sm') auto;
+    }
+}

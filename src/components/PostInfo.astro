@@ -1,0 +1,56 @@
+---
+import { Icon } from "astro-icon/components";
+import { formatDate } from "@utils/date";
+import { getWordDeclension } from "@utils/declension";
+import type { CollectionEntry, RenderedContent } from "astro:content";
+import { getSeriesLabel, getTagLabel } from "@utils/content";
+
+type Props = {
+    post: CollectionEntry<"posts"> | CollectionEntry<"minis">;
+};
+
+type ModifiedFrontmatter = {
+    readingTime: number;
+};
+
+const { post } = Astro.props;
+
+const rendered = post.rendered as RenderedContent;
+const readingTime = (rendered.metadata?.frontmatter as ModifiedFrontmatter)
+    .readingTime;
+---
+
+<div class="card-info">
+    <div class="tags">
+        <div class="tag tag-icon">
+            <Icon name="carbon:calendar" />
+        </div>
+        <date>{formatDate(post.data.date)}</date>
+    </div>
+    <div class="tags">
+        <div class="tag tag-icon">
+            <Icon name="carbon:time" />
+        </div>
+        <span
+            >{
+                getWordDeclension(readingTime, ["минута", "минуты", "минут"])
+            }</span
+        >
+    </div>
+    <div class="tags">
+        <div class="tag tag-icon">
+            <Icon name="carbon:tag-group" />
+        </div>
+        {
+            post.data.tags.map(async (tag) => (
+                <a class="tag" href=`/${post.collection}/tags/${tag.id}`>{await getTagLabel(tag.id)}</a>
+            ))
+        }
+    </div>
+    {post.data.series && <div class="tags">
+        <div class="tag tag-icon">
+            <Icon name="carbon:collapse-categories"/>
+        </div>
+        <a class="tag" href=`/${post.collection}/series/${post.data.series.id}`>{await getSeriesLabel(post.data.series.id)}</a>
+    </div>}
+</div>

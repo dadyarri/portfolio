@@ -1,0 +1,80 @@
+---
+interface Props {
+  name: string;
+  title: string;
+  photo?: string;
+  summary?: string;
+}
+
+const { name, title, photo, summary } = Astro.props;
+---
+
+<header class="cv-header">
+  <div class="cv-header-content">
+    <div class="cv-header-info">
+      <h1>{name}</h1>
+      <h2>{title}</h2>
+      {summary && <p>{summary}</p>}
+    </div>
+    {photo && (
+      <div class="cv-header-photo">
+        <img 
+          src={photo} 
+          alt={`${name}'s photo`} 
+        />
+      </div>
+    )}
+  </div>
+</header>
+
+<style>
+  .cv-header {
+    margin-bottom: 2rem;
+  }
+
+  .cv-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .cv-header-info {
+    flex: 1;
+  }
+
+  .cv-header-info h1 {
+    font-size: 2.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  .cv-header-info h2 {
+    font-size: 1.5rem;
+    color: var(--text-1);
+    margin-bottom: 1rem;
+  }
+
+  .cv-header-info p {
+    color: var(--text-1);
+    margin-top: 1rem;
+  }
+
+  .cv-header-photo {
+    flex-shrink: 0;
+  }
+
+  .cv-header-photo img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    .cv-header-content {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style> 

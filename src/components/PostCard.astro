@@ -1,0 +1,35 @@
+---
+import { Icon } from "astro-icon/components";
+import type { CollectionEntry } from "astro:content";
+import { splitArrayByElement } from "@utils/data";
+import PostInfo from "./PostInfo.astro";
+
+type Props = {
+    post: CollectionEntry<"posts"> | CollectionEntry<"minis">;
+};
+
+const { post } = Astro.props;
+const path = `/${post.collection}/${post.id}`;
+
+const preview = splitArrayByElement(
+    post.rendered?.html.split("\n")!,
+    "<!--more-->",
+).preview.join("");
+---
+
+<div class="card">
+    <div class="card-content">
+        <div class="card-preview">
+            <img src=`/content/${post.collection}/${post.id}/cover.webp`/>
+        </div>
+        <div class="card-link">
+            <a href={path}>{post.data.title}</a>
+        </div>
+        <PostInfo post={post}/>
+        <div class="card-description" set:html={preview} />
+        <a class="card-button" href={path}>
+            <Icon name="fa6-solid:chevron-right" />
+        </a>
+    </div>
+    
+</div>

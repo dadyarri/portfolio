@@ -1,0 +1,14 @@
+{
+    "socials": [
+        {
+            "icon": "fa6-brands:telegram",
+            "label": "telegram",
+            "href": "https://t.me/dadyarri"
+        },
+        {
+            "icon": "fa6-brands:github",
+            "label": "github",
+            "href": "https://github.com/dadyarri"
+        }
+    ]
+}

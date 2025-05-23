@@ -1,0 +1,22 @@
+---
+import type { GetStaticPaths } from "astro";
+import { render, type CollectionEntry } from "astro:content";
+import { getMinis } from "@utils/content";
+import PostLayout from "@layouts/PostLayout.astro";
+
+export const getStaticPaths = ( async () => {
+    const posts = await getMinis()
+    return posts.map((post) => ({
+		params: { id: post.id },
+		props: post
+	}))
+}) satisfies GetStaticPaths;
+
+type Props = CollectionEntry<'posts'>
+const post = Astro.props
+const { Content, headings } = await render(post)
+---
+
+<PostLayout post={post}, headings={headings}>
+    <Content/>
+</PostLayout>

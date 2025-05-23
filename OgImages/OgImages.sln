@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OgImages", "OgImages\OgImages.csproj", "{1CEF8154-F215-45A0-B55E-BABCBB016262}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stuff", "Stuff", "{5812290F-AF04-4F03-84F9-D3FD5A544477}"
+	ProjectSection(SolutionItems) = preProject
+		..\og-images.json = ..\og-images.json
+		build.ps1 = build.ps1
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1CEF8154-F215-45A0-B55E-BABCBB016262}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CEF8154-F215-45A0-B55E-BABCBB016262}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CEF8154-F215-45A0-B55E-BABCBB016262}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CEF8154-F215-45A0-B55E-BABCBB016262}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,18 @@
+---
+import { Icon } from 'astro-icon/components';
+
+type Props = {
+    page: number;
+    currentPage: number;
+    category: string;
+    icon?: string,
+    label?: string
+};
+
+const { page, category, currentPage, icon, label } = Astro.props;
+---
+
+<a
+    href=`/${category}/${page}`
+    class:list={["pagination-button", { active: page === currentPage }]}>{icon && label ? <><Icon name={icon} width={20} /><span>{label}</span></> : page}
+</a>

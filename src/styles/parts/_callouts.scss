@@ -1,0 +1,64 @@
+@use "sass:color";
+@use "sass:map";
+@use "_variables" as *;
+
+// Callout base styles
+.callout {
+    padding: map.get($spacing, 'md');
+    margin: map.get($spacing, 'lg') 0;
+    border-radius: map.get($border-radius, 'md');
+    border-left: 4px solid;
+    background-color: var(--bg-1);
+    
+    &-title {
+        font-weight: 600;
+        margin-bottom: map.get($spacing, 'xs');
+        display: flex;
+        align-items: center;
+        gap: map.get($spacing, 'xs');
+    }
+
+    &-content {
+        p {
+            margin: 0;
+        }
+    }
+}
+
+// Callout variants
+.callout {
+    &-info {
+        border-color: var(--text-1);
+        .callout-title {
+            color: var(--text-1);
+        }
+    }
+
+    &-warning {
+        border-color: #ff9e64;
+        .callout-title {
+            color: #ff9e64;
+        }
+    }
+
+    &-danger {
+        border-color: #ff757f;
+        .callout-title {
+            color: #ff757f;
+        }
+    }
+
+    &-success {
+        border-color: #c3e88d;
+        .callout-title {
+            color: #c3e88d;
+        }
+    }
+
+    &-tip {
+        border-color: #82aaff;
+        .callout-title {
+            color: #82aaff;
+        }
+    }
+} 

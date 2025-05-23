@@ -1,0 +1,126 @@
+@use "sass:map";
+@use "parts/_mixins" as *;
+@use "parts/_variables" as *;
+@use "parts/_fonts";
+@use "parts/_links";
+@use "parts/_tags";
+@use "parts/_headings";
+@use "parts/_code";
+@use "parts/_cards";
+@use "parts/_hr";
+@use "parts/_images";
+@use "parts/_callouts";
+@use "parts/_pagination";
+@use "themes/dark";
+
+// Variables
+$font-sizes: (
+    'small': 16.5px,
+    'medium': 17px,
+    'large': 18px
+);
+
+// Root styles
+:root {
+    // Fonts
+    --text-font: "Jetbrains Mono";
+    --header-font: "Rubik";
+    --code-font: "Jetbrains Mono";
+
+    // Layout
+    --border-radius: 4px;
+
+    // Scrollbar
+    &::-webkit-scrollbar {
+        width: 13px;
+
+        &-track {
+            background-color: var(--bg-1);
+        }
+
+        &-thumb {
+            background-color: var(--primary-color);
+            margin: 20px;
+        }
+    }
+}
+
+// Base styles
+html {
+    background-color: var(--bg-0);
+    color: var(--text-0);
+    font-family: var(--text-font);
+    line-height: 1.6em;
+
+    @include respond-to('small') {
+        font-size: map.get($font-sizes, 'small');
+    }
+
+    @include respond-to('medium') {
+        font-size: map.get($font-sizes, 'medium');
+    }
+
+    @include respond-to('large') {
+        font-size: map.get($font-sizes, 'large');
+    }
+}
+
+// Selection styles
+::selection {
+    background-color: var(--bg-selection);
+    color: var(--text-selection);
+}
+
+::-moz-selection {
+    background-color: var(--bg-selection);
+    color: var(--text-selection);
+}
+
+// Layout
+.content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+    word-wrap: break-word;
+}
+
+.post-layout {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    gap: 1.5rem;
+
+    @include respond-to('large') {
+        flex-direction: row;
+        max-width: 1200px;
+        gap: 2rem;
+    }
+
+    .content {
+        flex: 1 1 auto;
+        max-width: 100%;
+        word-wrap: break-word;
+        padding: 0 0.5rem;
+
+        @include respond-to('large') {
+            max-width: 900px;
+        }
+    }
+
+    aside {
+        display: none;
+
+        @include respond-to('large') {
+            display: block;
+            flex: 0 0 280px;
+            position: sticky;
+            top: 1.5rem;
+            align-self: flex-start;
+            max-height: calc(100vh - 3rem);
+            overflow-y: auto;
+            padding-left: 1rem;
+        }
+    }
+}

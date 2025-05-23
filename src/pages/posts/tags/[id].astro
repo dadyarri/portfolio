@@ -1,0 +1,25 @@
+---
+import type { GetStaticPaths } from "astro";
+import { type CollectionEntry } from "astro:content";
+import { getPostsByTag, getTags } from "@utils/content";
+import Layout from "@layouts/Layout.astro";
+import PostCards from "@components/PostCards.astro";
+
+export const getStaticPaths = ( async () => {
+    const tags = await getTags()
+    return tags.map((tag) => ({
+		params: { id: tag.id },
+		props: tag
+	}))
+}) satisfies GetStaticPaths;
+
+type Props = CollectionEntry<'tags'>
+const tag = Astro.props
+
+const posts = await getPostsByTag(tag.id)
+
+---
+
+<Layout title={`Посты с тегом ${tag.data.label}`}>
+    <PostCards posts={posts}/>
+</Layout>

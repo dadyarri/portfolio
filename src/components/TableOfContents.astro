@@ -1,0 +1,66 @@
+---
+import TableOfContentsHeading from "@components/TableOfContentsHeading.astro";
+import type { MarkdownHeading } from "astro";
+
+type Props = {
+    headings: MarkdownHeading[];
+};
+
+export type TableOfContentItem = {
+    depth: number;
+    text: string;
+    slug: string;
+    subheadings: TableOfContentItem[];
+};
+
+const { headings } = Astro.props;
+
+const toc = buildToc(headings);
+
+function buildToc(headings: MarkdownHeading[]): TableOfContentItem[] {
+    const result: TableOfContentItem[] = [];
+    const stack: TableOfContentItem[] = [];
+
+    for (const heading of headings) {
+        const item: TableOfContentItem = {
+            depth: heading.depth,
+            text: heading.text,
+            slug: heading.slug,
+            subheadings: [],
+        };
+
+        while (
+            stack.length > 0 &&
+            stack[stack.length - 1].depth >= heading.depth
+        ) {
+            stack.pop();
+        }
+
+        if (stack.length === 0) {
+            result.push(item);
+        } else {
+            stack[stack.length - 1].subheadings.push(item);
+        }
+
+        stack.push(item);
+    }
+
+    return result;
+}
+---
+
+<nav class="card">
+    <div>
+        <h1 class="card-title">Содержание</h1>
+        <ul>
+            {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
+        </ul>
+    </div>
+</nav>
+
+<style lang="scss">
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+</style>

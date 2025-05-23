@@ -1,0 +1,45 @@
+@use "sass:map";
+@use "_variables" as *;
+
+// Tag variables
+$tag-padding: 5px;
+$tag-margin-right: 10px;
+$tag-margin-bottom: 5px;
+$tag-height: 24px;
+$tag-icon-size: 24px;
+
+// Tag mixins
+@mixin tag-base {
+    background-color: var(--bg-2);
+    border-radius: map.get($border-radius, 'md');
+    padding: map.get($spacing, 'xs');
+    margin-right: map.get($spacing, 'sm');
+    margin-bottom: map.get($spacing, 'xs');
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 24px;
+    border-bottom: unset;
+    white-space: normal;
+    word-break: break-word;
+}
+
+// Tag styles
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.tag {
+    @include tag-base;
+
+    &.tag-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    svg {
+        fill: var(--text-1);
+    }
+}

@@ -1,0 +1,25 @@
+---
+import PostCards from "@components/PostCards.astro";
+import Layout from "@layouts/Layout.astro";
+import { getPosts } from "@utils/content";
+import type { GetStaticPaths } from "astro";
+import { config } from "@data/config.json";
+import Pagination from "@components/Pagination.astro";
+
+export const getStaticPaths = (async ({ paginate }) => {
+    const posts = await getPosts();
+    return paginate(posts, { pageSize: config.pageSize });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<Layout title="Посты">
+    <PostCards posts={page.data}/>
+
+    <Pagination
+        currentPage={page.currentPage}
+        pagesAmount={page.lastPage}
+        category="posts"
+    />
+</Layout>

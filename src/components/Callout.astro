@@ -1,0 +1,30 @@
+---
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+    type?: 'info' | 'warning' | 'danger' | 'success' | 'tip';
+    title?: string;
+}
+
+const { type = 'info', title } = Astro.props;
+
+const iconMap = {
+    info: 'information',
+    warning: 'warning',
+    danger: 'error',
+    success: 'checkmark',
+    tip: 'idea'
+} as const;
+---
+
+<div class={`callout callout-${type}`}>
+    {title && (
+        <div class="callout-title">
+            <Icon name={`carbon:${iconMap[type]}`}/>
+            {title}
+        </div>
+    )}
+    <div class="callout-content">
+        <slot />
+    </div>
+</div>

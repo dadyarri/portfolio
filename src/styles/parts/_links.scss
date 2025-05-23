@@ -1,0 +1,22 @@
+@use "sass:map";
+@use "_variables" as *;
+
+// Link variables
+$link-border-width: 3px;
+$link-transition-duration: 0.1s;
+$link-transition-timing: ease;
+
+// Link mixins
+@mixin link-base {
+    border-bottom: 3px solid var(--border-color);
+    color: inherit;
+    text-decoration: none;
+    position: relative;
+    z-index: 1;
+    transition: all map.get($transition, 'fast');
+}
+
+// Link styles
+a {
+    @include link-base;
+}

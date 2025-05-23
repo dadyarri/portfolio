@@ -1,0 +1,27 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection, type CollectionEntry } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import {getPostsBySeries} from "@utils/content";
+import PostCards from "@components/PostCards.astro";
+
+export const getStaticPaths = ( async () => {
+    const series = await getCollection('series')
+    return series.map((s) => ({
+		params: { id: s.id },
+        props: s
+	}))
+}) satisfies GetStaticPaths;
+
+type Props = CollectionEntry<'series'>
+const series = Astro.props
+const seriesLabel = series.data.label;
+
+const posts = await getPostsBySeries(series.id, 'desc');
+---
+
+<Layout title=`Посты в цикле ${seriesLabel}`>
+
+    <PostCards posts={posts}/>
+
+</Layout>

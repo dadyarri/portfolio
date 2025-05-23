@@ -1,0 +1,37 @@
+@use "sass:map";
+@use "sass:string";
+
+$breakpoints: (
+    'small': 640px,
+    'medium': 720px,
+    'big': 960px,
+    'large': 1200px
+);
+
+// Mixins
+@mixin respond-to($breakpoint) {
+    @if map.has-key($breakpoints, $breakpoint) {
+        @media (min-width: map.get($breakpoints, $breakpoint)) {
+            @content;
+        }
+    }
+}
+
+@function str-replace($string, $search, $replace: '') {
+    $index: string.index($string, $search);
+    @if $index {
+        @return string.slice($string, 1, $index - 1) + $replace + str-replace(string.slice($string, $index + string.length($search)), $search, $replace);
+    }
+    @return $string;
+}
+
+@mixin font-face($family, $weight, $style: normal) {
+    @font-face {
+        font-family: $family;
+        font-style: $style;
+        font-weight: $weight;
+        $font-name: str-replace(string.to-lower-case($family), ' ', '-');
+        src: url("/fonts/#{$font-name}#{if($weight == 700, '-bold', '')}.ttf"), local("ttf");
+        font-display: swap;
+    }
+}
