@@ -10,75 +10,99 @@ const { contacts } = Astro.props;
 
 const getIcon = (type: ContactType) => {
   switch (type) {
-    case 'email':
-      return 'carbon:email';
-    case 'phone':
-      return 'carbon:phone';
-    case 'location':
-      return 'carbon:location';
-    case 'website':
-      return 'carbon:blog';
-    case 'github':
-      return 'carbon:logo-github';
+    case "email":
+      return "carbon:email";
+    case "phone":
+      return "carbon:phone";
+    case "location":
+      return "carbon:location";
+    case "website":
+      return "carbon:blog";
+    case "github":
+      return "carbon:logo-github";
     default:
-      return '';
+      return "";
   }
 };
 ---
 
 <div class="cv-contact">
-  {contacts.map((contact) => (
-    <div class="cv-contact-item">
-      <Icon name={getIcon(contact.type)}/>
-      <div class="cv-contact-info">
-        <span class="cv-contact-label">{contact.label || contact.type}</span>
-        {contact.type !== 'location' && <a 
-          href={contact.type === 'email' ? `mailto:${contact.value}` : 
-                contact.type === 'phone' ? `tel:${contact.value}` : 
-                contact.value}
-          class="cv-contact-value"
-          target={contact.type === 'website' || contact.type === 'github' ? '_blank' : undefined}
-          rel={contact.type === 'website' || contact.type === 'github' ? 'noopener noreferrer' : undefined}
-        >
-          {contact.value}
-        </a> || <span class="cv-contact-value">{contact.value}</span>}
+  {
+    contacts.map((contact) => (
+      <div class="cv-contact-item">
+        <Icon name={getIcon(contact.type)} />
+        <div class="cv-contact-info">
+          <span class="cv-contact-label">{contact.label || contact.type}</span>
+          {(contact.type !== "location" && (
+            <a
+              href={
+                contact.type === "email"
+                  ? `mailto:${contact.value}`
+                  : contact.type === "phone"
+                    ? `tel:${contact.value}`
+                    : contact.value
+              }
+              class="cv-contact-value"
+              target={
+                contact.type === "website" || contact.type === "github"
+                  ? "_blank"
+                  : undefined
+              }
+              rel={
+                contact.type === "website" || contact.type === "github"
+                  ? "noopener noreferrer"
+                  : undefined
+              }
+            >
+              {contact.value}
+            </a>
+          )) || <span class="cv-contact-value">{contact.value}</span>}
+        </div>
       </div>
-    </div>
-  ))}
+    ))
+  }
 </div>
 
-<style>
+<style lang="scss">
   .cv-contact {
     display: grid;
     gap: 1rem;
-  }
 
-  .cv-contact-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
+    &-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
 
-  .cv-contact-icon {
-    font-size: 1.5rem;
-  }
+    &-icon {
+      font-size: 1.5rem;
+    }
 
-  .cv-contact-info {
-    display: flex;
-    flex-direction: column;
-  }
+    &-info {
+      display: flex;
+      flex-direction: column;
+    }
 
-  .cv-contact-label {
-    font-size: 0.875rem;
-    color: var(--primary-color);
-  }
+    &-label {
+      font-size: 0.875rem;
+      color: var(--primary-color);
 
-  .cv-contact-value {
-    color: var(--text-0);
-    text-decoration: none;
-  }
+      @media print {
+        color: black !important;
+      }
+    }
 
-  .cv-contact-value:hover {
-    text-decoration: underline;
+    &-value {
+      color: var(--text-0);
+      text-decoration: none;
+
+      @media print {
+        color: black !important;
+      }
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
-</style> 
+</style>

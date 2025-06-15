@@ -42,4 +42,8 @@ $tag-icon-size: 24px;
     svg {
         fill: var(--text-1);
     }
+
+    @media print {
+        background: none !important;
+    }
 }

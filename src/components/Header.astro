@@ -55,6 +55,10 @@ const categroies = await getCollection("categories");
             font-size: 1.5rem;
             margin-bottom: 5px;
         }
+
+        @media print {
+            display: none !important;
+        }
     }
 
     .socials a {

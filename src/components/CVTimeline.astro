@@ -9,61 +9,92 @@ const { items } = Astro.props;
 ---
 
 <div class="cv-timeline">
-  {items.map((item) => (
-
-    <div class="cv-timeline-item">
-      <div class="cv-timeline-date">{item.date}</div>
-      <div class="cv-timeline-content">
-        <h3>{item.title}</h3>
-        {item.subtitle && <h4>{item.subtitle}</h4>}
-        {item.description && (
-          <ol>
-            {item.description.map((point, index) => {
-              let lineEnd = (index === item.description!.length - 1) ? '.' : ';';
-              return <li>{point}{lineEnd}</li>
-            })}
-          </ol>
-        )}
+  {
+    items.map((item) => (
+      <div class="cv-timeline-item">
+        <div class="cv-timeline-content">
+          <h3>{item.title}</h3>
+          {item.subtitle && (
+            <div class="cv-timeline-subtitle">
+              <h4>{item.subtitle}</h4>
+              <div class="cv-timeline-date">{item.date}</div>
+            </div>
+          )}
+          {item.description && (
+            <ol>
+              {item.description.map((point, index) => {
+                let lineEnd =
+                  index === item.description!.length - 1 ? "." : ";";
+                return (
+                  <li>
+                    {`${point}${lineEnd}`}
+                  </li>
+                );
+              })}
+            </ol>
+          )}
+        </div>
       </div>
-    </div>
-  ))}
+    ))
+  }
 </div>
 
-<style>
+<style lang="scss">
   .cv-timeline {
     position: relative;
-  }
 
-  .cv-timeline::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--theme-color);
-  }
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--theme-color);
+    }
 
-  .cv-timeline-item {
-    position: relative;
-    padding-left: 2rem;
-    margin-bottom: 2rem;
-  }
+    &-subtitle {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 0.5rem 0;
 
-  .cv-timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -0.5rem;
-    top: 0.5rem;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    background: var(--theme-color);
-  }
+      h4 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: var(--text-1);
 
-  .cv-timeline-date {
-    font-weight: 500;
-    color: var(--theme-color);
-    margin-bottom: 0.5rem;
+        @media print {
+          color: black;
+        }
+      }
+
+      .cv-timeline-date {
+        color: var(--text-1);
+        font-size: 0.9rem;
+        white-space: nowrap;
+
+        @media print {
+          color: black;
+        }
+      }
+    }
+
+    &-item {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 2rem;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: -0.5rem;
+        top: 0.5rem;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        background: var(--theme-color);
+      }
+    }
   }
-</style> 
+</style>

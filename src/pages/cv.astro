@@ -14,12 +14,7 @@ const typedContactInfo = contactInfo as CVData['contactInfo'];
 
 <Layout title="Резюме">
   <div>
-    <CVHeader
-      name={personalInfo.name}
-      title={personalInfo.title}
-      photo={personalInfo.photo}
-      summary={personalInfo.summary}
-    />
+    <CVHeader data={personalInfo} />
 
     <div>
       <div>
@@ -31,7 +26,7 @@ const typedContactInfo = contactInfo as CVData['contactInfo'];
           <CVTimeline items={education} />
         </CVSection>
 
-        <CVSection title="Навыки">
+        <CVSection title="Навыки" pageBreakBefore>
           <CVSkills categories={skills} />
         </CVSection>
       </div>

@@ -15,6 +15,10 @@ const { title } = Astro.props;
         font-weight: 700;
         margin: 4rem 0 1rem 0;
 
+        @media print {
+            display: none;
+        }
+
         & span {
             color: var(--primary-color);
             font-size: 1.6em;

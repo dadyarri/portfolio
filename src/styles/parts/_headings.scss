@@ -3,6 +3,7 @@
 
 // Heading variables
 $heading-base-size: 1rem;
+$heading-base-size-print: 0.9rem;
 $heading-scale-factor: 0.1;
 
 // Heading mixins
@@ -10,11 +11,19 @@ $heading-scale-factor: 0.1;
     font-family: var(--header-font);
     line-height: 100%;
     margin: map.get($spacing, 'md') 0 map.get($spacing, 'sm');
+
+    @media print {
+        margin: 10px 0;
+    }
 }
 
 // Generate heading sizes using a function
 @function calculate-heading-size($level) {
-    @return 1rem + (0.1 * (7 - $level));
+    @return $heading-base-size + ($heading-scale-factor * (7 - $level));
+}
+
+@function calculate-heading-size-print($level) {
+    @return $heading-base-size-print + ($heading-scale-factor * (7 - $level));
 }
 
 // Heading styles
@@ -22,5 +31,9 @@ $heading-scale-factor: 0.1;
     h#{$level} {
         font-size: calculate-heading-size($level);
         @include heading-base;
+
+        @media print {
+            font-size: calculate-heading-size-print($level);
+        }
     }
 }

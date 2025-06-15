@@ -63,6 +63,13 @@ html {
     @include respond-to('large') {
         font-size: map.get($font-sizes, 'large');
     }
+
+    @media print {
+        color: black;
+        background-color: white;
+        font-size: 0.9rem;
+        margin: 10px;
+    }
 }
 
 // Selection styles
@@ -74,6 +81,25 @@ html {
 ::-moz-selection {
     background-color: var(--bg-selection);
     color: var(--text-selection);
+}
+
+@media print {
+    @page {
+
+        @top-left {
+            content: "";
+        }
+
+        @top-center {
+            content: "";
+        }
+
+        @top-right {
+            content: "";
+        }
+
+        margin: 0;
+    }
 }
 
 // Layout

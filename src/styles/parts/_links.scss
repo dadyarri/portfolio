@@ -19,4 +19,8 @@ $link-transition-timing: ease;
 // Link styles
 a {
     @include link-base;
+
+    @media print {
+        border: none;
+    }
 }
