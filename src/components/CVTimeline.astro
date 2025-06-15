@@ -10,16 +10,18 @@ const { items } = Astro.props;
 
 <div class="cv-timeline">
   {items.map((item) => (
+
     <div class="cv-timeline-item">
       <div class="cv-timeline-date">{item.date}</div>
       <div class="cv-timeline-content">
-        <h3 class="text-xl font-semibold">{item.title}</h3>
-        {item.subtitle && <h4 class="text-lg text-gray-600">{item.subtitle}</h4>}
+        <h3>{item.title}</h3>
+        {item.subtitle && <h4>{item.subtitle}</h4>}
         {item.description && (
-          <ol class="list-decimal list-inside mt-2 space-y-1">
-            {item.description.map((point) => (
-              <li>{point}</li>
-            ))}
+          <ol>
+            {item.description.map((point, index) => {
+              let lineEnd = (index === item.description!.length - 1) ? '.' : ';';
+              return <li>{point}{lineEnd}</li>
+            })}
           </ol>
         )}
       </div>
