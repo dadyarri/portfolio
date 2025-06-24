@@ -8,6 +8,7 @@
   "contactInfo": [
     { "type": "email", "value": "me@dadyarri.ru", "label": "почта" },
     { "type": "phone", "value": "+7 (995) 395-13-69", "label": "телефон" },
+    { "type": "telegram", "value": "https://t.me/dadyarri" },
     { "type": "location", "value": "Владимир, РФ", "label": "локация" },
     { "type": "website", "value": "https://dadyarri.ru", "label": "сайт" },
     { "type": "github", "value": "https://github.com/dadyarri" }

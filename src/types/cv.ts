@@ -1,4 +1,4 @@
-export type ContactType = 'email' | 'phone' | 'location' | 'website' | 'github';
+export type ContactType = 'email' | 'phone' | 'location' | 'website' | 'github' | 'telegram';
 
 export interface Contact {
   type: ContactType;
