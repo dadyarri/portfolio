@@ -1,6 +1,6 @@
 ---
 title: "Эволюция генератора Open Graph изображений на C#"
-date: "2025-06-28"
+date: "2025-08-15"
 draft: true
 tags: ["csharp", "blog"]
 series: "ogimages"
