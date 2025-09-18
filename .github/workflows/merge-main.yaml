@@ -1,9 +1,13 @@
-name: Generate OG images on PR merge
+name: Generate OG Images on PR Merge
 
 on:
   push:
     branches:
       - 'main'
+
+concurrency:
+  group: generate-og-images-${{ github.repository }}
+  cancel-in-progress: true
 
 jobs:
   update-og-images:
@@ -14,28 +18,39 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Dotnet
-        uses: actions/setup-dotnet@v4
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '10'
 
-      - name: Build OgImages
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+          path: ~/.nuget/packages
+
+      - name: Build OG Images
         run: |
+          dotnet restore OgImages/OgImages/OgImages.csproj --locked-mode
           dotnet publish OgImages/OgImages/OgImages.csproj -r linux-x64 -c Release
 
-      - name: Generate OG image for merged content
+      - name: Generate OG Images
+        working-directory: ./OgImages/OgImages
         run: |
-          chmod +x ./OgImages/OgImages/bin/Release/net9.0/linux-x64/OgImages
-          ./OgImages/OgImages/bin/Release/net9.0/linux-x64/OgImages --all
+          chmod +x ./bin/Release/net9.0/linux-x64/publish/OgImages
+          ./bin/Release/net9.0/linux-x64/publish/OgImages --all
 
       - name: Commit and push new OG images
+        if: steps.changes.outputs.skip_build != 'true' && (hashFiles('**/*.png', '**/*.jpg') != '')
         run: |
           if [[ -n $(git status --porcelain) ]]; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add .
-            git commit -m "updated og-images"
+            git commit -m "Update OG images [$(date +'%Y-%m-%d %H:%M UTC')]"
             git push
           else
-            echo "No changes to commit"
+            echo "No changes to commit after generation"
           fi
