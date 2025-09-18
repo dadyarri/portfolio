@@ -102,7 +102,7 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
         }
         else
         {
-            Guard.IsNotNull(settings.Content);
+            Guard.IsNotNull(settings.Content, nameof(settings.Content));
             contentItems = [settings.Content];
         }
 

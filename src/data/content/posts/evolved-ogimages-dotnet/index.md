@@ -37,34 +37,6 @@ series: "ogimages"
 
 Как и в Rust итерации, новый инструмент - это консольное приложение, которое запускается из Github Actions во время пуша в ветку master. Оно обновляет превью статей, используя файл конфигурации и от имени бота коммитит изменения в репозиторий.
 
-```yaml
-- name: Set up Dotnet
-  uses: actions/setup-dotnet@v4
-  with:
-    dotnet-version: '9.0.x'
-
-- name: Build OgImages
-  run: |
-    dotnet publish OgImages/OgImages/OgImages.csproj -r linux-x64 -c Release
-
-- name: Generate OG image for merged content
-  run: |
-    chmod +x ./OgImages/OgImages/bin/Release/net9.0/linux-x64/OgImages
-    ./OgImages/OgImages/bin/Release/net9.0/linux-x64/OgImages --all
-
-- name: Commit and push new OG images
-  run: |
-    if [[ -n $(git status --porcelain) ]]; then
-        git config user.name "github-actions[bot]"
-        git config user.email "github-actions[bot]@users.noreply.github.com"
-        git add .
-        git commit -m "updated og-images"
-        git push
-    else
-        echo "No changes to commit"
-    fi
-```
-
 Отличие состоит в том, что в прошлой версии исполняемые файлы хранились прямо в репозитории. Это означало, что при изменении исходников мне приходилось не только коммитить их, но и вручную пересобирать исполняемые файлы, а затем также добавлять их в репозиторий. Теперь же приложение собирается каждый раз при запуске генерации (что, впрочем, происходит нечасто). Собранное приложение в репозиторий при этом не попадает.
 
 Кроме того, инструмент теперь поддерживает генерацию превью для одной единицы контента. Хотя это не используется в моём воркфлоу, но может быть полезно. Для разделения этого поведения предусмотрены параметры `--all`, который запускает генерацию для всего найденного контента и `[CONTENTID]`, который находит конкретную единицу и запускает генерацию для неё.
@@ -197,5 +169,45 @@ series: "ogimages"
 
 # Реализация
 
+
+
 # Улучшение сборки и работы на CI-агентах
+
+Чтобы во время генерации изображений не возникало конфликтов при единовременном запуске нескольких экземпляров процесса, я добавил секцию `concurrency`, которая позволит отменить более старый процесс, если запустится новый:
+
+```yaml
+concurrency:
+  group: generate-og-images-${{ github.repository }}
+  cancel-in-progress: true
+
+```
+
+Добавил кеширование NuGet зависимостей, чтобы в последующие запуски они не перекачивались заново. Команда `restore` при этом должна быть вызвана вручную с параметром `--locked-mode`:
+
+```yaml
+
+jobs:
+  update-og-images:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+
+      # ...
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+          path: ~/.nuget/packages
+
+      - name: Build OG Images
+        run: |
+          dotnet restore OgImages/OgImages/OgImages.csproj --locked-mode
+          dotnet publish OgImages/OgImages/OgImages.csproj -r linux-x64 -c Release
+
+```
+
 
