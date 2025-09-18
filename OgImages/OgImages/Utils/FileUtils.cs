@@ -1,5 +1,5 @@
-﻿using System.Text.RegularExpressions;
-using Spectre.Console;
+﻿using Spectre.Console;
+using System.Text.RegularExpressions;
 
 namespace OgImages.Utils;
 
@@ -44,8 +44,8 @@ public partial class FileUtils
             AnsiConsole.MarkupLineInterpolated($"[red]Directory {dirName} is not defined[/]");
             throw new Exception("Directory is not defined");
         });
-        
-        
+
+
         return replaced;
     }
 

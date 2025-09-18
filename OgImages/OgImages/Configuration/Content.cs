@@ -2,6 +2,6 @@
 
 public class Content
 {
-    public string Article { get; set; }
-    public string OgImage { get; set; }
+    public required string Article { get; set; }
+    public required string OgImage { get; set; }
 }

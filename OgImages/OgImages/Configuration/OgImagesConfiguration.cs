@@ -1,16 +1,13 @@
-﻿using System.Text.Json.Serialization;
-using OgImages.Utils;
-
-namespace OgImages.Configuration;
+﻿namespace OgImages.Configuration;
 
 public class OgImagesConfiguration
 {
     public required Canvas Canvas { get; set; }
     public List<Directory> Directories { get; set; } = [];
     public List<FontConfig> Fonts { get; set; } = [];
-    public IEnumerable<ILayer> Layers { get; set; }
-    
-    public Content Content { get; set; }
+    public required IEnumerable<ILayer> Layers { get; set; }
+
+    public required Content Content { get; set; }
 
     public List<TextLayer> GetTextLayers()
     {
@@ -23,8 +20,8 @@ public class OgImagesConfiguration
                 list.Add(textLayer);
             }
         }
-        
+
         return list;
     }
-    
+
 }

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "OgImages": {
+      "commandName": "Project",
+      "commandLineArgs": "--all"
+    }
+  }
+}
