@@ -1,7 +1,7 @@
 ---
 title: "Эволюция генератора Open Graph изображений на C#"
 date: "2025-09-20"
-draft: true
+draft: false
 tags: ["csharp", "blog"]
 series: "ogimages"
 
@@ -169,6 +169,104 @@ series: "ogimages"
 
 # Реализация
 
+Для размещения текста на изображении вычитываются Markdown файлы, в которых ищется фронтматтер: YAML вставка, которая содержит название публикации, дату, теги. Этот кусок кода пытается достать конкретное поле из фронтматтера, например, если это дата - она конвертируется в строку в правильном формате (я использую `ДД.ММ.ГГГГ`, вместо обычного для .NET `ГГГГ-ММ-ДД ЧЧ:ММ:СС AM/PM`)
+
+```csharp
+private string ProcessFrontmatterFields(string format, Dictionary<string, object?> frontmatter,
+    Func<string, object?, string>? listProcessor = null)
+{
+    return FrontmatterFieldRegex().Replace(format, match =>
+    {
+        var extracted = match.Groups[1].Value;
+        var parts = extracted.Split('|');
+        var fieldName = parts[0];
+        var formatSpecifier = parts.Length > 1 ? parts[1] : string.Empty;
+
+        if (!frontmatter.TryGetValue(fieldName, out var value))
+        {
+            AnsiConsole.MarkupLineInterpolated($"[red]Field {fieldName} not found[/]");
+            return string.Empty;
+        }
+
+        if (value is DateTime dateTime)
+        {
+            return dateTime.ToString(formatSpecifier);
+        }
+
+        if (value is List<object> && listProcessor != null)
+        {
+            return listProcessor(fieldName, value);
+        }
+
+        return value?.ToString() ?? string.Empty;
+    });
+}
+
+[GeneratedRegex("{(.*)}")]
+private static partial Regex FrontmatterFieldRegex();
+```
+
+В случае со списками в фронтматтере этот метод вызывается так:
+
+```csharp
+ProcessFrontmatterFields(listOfTextsLayer.ItemFormat, frontmatter,
+(fieldName, value) =>
+{
+    if (value is List<object> list)
+    {
+        var currentX = startX;
+        var match = FrontmatterFieldRegex().Match(listOfTextsLayer.ItemFormat);
+
+        if (!match.Success)
+        {
+            AnsiConsole.MarkupLineInterpolated(
+                $"[red]Invalid format for list item: {listOfTextsLayer.ItemFormat}[/]");
+            return string.Empty;
+        }
+
+        var extracted = match.Groups[1].Value;
+        var parts = extracted.Split('|');
+        var extractedField = parts.Length > 1 ? parts[1] : string.Empty;
+
+        foreach (string item in list)
+        {
+            var path = FileUtils.GetFullPath(
+                Path.Join(listOfTextsLayer.Source, fieldName, $"{item}.json"),
+                directories);
+            var serialized =
+                JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(path));
+
+            if (serialized is null || !serialized.TryGetValue(extractedField, out var text))
+            {
+                AnsiConsole.MarkupLineInterpolated($"[red]Field {extractedField} not found in {path}[/]");
+                continue;
+            }
+
+            var textSize = TextMeasurer.MeasureSize(text, options);
+            var rect = new RectangleF(currentX, currentY, textSize.Width + listOfTextsLayer.Padding * 2,
+                textSize.Height + listOfTextsLayer.Padding * 2);
+
+            var itemOptions = CreateTextOptions(font, 0,
+                currentX + listOfTextsLayer.Padding / 2f, currentY + listOfTextsLayer.Padding / 2f);
+
+            ctx.Fill(listOfTextsLayer.Background, rect);
+            ctx.DrawText(itemOptions, text, listOfTextsLayer.Color);
+
+            currentX += textSize.Width + listOfTextsLayer.Gap;
+        }
+    }
+
+    return string.Empty;
+});
+```
+
+То есть происходит как раз то, о чём я говорил выше: находятся подходящие JSON-файлы с тегами и из них вытаскивается ключ, в котором содержится читаемое название этого тега и он сразу рисуется на изображении, применяя параметры фона и цвета текста.
+
+Готовое изображение при этом выглядит так:
+
+![Обложка для этой статьи](2.png)
+
+![Результат запуска](1.png)
 
 
 # Улучшение сборки и работы на CI-агентах
