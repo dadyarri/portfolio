@@ -7,10 +7,10 @@ public class TypeUtils
     /// <summary>
     /// Пытается угадать тип значения.
     /// </summary>
-    public static object? GuessType(object? value)
+    public static object GuessType(object? value)
     {
         if (value is null)
-            return null;
+            return new object();
 
         if (value is string s)
         {
@@ -42,7 +42,7 @@ public class TypeUtils
             var guessedDict = new Dictionary<string, object>();
             foreach (var kvp in dict)
             {
-                guessedDict[kvp.Key.ToString()] = GuessType(kvp.Value);
+                guessedDict[kvp.Key.ToString()!] = GuessType(kvp.Value);
             }
             return guessedDict;
         }

@@ -1,11 +1,11 @@
-﻿using System.Text.Json;
-using System.Text.RegularExpressions;
-using OgImages.Configuration;
+﻿using OgImages.Configuration;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Drawing.Processing;
 using SixLabors.ImageSharp.Processing;
 using Spectre.Console;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using VerticalAlignment = SixLabors.Fonts.VerticalAlignment;
 
 namespace OgImages.Utils;

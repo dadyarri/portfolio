@@ -2,7 +2,7 @@
 
 namespace OgImages.Configuration;
 
-public class TextLayer: ILayer
+public class TextLayer : ILayer
 {
     public LayerType Type => LayerType.Text;
     public Color Color { get; set; }

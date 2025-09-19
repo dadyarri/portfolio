@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.RegularExpressions;
+﻿using CommunityToolkit.Diagnostics;
 using OgImages.Configuration;
 using OgImages.Utils;
 using SixLabors.Fonts;
@@ -10,6 +9,8 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using Spectre.Console;
 using Spectre.Console.Cli;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using YamlDotNet.Serialization;
 using Directory = System.IO.Directory;
 using Size = SixLabors.ImageSharp.Size;
@@ -101,6 +102,7 @@ internal sealed partial class RootCommand : AsyncCommand<RootCommandSettings>
         }
         else
         {
+            Guard.IsNotNull(settings.Content, nameof(settings.Content));
             contentItems = [settings.Content];
         }
 

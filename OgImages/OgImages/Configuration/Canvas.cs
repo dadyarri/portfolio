@@ -1,15 +1,15 @@
-﻿using System.Text.Json.Serialization;
-using SixLabors.Fonts;
+﻿using SixLabors.Fonts;
+using System.Text.Json.Serialization;
 
 namespace OgImages.Configuration;
 
 public class Canvas
 {
-    public int Width { get; set; }
-    public int Height { get; set; }
-    public int Padding { get; set; }
-    public int MaxWidth { get; set; }
+    public required int Width { get; set; }
+    public required int Height { get; set; }
+    public required int Padding { get; set; }
+    public required int MaxWidth { get; set; }
     [JsonConverter(typeof(JsonStringEnumConverter<VerticalAlignment>))]
-    public VerticalAlignment VerticalAlignment { get; set; }
-    public Backgound Background { get; set; }
+    public required VerticalAlignment VerticalAlignment { get; set; }
+    public required Backgound Background { get; set; }
 }

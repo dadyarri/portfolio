@@ -1,6 +1,6 @@
-﻿using System.Text.Json;
+﻿using OgImages.Configuration;
+using System.Text.Json;
 using System.Text.Json.Serialization;
-using OgImages.Configuration;
 
 namespace OgImages.Utils;
 
