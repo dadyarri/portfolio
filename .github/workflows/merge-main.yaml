@@ -39,8 +39,8 @@ jobs:
       - name: Generate OG Images
         working-directory: ./OgImages/OgImages
         run: |
-          chmod +x ./bin/Release/net9.0/linux-x64/publish/OgImages
-          ./bin/Release/net9.0/linux-x64/publish/OgImages --all
+          chmod +x ./bin/Release/net10.0/linux-x64/publish/OgImages
+          ./bin/Release/net10.0/linux-x64/publish/OgImages --all
 
       - name: Commit and push new OG images
         if: steps.changes.outputs.skip_build != 'true' && (hashFiles('**/*.png', '**/*.jpg') != '')
