@@ -2,7 +2,6 @@
 @use "_mixins" as *;
 @use "_variables" as *;
 
-
 // Card variables
 $card-padding: 15px;
 $card-margin: 10px;
@@ -15,89 +14,91 @@ $card-link-font-size: 1.5rem;
 
 // Card mixins
 @mixin card-base {
-    min-height: 100px;
-    background: var(--bg-1);
-    border: 1px solid var(--border-color);
-    border-radius: map.get($border-radius, 'md');
-    overflow: hidden;
-    padding: map.get($spacing, 'md');
-    display: flex;
-    flex-direction: column;
+  min-height: 100px;
+  background: var(--bg-1);
+  border: 1px solid var(--border-color);
+  border-radius: map.get($border-radius, "md");
+  overflow: hidden;
+  padding: map.get($spacing, "md");
+  display: flex;
+  flex-direction: column;
+  break-inside: avoid;
+  margin-bottom: 24px;
 }
 
 @mixin card-preview-base {
-    position: relative;
-    width: 100%;
-    padding-top: 66.67%; // 3:2 Aspect Ratio (2/3 * 100%)
-    overflow: hidden;
+  position: relative;
+  width: 100%;
+  padding-top: 66.67%; // 3:2 Aspect Ratio (2/3 * 100%)
+  overflow: hidden;
 }
 
 @mixin card-button-base {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: map.get($border-radius, 'md');
-    background-color: var(--bg-2);
-    min-width: 50px;
-    min-height: 3rem;
-    margin-top: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: map.get($border-radius, "md");
+  background-color: var(--bg-2);
+  min-width: 50px;
+  min-height: 3rem;
+  margin-top: auto;
 }
 
 // Card styles
 .card {
-    @include card-base;
+  @include card-base;
 }
 
 .card-preview {
-    @include card-preview-base;
+  @include card-preview-base;
 
-    img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 .card-title {
-    margin: map.get($spacing, 'sm') 0 map.get($spacing, 'xs');
+  margin: map.get($spacing, "sm") 0 map.get($spacing, "xs");
 }
 
 .card-link {
-    font-family: var(--header-font);
-    font-weight: 700;
-    font-size: 1.5rem;
-    margin: map.get($spacing, 'md') 0;
+  font-family: var(--header-font);
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin: map.get($spacing, "md") 0;
 
-    a {
-        border-bottom: none;
-    }
+  a {
+    border-bottom: none;
+  }
 
-    &:hover {
-        background-color: unset;
-        color: unset;
-    }
+  &:hover {
+    background-color: unset;
+    color: unset;
+  }
 }
 
 .card-button {
-    @include card-button-base;
+  @include card-button-base;
 
-    svg {
-        fill: var(--text-1);
-    }
+  svg {
+    fill: var(--text-1);
+  }
 }
 
 // Responsive styles
-@include respond-to('small') {
-    .card {
-        flex-direction: column;
-    }
+@include respond-to("small") {
+  .card {
+    flex-direction: column;
+  }
 
-    .card-button {
-        width: 100%;
-        height: 30px;
-        margin-left: 0;
-    }
+  .card-button {
+    width: 100%;
+    height: 30px;
+    margin-left: 0;
+  }
 }
