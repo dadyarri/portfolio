@@ -6,10 +6,15 @@ export interface Contact {
   label?: string | undefined;
 }
 
+export interface Date {
+  start: string;
+  end?: string | 'н. в.';
+}
+
 export interface TimelineItem {
   title: string;
   subtitle?: string;
-  date: string;
+  date: Date;
   description?: string[];
 }
 

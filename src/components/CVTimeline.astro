@@ -17,7 +17,28 @@ const { items } = Astro.props;
           {item.subtitle && (
             <div class="cv-timeline-subtitle">
               <h4>{item.subtitle}</h4>
-              <div class="cv-timeline-date">{item.date}</div>
+              <div class="cv-timeline-date">
+                {new Date(item.date.start).toLocaleString("ru-RU", { month: "long", year: "numeric" })}
+                {" - "}
+                {item.date.end
+                  ? new Date(item.date.end).toLocaleString("ru-RU", { month: "long", year: "numeric" })
+                  : "н. в."}
+                {
+                  (() => {
+                    const start = new Date(item.date.start);
+                    const end = item.date.end ? new Date(item.date.end) : new Date();
+                    const months =
+                      (end.getFullYear() - start.getFullYear()) * 12 +
+                      (end.getMonth() - start.getMonth());
+                    const years = Math.floor(months / 12);
+                    const remMonths = months % 12;
+                    let result = "";
+                    if (years > 0) result += `${years} г.`;
+                    if (remMonths > 0) result += (years > 0 ? " " : "") + `${remMonths} мес.`;
+                    return ` (${result})`;
+                  })()
+                }
+              </div>
             </div>
           )}
           {item.description && (
