@@ -9,6 +9,7 @@ export interface Contact {
 export interface Date {
   start: string;
   end?: string | 'н. в.';
+  showAmountOfTime: boolean;
 }
 
 export interface TimelineItem {

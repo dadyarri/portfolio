@@ -24,7 +24,7 @@ const { items } = Astro.props;
                   ? new Date(item.date.end).toLocaleString("ru-RU", { month: "long", year: "numeric" })
                   : "н. в."}
                 {
-                  (() => {
+                  item.date.showAmountOfTime && (() => {
                     const start = new Date(item.date.start);
                     const end = item.date.end ? new Date(item.date.end) : new Date();
                     const months =

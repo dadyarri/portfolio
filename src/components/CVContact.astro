@@ -70,6 +70,10 @@ const getIcon = (type: ContactType) => {
     display: grid;
     gap: 1rem;
 
+    @media (screen and min-width: 768px), print {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
     &-item {
       display: flex;
       align-items: center;
