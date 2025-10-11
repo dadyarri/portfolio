@@ -38,6 +38,21 @@
         "start": "2024-01-29",
         "end": "2025-10-06"
       },
+      "stack": [
+        "C#",
+        ".NET",
+        "ASP.NET Core",
+        "gRPC",
+        "SQLite",
+        "PostgreSQL",
+        "MS SQL Server",
+        "Spectre Console",
+        "Git",
+        "Docker",
+        "Linux",
+        "Batch",
+        "PowerShell"
+      ],
       "description": [
         "Модифицировал open-source решение FlexLabs.Upsert, добавив поддержку СУБД Oracle",
         "Актуализировал и переписал документацию по сборке пакетов для российских ОС семейства Linux (Astra, Alt, РЕД ОС), обеспечив беспрепятственную сборку на всём разнообразии российских дистрибутивов",
@@ -58,7 +73,15 @@
       "date": {
         "start": "2020-09-01",
         "end": "2024-06-30"
-      }
+      },
+      "stack": [
+        "C#",
+        "Python",
+        "SQL",
+        "Git",
+        "Kotlin",
+        "Java"
+      ]
     }
   ],
   "skills": [

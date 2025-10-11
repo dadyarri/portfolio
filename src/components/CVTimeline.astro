@@ -54,6 +54,9 @@ const { items } = Astro.props;
               })}
             </ol>
           )}
+          {item.stack && (
+            <p><strong>Стек:</strong> {item.stack.join(", ")}</p>
+          )}
         </div>
       </div>
     ))

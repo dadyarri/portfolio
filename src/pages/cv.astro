@@ -22,11 +22,11 @@ const typedContactInfo = contactInfo as CVData['contactInfo'];
           <CVTimeline items={workExperience} />
         </CVSection>
 
-        <CVSection title="Образование">
+        <CVSection title="Образование" pageBreakBefore>
           <CVTimeline items={education} />
         </CVSection>
 
-        <CVSection title="Навыки" pageBreakBefore>
+        <CVSection title="Навыки">
           <CVSkills categories={skills} />
         </CVSection>
       </div>

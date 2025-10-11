@@ -16,6 +16,7 @@ export interface TimelineItem {
   subtitle?: string;
   date: Date;
   description?: string[];
+  stack?: string[];
 }
 
 export interface Skill {
