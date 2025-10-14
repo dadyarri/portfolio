@@ -3,9 +3,27 @@ import type { TimelineItem } from "@type/cv";
 
 interface Props {
   items: TimelineItem[];
+  locale: "en-US" | "ru-RU";
 }
 
-const { items } = Astro.props;
+const { items, locale } = Astro.props;
+
+const translations = {
+  "en-US": {
+    ongoing: "Present",
+    year: "yr",
+    month: "mo",
+    stack: "Stack",
+  },
+  "ru-RU": {
+    ongoing: "н. в.",
+    year: "г.",
+    month: "мес.",
+    stack: "Стек",
+  },
+};
+
+const translation = translations[locale] || translations["en-US"];
 ---
 
 <div class="cv-timeline">
@@ -18,26 +36,36 @@ const { items } = Astro.props;
             <div class="cv-timeline-subtitle">
               <h4>{item.subtitle}</h4>
               <div class="cv-timeline-date">
-                {new Date(item.date.start).toLocaleString("ru-RU", { month: "long", year: "numeric" })}
+                {new Date(item.date.start).toLocaleString(locale, {
+                  month: "long",
+                  year: "numeric",
+                })}
                 {" - "}
                 {item.date.end
-                  ? new Date(item.date.end).toLocaleString("ru-RU", { month: "long", year: "numeric" })
-                  : "н. в."}
-                {
-                  item.date.showAmountOfTime && (() => {
+                  ? new Date(item.date.end).toLocaleString(locale, {
+                      month: "long",
+                      year: "numeric",
+                    })
+                  : translation.ongoing}
+                {item.date.showAmountOfTime &&
+                  (() => {
                     const start = new Date(item.date.start);
-                    const end = item.date.end ? new Date(item.date.end) : new Date();
+                    const end = item.date.end
+                      ? new Date(item.date.end)
+                      : new Date();
                     const months =
                       (end.getFullYear() - start.getFullYear()) * 12 +
                       (end.getMonth() - start.getMonth());
                     const years = Math.floor(months / 12);
                     const remMonths = months % 12;
                     let result = "";
-                    if (years > 0) result += `${years} г.`;
-                    if (remMonths > 0) result += (years > 0 ? " " : "") + `${remMonths} мес.`;
+                    if (years > 0) result += `${years} ${translation.year}`;
+                    if (remMonths > 0)
+                      result +=
+                        (years > 0 ? " " : "") +
+                        `${remMonths} ${translation.month}`;
                     return ` (${result})`;
-                  })()
-                }
+                  })()}
               </div>
             </div>
           )}
@@ -46,16 +74,14 @@ const { items } = Astro.props;
               {item.description.map((point, index) => {
                 let lineEnd =
                   index === item.description!.length - 1 ? "." : ";";
-                return (
-                  <li>
-                    {`${point}${lineEnd}`}
-                  </li>
-                );
+                return <li>{`${point}${lineEnd}`}</li>;
               })}
             </ol>
           )}
           {item.stack && (
-            <p><strong>Стек:</strong> {item.stack.join(", ")}</p>
+            <p>
+              <strong>{translation.stack}:</strong> {item.stack.join(", ")}
+            </p>
           )}
         </div>
       </div>

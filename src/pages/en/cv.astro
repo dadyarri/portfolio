@@ -6,33 +6,33 @@ import CVTimeline from "@components/CVTimeline.astro";
 import CVSkills from "@components/CVSkills.astro";
 import CVContact from "@components/CVContact.astro";
 import type { CVData } from "@type/cv";
-import { personalInfo, contactInfo, workExperience, education, skills } from "@data/cv.json";
+import { personalInfo, contactInfo, workExperience, education, skills } from "@data/cv.en.json";
 
 const typedContactInfo = contactInfo as CVData['contactInfo'];
 
 ---
 
-<Layout title="Резюме">
+<Layout title="CV">
   <div>
     <CVHeader data={personalInfo} />
 
     <div>
       <div>
-        <CVSection title="Опыт работы">
-          <CVTimeline items={workExperience} locale={"ru-RU"} />
+        <CVSection title="Work Experience">
+          <CVTimeline items={workExperience} locale={"en-US"} />
         </CVSection>
 
-        <CVSection title="Образование" pageBreakBefore>
-          <CVTimeline items={education} locale={"ru-RU"} />
+        <CVSection title="Education" pageBreakBefore>
+          <CVTimeline items={education} locale={"en-US"} />
         </CVSection>
 
-        <CVSection title="Навыки">
+        <CVSection title="Skills">
           <CVSkills categories={skills} />
         </CVSection>
       </div>
 
       <div>
-        <CVSection title="Контакты">
+        <CVSection title="Contact">
           <CVContact contacts={typedContactInfo} />
         </CVSection>
       </div>

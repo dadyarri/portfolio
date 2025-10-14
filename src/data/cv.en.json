@@ -1,0 +1,157 @@
+{
+  "personalInfo": {
+    "name": "Daniil Golubev",
+    "title": "C#/.NET Developer",
+    "photo": "/images/profile.jpg",
+    "summary": ".NET developer specializing in building high-performance microservices and automating product build and delivery processes. Focused on improving development efficiency by optimizing the codebase, implementing internal tools, and refining CI/CD pipelines."
+  },
+  "contactInfo": [
+    {
+      "type": "email",
+      "value": "me@dadyarri.ru"
+    },
+    {
+      "type": "telegram",
+      "value": "https://t.me/dadyarri"
+    },
+    {
+      "type": "location",
+      "value": "Vladimir, Russia"
+    },
+    {
+      "type": "website",
+      "value": "https://dadyarri.ru"
+    },
+    {
+      "type": "github",
+      "value": "https://github.com/dadyarri"
+    }
+  ],
+  "workExperience": [
+    {
+      "title": "C#/.NET Developer (Microservices, Development Tooling)",
+      "subtitle": "ASTEK",
+      "date": {
+        "start": "2024-01-29",
+        "end": "2025-10-06",
+        "showAmountOfTime": true
+      },
+      "stack": [
+        "C#",
+        ".NET",
+        "ASP.NET Core",
+        "gRPC",
+        "SQLite",
+        "PostgreSQL",
+        "MS SQL Server",
+        "Spectre Console",
+        "Git",
+        "Docker",
+        "Linux",
+        "Batch Scripting",
+        "PowerShell"
+      ],
+      "description": [
+        "Modified the open-source project FlexLabs.Upsert, adding Oracle support and integrated it into the product",
+        "Rewrote and updated documentation for package builds for Russian Linux distributions (Astra, Alt, Red OS), achieving stable builds across all supported systems",
+        "Developed a persistent queue based on SQLite, replacing a legacy file-based solution and improving the reliability of the service architecture",
+        "Migrated outdated libraries and associated components, enhancing product performance and stability",
+        "Refactored the inter-service communication mechanism, increasing its speed and scalability",
+        "Optimized packaging manifests (deb, rpm), reducing build and deployment time",
+        "Created a universal CLI tool for automating builds and packaging for Windows and Linux (including Astra, Alt, Red OS), significantly accelerating CI/CD and reducing errors during new package releases",
+        "Developed a TUI wrapper for the CLI tool, making the build and packaging process more user-friendly and transparent for developers",
+        "Prepared technical documentation for new components and internal tools, simplifying their implementation and support within the team"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "title": "Bachelor of Information Systems and Technologies",
+      "subtitle": "Vladimir State University",
+      "date": {
+        "start": "2020-09-01",
+        "end": "2024-06-30",
+        "showAmountOfTime": false
+      },
+      "description": [
+        "Algorithms and Data Structures",
+        "Databases (PostgreSQL, MS SQL Server)",
+        "Object-Oriented Programming (C#)"
+      ],
+      "stack": [
+        "C#",
+        "Python",
+        "SQL",
+        "Git",
+        "Kotlin",
+        "Java"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "Programming Languages",
+      "skills": [
+        {
+          "name": "C#"
+        }
+      ]
+    },
+    {
+      "name": "Frameworks and Libraries",
+      "skills": [
+        {
+          "name": ".NET"
+        },
+        {
+          "name": "ASP.NET Core"
+        },
+        {
+          "name": "Entity Framework Core"
+        },
+        {
+          "name": "gRPC"
+        },
+        {
+          "name": "Spectre Console"
+        }
+      ]
+    },
+    {
+      "name": "DevOps and Infrastructure",
+      "skills": [
+        {
+          "name": "CI/CD"
+        },
+        {
+          "name": "Linux"
+        },
+        {
+          "name": "Docker"
+        },
+        {
+          "name": "Docker Compose"
+        }
+      ]
+    },
+    {
+      "name": "Testing",
+      "skills": [
+        {
+          "name": "xUnit"
+        }
+      ]
+    },
+    {
+      "name": "Databases",
+      "skills": [
+        {
+          "name": "PostgreSQL"
+        },
+        {
+          "name": "MS SQL Server"
+        }
+      ]
+    }
+  ]
+}
