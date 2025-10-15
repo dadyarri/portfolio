@@ -105,6 +105,32 @@
         ".NET",
         "Oracle"
       ]
+    },
+    {
+      "title": "MelodyTrack",
+      "description": "Система управления клиентами, сделанная на заказ для небольшого бизнеса",
+      "links": [
+        "https://github.com/dadyarri/MelodyTrack.Web",
+        "https://github.com/dadyarri/MelodyTrack.Backend"
+      ],
+      "stack": [
+        "C#",
+        "ASP.NET Core",
+        "React",
+        "Github Actions"
+      ]
+    },
+    {
+      "title": "Portfolio",
+      "description": "Личный блог о технологиях и резюме",
+      "links": [
+        "https://github.com/dadyarri/portfolio",
+        "https://dadyarri.ru"
+      ],
+      "stack": [
+        "Typescript",
+        "Astro"
+      ]
     }
   ],
   "skills": [
