@@ -37,10 +37,18 @@ export interface PersonalInfo {
   summary?: string;
 }
 
+export interface Project {
+  title: string;
+  description: string;
+  links?: string[];
+  stack?: string[];
+}
+
 export interface CVData {
   personalInfo: PersonalInfo;
   contactInfo: Contact[];
   workExperience: TimelineItem[];
   education: TimelineItem[];
   skills: SkillCategory[];
+  projects: Project[];
 } 

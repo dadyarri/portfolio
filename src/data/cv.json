@@ -93,6 +93,20 @@
       ]
     }
   ],
+  "projects": [
+    {
+      "title": "FlexLabs.Upsert",
+      "description": "Библиотека, расширяющая возможности Entity Framework Core для выполнения операции вставки или обновления записей с поддержкой разных СУБД. Добавил поддержку Oracle, что позволило использовать библиотеку в проектах с этой СУБД.",
+      "links": [
+        "https://github.com/artiomchi/FlexLabs.Upsert/pull/158"
+      ],
+      "stack": [
+        "C#",
+        ".NET",
+        "Oracle"
+      ]
+    }
+  ],
   "skills": [
     {
       "name": "Языки программирования",

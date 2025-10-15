@@ -88,6 +88,20 @@
       ]
     }
   ],
+  "projects": [
+    {
+      "title": "FlexLabs.Upsert",
+      "description": "Library, extending Entity Framework Core to manage upsert operation (insert or update). I added support of Oracle DBMS.",
+      "links": [
+        "https://github.com/artiomchi/FlexLabs.Upsert/pull/158"
+      ],
+      "stack": [
+        "C#",
+        ".NET",
+        "Oracle"
+      ]
+    }
+  ],
   "skills": [
     {
       "name": "Programming Languages",

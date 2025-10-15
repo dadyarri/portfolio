@@ -5,37 +5,40 @@ import CVSection from "@components/CVSection.astro";
 import CVTimeline from "@components/CVTimeline.astro";
 import CVSkills from "@components/CVSkills.astro";
 import CVContact from "@components/CVContact.astro";
-import type { CVData } from "@type/cv";
-import { personalInfo, contactInfo, workExperience, education, skills } from "@data/cv.json";
+import type { Contact, CVData, Project } from "@type/cv";
+import {
+  personalInfo,
+  contactInfo,
+  workExperience,
+  education,
+  skills,
+  projects,
+} from "@data/cv.json";
+import CVProjects from "@components/CVProjects.astro";
 
-const typedContactInfo = contactInfo as CVData['contactInfo'];
-
+const typedContactInfo = contactInfo as Contact[];
 ---
 
 <Layout title="Резюме">
-  <div>
-    <CVHeader data={personalInfo} />
+  <CVHeader data={personalInfo} />
 
-    <div>
-      <div>
-        <CVSection title="Опыт работы">
-          <CVTimeline items={workExperience} locale={"ru-RU"} />
-        </CVSection>
+  <CVSection title="Опыт работы">
+    <CVTimeline items={workExperience} locale={"ru-RU"} />
+  </CVSection>
 
-        <CVSection title="Образование" pageBreakBefore>
-          <CVTimeline items={education} locale={"ru-RU"} />
-        </CVSection>
+  <CVSection title="Образование" pageBreakBefore>
+    <CVTimeline items={education} locale={"ru-RU"} />
+  </CVSection>
 
-        <CVSection title="Навыки">
-          <CVSkills categories={skills} />
-        </CVSection>
-      </div>
+  <CVSection title="Навыки">
+    <CVSkills categories={skills} />
+  </CVSection>
 
-      <div>
-        <CVSection title="Контакты">
-          <CVContact contacts={typedContactInfo} />
-        </CVSection>
-      </div>
-    </div>
-  </div>
+  <CVSection title="Контакты">
+    <CVContact contacts={typedContactInfo} />
+  </CVSection>
+
+  <CVSection title="Проекты" pageBreakBefore>
+    <CVProjects items={projects} locale={"ru-RU"} />
+  </CVSection>
 </Layout>
