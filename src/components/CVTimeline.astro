@@ -34,7 +34,13 @@ const translation = translations[locale] || translations["en-US"];
           <h3>{item.title}</h3>
           {item.subtitle && (
             <div class="cv-timeline-subtitle">
-              <h4>{item.subtitle}</h4>
+              <h4>
+                {item.link ? (
+                  <a href={item.link}>{item.subtitle}</a>
+                ) : (
+                  item.subtitle
+                )}
+              </h4>
               <div class="cv-timeline-date">
                 {new Date(item.date.start).toLocaleString(locale, {
                   month: "long",

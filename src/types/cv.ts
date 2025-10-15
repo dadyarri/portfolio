@@ -15,6 +15,7 @@ export interface Date {
 export interface TimelineItem {
   title: string;
   subtitle?: string;
+  link?: string;
   date: Date;
   description?: string[];
   stack?: string[];
