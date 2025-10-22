@@ -25,6 +25,7 @@
     "@resvg/resvg-js": "^2.6.2",
     "astro": "^5.12.8",
     "astro-icon": "^1.1.5",
+    "astro-masonry": "^1.2.2",
     "gray-matter": "^4.0.3",
     "mdast-util-to-string": "^4.0.0",
     "reading-time": "^1.5.0",
