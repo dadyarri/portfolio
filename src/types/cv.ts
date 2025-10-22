@@ -6,11 +6,19 @@ export interface Contact {
   label?: string | undefined;
 }
 
+export interface Date {
+  start: string;
+  end?: string | 'н. в.';
+  showAmountOfTime: boolean;
+}
+
 export interface TimelineItem {
   title: string;
   subtitle?: string;
-  date: string;
+  link?: string;
+  date: Date;
   description?: string[];
+  stack?: string[];
 }
 
 export interface Skill {
@@ -29,10 +37,18 @@ export interface PersonalInfo {
   summary?: string;
 }
 
+export interface Project {
+  title: string;
+  description: string;
+  links?: string[];
+  stack?: string[];
+}
+
 export interface CVData {
   personalInfo: PersonalInfo;
   contactInfo: Contact[];
   workExperience: TimelineItem[];
   education: TimelineItem[];
   skills: SkillCategory[];
+  projects: Project[];
 } 

@@ -3,37 +3,30 @@ import PostCard from "@components/PostCard.astro";
 import type { CollectionEntry } from "astro:content";
 
 type Props = {
-    posts: (CollectionEntry<'posts'> | CollectionEntry<'minis'>)[]
-}
+  posts: (CollectionEntry<"posts"> | CollectionEntry<"minis">)[];
+};
 
 const { posts }: Props = Astro.props;
 ---
 
 <div class="cards">
-    {
-        posts.map((post) => (
-            <PostCard post={post}/>
-        ))
-    }
+  {posts.map((post) => <PostCard post={post} />)}
 </div>
 
 <style lang="scss">
-    .cards {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 15px;
-        padding: 12px 0;
-        margin-bottom: 48px;
+  .cards {
+    display: block; // Or remove it entirely if it's not a block-level element already
+    padding: 12px 0;
+    margin-bottom: 48px;
 
-        @media (min-width: 720px) {
-            grid-template-columns: repeat(2, 1fr);
-            grid-template-rows: masonry;
-            gap: 24px 32px;
-            align-items: start;
-        }
-
-        @media (min-width: 1200px) {
-            grid-template-columns: repeat(3, 1fr);
-        }
+    @media (min-width: 720px) {
+      column-count: 2;
+      column-gap: 32px;
     }
+
+    @media (min-width: 1200px) {
+      column-count: 3;
+      column-gap: 32px;
+    }
+  }
 </style>

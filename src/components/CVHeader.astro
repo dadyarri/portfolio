@@ -46,9 +46,25 @@ const { name, title, photo, summary } = data;
         text-align: left !important;
       }
 
+      // This media query currently stacks content.
+      // If you want them to remain side-by-side on small screens,
+      // you would either remove this or modify its behavior.
       @media (max-width: 768px) {
-        flex-direction: column;
-        text-align: center;
+        /*
+       * To make .cv-header-photo and .cv-header-content
+       * stay in one line, we need to ensure flex-direction is not 'column'.
+       * If you still want some responsiveness for the content itself,
+       * you might consider if the photo should be part of the main flex
+       * container or separate.
+       *
+       * For them to be in one line like in a normal viewport,
+       * we'll revert flex-direction to 'row' here,
+       * or even remove this entire block if you want it always row.
+       * If you remove it, the default flex-direction (row) will apply.
+       */
+        flex-direction: row; /* Changed from column to row */
+        align-items: center; /* Keep items centered vertically */
+        text-align: center; /* Adjust if needed for text within info */
       }
     }
 
@@ -74,7 +90,7 @@ const { name, title, photo, summary } = data;
           color: black !important;
         }
       }
-      
+
       & p {
         color: var(--text-1);
         margin-top: 1rem;
@@ -93,10 +109,8 @@ const { name, title, photo, summary } = data;
         height: 200px;
         border-radius: 50%;
         object-fit: cover;
-      }
-
-      @media print {
-        display: none !important;
+        object-position: 30% 0%;
+        overflow: hidden;
       }
     }
   }

@@ -1,0 +1,104 @@
+---
+import type { Project } from "@type/cv";
+
+interface Props {
+  items: Project[];
+  locale: "en-US" | "ru-RU";
+}
+
+const { items, locale } = Astro.props;
+
+const translations = {
+  "en-US": {
+    stack: "Stack",
+    links: "Links",
+  },
+  "ru-RU": {
+    stack: "Стек",
+    links: "Ссылки",
+  },
+};
+
+const translation = translations[locale] || translations["en-US"];
+---
+
+<div class="cv-projects">
+  {
+    items.map((item) => (
+      <div class="cv-project-item">
+        <div class="cv-project-content">
+          <h3>{item.title}</h3>
+          {item.description}
+          {item.stack && (
+            <p>
+              <strong>{translation.stack}:</strong> {item.stack.join(", ")}
+            </p>
+          )}
+          {item.links && (
+            <p>
+              <strong>{translation.links}:</strong>{" "}
+              {item.links.map((link, index, array) => (
+                <>
+                  <a href={link} target="_blank" rel="noopener noreferrer">
+                    {link}
+                  </a>
+                  {index < array.length - 1 && ", "}
+                </>
+              ))}
+            </p>
+          )}
+        </div>
+      </div>
+    ))
+  }
+</div>
+
+<style lang="scss">
+  .cv-projects {
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--theme-color);
+    }
+
+    &-subtitle {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 0.5rem 0;
+
+      h4 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: var(--text-1);
+
+        @media print {
+          color: black;
+        }
+      }
+    }
+
+    &-item {
+      position: relative;
+      padding-left: 2rem;
+      margin-bottom: 2rem;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: -0.5rem;
+        top: 0.5rem;
+        width: 1rem;
+        height: 1rem;
+        border-radius: 50%;
+        background: var(--theme-color);
+      }
+    }
+  }
+</style>
