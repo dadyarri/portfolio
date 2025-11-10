@@ -113,11 +113,3 @@ h6 {
     font-size: map.get($heading-sizes-print, 6);
   }
 }
-
-h1.toc-heading {
-  font-family: var(--header-font);
-  line-height: 100%;
-  margin: map.get($spacing, 'md') 0 map.get($spacing, 'sm');
-  font-size: 1.6rem;
-  color: var(--text-1);
-}

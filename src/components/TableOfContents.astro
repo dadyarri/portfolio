@@ -51,16 +51,9 @@ function buildToc(headings: MarkdownHeading[]): TableOfContentItem[] {
 
 <nav class="card">
     <div>
-        <h1 class="card-title">Содержание</h1>
-        <ul>
+        <h1 class="card-title toc-heading">Содержание</h1>
+        <ul class="toc-list">
             {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
         </ul>
     </div>
 </nav>
-
-<style lang="scss">
-    ul {
-        list-style: none;
-        padding: 0;
-    }
-</style>

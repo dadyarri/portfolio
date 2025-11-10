@@ -16,7 +16,7 @@ export interface Props {
 	</a>
 	{
 		heading.subheadings.length > 0 && (
-			<ul>
+			<ul class="toc-list toc-sublist">
 				{heading.subheadings.map((subheading) => (
 					<Astro.self heading={subheading} />
 				))}
@@ -24,11 +24,3 @@ export interface Props {
 		)
 	}
 </li>
-
-<style lang="scss">
-	a.active {
-        background-color: var(--bg-2);
-        color: var(--text-1);
-        display: inline;
-    }
-</style>
