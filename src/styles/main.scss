@@ -1,17 +1,19 @@
 @use "sass:map";
-@use "parts/_mixins" as *;
-@use "parts/_variables" as *;
-@use "parts/_fonts";
-@use "parts/_links";
-@use "parts/_tags";
-@use "parts/_headings";
-@use "parts/_code";
+@use "parts/_callouts";
 @use "parts/_cards";
+@use "parts/_code";
+@use "parts/_cv";
+@use "parts/_fonts";
+@use "parts/_header";
+@use "parts/_headings";
 @use "parts/_hr";
 @use "parts/_images";
-@use "parts/_callouts";
+@use "parts/_links";
+@use "parts/_mixins" as *;
 @use "parts/_pagination";
+@use "parts/_tags";
 @use "parts/_toc";
+@use "parts/_variables" as *;
 @use "themes/dark";
 
 // Variables
