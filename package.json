@@ -36,6 +36,7 @@
     "@iconify-json/fa6-brands": "^1.2.5",
     "@iconify-json/fa6-regular": "^1.2.3",
     "@iconify-json/fa6-solid": "^1.2.3",
+    "cheerio": "^1.1.2",
     "sass-embedded": "^1.83.1",
     "satori": "^0.12.2",
     "vite": "^6.0.7"
