@@ -110,7 +110,7 @@ export default function staticCodeImages(): AstroIntegration {
                 const transformed = transformHtml(body);
                 originalEnd.call(this, transformed, ...args);
               } catch (err) {
-                logger.warn(`[static-code-images] transformation error: ${String(err)}`);
+                logger.warn(`transformation error: ${String(err)}`);
                 originalEnd.call(this, body, ...args);
               }
             } else {
@@ -121,13 +121,13 @@ export default function staticCodeImages(): AstroIntegration {
           next();
         });
 
-        logger.info(`[static-code-images] dev middleware installed`);
+        logger.info(`dev middleware installed`);
       },
 
       'astro:build:done': async ({ dir, logger }) => {
         // Build mode: post-process all HTML files in dist to apply build-time transforms
         const outDir = fileURLToPath(dir);
-        logger.info(`[static-code-images] processing ${outDir}`);
+        logger.info(`processing ${outDir}`);
 
         const files = await walkDir(outDir);
         const htmlFiles = files.filter((f) => f.endsWith('.html'));
@@ -137,13 +137,13 @@ export default function staticCodeImages(): AstroIntegration {
             let html = await readFile(file, 'utf8');
             html = transformHtml(html);
             await writeFile(file, html, 'utf8');
-            logger.debug(`[static-code-images] processed ${file}`);
+            logger.debug(`processed ${file}`);
           } catch (err) {
-            logger.warn(`[static-code-images] failed to process ${file}: ${String(err)}`);
+            logger.warn(`failed to process ${file}: ${String(err)}`);
           }
         }
 
-        logger.info(`[static-code-images] completed processing ${htmlFiles.length} HTML files`);
+        logger.info(`completed processing ${htmlFiles.length} HTML files`);
       },
     },
   };
