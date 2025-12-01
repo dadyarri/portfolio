@@ -1,6 +1,6 @@
 ---
 title: "Переезд домашней лаборатории с VDS на мини-пк"
-date: "2025-11-14"
+date: "2025-12-05"
 draft: true
 tags: ["self-hosting"]
 series: "selfhosting"
