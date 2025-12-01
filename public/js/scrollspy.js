@@ -4,12 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.content h1, .content h2, .content h3')
     );
 
-    console.log(headings);
-
     // Select all TOC links
     const tocLinks = Array.from(document.querySelectorAll('aside a'));
-
-    console.log(tocLinks);
 
     // Throttle scroll handler for performance
     let ticking = false;
