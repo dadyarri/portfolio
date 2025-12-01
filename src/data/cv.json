@@ -32,6 +32,27 @@
   ],
   "workExperience": [
     {
+      "title": "C#/.NET-разработчик (микросервисы)",
+      "subtitle": "Ростелеком ИТ",
+      "link": "https://rtkit.ru/",
+      "date": {
+        "start": "2025-11-25",
+        "end": null,
+        "showAmountOfTime": false
+      },
+      "stack": [
+        "C#",
+        ".NET",
+        "ASP.NET Core",
+        "gRPC",
+        "Pangolin",
+        "Git",
+        "Docker",
+        "Linux"
+      ],
+      "description": []
+    },
+    {
       "title": "C#/.NET-разработчик (микросервисы, инструментарий разработки)",
       "subtitle": "АСТЭК",
       "link": "https://sicon.ru/",

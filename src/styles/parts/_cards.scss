@@ -44,6 +44,10 @@ $card-link-font-size: 1.5rem;
   margin-top: auto;
 }
 
+.cards {
+  gap: 25px;
+}
+
 // Card styles
 .card {
   @include card-base;
@@ -90,7 +94,6 @@ $card-link-font-size: 1.5rem;
   }
 }
 
-// Responsive styles
 @include respond-to("small") {
   .card {
     flex-direction: column;

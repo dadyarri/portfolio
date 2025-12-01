@@ -1,6 +1,7 @@
 ---
 import PostCard from "@components/PostCard.astro";
 import type { CollectionEntry } from "astro:content";
+import { Masonry } from 'astro-masonry';
 
 type Props = {
   posts: (CollectionEntry<"posts"> | CollectionEntry<"minis">)[];
@@ -9,24 +10,10 @@ type Props = {
 const { posts }: Props = Astro.props;
 ---
 
-<div class="cards">
+<Masonry breakpointCols={{
+  default: 3,
+  1100: 2,
+  900: 1
+}} class="cards">
   {posts.map((post) => <PostCard post={post} />)}
-</div>
-
-<style lang="scss">
-  .cards {
-    display: block; // Or remove it entirely if it's not a block-level element already
-    padding: 12px 0;
-    margin-bottom: 48px;
-
-    @media (min-width: 720px) {
-      column-count: 2;
-      column-gap: 32px;
-    }
-
-    @media (min-width: 1200px) {
-      column-count: 3;
-      column-gap: 32px;
-    }
-  }
-</style>
+</Masonry>

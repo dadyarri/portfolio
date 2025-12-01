@@ -1,0 +1,31 @@
+@use "sass:map";
+@use "_variables" as *;
+
+h1.toc-heading {
+  font-family: var(--header-font);
+  line-height: 100%;
+  margin: map.get($spacing, 'md') 0 map.get($spacing, 'sm');
+  font-size: 1.6rem;
+  color: var(--text-1);
+}
+
+ul.toc-list {
+    list-style: none;
+    padding: 0;
+
+    & a {
+        border: none;
+
+        &.active {
+            background-color: var(--bg-2);
+            padding: 5px;
+            border-radius: map.get($border-radius, "md");
+            color: var(--text-1);
+            display: inline;
+        }
+    }
+}
+
+ul.toc-sublist {
+    margin-left: map.get($spacing, 'sm');
+}

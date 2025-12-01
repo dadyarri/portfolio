@@ -1,39 +1,115 @@
 @use "sass:map";
 @use "_variables" as *;
 
-// Heading variables
-$heading-base-size: 1rem;
-$heading-base-size-print: 0.9rem;
-$heading-scale-factor: 0.1;
+// New heading scale — exponential rather than linear for stronger contrast
+$heading-sizes: (
+  1: 2.4rem,  // h1 — large page title
+  2: 1.9rem,  // h2 — section title
+  3: 1.5rem,  // h3 — subsection
+  4: 1.25rem, // h4 — small subsection
+  5: 1.1rem,  // h5 — inline title
+  6: 1rem     // h6 — smallest
+);
 
-// Heading mixins
+// Print size adjustments (a bit smaller)
+$heading-sizes-print: (
+  1: 2rem,
+  2: 1.6rem,
+  3: 1.3rem,
+  4: 1.1rem,
+  5: 1rem,
+  6: 0.9rem
+);
+
+// Base heading mixin
 @mixin heading-base {
-    font-family: var(--header-font);
-    line-height: 100%;
-    margin: map.get($spacing, 'md') 0 map.get($spacing, 'sm');
+  font-family: var(--header-font);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: map.get($spacing, 'lg') 0 map.get($spacing, 'sm');
+  color: var(--text-1);
 
-    @media print {
-        margin: 10px 0;
-    }
+  @media print {
+    color: black;
+  }
 }
 
-// Generate heading sizes using a function
-@function calculate-heading-size($level) {
-    @return $heading-base-size + ($heading-scale-factor * (7 - $level));
+// Style variants per level for visual rhythm
+h1, h2, h3, h4, h5, h6 {
+  @include heading-base;
 }
 
-@function calculate-heading-size-print($level) {
-    @return $heading-base-size-print + ($heading-scale-factor * (7 - $level));
+// h1 — main titles
+h1 {
+  font-size: map.get($heading-sizes, 1);
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: map.get($spacing, 'xs');
+  letter-spacing: -0.02em;
+
+  @media print {
+    font-size: map.get($heading-sizes-print, 1);
+  }
 }
 
-// Heading styles
-@for $level from 1 through 6 {
-    h#{$level} {
-        font-size: calculate-heading-size($level);
-        @include heading-base;
+// h2 — section headers
+h2 {
+  font-size: map.get($heading-sizes, 2);
+  border-left: 4px solid var(--border-color);
+  padding-left: map.get($spacing, 'sm');
+  letter-spacing: -0.01em;
 
-        @media print {
-            font-size: calculate-heading-size-print($level);
-        }
-    }
+  @media print {
+    font-size: map.get($heading-sizes-print, 2);
+  }
+}
+
+// h3 — subsection
+h3 {
+  font-size: map.get($heading-sizes, 3);
+  color: var(--text-0);
+  letter-spacing: 0;
+  margin-top: map.get($spacing, 'md');
+
+  @media print {
+    font-size: map.get($heading-sizes-print, 3);
+  }
+}
+
+// h4 — small section
+h4 {
+  font-size: map.get($heading-sizes, 4);
+  font-weight: 600;
+  color: var(--text-0);
+  margin-top: map.get($spacing, 'md');
+
+  @media print {
+    font-size: map.get($heading-sizes-print, 4);
+  }
+}
+
+// h5 — inline title or caption
+h5 {
+  font-size: map.get($heading-sizes, 5);
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-1);
+  letter-spacing: 0.04em;
+
+  @media print {
+    font-size: map.get($heading-sizes-print, 5);
+  }
+}
+
+// h6 — minimal heading
+h6 {
+  font-size: map.get($heading-sizes, 6);
+  font-weight: 400;
+  color: var(--text-1);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
+
+  @media print {
+    font-size: map.get($heading-sizes-print, 6);
+  }
 }
