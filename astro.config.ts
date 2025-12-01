@@ -19,7 +19,12 @@ export default defineConfig({
       theme: "tokyo-night",
       langs: [
         {...caddyLang}
-      ]
+      ],
+      transformers: [{
+        pre(hast) {
+          hast.properties['data-meta'] = this.options.meta?.__raw;
+        }
+      }]
     }
   },
   redirects: {

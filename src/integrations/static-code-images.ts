@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'path';
 import * as cheerio from 'cheerio';
+import { parse } from 'node:path';
 
 const copyIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-copy"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
 
@@ -31,6 +32,24 @@ function escapeHtml(str: string): string {
   return str.replace(/[&<>"']/g, (s) => map[s] || s);
 }
 
+function parseKeyValueString(inputString: string): Record<string, string> {
+  const result: Record<string, string> = {};
+  // Regular expression to find key=value pairs.
+  // It looks for a sequence of non-space characters (the key)
+  // followed by an equals sign, then any characters (the value)
+  // until the next key=value or end of string.
+  const regex = /(\S+)=([^=\s]*(?:\s(?!\S+=)\S*)*)/g;
+  let match;
+
+  while ((match = regex.exec(inputString)) !== null) {
+    const key = match[1];
+    const value = match[2];
+    result[key] = value;
+  }
+
+  return result;
+}
+
 function transformHtml(html: string): string {
   const $ = cheerio.load(html);
 
@@ -41,8 +60,10 @@ function transformHtml(html: string): string {
 
     // Check if already wrapped
     if (!pre.parent().hasClass('code-container')) {
-      const lang = (pre.attr('data-language') || 'default').toUpperCase();
-      const footer = `<div class="code-footer"><span class="code-label">${lang}</span><button class="clipboard-button" aria-label="Copy code to clipboard">${copyIcon}</button></div>`;
+      const meta = parseKeyValueString(pre.attr('data-meta') || '');
+      const filename = meta['filename'] ? ` (${meta['filename']})` : '';
+      const lang = (meta['lang'] || pre.attr('data-language') || 'default').toUpperCase();
+      const footer = `<div class="code-footer"><span class="code-label">${lang} ${filename}</span><button class="clipboard-button" aria-label="Copy code to clipboard">${copyIcon}</button></div>`;
 
       pre.wrap('<div class="code-container"></div>');
       pre.after(footer);
