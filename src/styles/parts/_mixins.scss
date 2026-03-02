@@ -31,7 +31,7 @@ $breakpoints: (
         font-style: $style;
         font-weight: $weight;
         $font-name: str-replace(string.to-lower-case($family), ' ', '-');
-        src: url("/fonts/#{$font-name}#{if($weight == 700, '-bold', '')}.ttf"), local("ttf");
+        src: url("/fonts/#{$font-name}#{if(sass($weight == 700): '-bold'; else: '')}.ttf"), local("ttf");
         font-display: swap;
     }
 }
