@@ -7,7 +7,6 @@ import { remarkReadingTime } from './src/remark/reading-time.mjs';
 import staticCodeImages from './src/integrations/static-code-images';
 
 import caddyLang from './syntaxes/caddyfile.tmLanguage.json' assert { type: 'json' };
-import { bundledLanguages } from 'shiki'
 
 // https://astro.build/config
 export default defineConfig({

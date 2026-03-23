@@ -5,18 +5,13 @@ import CVSection from "@components/CVSection.astro";
 import CVTimeline from "@components/CVTimeline.astro";
 import CVSkills from "@components/CVSkills.astro";
 import CVContact from "@components/CVContact.astro";
-import type { Contact, CVData, Project } from "@type/cv";
-import {
-  personalInfo,
-  contactInfo,
-  workExperience,
-  education,
-  skills,
-  projects,
-} from "@data/cv.json";
+import { cv } from "@data/cv.json" with { type: "json" };
 import CVProjects from "@components/CVProjects.astro";
+import { type CVData } from "@type/cv";
 
-const typedContactInfo = contactInfo as Contact[];
+const typedCv = cv as CVData;
+const { personalInfo, workExperience, education, skills, contactInfo, projects } = typedCv;
+
 ---
 
 <Layout title="Резюме">
@@ -35,7 +30,7 @@ const typedContactInfo = contactInfo as Contact[];
   </CVSection>
 
   <CVSection title="Контакты">
-    <CVContact contacts={typedContactInfo} />
+    <CVContact contacts={contactInfo} />
   </CVSection>
 
   <CVSection title="Проекты" pageBreakBefore>
