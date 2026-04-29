@@ -15,28 +15,27 @@
     "typeRoots": [
       "./node_modules"
     ],
-    "baseUrl": ".",
     "paths": {
       "@components/*": [
-        "src/components/*"
+        "./src/components/*"
       ],
       "@assets/*": [
-        "src/assets/*"
+        "./src/assets/*"
       ],
       "@data/*": [
-        "src/data/*"
+        "./src/data/*"
       ],
       "@utils/*": [
-        "src/utils/*"
+        "./src/utils/*"
       ],
       "@styles/*": [
-        "src/styles/*"
+        "./src/styles/*"
       ],
       "@layouts/*": [
-        "src/layouts/*"
+        "./src/layouts/*"
       ],
       "@type/*": [
-        "src/types/*"
+        "./src/types/*"
       ]
     }
   }

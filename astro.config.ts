@@ -6,7 +6,7 @@ import icon from 'astro-icon';
 import { remarkReadingTime } from './src/remark/reading-time.mjs';
 import staticCodeImages from './src/integrations/static-code-images';
 
-import caddyLang from './syntaxes/caddyfile.tmLanguage.json' assert { type: 'json' };
+import caddyLang from './syntaxes/caddyfile.tmLanguage.json' with { type: 'json' };
 
 // https://astro.build/config
 export default defineConfig({
