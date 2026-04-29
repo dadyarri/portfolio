@@ -20,28 +20,27 @@
     "url": "https://github.com/dadyarri/portfolio/issues"
   },
   "homepage": "https://dadyarri.ru",
-  "dependencies": {},
   "devDependencies": {
-    "@astrojs/check": "0.9.8",
-    "@astrojs/rss": "4.0.17",
-    "astro": "6.0.8",
-    "astro-icon": "1.1.5",
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/rss": "^4.0.18",
     "@iconify-json/carbon": "1.2.5",
     "@iconify-json/fa6-brands": "1.2.5",
     "@iconify-json/fa6-regular": "1.2.3",
     "@iconify-json/fa6-solid": "1.2.3",
-    "astro-masonry": "1.2.2",
-    "mdast-util-to-string": "4.0.0",
-    "reading-time": "1.5.0",
     "@types/node": "^25.5.0",
+    "astro": "^6.1.10",
+    "astro-icon": "1.1.5",
+    "astro-masonry": "1.2.2",
     "cheerio": "1.1.2",
     "knip": "6.0.3",
+    "mdast-util-to-string": "4.0.0",
+    "reading-time": "1.5.0",
     "sass-embedded": "1.98.0",
-    "typescript": "5.9.3",
-    "vite": "7.3.1"
+    "typescript": "^6.0.3",
+    "vite": "^7.3.2"
   },
   "overrides": {
-    "fast-xml-parser": "5.5.8",
+    "fast-xml-parser": "5.7.0",
     "yaml": "2.8.3"
   }
 }
