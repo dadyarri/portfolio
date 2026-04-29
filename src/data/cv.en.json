@@ -30,7 +30,7 @@
     ],
     "workExperience": [
       {
-        "title": "C#/.NET Developer (Microservices)",
+        "title": "Full-stack Developer",
         "subtitle": "Rostelecom IT",
         "link": "https://rtkit.ru/",
         "date": {
@@ -42,13 +42,19 @@
           "C#",
           ".NET",
           "ASP.NET Core",
+          "React",
+          "Typescript",
           "gRPC",
           "Pangolin",
           "Git",
           "Docker",
+          "Kubernetes",
           "Linux"
         ],
-        "description": []
+        "description": [
+          "Working on analyzing and rewriting a legacy Visual Basic 6 application to a modern C#/.NET stack, significantly improving performance and user experience",
+          "Deployed the application in Kubernetes, ensuring high availability and scalability, and implemented monitoring and logging for timely issue detection and resolution"
+        ]
       },
       {
         "title": "C#/.NET Developer (Microservices, Development Tooling)",
