@@ -2,7 +2,6 @@
 @use "parts/_cards";
 @use "parts/_code";
 @use "parts/_cv";
-@use "parts/_fonts";
 @use "parts/_header";
 @use "parts/_headings";
 @use "parts/_hr";
@@ -25,9 +24,9 @@ $font-sizes: (
 // Root styles
 :root {
     // Fonts
-    --text-font: "Jetbrains Mono";
-    --header-font: "Rubik";
-    --code-font: "Jetbrains Mono";
+    --text-font: "JetBrains Mono", "Cascadia Mono", "Fira Code", "Consolas", monospace;
+    --header-font: "Rubik", "Segoe UI", "Helvetica Neue", arial, sans-serif;
+    --code-font: "JetBrains Mono", "Cascadia Mono", "Fira Code", "Consolas", monospace;
 
     // Layout
     --border-radius: 4px;
