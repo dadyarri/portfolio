@@ -9,7 +9,7 @@
     "contactInfo": [
       {
         "type": "email",
-        "value": "me@dadyarri.ru",
+        "value": "me@dadyarri.dev",
         "label": "почта"
       },
       {
@@ -23,7 +23,7 @@
       },
       {
         "type": "website",
-        "value": "https://dadyarri.ru",
+        "value": "https://dadyarri.dev",
         "label": "сайт"
       },
       {
@@ -151,7 +151,7 @@
         "description": "Личный блог о технологиях и резюме",
         "links": [
           "https://github.com/dadyarri/portfolio",
-          "https://dadyarri.ru"
+          "https://dadyarri.dev"
         ],
         "stack": [
           "Typescript",
