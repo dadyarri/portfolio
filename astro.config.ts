@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 
 import icon from 'astro-icon';
 
@@ -13,7 +14,9 @@ export default defineConfig({
   site: "https://dadyarri.ru",
   integrations: [icon(), staticCodeImages()],
   markdown: {
-    remarkPlugins: [remarkReadingTime],
+    processor: unified({
+      remarkPlugins: [remarkReadingTime],
+    }),
     shikiConfig: {
       theme: "tokyo-night",
       langs: [
