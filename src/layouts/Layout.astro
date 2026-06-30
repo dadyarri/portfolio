@@ -24,8 +24,8 @@ const { title = "dadyarri" } = Astro.props;
 		<meta property="og:url" content="https://dadyarri.ru" />
 	</head>
 	<body>
+		<Header />
 		<div class="content">
-			<Header />
 			<PageTitle title={title} />
 			<slot />
 		</div>

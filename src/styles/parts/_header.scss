@@ -3,7 +3,9 @@ header {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 1em 0;
+    align-items: center;
+    box-sizing: border-box;
+    width: 100%;
     max-width: 1400px;
     margin: 30px auto;
     padding: 0 24px;
@@ -19,9 +21,17 @@ header {
         margin-bottom: 5px;
     }
 
+    & .socials {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+    }
+
     @media (max-width: 650px) {
         flex-direction: column;
         align-items: center;
+        gap: 12px;
     }
 
     @media print {
