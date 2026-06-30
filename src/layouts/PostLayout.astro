@@ -12,9 +12,9 @@ import TableOfContents from "@components/TableOfContents.astro";
 import "@styles/main.scss";
 import { getTagLabel } from "@utils/content";
 import { splitArrayByElement, stripHtml } from "@utils/data";
-import type { MarkdownHeading } from "astro";
 import { Icon } from "astro-icon/components";
 import type { CollectionEntry } from "astro:content";
+import { MarkdownHeading } from "astro/dist/types/public";
 
 type Props = {
     post: CollectionEntry<"posts"> | CollectionEntry<"minis">;
@@ -32,6 +32,10 @@ const preview = stripHtml(
 
 const url = `https://dadyarri.ru/${post.collection}/${post.id}`;
 const imageUrl = `https://dadyarri.ru/content/${post.collection}/${post.id}/og-image.png`; // TODO
+const renderedHtml = post.rendered?.html ?? "";
+const needsCodeImagesScript =
+    renderedHtml.includes("<pre") || renderedHtml.includes("<img");
+const needsScrollSpyScript = headings.length > 0;
 
 const ld = {
     "@context": "https://schema.org",
@@ -104,8 +108,16 @@ const ld = {
             set:html={JSON.stringify(ld)}
             is:inline
         />
-		<script src="/js/code-images.js" is:inline></script>
-        <script src="/js/scrollspy.js" is:inline></script>
+        {
+            needsCodeImagesScript && (
+                <script src="/js/code-images.js" defer is:inline></script>
+            )
+        }
+        {
+            needsScrollSpyScript && (
+                <script src="/js/scrollspy.js" defer is:inline></script>
+            )
+        }
     </head>
     <body>
         <Header />

@@ -29,10 +29,6 @@ export default defineConfig({
       }]
     }
   },
-  redirects: {
-    "/posts": "/posts/1",
-    "/minis": "/minis/1"
-  },
   i18n: {
     locales: ["en", "ru"],
     defaultLocale: "ru"

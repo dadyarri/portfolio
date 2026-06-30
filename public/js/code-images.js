@@ -19,36 +19,34 @@ function getNonTableCode(codeBlock) {
   return codeBlock.textContent.trim();
 }
 
-// Get modal (may be injected after script loads)
+let modal;
+let modalImg;
+
 function getModal() {
-  return document.getElementById('image-modal');
+  if (!modal) {
+    modal = document.getElementById('image-modal');
+  }
+  return modal;
 }
 
 function getModalImg() {
-  const modal = getModal();
-  return modal ? modal.querySelector('img') : null;
+  if (!modalImg) {
+    const currentModal = getModal();
+    modalImg = currentModal ? currentModal.querySelector('img') : null;
+  }
+  return modalImg;
 }
 
-// Close modal when clicking outside the image
-document.addEventListener('click', (e) => {
-  const modal = getModal();
-  if (modal && e.target === modal) {
-    modal.style.display = 'none';
-  }
-});
-
-// Close modal when pressing Escape
-document.addEventListener('keydown', (e) => {
-  const modal = getModal();
-  if (e.key === 'Escape' && modal && modal.style.display === 'flex') {
-    modal.style.display = 'none';
-  }
-});
-
-// Event delegation: clipboard button clicks
 document.addEventListener('click', async (e) => {
-  if (e.target.closest('.clipboard-button')) {
-    const button = e.target.closest('.clipboard-button');
+  const modalElement = getModal();
+
+  if (modalElement && e.target === modalElement) {
+    modalElement.style.display = 'none';
+    return;
+  }
+
+  const button = e.target.closest('.clipboard-button');
+  if (button) {
     const container = button.closest('.code-container');
     if (!container) return;
 
@@ -65,22 +63,27 @@ document.addEventListener('click', async (e) => {
       console.error('Failed to copy text: ', error);
       changeIcon(button, false);
     }
+    return;
   }
-});
 
-// Event delegation: image clicks
-document.addEventListener('click', (e) => {
   const img = e.target.closest('div.image img');
   if (!img) return;
 
-  const modal = getModal();
-  const modalImg = getModalImg();
-  if (!modal || !modalImg) return;
+  const imageModal = getModal();
+  const currentModalImg = getModalImg();
+  if (!imageModal || !currentModalImg) return;
 
   const rect = img.getBoundingClientRect();
-  modalImg.src = img.src;
-  modalImg.alt = img.alt;
-  modalImg.style.minWidth = rect.width + 'px';
-  modalImg.style.minHeight = rect.height + 'px';
-  modal.style.display = 'flex';
+  currentModalImg.src = img.src;
+  currentModalImg.alt = img.alt;
+  currentModalImg.style.minWidth = rect.width + 'px';
+  currentModalImg.style.minHeight = rect.height + 'px';
+  imageModal.style.display = 'flex';
+});
+
+document.addEventListener('keydown', (e) => {
+  const currentModal = getModal();
+  if (e.key === 'Escape' && currentModal && currentModal.style.display === 'flex') {
+    currentModal.style.display = 'none';
+  }
 });

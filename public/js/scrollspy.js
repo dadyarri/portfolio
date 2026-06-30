@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Select all headings you want to spy on
     const headings = Array.from(
         document.querySelectorAll('.content h1, .content h2, .content h3')
     );
-
-    // Select all TOC links
     const tocLinks = Array.from(document.querySelectorAll('aside a'));
 
-    // Throttle scroll handler for performance
+    if (headings.length === 0 || tocLinks.length === 0) {
+        return;
+    }
+
     let ticking = false;
 
     function onScroll() {
@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Initialize
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
     updateActiveHeading();
 });

@@ -1,0 +1,21 @@
+---
+import Pagination from "@components/Pagination.astro";
+import PostCards from "@components/PostCards.astro";
+import Layout from "@layouts/Layout.astro";
+import { config } from "@data/config.json";
+import { getMinis } from "@utils/content";
+
+const minis = await getMinis();
+const pagesAmount = Math.ceil(minis.length / config.pageSize);
+const firstPageMinis = minis.slice(0, config.pageSize);
+---
+
+<Layout title="Шпаргалки">
+    <PostCards posts={firstPageMinis} />
+
+    <Pagination
+        currentPage={1}
+        pagesAmount={pagesAmount}
+        category="minis"
+    />
+</Layout>

@@ -10,9 +10,10 @@ type Props = {
 };
 
 const { page, category, currentPage, icon, label } = Astro.props;
+const href = page === 1 ? `/${category}` : `/${category}/${page}`;
 ---
 
 <a
-    href=`/${category}/${page}`
+    href={href}
     class:list={["pagination-button", { active: page === currentPage }]}>{icon && label ? <><Icon name={icon} width={20} /><span>{label}</span></> : page}
 </a>

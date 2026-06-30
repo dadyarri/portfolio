@@ -7,10 +7,11 @@ type Props = {
 };
 
 const { page, category } = Astro.props;
+const href = page === 1 ? `/${category}` : `/${category}/${page}`;
 ---
 
 <a
-    href=`/${category}/${page}`
+    href={href}
     class="pagination-button"
 >
     <span>В прошлое</span>

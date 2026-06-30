@@ -1,0 +1,21 @@
+---
+import Pagination from "@components/Pagination.astro";
+import PostCards from "@components/PostCards.astro";
+import Layout from "@layouts/Layout.astro";
+import { config } from "@data/config.json";
+import { getPosts } from "@utils/content";
+
+const posts = await getPosts();
+const pagesAmount = Math.ceil(posts.length / config.pageSize);
+const firstPagePosts = posts.slice(0, config.pageSize);
+---
+
+<Layout title="Посты">
+    <PostCards posts={firstPagePosts} />
+
+    <Pagination
+        currentPage={1}
+        pagesAmount={pagesAmount}
+        category="posts"
+    />
+</Layout>
