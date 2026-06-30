@@ -6,7 +6,7 @@ export interface Contact {
   label?: string | undefined;
 }
 
-export interface Date {
+interface Date {
   start: string;
   end?: string | 'н. в.';
   showAmountOfTime: boolean;
@@ -21,7 +21,7 @@ export interface TimelineItem {
   stack?: string[];
 }
 
-export interface Skill {
+interface Skill {
   name: string;
 }
 
@@ -30,7 +30,7 @@ export interface SkillCategory {
   skills: Skill[];
 }
 
-export interface PersonalInfo {
+interface PersonalInfo {
   name: string;
   title: string;
   photo?: string;

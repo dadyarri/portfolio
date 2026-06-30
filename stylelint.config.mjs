@@ -1,0 +1,21 @@
+export default {
+  extends: ["stylelint-config-standard-scss"],
+  ignoreFiles: ["dist/**"],
+  rules: {
+    "alpha-value-notation": null,
+    "at-rule-empty-line-before": null,
+    "color-function-alias-notation": null,
+    "color-function-notation": null,
+    "custom-property-empty-line-before": null,
+    "declaration-block-no-duplicate-properties": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "declaration-empty-line-before": null,
+    "declaration-property-value-keyword-no-deprecated": null,
+    "media-feature-range-notation": null,
+    "property-no-deprecated": null,
+    "scss/dollar-variable-empty-line-before": null,
+    "scss/load-no-partial-leading-underscore": null,
+    "selector-class-pattern": null,
+    "selector-no-vendor-prefix": null,
+  },
+};

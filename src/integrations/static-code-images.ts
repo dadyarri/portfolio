@@ -113,10 +113,9 @@ export default function staticCodeImages(): AstroIntegration {
           }
 
           const originalEnd = res.end;
-          const originalWrite = res.write;
           let chunks: any[] = [];
 
-          res.write = function (chunk: any, ...args: any[]) {
+          res.write = function (chunk: any) {
             chunks.push(chunk);
             return res;
           };

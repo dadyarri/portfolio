@@ -12,11 +12,11 @@ export const getStaticPaths = ( async () => {
 	}))
 }) satisfies GetStaticPaths;
 
-type Props = CollectionEntry<'posts'>
-const post = Astro.props
-const { Content, headings } = await render(post)
+type Props = CollectionEntry<"minis">;
+const post = Astro.props;
+const { Content, headings } = await render(post);
 ---
 
-<PostLayout post={post}, headings={headings}>
-    <Content/>
+<PostLayout post={post} headings={headings}>
+    <Content />
 </PostLayout>

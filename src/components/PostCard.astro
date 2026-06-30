@@ -12,7 +12,7 @@ const { post } = Astro.props;
 const path = `/${post.collection}/${post.id}`;
 
 const preview = splitArrayByElement(
-    post.rendered?.html.split("\n")!,
+    post.rendered?.html?.split("\n") ?? [],
     "<!--more-->",
 ).preview.join("");
 ---

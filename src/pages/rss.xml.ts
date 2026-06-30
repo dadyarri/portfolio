@@ -1,5 +1,5 @@
 import rss, { type RSSFeedItem } from '@astrojs/rss';
-import { getMinis, getPosts, getTagLabelsForPost } from '@utils/content';
+import { getMinis, getPosts, getTagLabelsForMini, getTagLabelsForPost } from '@utils/content';
 import { splitArrayByElement, stripHtml } from '@utils/data';
 import type { APIContext } from 'astro';
 
@@ -10,7 +10,7 @@ export async function GET(context: APIContext) {
     title: post.data.title,
     pubDate: post.data.date,
     description: stripHtml(
-      splitArrayByElement(post.rendered?.html.split("\n")!, "<!--more-->").preview.join("")
+      splitArrayByElement(post.rendered?.html?.split("\n") ?? [], "<!--more-->").preview.join("")
     ),
     link: `/posts/${post.id}`,
     author: "dadyarri",
@@ -23,11 +23,11 @@ const minis: RSSFeedItem[] = await Promise.all(
     title: mini.data.title,
     pubDate: mini.data.date,
     description: stripHtml(
-      splitArrayByElement(mini.rendered?.html.split("\n")!, "<!--more-->").preview.join("")
+      splitArrayByElement(mini.rendered?.html?.split("\n") ?? [], "<!--more-->").preview.join("")
     ),
     link: `/minis/${mini.id}`,
     author: "dadyarri",
-    categories: await getTagLabelsForPost(mini.id),
+    categories: await getTagLabelsForMini(mini.id),
   }))
 );
 

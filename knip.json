@@ -1,5 +1,15 @@
 {
   "$schema": "https://unpkg.com/knip@5/schema.json",
+  "ignoreDependencies": [
+    "@iconify-json/carbon",
+    "@iconify-json/fa6-brands",
+    "@iconify-json/fa6-regular",
+    "@iconify-json/fa6-solid"
+  ],
+  "ignoreFiles": [
+    "public/js/code-images.js",
+    "public/js/scrollspy.js"
+  ],
   "tags": [
     "-lintignore"
   ]

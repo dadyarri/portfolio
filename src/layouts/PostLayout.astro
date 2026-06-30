@@ -13,7 +13,7 @@ import { Icon } from "astro-icon/components";
 import type { CollectionEntry } from "astro:content";
 
 type Props = {
-    post: CollectionEntry<"posts">;
+    post: CollectionEntry<"posts"> | CollectionEntry<"minis">;
     headings: MarkdownHeading[];
 };
 
@@ -21,7 +21,7 @@ const { post, headings } = Astro.props;
 
 const preview = stripHtml(
     splitArrayByElement(
-        post.rendered?.html.split("\n")!,
+        post.rendered?.html?.split("\n") ?? [],
         "<!--more-->",
     ).preview.join(""),
 );

@@ -90,7 +90,18 @@ export const getMinisBySeries = async (series: string, order: SortOrder = 'asc')
 }
 
 export const getTagLabelsForPost = async (postId: string): Promise<string[]> => {
-  const post = await getEntry("posts", postId);
+  return getTagLabelsForEntry("posts", postId);
+};
+
+export const getTagLabelsForMini = async (postId: string): Promise<string[]> => {
+  return getTagLabelsForEntry("minis", postId);
+};
+
+const getTagLabelsForEntry = async (
+  collection: "posts" | "minis",
+  postId: string,
+): Promise<string[]> => {
+  const post = await getEntry(collection, postId);
   const tags = post?.data.tags;
 
   if (!tags) {
@@ -106,23 +117,5 @@ export const getTagLabelsForPost = async (postId: string): Promise<string[]> => 
   );
 
   // Optionally filter out empty strings if you don't want them:
-  return tagLabels.filter((label) => label !== "");
-};
-
-export const getTagLabelsForMini = async (postId: string): Promise<string[]> => {
-  const mini = await getEntry("minis", postId);
-  const tags = mini?.data.tags;
-
-  if (!tags) {
-    return [];
-  }
-
-  const tagLabels = await Promise.all(
-    tags.map(async (tag) => {
-      const label = await getTagLabel(tag.id);
-      return label ?? "";
-    })
-  );
-
   return tagLabels.filter((label) => label !== "");
 };
