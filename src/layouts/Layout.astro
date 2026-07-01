@@ -7,11 +7,17 @@ import "@fontsource/rubik/400.css";
 import "@fontsource/rubik/700.css";
 import "@styles/main.scss";
 
-const { title = "dadyarri" } = Astro.props;
+const {
+	title = "dadyarri",
+	description = "Личный блог dadyarri",
+	lang = "ru",
+} = Astro.props;
+
+const url = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="ru">
+<html lang={lang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
@@ -21,11 +27,12 @@ const { title = "dadyarri" } = Astro.props;
 		<title>{title}</title>
 		<meta property="og:title" content={title} />
 
-		<meta name="description" content="Личный блог dadyarri"/>
-		<meta property="og:description" content="Личный блог dadyarri" />
+		<meta name="description" content={description} />
+		<meta property="og:description" content={description} />
 		
 		<meta property="og:type" content="website" />
-		<meta property="og:url" content="https://dadyarri.ru" />
+		<meta property="og:url" content={url.toString()} />
+		<link rel="canonical" href={url.toString()} />
 	</head>
 	<body>
 		<Header />

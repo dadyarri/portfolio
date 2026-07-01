@@ -68,8 +68,8 @@ html {
     @media print {
         color: black;
         background-color: white;
-        font-size: 0.9rem;
-        margin: 10px;
+        font-size: 10.5pt;
+        margin: 0;
     }
 }
 
@@ -86,6 +86,7 @@ html {
 
 @media print {
     @page {
+        size: A4;
 
         @top-left {
             content: "";
@@ -99,7 +100,16 @@ html {
             content: "";
         }
 
+        margin: 12mm;
+    }
+
+    body {
         margin: 0;
+    }
+
+    .content {
+        max-width: none;
+        padding: 0;
     }
 }
 

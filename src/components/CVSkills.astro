@@ -12,11 +12,9 @@ const { categories } = Astro.props;
   {categories.map((category) => (
     <div class="cv-skills-category">
       <h3>{category.name}</h3>
-      <ul class="tags">
-        {category.skills.map((skill) => (
-          <li class="tag">{skill.name}</li>
-        ))}
-      </ul>
+      <p class="cv-skill-values">
+        {category.skills.map((skill) => skill.name).join(", ")}
+      </p>
     </div>
   ))}
 </div>

@@ -1,16 +1,16 @@
 ---
-import Layout from "@layouts/Layout.astro";
 import CVDocument from "@components/CVDocument.astro";
+import PrintLayout from "@layouts/PrintLayout.astro";
 import { cv } from "@data/cv.json" with { type: "json" };
-import { type CVData } from "@type/cv";
+import type { CVData } from "@type/cv";
 
 const typedCv = cv as CVData;
 ---
 
-<Layout
+<PrintLayout
   title="Резюме"
   description="Резюме Даниила Голубева, C#/.NET-разработчика."
   lang="ru"
 >
-  <CVDocument data={typedCv} locale="ru" showControls />
-</Layout>
+  <CVDocument data={typedCv} locale="ru" />
+</PrintLayout>

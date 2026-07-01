@@ -19,12 +19,34 @@ const { title, pageBreakBefore = false } = Astro.props;
     margin-bottom: 2rem;
 
     @media print {
+      margin-bottom: 1.25rem;
+      break-before: var(--page-break-before);
       page-break-before: var(--page-break-before);
+    }
+  }
+
+  .cv-section h2 {
+    @media print {
+      color: black;
+      break-after: avoid-page;
+      page-break-after: avoid;
+      margin-bottom: 0.75rem;
     }
   }
   
   .cv-section-content {
     padding-left: 1rem;
-    border-left: 2px solid var(--theme-color);
+
+    @media print {
+      break-inside: auto;
+      page-break-inside: auto;
+    }
+  }
+
+  .cv-section-content > * {
+    @media print {
+      break-inside: avoid-page;
+      page-break-inside: avoid;
+    }
   }
 </style>

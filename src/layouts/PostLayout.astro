@@ -14,7 +14,7 @@ import { getTagLabel } from "@utils/content";
 import { splitArrayByElement, stripHtml } from "@utils/data";
 import { Icon } from "astro-icon/components";
 import type { CollectionEntry } from "astro:content";
-import { MarkdownHeading } from "astro/dist/types/public";
+import type { MarkdownHeading } from "astro";
 
 type Props = {
     post: CollectionEntry<"posts"> | CollectionEntry<"minis">;

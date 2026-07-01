@@ -1,0 +1,65 @@
+---
+import CVHeader from "@components/CVHeader.astro";
+import CVControls from "@components/CVControls.astro";
+import CVSection from "@components/CVSection.astro";
+import CVTimeline from "@components/CVTimeline.astro";
+import CVSkills from "@components/CVSkills.astro";
+import CVContact from "@components/CVContact.astro";
+import CVProjects from "@components/CVProjects.astro";
+import type { CVData } from "@type/cv";
+
+interface Props {
+  data: CVData;
+  locale: "ru" | "en";
+  showControls?: boolean;
+}
+
+const { data, locale, showControls = false } = Astro.props;
+const { personalInfo, workExperience, education, skills, contactInfo, projects } = data;
+
+const copy = {
+  ru: {
+    workExperience: "Опыт работы",
+    education: "Образование",
+    skills: "Навыки",
+    contact: "Контакты",
+    projects: "Проекты",
+    locale: "ru-RU" as const,
+  },
+  en: {
+    workExperience: "Work Experience",
+    education: "Education",
+    skills: "Skills",
+    contact: "Contact",
+    projects: "Projects",
+    locale: "en-US" as const,
+  },
+};
+
+const translation = copy[locale];
+---
+
+<div class="cv-page">
+  {showControls && <CVControls locale={locale} />}
+  <CVHeader data={personalInfo} />
+
+  <CVSection title={translation.workExperience}>
+    <CVTimeline items={workExperience} locale={translation.locale} />
+  </CVSection>
+
+  <CVSection title={translation.education}>
+    <CVTimeline items={education} locale={translation.locale} />
+  </CVSection>
+
+  <CVSection title={translation.skills}>
+    <CVSkills categories={skills} />
+  </CVSection>
+
+  <CVSection title={translation.contact}>
+    <CVContact contacts={contactInfo} />
+  </CVSection>
+
+  <CVSection title={translation.projects}>
+    <CVProjects items={projects} locale={translation.locale} />
+  </CVSection>
+</div>
