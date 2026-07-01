@@ -9,6 +9,7 @@ header {
     max-width: 1400px;
     margin: 30px auto;
     padding: 0 24px;
+    animation: fade-in-soft 0.35s ease-out both;
 
     & .main {
         display: flex;
@@ -41,13 +42,28 @@ header {
 
 .socials a {
     border-bottom: unset;
+    transition:
+        transform 0.15s ease,
+        color 0.15s ease,
+        opacity 0.15s ease;
+
+    &:hover {
+        transform: translateY(-1px);
+        opacity: 0.9;
+    }
 }
 
 nav a {
+    display: inline-block;
     margin: 5px;
+    transition:
+        transform 0.15s ease,
+        background-color 0.15s ease,
+        color 0.15s ease;
 
     &:hover {
         background-color: var(--bg-2);
         color: var(--text-1);
+        transform: translateY(-1px);
     }
 }

@@ -1,0 +1,16 @@
+.page-header {
+    font-size: 3em;
+    line-height: 100%;
+    font-family: var(--header-font);
+    font-weight: 700;
+    margin: 4rem 0 1rem 0;
+
+    @media print {
+        display: none;
+    }
+
+    span {
+        color: var(--primary-color);
+        font-size: 1.6em;
+    }
+}

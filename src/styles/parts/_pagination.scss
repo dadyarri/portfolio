@@ -10,6 +10,17 @@
     @include tag-base;
     background-color: unset;
     border: 2px solid var(--bg-1);
+    transition:
+      transform 0.15s ease,
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+
+    &:hover {
+      transform: translateY(-1px);
+      background-color: var(--bg-1);
+      color: var(--text-1);
+    }
 
     &.active {
       border: unset;

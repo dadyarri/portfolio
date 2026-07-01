@@ -1,0 +1,77 @@
+@use "sass:map";
+@use "_variables" as *;
+
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-in-soft {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.page-header {
+    animation: fade-in-up 0.45s ease-out both;
+}
+
+.content > p:first-of-type,
+.content > .posts-header,
+.post-layout .content > .card-info,
+.post-layout .content > .pagination-button,
+.post-layout aside {
+    animation: fade-in-up 0.45s ease-out both;
+}
+
+.content > p:first-of-type {
+    animation-delay: 0.08s;
+}
+
+.content > .posts-header,
+.post-layout .content > .card-info {
+    animation-delay: 0.12s;
+}
+
+.post-layout aside,
+.post-layout .content > .pagination-button {
+    animation-delay: 0.18s;
+}
+
+.cards .card {
+    animation: fade-in-up 0.4s ease-out both;
+}
+
+.cards .card:nth-of-type(2n) {
+    animation-delay: 0.06s;
+}
+
+.cards .card:nth-of-type(3n) {
+    animation-delay: 0.12s;
+}
+
+.cards .card:nth-of-type(4n) {
+    animation-delay: 0.18s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}

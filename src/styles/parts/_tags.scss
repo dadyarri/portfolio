@@ -33,6 +33,11 @@ $tag-icon-size: 24px;
 
 .tag {
     @include tag-base;
+    transition:
+        transform 0.15s ease,
+        background-color 0.15s ease,
+        color 0.15s ease,
+        border-color 0.15s ease;
 
     &.tag-icon {
         width: 24px;
@@ -46,4 +51,10 @@ $tag-icon-size: 24px;
     @media print {
         background: none !important;
     }
+}
+
+a.tag:hover {
+    transform: translateY(-1px);
+    background-color: var(--bg-1);
+    color: var(--text-1);
 }

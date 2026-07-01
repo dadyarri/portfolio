@@ -15,13 +15,24 @@ ul.toc-list {
 
     & a {
         border: none;
+        display: inline-block;
+        border-radius: map.get($border-radius, "md");
+        padding: 0.2rem 0.4rem;
+        transition:
+            transform 0.15s ease,
+            background-color 0.15s ease,
+            color 0.15s ease;
+
+        &:hover {
+            background-color: var(--bg-2);
+            color: var(--text-1);
+            transform: translateX(2px);
+        }
 
         &.active {
             background-color: var(--bg-2);
-            padding: 5px;
-            border-radius: map.get($border-radius, "md");
             color: var(--text-1);
-            display: inline;
+            transform: translateX(2px);
         }
     }
 }
