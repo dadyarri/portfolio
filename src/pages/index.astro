@@ -24,7 +24,7 @@ const allPosts: (CollectionEntry<"posts"> | CollectionEntry<"minis">)[] = [
 
     <div class="posts-header">
         <h2>Последние посты</h2>
-        <div>
+        <div class="posts-header-links">
             <a href="/posts">Все</a>
             <a href="/rss.xml" target="_blank"
                 ><Icon name="carbon:rss" /> RSS feed</a
@@ -34,12 +34,3 @@ const allPosts: (CollectionEntry<"posts"> | CollectionEntry<"minis">)[] = [
 
     <PostCards posts={allPosts} />
 </Layout>
-
-<style lang="scss">
-    .posts-header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-</style>
