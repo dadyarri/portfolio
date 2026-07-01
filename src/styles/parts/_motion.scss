@@ -65,6 +65,19 @@
     animation-delay: 0.18s;
 }
 
+.reveal-section {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+        opacity 0.45s ease,
+        transform 0.45s ease;
+}
+
+.reveal-section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -73,5 +86,10 @@
         animation-iteration-count: 1 !important;
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
+    }
+
+    .reveal-section {
+        opacity: 1;
+        transform: none;
     }
 }

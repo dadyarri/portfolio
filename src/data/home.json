@@ -1,0 +1,35 @@
+{
+  "home": {
+    "hero": {
+      "lead": "Салют! Меня зовут Даниил, в интернете обычно мелькаю как dadyarri, я C#/.NET бэкенд-разработчик в Ростелеком ИТ.",
+      "note": "Пишу про бэкенд, инфраструктуру, self-hosting и всякие полезные штуки, которые упрощают жизнь и в работе, и в сайд-проектах."
+    },
+    "stackGroups": [
+      {
+        "title": "main",
+        "items": [
+          { "label": "C#", "icon": "simple-icons:csharp" },
+          { "label": ".NET", "icon": "simple-icons:dotnet" },
+          { "label": "ASP.NET Core", "icon": "carbon:application-web" },
+          { "label": "PostgreSQL", "icon": "simple-icons:postgresql" }
+        ]
+      },
+      {
+        "title": "ship with",
+        "items": [
+          { "label": "Docker", "icon": "simple-icons:docker" },
+          { "label": "Linux", "icon": "simple-icons:linux" },
+          { "label": "Git", "icon": "simple-icons:git" },
+          { "label": "CI/CD", "icon": "simple-icons:githubactions" }
+        ]
+      },
+      {
+        "title": "also into",
+        "items": [
+          { "label": "Astro", "icon": "simple-icons:astro" },
+          { "label": "Self-hosting", "icon": "carbon:bare-metal-server" }
+        ]
+      }
+    ]
+  }
+}

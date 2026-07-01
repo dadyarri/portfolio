@@ -4,6 +4,7 @@ import { Icon } from "astro-icon/components";
 import PostCards from "@components/PostCards.astro";
 import { getMinis, getPosts } from "@utils/content";
 import type { CollectionEntry } from "astro:content";
+import { home } from "@data/home.json";
 
 const allPosts: (CollectionEntry<"posts"> | CollectionEntry<"minis">)[] = [
     ...(await getPosts()),
@@ -17,10 +18,33 @@ const allPosts: (CollectionEntry<"posts"> | CollectionEntry<"minis">)[] = [
 ---
 
 <Layout title="Обо мне">
-    <p>
-        Салют! <Icon name="fa6-regular:hand-peace" /> Меня зовут Даниил, в интернете
-        обычно мелькаю как <i>dadyarri</i>, я C#/.NET бэкенд-разработчик в Ростелеком ИТ.
-    </p>
+    <section class="home-hero">
+        <div class="hero-copy">
+            <p class="hero-lead">
+                <Icon name="fa6-regular:hand-peace" /> {home.hero.lead}
+            </p>
+            <p class="hero-note">{home.hero.note}</p>
+        </div>
+        <div class="stack-widget" aria-label="Технологии и интересы">
+            {
+                home.stackGroups.map((group) => (
+                    <div class="stack-row">
+                        <span class="stack-title">{group.title}</span>
+                        <div class="stack-pills">
+                            {
+                                group.items.map((item) => (
+                                    <span class="stack-pill">
+                                        <Icon name={item.icon} />
+                                        <span>{item.label}</span>
+                                    </span>
+                                ))
+                            }
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </section>
 
     <div class="posts-header">
         <h2>Последние посты</h2>
@@ -32,5 +56,7 @@ const allPosts: (CollectionEntry<"posts"> | CollectionEntry<"minis">)[] = [
         </div>
     </div>
 
-    <PostCards posts={allPosts} />
+    <div>
+        <PostCards posts={allPosts} />
+    </div>
 </Layout>
