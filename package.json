@@ -8,13 +8,16 @@
     "build": "astro build",
     "build:pdf": "astro build && node src/scripts/build-cv-pdfs.mjs",
     "pdf:cv": "node src/scripts/build-cv-pdfs.mjs",
+    "cv:target": "node src/scripts/generate-targeted-cv.mjs",
+    "cv:target:debug": "node src/scripts/generate-targeted-cv.mjs --verbose --keep-html",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
     "lint": "npm run lint:eslint && npm run lint:stylelint",
     "lint:eslint": "eslint .",
     "lint:stylelint": "stylelint \"src/styles/**/*.scss\"",
-    "knip": "knip"
+    "knip": "knip",
+    "test": "node --test src/scripts/lib/targeted-cv/**/*.test.mjs"
   },
   "repository": {
     "type": "git",

@@ -3,7 +3,7 @@
     margin: 0 auto;
     --cv-body-size: 0.98rem;
     --cv-meta-size: 0.88rem;
-    --cv-section-size: 1.35rem;
+    --cv-section-size: 1.9rem;
     --cv-title-size: 1.18rem;
     --cv-name-size: 2.2rem;
     --cv-role-size: 1.3rem;
@@ -15,7 +15,7 @@
         max-width: none;
         --cv-body-size: 0.82rem;
         --cv-meta-size: 0.76rem;
-        --cv-section-size: 1.08rem;
+        --cv-section-size: 1.9rem;
         --cv-title-size: 0.98rem;
         --cv-name-size: 1.72rem;
         --cv-role-size: 1.02rem;
@@ -150,7 +150,7 @@
             }
 
             & h2 {
-                font-size: var(--cv-role-size);
+                font-size: var(--cv-section-size);
                 color: var(--text-1);
                 margin-bottom: 0.8rem;
                 line-height: 1.2;

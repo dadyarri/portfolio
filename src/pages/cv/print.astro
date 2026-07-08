@@ -1,10 +1,10 @@
 ---
 import CVDocument from "@components/CVDocument.astro";
 import PrintLayout from "@layouts/PrintLayout.astro";
-import { cv } from "@data/cv.json" with { type: "json" };
+import { localizeCv } from "@utils/cv.mjs";
 import type { CVData } from "@type/cv";
 
-const typedCv = cv as CVData;
+const typedCv = localizeCv("ru") as CVData;
 ---
 
 <PrintLayout

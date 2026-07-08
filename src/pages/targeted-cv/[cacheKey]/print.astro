@@ -1,0 +1,43 @@
+---
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+import CVDocument from "@components/CVDocument.astro";
+import PrintLayout from "@layouts/PrintLayout.astro";
+import { artifactNames, variantsDir } from "@scripts/lib/targeted-cv/constants.mjs";
+
+export async function getStaticPaths() {
+  const { readdir } = await import("node:fs/promises");
+
+  try {
+    const entries = await readdir(variantsDir, { withFileTypes: true });
+    return entries
+      .filter((entry) => entry.isDirectory())
+      .map((entry) => ({ params: { cacheKey: entry.name } }));
+  } catch {
+    return [];
+  }
+}
+
+const { cacheKey } = Astro.params;
+const filePath = path.join(variantsDir, cacheKey!, artifactNames.derivedCv);
+const raw = await readFile(filePath, "utf8");
+const data = JSON.parse(raw);
+const locale = data.variantMeta?.locale ?? "ru";
+const roleTitle = data.personalInfo?.title?.trim() || (locale === "en" ? "CV" : "Резюме");
+const documentTitle =
+  locale === "en"
+    ? `${roleTitle} - ${data.personalInfo?.name ?? "CV"}`
+    : `${roleTitle} - ${data.personalInfo?.name ?? "Резюме"}`;
+const documentDescription =
+  locale === "en"
+    ? `CV for ${roleTitle}.`
+    : `Резюме на позицию ${roleTitle}.`;
+---
+
+<PrintLayout
+  title={documentTitle}
+  description={documentDescription}
+  lang={locale}
+>
+  <CVDocument data={data} locale={locale} />
+</PrintLayout>

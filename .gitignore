@@ -25,3 +25,6 @@ pnpm-debug.log*
 .idea/
 
 .netlify/build
+
+# local targeted CV generation cache
+.cache/

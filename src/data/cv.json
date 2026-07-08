@@ -1,16 +1,28 @@
 {
   "cv": {
     "personalInfo": {
-      "name": "Даниил Голубев",
-      "title": "C#/.NET-разработчик",
+      "name": {
+        "ru": "Даниил Голубев",
+        "en": "Daniil Golubev"
+      },
+      "title": {
+        "ru": "C#/.NET-разработчик",
+        "en": "C#/.NET Developer"
+      },
       "photo": "/images/profile.jpg",
-      "summary": ".NET-разработчик, специализирующийся на создании высокопроизводительных микросервисов и автоматизации процессов сборки и доставки продуктов. Фокусируюсь на повышении эффективности разработки: оптимизирую кодовую базу, внедряю внутренние инструменты и совершенствую CI/CD-процессы."
+      "summary": {
+        "ru": ".NET-разработчик, специализирующийся на создании высокопроизводительных микросервисов и автоматизации процессов сборки и доставки продуктов. Фокусируюсь на повышении эффективности разработки: оптимизирую кодовую базу, внедряю внутренние инструменты и совершенствую CI/CD-процессы.",
+        "en": ".NET developer specializing in building high-performance microservices and automating product build and delivery processes. Focused on improving development efficiency by optimizing the codebase, implementing internal tools, and refining CI/CD pipelines."
+      }
     },
     "contactInfo": [
       {
         "type": "email",
         "value": "me@dadyarri.dev",
-        "label": "почта"
+        "label": {
+          "ru": "почта",
+          "en": ""
+        }
       },
       {
         "type": "telegram",
@@ -18,13 +30,22 @@
       },
       {
         "type": "location",
-        "value": "Владимир, РФ",
-        "label": "локация"
+        "value": {
+          "ru": "Владимир, РФ",
+          "en": "Vladimir, Russia"
+        },
+        "label": {
+          "ru": "локация",
+          "en": ""
+        }
       },
       {
         "type": "website",
         "value": "https://dadyarri.dev",
-        "label": "сайт"
+        "label": {
+          "ru": "сайт",
+          "en": ""
+        }
       },
       {
         "type": "github",
@@ -33,8 +54,15 @@
     ],
     "workExperience": [
       {
-        "title": "Full-stack разработчик",
-        "subtitle": "Ростелеком ИТ",
+        "id": "rostelecom-fullstack",
+        "title": {
+          "ru": "Full-stack разработчик",
+          "en": "Full-stack Developer"
+        },
+        "subtitle": {
+          "ru": "Ростелеком ИТ",
+          "en": "Rostelecom IT"
+        },
         "link": "https://rtkit.ru/",
         "date": {
           "start": "2025-11-25",
@@ -55,13 +83,32 @@
           "Linux"
         ],
         "description": [
-          "Работаю над анализом и переписыванием устаревшего приложения на Visual Basic 6 на современный стек C#/.NET, что значительно улучшило производительность и пользовательский опыт",
-          "Развернул приложение в Kubernetes, обеспечив его высокую доступность и масштабируемость, а также внедрил мониторинг и логирование для своевременного обнаружения и устранения проблем"
+          {
+            "id": "rewrite-vb6",
+            "text": {
+              "ru": "Работаю над анализом и переписыванием устаревшего приложения на Visual Basic 6 на современный стек C#/.NET, что значительно улучшило производительность и пользовательский опыт",
+              "en": "Working on analyzing and rewriting a legacy Visual Basic 6 application to a modern C#/.NET stack, significantly improving performance and user experience"
+            }
+          },
+          {
+            "id": "kubernetes-deployment",
+            "text": {
+              "ru": "Развернул приложение в Kubernetes, обеспечив его высокую доступность и масштабируемость, а также внедрил мониторинг и логирование для своевременного обнаружения и устранения проблем",
+              "en": "Deployed the application in Kubernetes, ensuring high availability and scalability, and implemented monitoring and logging for timely issue detection and resolution"
+            }
+          }
         ]
       },
       {
-        "title": "C#/.NET-разработчик (микросервисы, инструментарий разработки)",
-        "subtitle": "АСТЭК",
+        "id": "astek-microservices",
+        "title": {
+          "ru": "C#/.NET-разработчик (микросервисы, инструментарий разработки)",
+          "en": "C#/.NET Developer (Microservices, Development Tooling)"
+        },
+        "subtitle": {
+          "ru": "АСТЭК",
+          "en": "ASTEK"
+        },
         "link": "https://sicon.ru/",
         "date": {
           "start": "2024-01-29",
@@ -84,22 +131,83 @@
           "PowerShell"
         ],
         "description": [
-          "Модифицировал open-source-проект FlexLabs.Upsert, добавив поддержку Oracle и внедрил его в продукт",
-          "Переписал и актуализировал документацию по сборке пакетов под российские Linux-дистрибутивы (Astra, Alt, РЕД ОС), добившись стабильной сборки на всех поддерживаемых системах",
-          "Разработал персистентную очередь на базе SQLite, заменив унаследованное файловое решение и повысив надёжность сервисной архитектуры",
-          "Выполнил миграцию устаревших библиотек и сопутствующих компонентов, что улучшило производительность и стабильность продукта",
-          "Перепроектировал механизм межсервисного взаимодействия, повысив его скорость и масштабируемость",
-          "Оптимизировал манифесты пакетирования (deb, rpm), сократив время сборки и развертывания",
-          "Создал универсальный CLI-инструмент для автоматизации сборки и пакетирования под Windows и Linux (включая Astra, Alt, РЕД ОС), что значительно ускорило CI/CD и снизило количество ошибок при выпуске новых пакетов",
-          "Разработал TUI-обёртку для CLI-инструмента, сделав процесс сборки и пакетирования более удобным и прозрачным для разработчиков",
-          "Подготовил техническую документацию по новым компонентам и внутренним инструментам, что упростило их внедрение и поддержку в команде"
+          {
+            "id": "upsert-oracle",
+            "text": {
+              "ru": "Модифицировал open-source-проект FlexLabs.Upsert, добавив поддержку Oracle и внедрил его в продукт",
+              "en": "Modified the open-source project FlexLabs.Upsert, adding Oracle support and integrated it into the product"
+            }
+          },
+          {
+            "id": "linux-build-docs",
+            "text": {
+              "ru": "Переписал и актуализировал документацию по сборке пакетов под российские Linux-дистрибутивы (Astra, Alt, РЕД ОС), добившись стабильной сборки на всех поддерживаемых системах",
+              "en": "Rewrote and updated documentation for package builds for Russian Linux distributions (Astra, Alt, Red OS), achieving stable builds across all supported systems"
+            }
+          },
+          {
+            "id": "sqlite-queue",
+            "text": {
+              "ru": "Разработал персистентную очередь на базе SQLite, заменив унаследованное файловое решение и повысив надёжность сервисной архитектуры",
+              "en": "Developed a persistent queue based on SQLite, replacing a legacy file-based solution and improving the reliability of the service architecture"
+            }
+          },
+          {
+            "id": "dependency-migration",
+            "text": {
+              "ru": "Выполнил миграцию устаревших библиотек и сопутствующих компонентов, что улучшило производительность и стабильность продукта",
+              "en": "Migrated outdated libraries and associated components, enhancing product performance and stability"
+            }
+          },
+          {
+            "id": "interservice-refactor",
+            "text": {
+              "ru": "Перепроектировал механизм межсервисного взаимодействия, повысив его скорость и масштабируемость",
+              "en": "Refactored the inter-service communication mechanism, increasing its speed and scalability"
+            }
+          },
+          {
+            "id": "packaging-manifests",
+            "text": {
+              "ru": "Оптимизировал манифесты пакетирования (deb, rpm), сократив время сборки и развертывания",
+              "en": "Optimized packaging manifests (deb, rpm), reducing build and deployment time"
+            }
+          },
+          {
+            "id": "build-cli",
+            "text": {
+              "ru": "Создал универсальный CLI-инструмент для автоматизации сборки и пакетирования под Windows и Linux (включая Astra, Alt, РЕД ОС), что значительно ускорило CI/CD и снизило количество ошибок при выпуске новых пакетов",
+              "en": "Created a universal CLI tool for automating builds and packaging for Windows and Linux (including Astra, Alt, Red OS), significantly accelerating CI/CD and reducing errors during new package releases"
+            }
+          },
+          {
+            "id": "tui-wrapper",
+            "text": {
+              "ru": "Разработал TUI-обёртку для CLI-инструмента, сделав процесс сборки и пакетирования более удобным и прозрачным для разработчиков",
+              "en": "Developed a TUI wrapper for the CLI tool, making the build and packaging process more user-friendly and transparent for developers"
+            }
+          },
+          {
+            "id": "technical-docs",
+            "text": {
+              "ru": "Подготовил техническую документацию по новым компонентам и внутренним инструментам, что упростило их внедрение и поддержку в команде",
+              "en": "Prepared technical documentation for new components and internal tools, simplifying their implementation and support within the team"
+            }
+          }
         ]
       }
     ],
     "education": [
       {
-        "title": "Бакалавриат, Информационные системы и технологии",
-        "subtitle": "Владимирский государственный университет",
+        "id": "education-1",
+        "title": {
+          "ru": "Бакалавриат, Информационные системы и технологии",
+          "en": "Bachelor of Information Systems and Technologies"
+        },
+        "subtitle": {
+          "ru": "Владимирский государственный университет",
+          "en": "Vladimir State University"
+        },
         "link": "https://www.vlsu.ru/",
         "date": {
           "start": "2020-09-01",
@@ -107,9 +215,27 @@
           "showAmountOfTime": false
         },
         "description": [
-          "Алгоритмы и структуры данных",
-          "Базы данных (PostgreSQL, MS SQL Server)",
-          "Объектно-ориентированное программирование (C#)"
+          {
+            "id": "education-1-bullet-1",
+            "text": {
+              "ru": "Алгоритмы и структуры данных",
+              "en": "Algorithms and Data Structures"
+            }
+          },
+          {
+            "id": "education-1-bullet-2",
+            "text": {
+              "ru": "Базы данных (PostgreSQL, MS SQL Server)",
+              "en": "Databases (PostgreSQL, MS SQL Server)"
+            }
+          },
+          {
+            "id": "education-1-bullet-3",
+            "text": {
+              "ru": "Объектно-ориентированное программирование (C#)",
+              "en": "Object-Oriented Programming (C#)"
+            }
+          }
         ],
         "stack": [
           "C#",
@@ -121,8 +247,15 @@
     ],
     "projects": [
       {
-        "title": "FlexLabs.Upsert",
-        "description": "Библиотека, расширяющая возможности Entity Framework Core для выполнения операции вставки или обновления записей с поддержкой разных СУБД. Добавил поддержку Oracle, что позволило использовать библиотеку в проектах с этой СУБД.",
+        "id": "flexlabs-upsert",
+        "title": {
+          "ru": "FlexLabs.Upsert",
+          "en": "FlexLabs.Upsert"
+        },
+        "description": {
+          "ru": "Библиотека, расширяющая возможности Entity Framework Core для выполнения операции вставки или обновления записей с поддержкой разных СУБД. Добавил поддержку Oracle, что позволило использовать библиотеку в проектах с этой СУБД.",
+          "en": "Library, extending Entity Framework Core to manage upsert operation (insert or update). I added support of Oracle DBMS."
+        },
         "links": [
           "https://github.com/artiomchi/FlexLabs.Upsert/pull/158"
         ],
@@ -133,8 +266,15 @@
         ]
       },
       {
-        "title": "MelodyTrack",
-        "description": "Система управления клиентами, сделанная на заказ для небольшого бизнеса",
+        "id": "melodytrack",
+        "title": {
+          "ru": "MelodyTrack",
+          "en": "MelodyTrack"
+        },
+        "description": {
+          "ru": "Система управления клиентами, сделанная на заказ для небольшого бизнеса",
+          "en": "A custom-made customer management system for small business to meet their needs"
+        },
         "links": [
           "https://github.com/dadyarri/MelodyTrack.Web",
           "https://github.com/dadyarri/MelodyTrack.Backend"
@@ -147,8 +287,15 @@
         ]
       },
       {
-        "title": "Portfolio",
-        "description": "Личный блог о технологиях и резюме",
+        "id": "portfolio",
+        "title": {
+          "ru": "Portfolio",
+          "en": "Portfolio"
+        },
+        "description": {
+          "ru": "Личный блог о технологиях и резюме",
+          "en": "Personal blog about technologies and CV"
+        },
         "links": [
           "https://github.com/dadyarri/portfolio",
           "https://dadyarri.dev"
@@ -161,7 +308,11 @@
     ],
     "skills": [
       {
-        "name": "Языки программирования",
+        "id": "programming-languages",
+        "name": {
+          "ru": "Языки программирования",
+          "en": "Programming Languages"
+        },
         "skills": [
           {
             "name": "C#"
@@ -169,7 +320,11 @@
         ]
       },
       {
-        "name": "Фреймворки и библиотеки",
+        "id": "frameworks-and-libraries",
+        "name": {
+          "ru": "Фреймворки и библиотеки",
+          "en": "Frameworks and Libraries"
+        },
         "skills": [
           {
             "name": ".NET"
@@ -189,7 +344,11 @@
         ]
       },
       {
-        "name": "DevOps и инфраструктура",
+        "id": "devops-and-infrastructure",
+        "name": {
+          "ru": "DevOps и инфраструктура",
+          "en": "DevOps and Infrastructure"
+        },
         "skills": [
           {
             "name": "CI/CD"
@@ -206,7 +365,11 @@
         ]
       },
       {
-        "name": "Тестирование",
+        "id": "testing",
+        "name": {
+          "ru": "Тестирование",
+          "en": "Testing"
+        },
         "skills": [
           {
             "name": "xUnit"
@@ -214,7 +377,11 @@
         ]
       },
       {
-        "name": "СУБД",
+        "id": "databases",
+        "name": {
+          "ru": "СУБД",
+          "en": "Databases"
+        },
         "skills": [
           {
             "name": "PostgreSQL"
@@ -222,6 +389,266 @@
           {
             "name": "MS SQL Server"
           }
+        ]
+      }
+    ]
+  },
+  "targeting": {
+    "schemaVersion": 1,
+    "experience": [
+      {
+        "id": "rostelecom-fullstack",
+        "baseWeight": 1.5,
+        "tags": [
+          "c#",
+          ".net",
+          "asp.net core",
+          "react",
+          "typescript",
+          "grpc",
+          "docker",
+          "kubernetes",
+          "linux",
+          "monitoring",
+          "logging",
+          "legacy modernization"
+        ],
+        "bullets": [
+          {
+            "id": "rewrite-vb6",
+            "weight": 2.5,
+            "tags": [
+              "c#",
+              ".net",
+              "legacy modernization",
+              "performance",
+              "full-stack",
+              "visual basic 6"
+            ]
+          },
+          {
+            "id": "kubernetes-deployment",
+            "weight": 2.5,
+            "tags": [
+              "kubernetes",
+              "docker",
+              "monitoring",
+              "logging",
+              "scalability",
+              "availability",
+              "devops"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "astek-microservices",
+        "baseWeight": 2,
+        "tags": [
+          "c#",
+          ".net",
+          "asp.net core",
+          "grpc",
+          "sqlite",
+          "postgresql",
+          "ms sql server",
+          "docker",
+          "linux",
+          "cli",
+          "tui",
+          "ci/cd",
+          "microservices",
+          "packaging",
+          "tooling",
+          "powershell"
+        ],
+        "bullets": [
+          {
+            "id": "upsert-oracle",
+            "weight": 1.5,
+            "tags": [
+              "oracle",
+              "entity framework core",
+              "open source",
+              "c#",
+              ".net"
+            ]
+          },
+          {
+            "id": "linux-build-docs",
+            "weight": 1,
+            "tags": [
+              "linux",
+              "documentation",
+              "packaging",
+              "build"
+            ]
+          },
+          {
+            "id": "sqlite-queue",
+            "weight": 2.5,
+            "tags": [
+              "sqlite",
+              "queue",
+              "reliability",
+              "microservices",
+              "architecture"
+            ]
+          },
+          {
+            "id": "dependency-migration",
+            "weight": 1.5,
+            "tags": [
+              "migration",
+              "performance",
+              "stability",
+              "maintenance"
+            ]
+          },
+          {
+            "id": "interservice-refactor",
+            "weight": 2.5,
+            "tags": [
+              "microservices",
+              "grpc",
+              "scalability",
+              "performance",
+              "architecture"
+            ]
+          },
+          {
+            "id": "packaging-manifests",
+            "weight": 2,
+            "tags": [
+              "deb",
+              "rpm",
+              "packaging",
+              "build",
+              "deployment",
+              "linux"
+            ]
+          },
+          {
+            "id": "build-cli",
+            "weight": 3,
+            "tags": [
+              "cli",
+              "tooling",
+              "ci/cd",
+              "automation",
+              "linux",
+              "windows",
+              "packaging",
+              "build"
+            ]
+          },
+          {
+            "id": "tui-wrapper",
+            "weight": 1.5,
+            "tags": [
+              "tui",
+              "tooling",
+              "developer experience",
+              "cli",
+              "spectre console"
+            ]
+          },
+          {
+            "id": "technical-docs",
+            "weight": 1,
+            "tags": [
+              "documentation",
+              "tooling",
+              "onboarding"
+            ]
+          }
+        ]
+      }
+    ],
+    "projects": [
+      {
+        "id": "flexlabs-upsert",
+        "baseWeight": 1.5,
+        "tags": [
+          "c#",
+          ".net",
+          "oracle",
+          "entity framework core",
+          "open source",
+          "database"
+        ]
+      },
+      {
+        "id": "melodytrack",
+        "baseWeight": 1.5,
+        "tags": [
+          "c#",
+          "asp.net core",
+          "react",
+          "github actions",
+          "full-stack",
+          "small business"
+        ]
+      },
+      {
+        "id": "portfolio",
+        "baseWeight": 0.5,
+        "tags": [
+          "typescript",
+          "astro",
+          "frontend",
+          "content"
+        ]
+      }
+    ],
+    "skills": [
+      {
+        "id": "programming-languages",
+        "baseWeight": 1,
+        "tags": [
+          "c#",
+          "programming language"
+        ]
+      },
+      {
+        "id": "frameworks-and-libraries",
+        "baseWeight": 1.5,
+        "tags": [
+          ".net",
+          "asp.net core",
+          "entity framework core",
+          "grpc",
+          "spectre console"
+        ]
+      },
+      {
+        "id": "devops-and-infrastructure",
+        "baseWeight": 1.5,
+        "tags": [
+          "ci/cd",
+          "linux",
+          "docker",
+          "docker compose",
+          "devops",
+          "infrastructure"
+        ]
+      },
+      {
+        "id": "testing",
+        "baseWeight": 0.5,
+        "tags": [
+          "xunit",
+          "testing"
+        ]
+      },
+      {
+        "id": "databases",
+        "baseWeight": 1.25,
+        "tags": [
+          "postgresql",
+          "ms sql server",
+          "database",
+          "sql"
         ]
       }
     ]

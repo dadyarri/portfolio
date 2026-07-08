@@ -36,6 +36,9 @@
       ],
       "@type/*": [
         "./src/types/*"
+      ],
+      "@scripts/*": [
+        "./src/scripts/*"
       ]
     }
   }
