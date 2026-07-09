@@ -56,8 +56,8 @@
       {
         "id": "rostelecom-fullstack",
         "title": {
-          "ru": "Full-stack разработчик",
-          "en": "Full-stack Developer"
+          "ru": "Full-stack разработчик, Технический лидер",
+          "en": "Full-stack Developer, Technical Lead"
         },
         "subtitle": {
           "ru": "Ростелеком ИТ",
@@ -73,6 +73,7 @@
           "C#",
           ".NET",
           "ASP.NET Core",
+          "Avalonia",
           "React",
           "Typescript",
           "gRPC",
@@ -95,6 +96,20 @@
             "text": {
               "ru": "Развернул приложение в Kubernetes, обеспечив его высокую доступность и масштабируемость, а также внедрил мониторинг и логирование для своевременного обнаружения и устранения проблем",
               "en": "Deployed the application in Kubernetes, ensuring high availability and scalability, and implemented monitoring and logging for timely issue detection and resolution"
+            }
+          },
+          {
+            "id": "techlead",
+            "text": {
+              "ru": "После ухода предыщущего технического лидера перенял на себя его функции: координация работы команды, принятие архитектурных решений и обеспечение соблюдения лучших практик разработки",
+              "en": "After the former technical lead left, I took on his responsibilities: coordinating team efforts, making architectural decisions, and ensuring adherence to best development practices"
+            }
+          },
+          {
+            "id": "desktop-app",
+            "text": {
+              "ru": "Разрабатываю и поддерживаю десктопное приложение на C#/.NET (Avalonia), обеспечивая его стабильную работу и внедряя новые функции в соответствии с требованиями пользователей",
+              "en": "Developing and maintaining a desktop application in C#/.NET (Avalonia), ensuring its stable operation and implementing new features according to user requirements"
             }
           }
         ]
@@ -403,15 +418,21 @@
           "c#",
           ".net",
           "asp.net core",
+          "avalonia",
           "react",
           "typescript",
           "grpc",
+          "pangolin",
           "docker",
           "kubernetes",
           "linux",
           "monitoring",
           "logging",
-          "legacy modernization"
+          "legacy modernization",
+          "desktop development",
+          "technical leadership",
+          "architecture",
+          "team coordination"
         ],
         "bullets": [
           {
@@ -437,6 +458,29 @@
               "scalability",
               "availability",
               "devops"
+            ]
+          },
+          {
+            "id": "techlead",
+            "weight": 2.5,
+            "tags": [
+              "technical leadership",
+              "architecture",
+              "team coordination",
+              "engineering practices",
+              "decision making"
+            ]
+          },
+          {
+            "id": "desktop-app",
+            "weight": 2,
+            "tags": [
+              "desktop development",
+              "avalonia",
+              "c#",
+              ".net",
+              "application maintenance",
+              "feature development"
             ]
           }
         ]
