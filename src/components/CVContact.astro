@@ -1,40 +1,19 @@
 ---
-import type { Contact, ContactType } from "@type/cv";
-import { Icon } from "astro-icon/components";
+import type { Contact } from "@type/cv";
 
 interface Props {
   contacts: Contact[];
 }
 
 const { contacts } = Astro.props;
-
-const getIcon = (type: ContactType) => {
-  switch (type) {
-    case "email":
-      return "carbon:email";
-    case "phone":
-      return "carbon:phone";
-    case "location":
-      return "carbon:location";
-    case "website":
-      return "carbon:blog";
-    case "github":
-      return "carbon:logo-github";
-    case "telegram":
-      return "fa6-brands:telegram";
-    default:
-      return "";
-  }
-};
 ---
 
-<div class="cv-contact">
+<div class="cv-grid cv-grid-two">
   {
     contacts.map((contact) => (
-      <div class="cv-contact-item">
-        <Icon name={getIcon(contact.type)} />
-        <div class="cv-contact-info">
-          <span class="cv-contact-label">{contact.label || contact.type}</span>
+      <div class="cv-detail">
+        <p class="cv-label">{contact.label || contact.type}</p>
+        <div class="cv-detail-value">
           {(contact.type !== "location" && (
             <a
               href={
@@ -44,7 +23,6 @@ const getIcon = (type: ContactType) => {
                     ? `tel:${contact.value}`
                     : contact.value
               }
-              class="cv-contact-value"
               target={
                 contact.type === "website" || contact.type === "github"
                   ? "_blank"
@@ -55,10 +33,11 @@ const getIcon = (type: ContactType) => {
                   ? "noopener noreferrer"
                   : undefined
               }
+              class="cv-detail-value"
             >
               {contact.value}
             </a>
-          )) || <span class="cv-contact-value">{contact.value}</span>}
+          )) || <span>{contact.value}</span>}
         </div>
       </div>
     ))

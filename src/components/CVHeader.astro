@@ -14,19 +14,17 @@ const { data } = Astro.props;
 const { name, title, photo, summary } = data;
 ---
 
-<div class="cv-header">
-  <div class="cv-header-content">
-    <div class="cv-header-info">
-      <h1>{title}</h1>
-      <h2>{name}</h2>
-      {summary && <p>{summary}</p>}
-    </div>
-    {
-      photo && (
-        <div class="cv-header-photo">
-          <img src={photo} alt={`${name}'s photo`} />
-        </div>
-      )
-    }
+<div class="cv-hero">
+  <div class="cv-hero-body cv-flow">
+    <p class="cv-eyebrow">{title}</p>
+    <h1 class="cv-hero-title">{name}</h1>
+    {summary && <p class="cv-muted cv-hero-summary">{summary}</p>}
   </div>
+  {
+    photo && (
+      <div class="cv-hero-photo">
+        <img src={photo} alt={`${name}'s photo`} />
+      </div>
+    )
+  }
 </div>

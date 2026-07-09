@@ -2,51 +2,20 @@
 interface Props {
   title: string;
   pageBreakBefore?: boolean;
+  keepTogether?: boolean;
 }
 
-const { title, pageBreakBefore = false } = Astro.props;
+const { title, pageBreakBefore = false, keepTogether = false } = Astro.props;
 ---
 
-<section class="cv-section">
-  <h2 class="text-2xl font-bold mb-4">{title}</h2>
-  <div class="cv-section-content">
+<section
+  class:list={["cv-section", { "cv-section-keep": keepTogether }]}
+  style={`--cv-break-before: ${pageBreakBefore ? "page" : "auto"}; --cv-page-break-before: ${pageBreakBefore ? "always" : "auto"}`}
+>
+  <div class="cv-section-heading">
+    <h2 class="cv-section-title">{title}</h2>
+  </div>
+  <div class="cv-flow">
     <slot />
   </div>
 </section>
-
-<style define:vars={{ 'page-break-before': pageBreakBefore ? 'always' : 'auto' }}>
-  .cv-section {
-    margin-bottom: 2rem;
-
-    @media print {
-      margin-bottom: 1.25rem;
-      break-before: var(--page-break-before);
-      page-break-before: var(--page-break-before);
-    }
-  }
-
-  .cv-section h2 {
-    @media print {
-      color: black;
-      break-after: avoid-page;
-      page-break-after: avoid;
-      margin-bottom: 0.75rem;
-    }
-  }
-  
-  .cv-section-content {
-    padding-left: 1rem;
-
-    @media print {
-      break-inside: auto;
-      page-break-inside: auto;
-    }
-  }
-
-  .cv-section-content > * {
-    @media print {
-      break-inside: avoid-page;
-      page-break-inside: avoid;
-    }
-  }
-</style>

@@ -29,10 +29,10 @@ const pdfHref = locale === "ru" ? "/files/cv.ru.pdf" : "/files/cv.en.pdf";
 <div class="cv-controls">
   <div class="cv-controls-group">
     <nav class="cv-locale-switcher" aria-label="CV language switcher">
-      <a href={ruHref} aria-current={locale === "ru" ? "page" : undefined}>
+      <a class="cv-control-pill" href={ruHref} aria-current={locale === "ru" ? "page" : undefined}>
         {translation.ru}
       </a>
-      <a href={enHref} aria-current={locale === "en" ? "page" : undefined}>
+      <a class="cv-control-pill" href={enHref} aria-current={locale === "en" ? "page" : undefined}>
         {translation.en}
       </a>
     </nav>
@@ -40,7 +40,7 @@ const pdfHref = locale === "ru" ? "/files/cv.ru.pdf" : "/files/cv.en.pdf";
     <a
       href={pdfHref}
       download
-      class="cv-print-button"
+      class="cv-print-button cv-control-pill"
       aria-label={translation.pdfTitle}
       title={translation.pdfTitle}
     >

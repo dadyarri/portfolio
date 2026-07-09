@@ -16,6 +16,8 @@ function buildPrompt({ locale, text }) {
     "Do not browse, infer, or rely on any external source. Use only the vacancy text below.",
     "For title, return only the role title. Do not include salary, city, company, vacancy prefix, or employment format.",
     "Preserve the title exactly in the original vacancy language. Never translate the title to match the requested CV locale.",
+    "If the title is in Russian, normalize it to nominative case. Return the role name as it should appear as a standalone headline.",
+    'Examples for Russian titles: "C# разработчик", "Backend-разработчик (.NET)", "Старший системный аналитик". Avoid forms like "разработчика", "аналитика" when they come from vacancy phrasing.',
     "For location, return only the city name when present. Do not include street, metro station, office address, or full company address.",
     "",
     `Requested CV locale: ${locale}`,
@@ -53,9 +55,31 @@ function buildCorrectionPrompt(rawResponse) {
     "Your previous answer was rejected because it was not valid JSON for the required schema.",
     "Return corrected strict JSON only. No markdown. No commentary.",
     "Do not repeat long phrases. Keep arrays short and compact.",
+    "If title is Russian, it must be in nominative case.",
     "Previous response:",
     rawResponse,
   ].join("\n");
+}
+
+function buildTitleNormalizationPrompt(title) {
+  return [
+    "Normalize the following vacancy title.",
+    "Return strict JSON only in the shape {\"title\":\"...\"}. No markdown. No commentary.",
+    "If the title is Russian, rewrite it to nominative case so it reads naturally as a standalone job title.",
+    "If it is already in nominative case, return it unchanged.",
+    "Do not translate the title. Do not add company, location, salary, or employment format.",
+    "",
+    `Title: ${title}`,
+  ].join("\n");
+}
+
+function parseTitleNormalizationJson(rawResponse, fallbackTitle) {
+  const parsed = JSON.parse(rawResponse);
+  if (typeof parsed?.title !== "string" || !parsed.title.trim()) {
+    throw new Error("normalized title must be a non-empty string");
+  }
+
+  return parsed.title.trim() || fallbackTitle;
 }
 
 export function parseVacancyProfileJson(rawResponse, sourceUrl) {
@@ -118,6 +142,18 @@ async function generateOnce({ ollamaUrl, model, prompt }) {
   return response.json();
 }
 
+async function normalizeTitleWithOllama({ title, model, ollamaUrl }) {
+  const prompt = buildTitleNormalizationPrompt(title);
+  const payload = await generateOnce({ ollamaUrl, model, prompt });
+  const rawResponse = typeof payload?.response === "string" ? payload.response : "";
+
+  if (!rawResponse.trim()) {
+    throw new Error("Title normalization response was empty");
+  }
+
+  return parseTitleNormalizationJson(rawResponse, title);
+}
+
 export async function parseVacancyWithOllama({ extraction, locale, model, ollamaUrl, cacheDir, debugArtifacts = false }) {
   const prompt = buildPrompt({
     locale,
@@ -149,7 +185,19 @@ export async function parseVacancyWithOllama({ extraction, locale, model, ollama
       );
     }
 
-    return parseVacancyProfileJson(rawResponse, extraction.sourceUrl);
+    const parsed = parseVacancyProfileJson(rawResponse, extraction.sourceUrl);
+    if (parsed.title?.trim()) {
+      try {
+        parsed.title = await normalizeTitleWithOllama({
+          title: parsed.title.trim(),
+          model,
+          ollamaUrl,
+        });
+      } catch {
+        // Keep the parsed title when dedicated normalization fails.
+      }
+    }
+    return parsed;
   } catch (initialParseError) {
     const correctionPrompt = `${prompt}\n\n${buildCorrectionPrompt(rawResponse)}`;
     await writeArtifactIf(debugArtifacts, cacheDir, artifactNames.ollamaPrompt, prompt);
@@ -182,7 +230,19 @@ export async function parseVacancyWithOllama({ extraction, locale, model, ollama
           `Correction Ollama response was empty. done_reason=${correctedPayload?.done_reason ?? "unknown"}, eval_count=${correctedPayload?.eval_count ?? "unknown"}`,
         );
       }
-      return parseVacancyProfileJson(corrected, extraction.sourceUrl);
+      const parsed = parseVacancyProfileJson(corrected, extraction.sourceUrl);
+      if (parsed.title?.trim()) {
+        try {
+          parsed.title = await normalizeTitleWithOllama({
+            title: parsed.title.trim(),
+            model,
+            ollamaUrl,
+          });
+        } catch {
+          // Keep the parsed title when dedicated normalization fails.
+        }
+      }
+      return parsed;
     } catch (error) {
       await writeArtifact(cacheDir, artifactNames.ollamaPayloadInitial, initialPayload);
       await writeArtifact(cacheDir, artifactNames.ollamaPrompt, prompt);

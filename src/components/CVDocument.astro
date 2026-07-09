@@ -40,26 +40,28 @@ const translation = copy[locale];
 ---
 
 <div class="cv-page">
-  {showControls && <CVControls locale={locale} />}
-  <CVHeader data={personalInfo} />
+  <div class="cv-shell">
+    {showControls && <CVControls locale={locale} />}
+    <CVHeader data={personalInfo} />
 
-  <CVSection title={translation.workExperience}>
-    <CVTimeline items={workExperience} locale={translation.locale} />
-  </CVSection>
+    <CVSection title={translation.workExperience}>
+      <CVTimeline items={workExperience} locale={translation.locale} />
+    </CVSection>
 
-  <CVSection title={translation.education}>
-    <CVTimeline items={education} locale={translation.locale} />
-  </CVSection>
+    <CVSection title={translation.education}>
+      <CVTimeline items={education} locale={translation.locale} />
+    </CVSection>
 
-  <CVSection title={translation.skills}>
-    <CVSkills categories={skills} />
-  </CVSection>
+    <CVSection title={translation.skills} keepTogether>
+      <CVSkills categories={skills} />
+    </CVSection>
 
-  <CVSection title={translation.contact}>
-    <CVContact contacts={contactInfo} />
-  </CVSection>
+    <CVSection title={translation.contact} keepTogether>
+      <CVContact contacts={contactInfo} />
+    </CVSection>
 
-  <CVSection title={translation.projects}>
-    <CVProjects items={projects} locale={translation.locale} />
-  </CVSection>
+    <CVSection title={translation.projects} keepTogether>
+      <CVProjects items={projects} locale={translation.locale} />
+    </CVSection>
+  </div>
 </div>

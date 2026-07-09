@@ -22,33 +22,33 @@ const translations = {
 const translation = translations[locale] || translations["en-US"];
 ---
 
-<div class="cv-projects">
+<div class="cv-flow">
   {
     items.map((item) => (
-      <div class="cv-project-item">
-        <div class="cv-project-content">
-          <h3>{item.title}</h3>
-          {item.description}
-          {item.stack && (
-            <p>
-              <strong>{translation.stack}:</strong> {item.stack.join(", ")}
-            </p>
-          )}
-          {item.links && (
-            <p>
-              <strong>{translation.links}:</strong>{" "}
-              {item.links.map((link, index, array) => (
-                <>
-                  <a href={link} target="_blank" rel="noopener noreferrer">
-                    {link}
-                  </a>
-                  {index < array.length - 1 && ", "}
-                </>
-              ))}
-            </p>
-          )}
+      <article class="cv-card">
+        <div class="cv-card-header">
+          <h3 class="cv-card-title">{item.title}</h3>
         </div>
-      </div>
+        <p class="cv-copy">{item.description}</p>
+        {item.stack && (
+          <p class="cv-copy">
+            <span class="cv-label">{translation.stack}</span>
+            {item.stack.join(", ")}
+          </p>
+        )}
+        {item.links && (
+          <div class="cv-detail">
+            <p class="cv-label">{translation.links}</p>
+            <div class="cv-links">
+              {item.links.map((link) => (
+                <a href={link} target="_blank" rel="noopener noreferrer">
+                  {link}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </article>
     ))
   }
 </div>

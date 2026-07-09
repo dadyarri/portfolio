@@ -1,471 +1,399 @@
 .cv-page {
-    max-width: 960px;
+    --cv-ink: var(--text-0);
+    --cv-muted: var(--text-1);
+    --cv-accent: color-mix(in srgb, var(--text-0) 16%, var(--primary-color));
+    --cv-line: color-mix(in srgb, var(--text-0) 12%, transparent);
+    --cv-surface: color-mix(in srgb, var(--bg-0) 88%, var(--bg-1));
+    --cv-page-width: 960px;
+    --cv-space-1: 0.35rem;
+    --cv-space-2: 0.65rem;
+    --cv-space-3: 1rem;
+    --cv-space-4: 1.5rem;
+    --cv-space-5: 2.25rem;
+    --cv-radius: 18px;
+    --cv-shadow: 0 18px 40px rgb(15 23 42 / 0.08);
+    --cv-title-size: clamp(2rem, 1.6rem + 1.7vw, 3rem);
+    --cv-section-size: 1.28rem;
+    --cv-heading-size: 0.74rem;
+    --cv-card-title-size: 1.05rem;
+    --cv-body-size: 0.9rem;
+    --cv-meta-size: 0.76rem;
+    --cv-line-height: 1.65;
+    max-width: var(--cv-page-width);
     margin: 0 auto;
-    --cv-body-size: 0.98rem;
-    --cv-meta-size: 0.88rem;
-    --cv-section-size: 1.9rem;
-    --cv-title-size: 1.18rem;
-    --cv-name-size: 2.2rem;
-    --cv-role-size: 1.3rem;
-    --cv-line-height: 1.5;
-    font-size: var(--cv-body-size);
-    line-height: var(--cv-line-height);
+    padding: 0 0 2rem;
+    color: var(--cv-ink);
+    font-family: var(--text-font);
+
+    @media (max-width: 720px) {
+        --cv-space-4: 1.15rem;
+        --cv-space-5: 1.8rem;
+    }
 
     @media print {
+        --cv-ink: black;
+        --cv-muted: black;
+        --cv-accent: black;
+        --cv-line: rgb(0 0 0 / 0.18);
+        --cv-surface: white;
+        --cv-shadow: none;
+        --cv-title-size: 1.9rem;
+        --cv-section-size: 1.05rem;
+        --cv-card-title-size: 0.88rem;
+        --cv-body-size: 0.76rem;
+        --cv-meta-size: 0.66rem;
+        --cv-line-height: 1.45;
         max-width: none;
-        --cv-body-size: 0.82rem;
-        --cv-meta-size: 0.76rem;
-        --cv-section-size: 1.9rem;
-        --cv-title-size: 0.98rem;
-        --cv-name-size: 1.72rem;
-        --cv-role-size: 1.02rem;
-        --cv-line-height: 1.35;
+        padding: 0;
     }
 }
 
-.cv {
-    &-controls {
-        display: flex;
-        justify-content: flex-end;
-        margin-bottom: 1rem;
+.cv-page :is(p, li, a, span) {
+    font-size: var(--cv-body-size);
+    line-height: var(--cv-line-height);
+}
 
-        @media (max-width: 640px) {
-            justify-content: center;
-        }
+.cv-page a {
+    color: inherit;
+    text-decoration-color: color-mix(in srgb, currentcolor 45%, transparent);
+    text-underline-offset: 0.16em;
+}
 
-        @media print {
-            display: none;
-        }
+.cv-page a:hover {
+    text-decoration-color: currentcolor;
+}
+
+.cv-shell {
+    display: grid;
+    gap: var(--cv-space-5);
+
+    @media (max-width: 720px) {
+        padding: var(--cv-space-4);
     }
 
-    &-controls-group {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.3rem;
+    @media print {
+        gap: 1.2rem;
         padding: 0;
+        border: 0;
+        border-radius: 0;
+        background: white;
+    }
+}
 
-        @media (max-width: 640px) {
-            width: auto;
-            max-width: 100%;
-            justify-content: center;
-        }
+.cv-flow {
+    display: grid;
+    gap: var(--cv-space-3);
+}
+
+.cv-flow-tight {
+    gap: var(--cv-space-2);
+}
+
+.cv-cluster {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--cv-space-2) var(--cv-space-3);
+}
+
+.cv-cluster-between {
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.cv-muted {
+    margin: 0;
+    color: var(--cv-muted);
+}
+
+.cv-eyebrow,
+.cv-label {
+    margin: 0;
+    font-size: var(--cv-heading-size);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cv-accent);
+}
+
+.cv-label {
+    margin-right: 0.55rem;
+}
+
+.cv-meta {
+    margin: 0;
+    font-size: var(--cv-meta-size);
+    color: var(--cv-muted);
+    white-space: nowrap;
+
+    @media (max-width: 560px), print {
+        white-space: normal;
+    }
+}
+
+.cv-controls {
+    display: flex;
+    justify-content: flex-end;
+
+    @media (max-width: 640px) {
+        justify-content: flex-start;
     }
 
-    &-locale-switcher {
-        display: inline-flex;
-        align-items: stretch;
-        gap: 0.3rem;
+    @media print {
+        display: none;
+    }
+}
 
-        a {
-            min-width: 2.6rem;
-            border-bottom: 0;
-            border-radius: 999px;
-            background: color-mix(in srgb, var(--bg-1) 82%, transparent);
-            color: var(--text-1);
-            padding: 0.3rem 0.65rem;
-            text-decoration: none;
-            text-align: center;
-            font: inherit;
-            font-size: var(--cv-meta-size);
-            font-weight: 700;
-            letter-spacing: 0.04em;
-            transition:
-                background-color 0.2s ease,
-                color 0.2s ease;
+.cv-controls-group,
+.cv-locale-switcher {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
 
-            &:hover,
-            &[aria-current="page"] {
-                background: var(--primary-color-hover);
-                color: var(--text-0);
-            }
-        }
+.cv-control-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.85rem;
+    padding: 0.5rem 0.82rem;
+    border: 1px solid var(--cv-line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--cv-muted);
+    text-decoration: none;
+    font-size: var(--cv-meta-size);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.cv-control-pill:is(:hover, :focus-visible, [aria-current="page"]) {
+    color: var(--cv-ink);
+    border-color: var(--cv-accent);
+    background: color-mix(in srgb, var(--cv-accent) 10%, transparent);
+}
+
+.cv-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 160px;
+    gap: var(--cv-space-4);
+    align-items: start;
+
+    @media (max-width: 720px) {
+        grid-template-columns: minmax(0, 1fr);
     }
 
-    &-print-button {
-        min-width: 2.6rem;
-        border-bottom: 0;
-        border-radius: 999px;
-        background: color-mix(in srgb, var(--bg-1) 82%, transparent);
-        color: var(--text-1);
-        padding: 0.3rem 0.65rem;
-        text-decoration: none;
-        text-align: center;
-        font: inherit;
-        font-size: var(--cv-meta-size);
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        transition:
-            background-color 0.2s ease,
-            color 0.2s ease;
-
-        &:hover,
-        &:focus-visible {
-            background: var(--primary-color-hover);
-            color: var(--text-0);
-        }
-    }
-
-    &-header {
-        margin-bottom: 2rem;
-
-        @media print {
-            margin-bottom: 1.25rem;
-            break-inside: avoid-page;
-            page-break-inside: avoid;
-        }
-
-        &-content {
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) 200px;
-            align-items: start;
-            gap: 2rem;
-
-            @media (max-width: 768px) {
-                grid-template-columns: minmax(0, 1fr);
-                justify-items: center;
-                text-align: center;
-            }
-
-            @media print {
-                grid-template-columns: minmax(0, 1fr) 140px;
-                align-items: flex-start !important;
-                text-align: left !important;
-                justify-items: stretch;
-            }
-        }
-
-        &-info {
-            flex: 1;
-            min-width: 0;
-
-            & h1 {
-                font-size: var(--cv-name-size);
-                font-weight: bold;
-                margin-bottom: 0.5rem;
-                line-height: 1.05;
-
-                @media print {
-                    color: black !important;
-                }
-            }
-
-            & h2 {
-                font-size: var(--cv-section-size);
-                color: var(--text-1);
-                margin-bottom: 0.8rem;
-                line-height: 1.2;
-
-                @media print {
-                    color: black !important;
-                }
-            }
-
-            & p {
-                color: var(--text-1);
-                margin-top: 0.85rem;
-                max-width: 62ch;
-                font-size: var(--cv-body-size);
-                line-height: var(--cv-line-height);
-
-                @media print {
-                    color: black !important;
-                    max-width: none;
-                }
-            }
-        }
-
-        & &-photo {
-            flex-shrink: 0;
-            width: 200px;
-            justify-self: end;
-
-            @media (max-width: 768px) {
-                justify-self: center;
-            }
-
-            @media print {
-                width: 140px;
-                justify-self: end;
-            }
-
-            & img {
-                width: 200px;
-                height: 200px;
-                border-radius: 50%;
-                object-fit: cover;
-                object-position: 30% 0%;
-                overflow: hidden;
-
-                @media print {
-                    width: 140px;
-                    height: 140px;
-                }
-            }
-        }
-    }
-
-    &-projects {
-        font-size: var(--cv-body-size);
-
-        & h3 {
-            font-size: var(--cv-title-size);
-            line-height: 1.25;
-            margin: 0 0 0.35rem;
-
-            @media print {
-                color: black;
-            }
-        }
-
-        &-subtitle {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 0.5rem 0;
-
-            h4 {
-                margin: 0;
-                font-size: var(--cv-title-size);
-                line-height: 1.25;
-                color: var(--text-1);
-
-                @media print {
-                    color: black;
-                }
-            }
-        }
-
-        &-item {
-            position: relative;
-            padding-left: 2rem;
-            margin-bottom: 2rem;
-
-            @media print {
-                break-inside: avoid-page;
-                page-break-inside: avoid;
-                margin-bottom: 1.25rem;
-            }
-
-            &::before {
-                content: "";
-                position: absolute;
-                left: -0.5rem;
-                top: 0.5rem;
-                width: 1rem;
-                height: 1rem;
-                border-radius: 50%;
-                background: var(--primary-color);
-            }
-        }
-    }
-
-    &-contact {
-        display: grid;
+    @media print {
+        grid-template-columns: minmax(0, 1fr) 112px;
         gap: 1rem;
-        font-size: var(--cv-body-size);
+        break-inside: avoid-page;
+        page-break-inside: avoid;
+    }
+}
 
-        @media screen and (min-width: 768px),
-        print {
-            grid-template-columns: repeat(2, 1fr);
-        }
+.cv-hero-body {
+    min-width: 0;
+}
 
-        &-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+.cv-hero-title {
+    margin: 0;
+    font-family: var(--header-font);
+    font-size: var(--cv-title-size);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+}
 
-            @media print {
-                break-inside: avoid-page;
-                page-break-inside: avoid;
-            }
-        }
+.cv-hero-summary {
+    max-width: 66ch;
+}
 
-        &-icon {
-            font-size: 1.5rem;
-        }
+.cv-hero-photo {
+    width: 160px;
+    justify-self: end;
 
-        &-info {
-            display: flex;
-            flex-direction: column;
-        }
-
-        &-label {
-            font-size: var(--cv-meta-size);
-            color: var(--primary-color);
-
-            @media print {
-                color: black !important;
-            }
-        }
-
-        &-value {
-            color: var(--text-0);
-            text-decoration: none;
-            font-size: var(--cv-body-size);
-            line-height: var(--cv-line-height);
-
-            @media print {
-                color: black !important;
-            }
-
-            &:hover {
-                text-decoration: underline;
-            }
-        }
+    @media (max-width: 720px) {
+        width: 128px;
+        justify-self: start;
     }
 
-    &-skills {
-        display: grid;
-        gap: 0.85rem;
+    @media print {
+        width: 112px;
+    }
+}
 
-        @media screen and (min-width: 900px) {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            column-gap: 1.5rem;
-        }
+.cv-hero-photo img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1px solid var(--cv-line);
+    border-radius: 20px;
+    object-fit: cover;
+    object-position: 30% 0%;
+}
 
-        @media print {
-            gap: 0.55rem;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            page-break-inside: avoid;
-        }
+.cv-section {
+    display: grid;
+    gap: var(--cv-space-3);
+
+    @media print {
+        gap: 0.65rem;
+        break-before: var(--cv-break-before, auto);
+        page-break-before: var(--cv-page-break-before, auto);
+    }
+}
+
+.cv-section-heading {
+    display: grid;
+    gap: 0.55rem;
+
+    @media print {
+        break-after: avoid-page;
+        page-break-after: avoid;
+    }
+}
+
+.cv-section-title {
+    margin: 0;
+    font-family: var(--header-font);
+    font-size: var(--cv-section-size);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+}
+
+.cv-grid {
+    display: grid;
+    gap: var(--cv-space-3);
+}
+
+.cv-grid-two {
+    @media screen and (min-width: 760px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.cv-section-keep {
+    @media print {
+        break-inside: avoid-page;
+        page-break-inside: avoid;
+    }
+}
+
+.cv-card {
+    display: grid;
+    gap: var(--cv-space-2);
+    padding: var(--cv-space-3) 0 0;
+
+    @media print {
+        padding-top: 0.65rem;
+        break-inside: avoid-page;
+        page-break-inside: avoid;
+    }
+}
+
+.cv-section .cv-card:first-child {
+    padding-top: 0;
+    border-top: 0;
+}
+
+.cv-card-header {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.cv-card-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.35rem 1rem;
+    align-items: start;
+
+    @media (max-width: 560px) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+.cv-card-title {
+    margin: 0;
+    min-width: 0;
+    font-size: var(--cv-card-title-size);
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.cv-card-subtitle {
+    margin: 0;
+    color: var(--cv-muted);
+    font-weight: 600;
+}
+
+.cv-copy {
+    margin: 0;
+    color: var(--cv-muted);
+}
+
+.cv-bullets {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--cv-muted);
+}
+
+.cv-bullets li + li {
+    margin-top: 0.25rem;
+}
+
+.cv-detail {
+    display: grid;
+    gap: 0.3rem;
+}
+
+.cv-detail-value {
+    margin: 0;
+    min-width: 0;
+    word-break: break-word;
+}
+
+.cv-links {
+    display: grid;
+    gap: 0.2rem;
+}
+
+.cv-links a,
+.cv-detail-value a,
+.cv-detail-value {
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.cv-links a {
+    white-space: nowrap;
+}
+
+.cv-detail-value a {
+    white-space: nowrap;
+}
+
+.cv-page :is(p, li) {
+    @media print {
+        orphans: 3;
+        widows: 3;
+    }
+}
+
+@media print {
+    .cv-page,
+    .cv-page :is(h1, h2, h3, h4, p, li, span, strong, a) {
+        color: black !important;
     }
 
-    &-skills-category {
-        margin-bottom: 0;
-        padding: 0.7rem 0.8rem;
-        border-radius: 12px;
-        background: color-mix(in srgb, var(--bg-1) 72%, transparent);
-
-        h3 {
-            margin: 0 0 0.35rem;
-            font-size: var(--cv-meta-size);
-            line-height: 1.3;
-            color: var(--text-0);
-
-            @media print {
-                color: black;
-            }
-        }
-
-        @media print {
-            margin-bottom: 0;
-            padding: 0.35rem 0.45rem;
-            background: none;
-            break-inside: avoid-page;
-            page-break-inside: avoid;
-        }
+    .cv-page a {
+        text-decoration-color: rgb(0 0 0 / 0.45);
     }
 
-    &-skill-values {
-        margin: 0;
-        color: var(--text-1);
-        font-size: var(--cv-body-size);
-        line-height: var(--cv-line-height);
-
-        @media print {
-            color: black;
-        }
-    }
-
-    &-timeline {
-        position: relative;
-        font-size: var(--cv-body-size);
-
-        &::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: var(--primary-color);
-
-            @media print {
-                background: black;
-            }
-        }
-
-        & h3 {
-            font-size: var(--cv-title-size);
-            line-height: 1.25;
-            margin: 0 0 0.35rem;
-
-            @media print {
-                color: black;
-            }
-        }
-
-        &-subtitle {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 0.5rem 0;
-
-            @media print {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.2rem;
-            }
-
-            h4 {
-                margin: 0;
-                font-size: var(--cv-title-size);
-                line-height: 1.25;
-                color: var(--text-1);
-
-                @media print {
-                    color: black;
-                }
-            }
-
-            .cv-timeline-date {
-                color: var(--text-1);
-                font-size: var(--cv-meta-size);
-                white-space: nowrap;
-
-                @media print {
-                    color: black;
-                    white-space: normal;
-                }
-            }
-        }
-
-        &-item {
-            position: relative;
-            padding-left: 2rem;
-            margin-bottom: 2rem;
-
-            @media print {
-                break-inside: avoid-page;
-                page-break-inside: avoid;
-                margin-bottom: 1.25rem;
-            }
-
-            &::before {
-                content: "";
-                position: absolute;
-                left: -0.5rem;
-                top: 0.2rem;
-                width: 1rem;
-                height: 1rem;
-                border-radius: 50%;
-                background: var(--primary-color);
-
-                @media print {
-                    background: black;
-                }
-            }
-        }
-    }
-
-    p,
-    li {
-        font-size: var(--cv-body-size);
-        line-height: var(--cv-line-height);
-
-        @media print {
-            orphans: 3;
-            widows: 3;
-        }
+    .cv-page :is(.cv-shell, .cv-card, .cv-hero-photo img, .cv-control-pill) {
+        border-color: rgb(0 0 0 / 0.18);
     }
 }

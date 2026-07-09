@@ -8,11 +8,11 @@ interface Props {
 const { categories } = Astro.props;
 ---
 
-<div class="cv-skills">
+<div class="cv-grid cv-grid-two">
   {categories.map((category) => (
-    <div class="cv-skills-category">
-      <h3>{category.name}</h3>
-      <p class="cv-skill-values">
+    <div class="cv-detail">
+      <p class="cv-label">{category.name}</p>
+      <p class="cv-copy">
         {category.skills.map((skill) => skill.name).join(", ")}
       </p>
     </div>
