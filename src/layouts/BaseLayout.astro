@@ -7,6 +7,7 @@ import "@fontsource/jetbrains-mono/700.css";
 import "@fontsource/rubik/400.css";
 import "@fontsource/rubik/700.css";
 import "@styles/main.scss";
+import cvStylesHref from "@styles/cv.scss?url";
 
 interface Props {
     title?: string;
@@ -26,6 +27,7 @@ interface Props {
     contentClass?: string;
     showHeader?: boolean;
     pageTitle?: string | null;
+    includeCvStyles?: boolean;
     alternateLinks?: AlternateLink[];
     structuredData?: StructuredData;
 }
@@ -48,6 +50,7 @@ const {
     contentClass = "content",
     showHeader = true,
     pageTitle = title,
+    includeCvStyles = false,
     alternateLinks = [],
     structuredData,
 } = Astro.props;
@@ -111,6 +114,7 @@ const structuredDataEntries = structuredData
                 />
             ))
         }
+        {includeCvStyles && <link rel="stylesheet" href={cvStylesHref} />}
 
         <slot name="head" />
     </head>

@@ -24,17 +24,18 @@ const seriesLabel = await getSeriesLabel(series);
 </nav>
 
 <style lang="scss">
-
     h1 {
         border: none;
         line-height: 1;
         font-weight: 600;
-        font-size: 1.6rem;
+        font-size: 1.5rem;
+        margin: 0 0 var(--space-3);
     }
 
     ul {
         list-style: none;
-        padding-left: 10px;
+        padding-left: var(--space-3);
+        margin: 0;
     }
 
     a {
@@ -42,12 +43,14 @@ const seriesLabel = await getSeriesLabel(series);
     }
 
     a.active {
-        background-color: var(--bg-2);
+        padding: 0.15rem 0.35rem;
+        border-radius: var(--radius-sm);
+        background-color: var(--surface-2);
         color: var(--text-1);
         display: inline;
     }
 
     .card {
-        margin: 20px 0;
+        margin: var(--space-4) 0;
     }
 </style>

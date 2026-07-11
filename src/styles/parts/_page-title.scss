@@ -1,9 +1,9 @@
 .page-header {
-    font-size: 3em;
+    font-size: clamp(2.5rem, 2rem + 2vw, 3.25rem);
     line-height: 100%;
     font-family: var(--header-font);
     font-weight: 700;
-    margin: 4rem 0 1rem;
+    margin: var(--space-6) 0 var(--space-3);
 
     @media print {
         display: none;

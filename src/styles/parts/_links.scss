@@ -1,24 +1,32 @@
 @use "sass:map";
 @use "_variables" as *;
 
-// Link variables
-$link-border-width: 3px;
-$link-transition-duration: 0.1s;
-$link-transition-timing: ease;
-
 // Link mixins
 @mixin link-base {
-    border-bottom: 3px solid var(--border-color);
+    border-bottom: 2px solid var(--border-color);
     color: inherit;
     text-decoration: none;
     position: relative;
     z-index: 1;
-    transition: all map.get($transition, 'fast');
+    transition:
+        border-color var(--transition-fast),
+        color var(--transition-fast),
+        background-color var(--transition-fast);
 }
 
 // Link styles
 a {
     @include link-base;
+
+    &:hover {
+        border-color: var(--primary-color);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--focus-ring);
+        outline-offset: 3px;
+        border-radius: var(--radius-sm);
+    }
 
     @media print {
         border: none;

@@ -1,7 +1,6 @@
 @use "sass:map";
 @use "parts/_cards";
 @use "parts/_code";
-@use "parts/_cv";
 @use "parts/_header";
 @use "parts/_headings";
 @use "parts/_home";
@@ -31,8 +30,33 @@ $font-sizes: (
     --header-font: "Rubik", "Segoe UI", "Helvetica Neue", arial, sans-serif;
     --code-font: "JetBrains Mono", "Cascadia Mono", "Fira Code", "Consolas", monospace;
 
-    // Layout
-    --border-radius: 4px;
+    --site-max-width: 1400px;
+    --reading-max-width: 1200px;
+    --content-max-width: 900px;
+    --toc-width: 280px;
+    --space-1: 0.5rem;
+    --space-2: 0.75rem;
+    --space-3: 1rem;
+    --space-4: 1.5rem;
+    --space-5: 2rem;
+    --space-6: 3rem;
+    --radius-sm: 0.5rem;
+    --radius-md: 0.875rem;
+    --radius-lg: 1.25rem;
+    --radius-pill: 999px;
+    --border-width: 1px;
+    --border-strong-width: 2px;
+    --surface-1: color-mix(in srgb, var(--bg-1) 94%, transparent);
+    --surface-2: color-mix(in srgb, var(--bg-2) 92%, transparent);
+    --surface-hover: color-mix(in srgb, var(--bg-1) 90%, var(--bg-2));
+    --surface-hover-raised: color-mix(in srgb, var(--bg-2) 92%, var(--bg-3));
+    --border-subtle: color-mix(in srgb, var(--border-color) 82%, transparent);
+    --border-strong: color-mix(in srgb, var(--border-color) 96%, var(--bg-3));
+    --shadow-sm: 0 10px 24px rgb(0 0 0 / 0.14);
+    --shadow-md: 0 18px 36px rgb(0 0 0 / 0.18);
+    --transition-fast: 0.15s ease;
+    --transition-base: 0.22s ease;
+    --transition-slow: 0.35s ease;
 
     // Scrollbar
     &::-webkit-scrollbar {
@@ -74,6 +98,29 @@ html {
         font-size: 10.5pt;
         margin: 0;
     }
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+}
+
+html,
+body {
+    scroll-behavior: smooth;
+}
+
+body,
+.content,
+.post-layout,
+header {
+    box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
 }
 
 // Selection styles
@@ -118,9 +165,9 @@ html {
 
 // Layout
 .content {
-    max-width: 1400px;
+    max-width: var(--site-max-width);
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 var(--space-4);
     word-wrap: break-word;
 }
 
@@ -129,23 +176,23 @@ html {
     flex-direction: column;
     max-width: 100%;
     margin: 0 auto;
-    padding: 0 1.5rem;
-    gap: 1.5rem;
+    padding: 0 var(--space-4);
+    gap: var(--space-4);
 
     @include respond-to('large') {
         flex-direction: row;
-        max-width: 1200px;
-        gap: 2rem;
+        max-width: var(--reading-max-width);
+        gap: var(--space-5);
     }
 
     .content {
         flex: 1 1 auto;
         max-width: 100%;
         word-wrap: break-word;
-        padding: 0 0.5rem;
+        padding: 0;
 
         @include respond-to('large') {
-            max-width: 900px;
+            max-width: var(--content-max-width);
         }
     }
 
@@ -154,13 +201,13 @@ html {
 
         @include respond-to('large') {
             display: block;
-            flex: 0 0 280px;
+            flex: 0 0 var(--toc-width);
             position: sticky;
-            top: 1.5rem;
+            top: var(--space-4);
             align-self: flex-start;
-            max-height: calc(100vh - 3rem);
+            max-height: calc(100vh - 4rem);
             overflow-y: auto;
-            padding-left: 1rem;
+            padding-left: var(--space-2);
         }
     }
 }

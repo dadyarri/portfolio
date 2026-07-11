@@ -20,6 +20,7 @@ const {
 	contentClass,
 	showHeader,
 	pageTitle,
+	includeCvStyles,
 	alternateLinks,
 	structuredData,
 } = Astro.props;
@@ -44,6 +45,7 @@ const {
 	contentClass={contentClass}
 	showHeader={showHeader}
 	pageTitle={pageTitle}
+	includeCvStyles={includeCvStyles}
 	alternateLinks={alternateLinks as AlternateLink[] | undefined}
 	structuredData={structuredData as StructuredData | undefined}
 >

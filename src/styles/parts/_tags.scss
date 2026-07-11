@@ -1,24 +1,19 @@
 @use "sass:map";
 @use "_variables" as *;
 
-// Tag variables
-$tag-padding: 5px;
-$tag-margin-right: 10px;
-$tag-margin-bottom: 5px;
-$tag-height: 24px;
-$tag-icon-size: 24px;
-
 // Tag mixins
 @mixin tag-base {
-    background-color: var(--bg-2);
-    border-radius: map.get($border-radius, 'md');
-    padding: map.get($spacing, 'xs');
+    background-color: var(--surface-2);
+    border: var(--border-width) solid var(--border-subtle);
+    border-radius: var(--radius-pill);
+    padding: 0.35rem 0.7rem;
     margin-right: map.get($spacing, 'sm');
     margin-bottom: map.get($spacing, 'xs');
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 24px;
+    gap: 0.35rem;
+    min-height: 2rem;
     border-bottom: unset;
     white-space: normal;
     word-break: break-word;
@@ -34,14 +29,14 @@ $tag-icon-size: 24px;
 .tag {
     @include tag-base;
     transition:
-        transform 0.15s ease,
-        background-color 0.15s ease,
-        color 0.15s ease,
-        border-color 0.15s ease;
+        background-color var(--transition-fast),
+        color var(--transition-fast),
+        border-color var(--transition-fast);
 
     &.tag-icon {
-        width: 24px;
-        height: 24px;
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
     }
 
     svg {
@@ -54,7 +49,7 @@ $tag-icon-size: 24px;
 }
 
 a.tag:hover {
-    transform: translateY(-1px);
-    background-color: var(--bg-1);
+    background-color: var(--surface-hover-raised);
+    border-color: var(--primary-color);
     color: var(--text-1);
 }

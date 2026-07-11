@@ -11,6 +11,7 @@ const {
   locale,
   ogImageAlt,
   twitterSite,
+  includeCvStyles = false,
   alternateLinks,
   structuredData,
 } = Astro.props;
@@ -29,6 +30,7 @@ const {
   contentClass="content print-content"
   showHeader={false}
   pageTitle={null}
+  includeCvStyles={includeCvStyles}
   alternateLinks={alternateLinks as AlternateLink[] | undefined}
   structuredData={structuredData as StructuredData | undefined}
 >

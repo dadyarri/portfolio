@@ -13,6 +13,7 @@ $text-selection: #{$text-1};
 
 $primary-color: #444a73;
 $primary-color-hover: color.adjust($primary-color, $lightness: 15%);
+$focus-ring: color.adjust($primary-color-hover, $lightness: 12%);
 
 :root {
     --text-0: #{$text-0};
@@ -31,6 +32,7 @@ $primary-color-hover: color.adjust($primary-color, $lightness: 15%);
     --primary-color: #{$primary-color};
     --primary-color-hover: #{$primary-color-hover};
     --hover-color: #828bb8;
+    --focus-ring: #{$focus-ring};
 
     .social>img {
         filter: invert(1);

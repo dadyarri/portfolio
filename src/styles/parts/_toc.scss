@@ -5,32 +5,37 @@ h1.toc-heading {
   font-family: var(--header-font);
   line-height: 100%;
   margin: map.get($spacing, 'md') 0 map.get($spacing, 'sm');
-  font-size: 1.6rem;
+  font-size: 1.45rem;
   color: var(--text-1);
 }
 
 ul.toc-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 
     & a {
         border: none;
         display: inline-block;
-        border-radius: map.get($border-radius, "md");
-        padding: 0.2rem 0.4rem;
+        border: var(--border-width) solid transparent;
+        border-radius: var(--radius-sm);
+        padding: 0.3rem 0.55rem;
         transition:
-            transform 0.15s ease,
-            background-color 0.15s ease,
-            color 0.15s ease;
+            transform var(--transition-fast),
+            background-color var(--transition-fast),
+            border-color var(--transition-fast),
+            color var(--transition-fast);
 
         &:hover {
-            background-color: var(--bg-2);
+            background-color: var(--surface-2);
+            border-color: var(--border-subtle);
             color: var(--text-1);
             transform: translateX(2px);
         }
 
         &.active {
-            background-color: var(--bg-2);
+            background-color: var(--surface-2);
+            border-color: var(--primary-color);
             color: var(--text-1);
             transform: translateX(2px);
         }
