@@ -11,7 +11,7 @@ import caddyLang from './syntaxes/caddyfile.tmLanguage.json' with { type: 'json'
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://dadyarri.ru",
+  site: "https://dadyarri.dev",
   integrations: [icon(), staticCodeImages()],
   markdown: {
     processor: unified({
