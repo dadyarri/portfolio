@@ -68,5 +68,13 @@
   "overrides": {
     "fast-xml-parser": "5.7.0",
     "yaml": "2.8.3"
+  },
+  "allowScripts": {
+    "@parcel/watcher@2.5.6": true,
+    "esbuild@0.28.1": true,
+    "sharp@0.34.5": true
+  },
+  "engines": {
+    "node": ">=26"
   }
 }
