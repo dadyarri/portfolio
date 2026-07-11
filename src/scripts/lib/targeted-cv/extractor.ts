@@ -1,5 +1,7 @@
 import * as cheerio from "cheerio";
-import { normalizeWhitespace } from "./text.mjs";
+import type { AnyNode, Element, ParentNode } from "domhandler";
+import { normalizeWhitespace } from "./text.ts";
+import type { VacancyExtraction } from "./types.ts";
 
 const dropSelectors = [
   "script",
@@ -27,7 +29,7 @@ const dropSelectors = [
   "[class*='recommend' i]",
   "[class*='vacancy-similar' i]",
   "[class*='related' i]",
-];
+] as const;
 
 const preferredSelectors = [
   "main article",
@@ -38,43 +40,15 @@ const preferredSelectors = [
   "[class*='job' i]",
   "[class*='description' i]",
   "[class*='content' i]",
-];
+] as const;
 
 const blockTags = new Set([
-  "address",
-  "article",
-  "br",
-  "dd",
-  "div",
-  "dl",
-  "dt",
-  "fieldset",
-  "figcaption",
-  "figure",
-  "footer",
-  "h1",
-  "h2",
-  "h3",
-  "h4",
-  "h5",
-  "h6",
-  "header",
-  "hr",
-  "li",
-  "main",
-  "ol",
-  "p",
-  "section",
-  "table",
-  "tbody",
-  "td",
-  "th",
-  "thead",
-  "tr",
-  "ul",
+  "address","article","br","dd","div","dl","dt","fieldset","figcaption","figure","footer",
+  "h1","h2","h3","h4","h5","h6","header","hr","li","main","ol","p","section","table",
+  "tbody","td","th","thead","tr","ul",
 ]);
 
-function extractTextWithBreaks(node) {
+function extractTextWithBreaks(node: AnyNode | null | undefined): string {
   if (!node) {
     return "";
   }
@@ -92,8 +66,8 @@ function extractTextWithBreaks(node) {
     return "\n";
   }
 
-  const chunks = [];
-  for (const child of node.children ?? []) {
+  const chunks: string[] = [];
+  for (const child of ("children" in node ? node.children : []) ?? []) {
     chunks.push(extractTextWithBreaks(child));
   }
 
@@ -105,7 +79,7 @@ function extractTextWithBreaks(node) {
   return combined;
 }
 
-function cleanTextBlock(text) {
+function cleanTextBlock(text: string): string {
   return normalizeWhitespace(text)
     .split("\n")
     .map((line) => line.trim())
@@ -114,7 +88,7 @@ function cleanTextBlock(text) {
     .join("\n");
 }
 
-function normalizeVacancyTitle(value) {
+function normalizeVacancyTitle(value: string): string | undefined {
   if (!value) {
     return undefined;
   }
@@ -137,7 +111,7 @@ function normalizeVacancyTitle(value) {
   return compact;
 }
 
-function scoreCandidate(element) {
+function scoreCandidate(element: Element) {
   const text = cleanTextBlock(extractTextWithBreaks(element));
   if (!text) {
     return { score: -1, text };
@@ -150,13 +124,10 @@ function scoreCandidate(element) {
     ? 10
     : 0;
 
-  return {
-    score: lengthScore + paragraphScore + headingBonus,
-    text,
-  };
+  return { score: lengthScore + paragraphScore + headingBonus, text };
 }
 
-function extractFragments($, root) {
+function extractFragments($: cheerio.CheerioAPI, root: ParentNode | undefined) {
   const title = normalizeVacancyTitle(cleanTextBlock($("title").first().text())) || undefined;
   const canonicalUrl = $("link[rel='canonical']").attr("href") || undefined;
   const heading =
@@ -184,11 +155,15 @@ function extractFragments($, root) {
   return { title, canonicalUrl, heading, company, location };
 }
 
-export function extractVacancyContent(html, sourceUrl) {
+export function extractVacancyContent(html: string, sourceUrl: string): VacancyExtraction {
   const $ = cheerio.load(html);
   $(dropSelectors.join(",")).remove();
 
-  let best = { score: -1, text: "", element: $("body").get(0) };
+  let best: { score: number; text: string; element?: Element } = {
+    score: -1,
+    text: "",
+    element: $("body").get(0) as Element | undefined,
+  };
 
   for (const selector of preferredSelectors) {
     $(selector).each((_, element) => {
@@ -200,12 +175,11 @@ export function extractVacancyContent(html, sourceUrl) {
   }
 
   if (best.score < 0) {
-    const fallback = cleanTextBlock(extractTextWithBreaks($("body").get(0)));
-    best = { score: fallback.length, text: fallback, element: $("body").get(0) };
+    const fallback = cleanTextBlock(extractTextWithBreaks($("body").get(0) as Element | undefined));
+    best = { score: fallback.length, text: fallback, element: $("body").get(0) as Element | undefined };
   }
 
   const fragments = extractFragments($, best.element);
-  const normalizedText = best.text;
 
   return {
     sourceUrl,
@@ -213,6 +187,6 @@ export function extractVacancyContent(html, sourceUrl) {
     canonicalUrl: fragments.canonicalUrl,
     company: fragments.company,
     location: fragments.location,
-    normalizedText,
+    normalizedText: best.text,
   };
 }

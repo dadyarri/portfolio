@@ -1,12 +1,13 @@
-import { StageError } from "./errors.mjs";
+import { StageError } from "./errors.ts";
+import { site } from "../../../../astro.config";
 
-export async function fetchVacancyHtml(url, cacheDir) {
-  let response;
+export async function fetchVacancyHtml(url: string, cacheDir: string): Promise<string> {
+  let response: Response;
 
   try {
     response = await fetch(url, {
       headers: {
-        "user-agent": "portfolio-targeted-cv/1.0 (+https://dadyarri.dev)",
+        "user-agent": `portfolio-targeted-cv/1.0 (+${site})`,
         "accept-language": "en-US,en;q=0.8,ru;q=0.7",
       },
       redirect: "follow",

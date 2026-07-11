@@ -3,7 +3,8 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import CVDocument from "@components/CVDocument.astro";
 import PrintLayout from "@layouts/PrintLayout.astro";
-import { artifactNames, variantsDir } from "@scripts/lib/targeted-cv/constants.mjs";
+import { artifactNames, variantsDir } from "@scripts/lib/targeted-cv/constants";
+import { getAbsoluteSiteUrl } from "@utils/seo";
 
 export async function getStaticPaths() {
   const { readdir } = await import("node:fs/promises");
@@ -38,6 +39,8 @@ const documentDescription =
   title={documentTitle}
   description={documentDescription}
   lang={locale}
+  canonicalUrl={getAbsoluteSiteUrl(locale === "en" ? "/en/cv" : "/cv")}
+  robots="noindex, nofollow"
 >
   <CVDocument data={data} locale={locale} />
 </PrintLayout>

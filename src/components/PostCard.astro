@@ -1,7 +1,7 @@
 ---
 import { Icon } from "astro-icon/components";
 import type { CollectionEntry } from "astro:content";
-import { splitArrayByElement } from "@utils/data";
+import { getPreviewHtml } from "@utils/data";
 import PostInfo from "./PostInfo.astro";
 
 type Props = {
@@ -11,10 +11,7 @@ type Props = {
 const { post } = Astro.props;
 const path = `/${post.collection}/${post.id}`;
 
-const preview = splitArrayByElement(
-    post.rendered?.html?.split("\n") ?? [],
-    "<!--more-->",
-).preview.join("");
+const preview = getPreviewHtml(post.rendered?.html ?? "");
 ---
 
 <div class="card">

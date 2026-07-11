@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { extractVacancyContent } from "./extractor.mjs";
+import { extractVacancyContent } from "./extractor.ts";
 
 test("extractVacancyContent removes boilerplate and keeps main vacancy text", () => {
   const html = `

@@ -1,22 +1,13 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { render, type CollectionEntry } from "astro:content";
-import { getPosts } from "@utils/content";
-import PostLayout from "@layouts/PostLayout.astro";
+import ContentEntryPage from "@components/ContentEntryPage.astro";
+import { buildContentEntryStaticPaths } from "@utils/content-routes";
 
 export const getStaticPaths = (async () => {
-    const posts = await getPosts();
-    return posts.map((post) => ({
-        params: { id: post.id },
-        props: post,
-    }));
+    return buildContentEntryStaticPaths("posts");
 }) satisfies GetStaticPaths;
 
-type Props = CollectionEntry<"posts">;
 const post = Astro.props;
-const { Content, headings } = await render(post);
 ---
 
-<PostLayout post={post} headings={headings}>
-    <Content />
-</PostLayout>
+<ContentEntryPage entry={post} />

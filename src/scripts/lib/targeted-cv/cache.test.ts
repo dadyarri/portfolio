@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { createCacheKey } from "./cache.mjs";
+import { createCacheKey } from "./cache.ts";
 
 test("createCacheKey is stable for same url and locale", () => {
   const left = createCacheKey("https://example.com/job/1", "en");

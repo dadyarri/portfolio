@@ -1,9 +1,9 @@
-import { parseCliArgs } from "./lib/targeted-cv/cli.mjs";
-import { generateTargetedCv } from "./lib/targeted-cv/pipeline.mjs";
-import { artifactNames } from "./lib/targeted-cv/constants.mjs";
-import { StageError } from "./lib/targeted-cv/errors.mjs";
+import { parseCliArgs } from "./lib/targeted-cv/cli.ts";
+import { generateTargetedCv } from "./lib/targeted-cv/pipeline.ts";
+import { artifactNames } from "./lib/targeted-cv/constants.ts";
+import { StageError } from "./lib/targeted-cv/errors.ts";
 
-async function main() {
+async function main(): Promise<void> {
   const options = parseCliArgs(process.argv.slice(2));
   const result = await generateTargetedCv(options);
 
@@ -13,7 +13,7 @@ async function main() {
   }
 }
 
-main().catch((error) => {
+main().catch((error: unknown) => {
   const fallback = error instanceof Error ? error.message : String(error);
 
   if (error instanceof StageError) {

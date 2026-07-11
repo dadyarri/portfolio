@@ -1,29 +1,36 @@
 ---
-import "@fontsource/jetbrains-mono/400.css";
-import "@fontsource/jetbrains-mono/700.css";
-import "@fontsource/rubik/400.css";
-import "@fontsource/rubik/700.css";
-import "@styles/main.scss";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import type { AlternateLink, StructuredData } from "@type/seo";
 
 const {
   title = "CV",
   description = title,
   lang = "ru",
+  canonicalUrl,
+  robots,
+  locale,
+  ogImageAlt,
+  twitterSite,
+  alternateLinks,
+  structuredData,
 } = Astro.props;
 ---
 
-<!doctype html>
-<html lang={lang}>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
-    <meta name="description" content={description} />
-  </head>
-  <body class="print-layout">
-    <main class="content print-content">
-      <slot />
-    </main>
-  </body>
-</html>
+<BaseLayout
+  title={title}
+  description={description}
+  lang={lang}
+  canonicalUrl={canonicalUrl}
+  robots={robots}
+  locale={locale}
+  ogImageAlt={ogImageAlt}
+  twitterSite={twitterSite}
+  bodyClass="print-layout"
+  contentClass="content print-content"
+  showHeader={false}
+  pageTitle={null}
+  alternateLinks={alternateLinks as AlternateLink[] | undefined}
+  structuredData={structuredData as StructuredData | undefined}
+>
+  <slot />
+</BaseLayout>

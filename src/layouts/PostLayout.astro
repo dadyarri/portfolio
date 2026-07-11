@@ -1,17 +1,13 @@
 ---
+import BaseLayout from "@layouts/BaseLayout.astro";
 import Comments from "@components/Comments.astro";
-import "@fontsource/jetbrains-mono/400.css";
-import "@fontsource/jetbrains-mono/700.css";
-import "@fontsource/rubik/400.css";
-import "@fontsource/rubik/700.css";
-import Header from "@components/Header.astro";
 import PageTitle from "@components/PageTitle.astro";
 import PostInfo from "@components/PostInfo.astro";
 import PostSeries from "@components/PostSeries.astro";
 import TableOfContents from "@components/TableOfContents.astro";
-import "@styles/main.scss";
 import { getTagLabel } from "@utils/content";
-import { splitArrayByElement, stripHtml } from "@utils/data";
+import { getPreviewText } from "@utils/data";
+import { buildArticleStructuredData, getAbsoluteSiteUrl } from "@utils/seo";
 import { Icon } from "astro-icon/components";
 import type { CollectionEntry } from "astro:content";
 import type { MarkdownHeading } from "astro";
@@ -23,91 +19,57 @@ type Props = {
 
 const { post, headings } = Astro.props;
 
-const preview = stripHtml(
-    splitArrayByElement(
-        post.rendered?.html?.split("\n") ?? [],
-        "<!--more-->",
-    ).preview.join(""),
-);
-
-const url = `https://dadyarri.ru/${post.collection}/${post.id}`;
-const imageUrl = `https://dadyarri.ru/content/${post.collection}/${post.id}/og-image.png`; // TODO
+const preview = getPreviewText(post.rendered?.html ?? "");
+const url = getAbsoluteSiteUrl(`/${post.collection}/${post.id}`);
+const imageUrl = getAbsoluteSiteUrl(`/content/${post.collection}/${post.id}/og-image.png`);
 const renderedHtml = post.rendered?.html ?? "";
 const needsCodeImagesScript =
     renderedHtml.includes("<pre") || renderedHtml.includes("<img");
 const needsScrollSpyScript = headings.length > 0;
-
-const ld = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: post.data.title,
+const tagLabels = (
+    await Promise.all(post.data.tags.map((tag) => getTagLabel(tag.id)))
+).filter((tag): tag is string => Boolean(tag));
+const articleStructuredData = buildArticleStructuredData({
+    title: post.data.title,
     description: preview,
-    image: imageUrl,
-    author: {
-        "@type": "Person",
-        name: "dadyarri",
-        url: "https://t.me/dadyarri",
-    },
-    datePublished: post.data.date.toISOString(),
-    mainEntityOfPage: {
-        "@type": "WebPage",
-        "@id": url,
-    },
-};
+    canonicalUrl: url,
+    imageUrl,
+    publishedAt: post.data.date.toISOString(),
+    locale: "ru",
+    tags: tagLabels,
+});
 ---
 
-<!doctype html>
-<html lang="ru">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="generator" content={Astro.generator} />
-
-        <meta name="robots" content="index, follow" />
-
-        <meta property="og:site_name" content="Личный блог dadyarri" />
-        <meta property="og:locale" content="ru_RU" />
-
-        <title>{post.data.title}</title>
-        <meta property="og:title" content={post.data.title} />
-
-        <meta name="description" content={preview} />
-        <meta property="og:description" content={preview} />
-
-        <meta property="og:type" content="article" />
-
-        <meta
-            property="og:image"
-            content=`/content/${post.collection}/${post.id}/og-image.png`
-        />
-
+<BaseLayout
+    title={post.data.title}
+    description={preview}
+    canonicalUrl={url}
+    ogType="article"
+    ogImage={imageUrl}
+    ogImageAlt={post.data.title}
+    robots="index, follow"
+    lang="ru"
+    locale="ru_RU"
+    twitterSite="@dadyarri"
+    pageTitle={null}
+    contentClass="post-layout"
+    structuredData={articleStructuredData}
+>
+    <Fragment slot="head">
         <meta
             property="article:published_time"
             content={post.data.date.toISOString()}
         />
         <meta property="article:author" content="https://t.me/dadyarri" />
         <meta property="article:section" content="Tech" />
-
         {
-            post.data.tags.map(async (tag) => (
+            tagLabels.map((tag) => (
                 <meta
                     property="article:tag"
-                    content={await getTagLabel(tag.id)}
+                    content={tag}
                 />
             ))
         }
-
-        <meta property="og:url" content={url} />
-        <link rel="canonical" href={url} />
-
-        <meta property="og:image" content={imageUrl} />
-
-        <script
-            type="application/ld+json"
-            set:html={JSON.stringify(ld)}
-            is:inline
-        />
         {
             needsCodeImagesScript && (
                 <script src="/js/code-images.js" defer is:inline></script>
@@ -118,35 +80,30 @@ const ld = {
                 <script src="/js/scrollspy.js" defer is:inline></script>
             )
         }
-    </head>
-    <body>
-        <Header />
-        <div class="post-layout">
-            <div class="content">
-                <PageTitle title={post.data.title} />
-                <PostInfo post={post} />
-                {
-                    post.data.series && (
-                        <PostSeries
-                            series={post.data.series.id}
-                            currentPost={post.id}
-                        />
-                    )
-                }
-                <slot />
-                <a href=`/${post.collection}` class="pagination-button">
-                    <Icon name="carbon:chevron-left" width={20} />
-                    <span>Назад</span>
-                </a>
-                {!post.data.draft && <Comments />}
-            </div>
-            {
-                headings.length > 0 && (
-                    <aside>
-                        <TableOfContents headings={headings} />
-                    </aside>
-                )
-            }
-        </div>
-    </body>
-</html>
+    </Fragment>
+    <div class="content">
+        <PageTitle title={post.data.title} />
+        <PostInfo post={post} />
+        {
+            post.data.series && (
+                <PostSeries
+                    series={post.data.series.id}
+                    currentPost={post.id}
+                />
+            )
+        }
+        <slot />
+        <a href=`/${post.collection}` class="pagination-button">
+            <Icon name="carbon:chevron-left" width={20} />
+            <span>Назад</span>
+        </a>
+        {!post.data.draft && <Comments lang="ru" />}
+    </div>
+    {
+        headings.length > 0 && (
+            <aside>
+                <TableOfContents headings={headings} />
+            </aside>
+        )
+    }
+</BaseLayout>

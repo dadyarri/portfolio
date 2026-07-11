@@ -1,4 +1,6 @@
-export type ContactType = 'email' | 'phone' | 'location' | 'website' | 'github' | 'telegram';
+export type Locale = "ru" | "en";
+type ContactType = 'email' | 'phone' | 'location' | 'website' | 'github' | 'telegram';
+export type LocalizedString = Record<Locale, string>;
 
 export interface Contact {
   type: ContactType;
@@ -6,9 +8,9 @@ export interface Contact {
   label?: string | undefined;
 }
 
-interface Date {
+interface TimelineDateRange {
   start: string;
-  end?: string | 'н. в.';
+  end?: string | null;
   showAmountOfTime: boolean;
 }
 
@@ -17,7 +19,7 @@ export interface TimelineItem {
   title: string;
   subtitle?: string;
   link?: string;
-  date: Date;
+  date: TimelineDateRange;
   description?: string[];
   descriptionIds?: string[];
   stack?: string[];
@@ -99,12 +101,60 @@ export interface CvMasterMetadata {
   }>;
 }
 
-export interface DerivedCvDocument extends CVData {
-  variantMeta: {
-    vacancyUrl: string;
-    locale: "ru" | "en";
-    generatedAt: string;
-    selectedExperienceIds: string[];
-    selectedProjectIds: string[];
-  };
+export interface RawContact {
+  type: ContactType;
+  value: string | LocalizedString;
+  label?: string | LocalizedString | undefined;
+}
+
+interface RawTimelineDescriptionItem {
+  id: string;
+  text: LocalizedString;
+}
+
+export interface RawTimelineItem {
+  id?: string;
+  title: LocalizedString;
+  subtitle?: LocalizedString;
+  link?: string;
+  date: TimelineDateRange;
+  description?: RawTimelineDescriptionItem[];
+  stack?: string[];
+}
+
+export interface RawSkillCategory {
+  id?: string;
+  name: LocalizedString;
+  skills: Array<{
+    name: string | LocalizedString;
+  }>;
+}
+
+export interface RawProject {
+  id?: string;
+  title: LocalizedString;
+  description: LocalizedString;
+  links?: string[];
+  stack?: string[];
+}
+
+interface RawPersonalInfo {
+  name: LocalizedString;
+  title: LocalizedString;
+  photo?: string;
+  summary?: LocalizedString;
+}
+
+export interface RawCvData {
+  personalInfo: RawPersonalInfo;
+  contactInfo: RawContact[];
+  workExperience: RawTimelineItem[];
+  education: RawTimelineItem[];
+  skills: RawSkillCategory[];
+  projects: RawProject[];
+}
+
+export interface CvSource {
+  cv: RawCvData;
+  targeting: CvMasterMetadata;
 }

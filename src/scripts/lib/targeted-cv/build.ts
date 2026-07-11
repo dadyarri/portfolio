@@ -1,20 +1,20 @@
 import { spawn } from "node:child_process";
-import { StageError } from "./errors.mjs";
+import { StageError } from "./errors.ts";
 
-export async function runAstroBuild(cacheDir, verbose = false) {
-  await new Promise((resolve, reject) => {
+export async function runAstroBuild(cacheDir: string, verbose = false): Promise<void> {
+  await new Promise<void>((resolve, reject) => {
     const child = spawn("npm", ["run", "build"], {
       stdio: verbose ? "inherit" : "pipe",
       env: process.env,
     });
 
     if (!verbose) {
-      child.stdout.on("data", () => {});
+      child.stdout?.on("data", () => {});
     }
 
     let stderr = "";
     if (!verbose) {
-      child.stderr.on("data", (chunk) => {
+      child.stderr?.on("data", (chunk: Buffer) => {
         stderr += chunk.toString();
       });
     }

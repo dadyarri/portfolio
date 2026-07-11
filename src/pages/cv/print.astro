@@ -1,16 +1,19 @@
 ---
 import CVDocument from "@components/CVDocument.astro";
 import PrintLayout from "@layouts/PrintLayout.astro";
-import { localizeCv } from "@utils/cv.mjs";
-import type { CVData } from "@type/cv";
+import { localizeCv } from "@utils/cv";
+import { getAbsoluteSiteUrl } from "@utils/seo";
 
-const typedCv = localizeCv("ru") as CVData;
+const typedCv = localizeCv("ru");
 ---
 
 <PrintLayout
   title="Резюме"
   description="Резюме Даниила Голубева, C#/.NET-разработчика."
   lang="ru"
+  locale="ru_RU"
+  canonicalUrl={getAbsoluteSiteUrl("/cv")}
+  robots="noindex, follow"
 >
   <CVDocument data={typedCv} locale="ru" />
 </PrintLayout>

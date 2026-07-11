@@ -1,9 +1,8 @@
 import path from "node:path";
 
-export const rootDir = process.cwd();
-export const cacheRootDir = path.join(rootDir, ".cache", "targeted-cv");
+const rootDir = process.cwd();
+const cacheRootDir = path.join(rootDir, ".cache", "targeted-cv");
 export const variantsDir = path.join(cacheRootDir, "variants");
-export const publicOutputDir = path.join(rootDir, "public", "files");
 
 export const artifactNames = {
   fetchedHtml: "vacancy.html",
@@ -20,4 +19,6 @@ export const artifactNames = {
   parsedVacancy: "vacancy.profile.json",
   derivedCv: "derived-cv.json",
   renderedHtml: "rendered.html",
-};
+} as const;
+
+export type ArtifactName = (typeof artifactNames)[keyof typeof artifactNames];

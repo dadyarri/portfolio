@@ -1,16 +1,21 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import CVDocument from "@components/CVDocument.astro";
-import { localizeCv } from "@utils/cv.mjs";
-import { type CVData } from "@type/cv";
+import { localizeCv } from "@utils/cv";
+import { buildCvStructuredData, getAbsoluteSiteUrl, getCvAlternateLinks } from "@utils/seo";
 
-const typedCv = localizeCv("ru") as CVData;
+const typedCv = localizeCv("ru");
+const canonicalUrl = getAbsoluteSiteUrl("/cv");
 ---
 
 <Layout
   title="Резюме"
   description="Резюме Даниила Голубева, C#/.NET-разработчика."
   lang="ru"
+  locale="ru_RU"
+  canonicalUrl={canonicalUrl}
+  alternateLinks={getCvAlternateLinks()}
+  structuredData={buildCvStructuredData(typedCv, "ru", canonicalUrl)}
 >
   <CVDocument data={typedCv} locale="ru" showControls />
 </Layout>

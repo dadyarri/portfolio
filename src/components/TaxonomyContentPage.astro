@@ -1,0 +1,16 @@
+---
+import PostCards from "@components/PostCards.astro";
+import Layout from "@layouts/Layout.astro";
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  title: string;
+  entries: CollectionEntry<"posts">[] | CollectionEntry<"minis">[];
+};
+
+const { title, entries } = Astro.props;
+---
+
+<Layout title={title}>
+  <PostCards posts={entries} />
+</Layout>

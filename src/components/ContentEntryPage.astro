@@ -1,0 +1,15 @@
+---
+import PostLayout from "@layouts/PostLayout.astro";
+import { render, type CollectionEntry } from "astro:content";
+
+type Props = {
+  entry: CollectionEntry<"posts"> | CollectionEntry<"minis">;
+};
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+---
+
+<PostLayout post={entry} headings={headings}>
+  <Content />
+</PostLayout>

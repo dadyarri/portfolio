@@ -1,17 +1,34 @@
-export function splitArrayByElement(array: string[], element: string): { preview: string[]; content: string[] } {
-    const index = array.indexOf(element);
+const MORE_MARKER = "<!--more-->";
+const FIRST_PARAGRAPH_PATTERN = /<p\b[^>]*>[\s\S]*?<\/p>/i;
 
-    if (index === -1) {
-        throw new Error(`Element "${element}" not found in the array.`);
+export function getPreviewHtml(
+    html: string,
+    marker: string = MORE_MARKER,
+): string {
+    if (!html) {
+        return "";
     }
 
-    const preview = array.slice(0, index);
-    const content = array.slice(index + 1);
+    if (html.includes(marker)) {
+        return html.split(marker, 1)[0].trim();
+    }
 
-    return { preview, content };
+    const firstParagraph = html.match(FIRST_PARAGRAPH_PATTERN)?.[0];
+
+    if (firstParagraph) {
+        return firstParagraph.trim();
+    }
+
+    return html.trim();
 }
 
-export function stripHtml(input: string): string {
-    // Use a regular expression to match HTML tags and replace them with an empty string
-    return input.replace(/<\/?[^>]+(>|$)/g, "");
+function stripHtml(input: string): string {
+    return input.replace(/<\/?[^>]+(>|$)/g, "").replace(/\s+/g, " ").trim();
+}
+
+export function getPreviewText(
+    html: string,
+    marker: string = MORE_MARKER,
+): string {
+    return stripHtml(getPreviewHtml(html, marker));
 }

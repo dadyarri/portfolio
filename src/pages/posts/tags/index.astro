@@ -1,18 +1,9 @@
 ---
-import Layout from "@layouts/Layout.astro";
-import { getPostsByTag, getTags } from "@utils/content";
-import { getWordDeclension } from "@utils/declension";
+import TagIndexPage from "@components/TagIndexPage.astro";
+import { getTagIndexItems } from "@utils/content-routes";
 
-const tags = await getTags();
+const tags = await getTagIndexItems("posts");
 
 ---
 
-<Layout title="Теги">
-    <ul>
-        {
-            tags.map(async tag => (<li>
-                <a href=`/tags/${tag.id}`>{tag.data.label} ({getWordDeclension((await getPostsByTag(tag.id)).length, ["пост", "поста", "постов"])})</a>
-            </li>))
-        }
-    </ul>
-</Layout>
+<TagIndexPage items={tags} />

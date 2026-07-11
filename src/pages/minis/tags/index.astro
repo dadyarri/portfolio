@@ -1,18 +1,9 @@
 ---
-import Layout from "@layouts/Layout.astro";
-import { getMinisByTag, getTags } from "@utils/content";
-import { getWordDeclension } from "@utils/declension";
+import TagIndexPage from "@components/TagIndexPage.astro";
+import { getTagIndexItems } from "@utils/content-routes";
 
-const tags = await getTags();
+const tags = await getTagIndexItems("minis");
 
 ---
 
-<Layout title="Теги">
-    <ul>
-        {
-            tags.map(async tag => (<li>
-                <a href=`/minis/tags/${tag.id}`>{tag.data.label} ({getWordDeclension((await getMinisByTag(tag.id)).length, ["шпаргалка", "шпаргалки", "шпаргалок"])})</a>
-            </li>))
-        }
-    </ul>
-</Layout>
+<TagIndexPage items={tags} />

@@ -1,121 +1,148 @@
-import { getCollection, getEntry, type CollectionEntry } from 'astro:content'
+import {
+    getCollection,
+    getEntry,
+    type CollectionEntry,
+} from "astro:content";
 
-type SortOrder = 'asc' | 'desc';
+type SortOrder = "asc" | "desc";
+type ContentCollection = "posts" | "minis";
 
-export const getPosts = async (order: SortOrder = 'desc'): Promise<CollectionEntry<'posts'>[]> => {
-	let posts = await getCollection('posts');
-
-	if (posts === undefined) {
-		posts = [];
-	}
-
-	const sortedPosts = posts
-		.filter((post) => import.meta.env.DEV || !post.data.draft)
-		.sort((a, b) => {
-			const dateA = a.data.date.valueOf();
-			const dateB = b.data.date.valueOf();
-
-			if (order === 'asc') {
-				return dateA - dateB;
-			} else {
-				return dateB - dateA;
-			}
-		});
-
-	return sortedPosts;
+type CollectionEntryMap = {
+    posts: CollectionEntry<"posts">;
+    minis: CollectionEntry<"minis">;
 };
 
-export const getMinis = async (order: SortOrder = 'desc'): Promise<CollectionEntry<'minis'>[]> => {
-	let minis = await getCollection('minis')
+const compareByDate =
+    (order: SortOrder) =>
+    (
+        a: CollectionEntry<ContentCollection>,
+        b: CollectionEntry<ContentCollection>,
+    ) => {
+        const direction = order === "asc" ? 1 : -1;
+        return (a.data.date.valueOf() - b.data.date.valueOf()) * direction;
+    };
 
-	if (minis === undefined) {
-		minis = []
-	}
+const getSortedContentEntries = async <TCollection extends ContentCollection>(
+    collection: TCollection,
+    order: SortOrder = "desc",
+): Promise<CollectionEntryMap[TCollection][]> => {
+    const entries = await getCollection(collection);
 
-	return minis
-		.filter((post) => import.meta.env.DEV || !post.data.draft)
-		.sort((a, b) => {
-			const dateA = a.data.date.valueOf();
-			const dateB = b.data.date.valueOf();
-
-			if (order === 'asc') {
-				return dateA - dateB;
-			} else {
-				return dateB - dateA;
-			}
-		})
-}
-
-export const getPostsByTag = async (tag: string): Promise<CollectionEntry<'posts'>[]> => {
-	const posts = await getPosts()
-	const lowercaseTag = tag.toLowerCase()
-	return posts.filter((post) => {
-		return post.data.tags.some((postTag) => postTag.id === lowercaseTag)
-	})
-}
-
-export const getMinisByTag = async (tag: string): Promise<CollectionEntry<'minis'>[]> => {
-	const posts = await getMinis()
-	const lowercaseTag = tag.toLowerCase()
-	return posts.filter((post) => {
-		return post.data.tags.some((postTag) => postTag.id === lowercaseTag)
-	})
-}
-
-export const getTagLabel = async (id: string) => {
-	const tags = await getCollection("tags");
-	return tags.find(tag => tag.id === id)?.data.label
-}
-
-export const getTags = async () => {
-	const tags = await getCollection("tags");
-	return tags;
-}
-
-export const getSeriesLabel = async (id: string) => {
-	const series = await getCollection("series");
-	return series.find(s => s.id === id)?.data.label
-}
-
-export const getPostsBySeries = async (series: string, order: SortOrder = 'asc') => {
-	const posts = await getPosts(order)
-	return posts
-		.filter((post) => post.data.series?.id === series);
-}
-
-export const getMinisBySeries = async (series: string, order: SortOrder = 'asc') => {
-	const posts = await getMinis(order)
-	return posts
-		.filter((post) => post.data.series?.id === series);
-}
-
-export const getTagLabelsForPost = async (postId: string): Promise<string[]> => {
-  return getTagLabelsForEntry("posts", postId);
+    return entries
+        .filter((entry) => import.meta.env.DEV || !entry.data.draft)
+        .sort(compareByDate(order)) as CollectionEntryMap[TCollection][];
 };
 
-export const getTagLabelsForMini = async (postId: string): Promise<string[]> => {
-  return getTagLabelsForEntry("minis", postId);
+const filterEntriesByTag = <
+    TEntry extends CollectionEntry<ContentCollection>,
+>(
+    entries: TEntry[],
+    tag: string,
+): TEntry[] => {
+    const lowercaseTag = tag.toLowerCase();
+
+    return entries.filter((entry) =>
+        entry.data.tags.some((entryTag) => entryTag.id === lowercaseTag),
+    );
+};
+
+const filterEntriesBySeries = <
+    TEntry extends CollectionEntry<ContentCollection>,
+>(
+    entries: TEntry[],
+    series: string,
+): TEntry[] => {
+    return entries.filter((entry) => entry.data.series?.id === series);
+};
+
+const getLabelMap = async <TCollection extends "tags" | "series">(
+    collection: TCollection,
+): Promise<Map<string, string>> => {
+    const entries = await getCollection(collection);
+
+    return new Map(
+        entries.map((entry) => [entry.id, entry.data.label] satisfies [string, string]),
+    );
 };
 
 const getTagLabelsForEntry = async (
-  collection: "posts" | "minis",
-  postId: string,
+    collection: ContentCollection,
+    postId: string,
 ): Promise<string[]> => {
-  const post = await getEntry(collection, postId);
-  const tags = post?.data.tags;
+    const post = await getEntry(collection, postId);
+    const tags = post?.data.tags ?? [];
 
-  if (!tags) {
-    return [];
-  }
+    if (tags.length === 0) {
+        return [];
+    }
 
-  const tagLabels = await Promise.all(
-    tags.map(async (tag) => {
-      // Assuming getTagLabel returns string | undefined, handle that:
-      const label = await getTagLabel(tag.id);
-      return label ?? ""; // or filter out undefined later
-    })
-  );
+    const tagLabelMap = await getLabelMap("tags");
 
-  // Optionally filter out empty strings if you don't want them:
-  return tagLabels.filter((label) => label !== "");
+    return tags
+        .map((tag) => tagLabelMap.get(tag.id))
+        .filter((label): label is string => Boolean(label));
+};
+
+export const getPosts = async (
+    order: SortOrder = "desc",
+): Promise<CollectionEntry<"posts">[]> => {
+    return getSortedContentEntries("posts", order);
+};
+
+export const getMinis = async (
+    order: SortOrder = "desc",
+): Promise<CollectionEntry<"minis">[]> => {
+    return getSortedContentEntries("minis", order);
+};
+
+export const getPostsByTag = async (
+    tag: string,
+): Promise<CollectionEntry<"posts">[]> => {
+    return filterEntriesByTag(await getPosts(), tag);
+};
+
+export const getMinisByTag = async (
+    tag: string,
+): Promise<CollectionEntry<"minis">[]> => {
+    return filterEntriesByTag(await getMinis(), tag);
+};
+
+export const getTagLabel = async (id: string): Promise<string | undefined> => {
+    return (await getLabelMap("tags")).get(id);
+};
+
+export const getTags = async () => {
+    return getCollection("tags");
+};
+
+export const getSeriesLabel = async (
+    id: string,
+): Promise<string | undefined> => {
+    return (await getLabelMap("series")).get(id);
+};
+
+export const getPostsBySeries = async (
+    series: string,
+    order: SortOrder = "asc",
+): Promise<CollectionEntry<"posts">[]> => {
+    return filterEntriesBySeries(await getPosts(order), series);
+};
+
+export const getMinisBySeries = async (
+    series: string,
+    order: SortOrder = "asc",
+): Promise<CollectionEntry<"minis">[]> => {
+    return filterEntriesBySeries(await getMinis(order), series);
+};
+
+export const getTagLabelsForPost = async (
+    postId: string,
+): Promise<string[]> => {
+    return getTagLabelsForEntry("posts", postId);
+};
+
+export const getTagLabelsForMini = async (
+    postId: string,
+): Promise<string[]> => {
+    return getTagLabelsForEntry("minis", postId);
 };

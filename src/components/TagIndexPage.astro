@@ -1,0 +1,27 @@
+---
+import Layout from "@layouts/Layout.astro";
+
+type Props = {
+  items: Array<{
+    href: string;
+    label: string;
+    countLabel: string;
+  }>;
+};
+
+const { items } = Astro.props;
+---
+
+<Layout title="Теги">
+  <ul>
+    {
+      items.map((item) => (
+        <li>
+          <a href={item.href}>
+            {item.label} ({item.countLabel})
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>

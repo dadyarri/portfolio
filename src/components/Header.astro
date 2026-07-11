@@ -3,7 +3,7 @@ import { Icon } from "astro-icon/components";
 import { socials } from "@data/socials.json";
 import { getCollection } from "astro:content";
 
-const categroies = await getCollection("categories");
+const categories = await getCollection("categories");
 ---
 
 <header>
@@ -25,7 +25,7 @@ const categroies = await getCollection("categories");
     </div>
     <nav>
         {
-            categroies
+            categories
                 .sort((a, b) => a.data.order - b.data.order)
                 .map((category) => (
                     <a href={`/${category.id}`}>{category.data.label}</a>
@@ -33,7 +33,3 @@ const categroies = await getCollection("categories");
         }
     </nav>
 </header>
-
-<style lang="scss">
-    
-</style>

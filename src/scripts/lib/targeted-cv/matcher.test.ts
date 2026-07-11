@@ -1,8 +1,9 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { deriveCvDocument } from "./matcher.mjs";
+import { deriveCvDocument } from "./matcher.ts";
+import type { BaseCv, ParsedVacancyProfile, TargetingMetadata } from "./types.ts";
 
-const baseCv = {
+const baseCv: BaseCv = {
   personalInfo: { name: "Name", title: "Title" },
   contactInfo: [{ type: "location", value: "Vladimir, Russia" }],
   education: [],
@@ -36,7 +37,8 @@ const baseCv = {
   ],
 };
 
-const metadata = {
+const metadata: TargetingMetadata = {
+  schemaVersion: 1,
   experience: [
     {
       id: "rostelecom-fullstack",
@@ -73,8 +75,8 @@ const metadata = {
 };
 
 test("deriveCvDocument prioritizes matching tooling and microservices content", () => {
-  const profile = {
-    schemaVersion: 1,
+  const profile: ParsedVacancyProfile = {
+    schemaVersion: 1 as const,
     sourceUrl: "https://example.com",
     title: "Backend Developer (.NET)",
     location: "Moscow, Russia",

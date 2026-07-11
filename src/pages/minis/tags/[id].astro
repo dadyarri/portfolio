@@ -1,25 +1,25 @@
 ---
 import type { GetStaticPaths } from "astro";
 import { type CollectionEntry } from "astro:content";
-import { getMinisByTag, getTags } from "@utils/content";
-import Layout from "@layouts/Layout.astro";
-import PostCards from "@components/PostCards.astro";
+import TaxonomyContentPage from "@components/TaxonomyContentPage.astro";
+import {
+  buildTagStaticPaths,
+  getContentTitle,
+  getTagContent,
+} from "@utils/content-routes";
 
-export const getStaticPaths = ( async () => {
-    const tags = await getTags()
-    return tags.map((tag) => ({
-		params: { id: tag.id },
-		props: tag
-	}))
+export const getStaticPaths = (async () => {
+    return buildTagStaticPaths();
 }) satisfies GetStaticPaths;
 
 type Props = CollectionEntry<'tags'>
 const tag = Astro.props
 
-const posts = await getMinisByTag(tag.id)
+const posts = await getTagContent("minis", tag.id)
 
 ---
 
-<Layout title={`Шпаргалки с тегом ${tag.data.label}`}>
-    <PostCards posts={posts}/>
-</Layout>
+<TaxonomyContentPage
+  title={`${getContentTitle("minis")} с тегом ${tag.data.label}`}
+  entries={posts}
+/>

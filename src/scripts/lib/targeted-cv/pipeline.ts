@@ -1,30 +1,27 @@
 import path from "node:path";
-import { renderPdfRoute } from "../pdf-renderer.mjs";
-import { runAstroBuild } from "./build.mjs";
-import { createCacheKey, ensureVariantCacheDir, writeArtifact, writeArtifactIf } from "./cache.mjs";
-import { artifactNames } from "./constants.mjs";
-import { loadBaseCv, loadCvTargetingMetadata } from "./cv-data.mjs";
-import { StageError } from "./errors.mjs";
-import { extractVacancyContent } from "./extractor.mjs";
-import { deriveCvDocument } from "./matcher.mjs";
-import { parseVacancyWithOllama } from "./ollama-client.mjs";
-import { startManagedOllamaServer } from "./ollama-server.mjs";
-import { fetchVacancyHtml } from "./vacancy-fetcher.mjs";
+import { renderPdfRoute } from "../pdf-renderer.ts";
+import { runAstroBuild } from "./build.ts";
+import { createCacheKey, ensureVariantCacheDir, writeArtifact, writeArtifactIf } from "./cache.ts";
+import { artifactNames } from "./constants.ts";
+import { loadBaseCv, loadCvTargetingMetadata } from "./cv-data.ts";
+import { StageError } from "./errors.ts";
+import { extractVacancyContent } from "./extractor.ts";
+import { deriveCvDocument } from "./matcher.ts";
+import { parseVacancyWithOllama } from "./ollama-client.ts";
+import { startManagedOllamaServer } from "./ollama-server.ts";
+import { fetchVacancyHtml } from "./vacancy-fetcher.ts";
+import type { GeneratedTargetedCvResult, ManagedOllamaServer, TargetedCvCliOptions } from "./types.ts";
 
-export async function generateTargetedCv(options) {
+export async function generateTargetedCv(options: TargetedCvCliOptions): Promise<GeneratedTargetedCvResult> {
   const cacheKey = createCacheKey(options.vacancyUrl, options.locale, options.cacheKey);
   const cacheDir = await ensureVariantCacheDir(cacheKey);
 
-  const stage = (message) => {
-    console.log(message);
-  };
-  const log = (...args) => {
-    if (options.verbose) {
-      console.log("[cv:target]", ...args);
-    }
+  const stage = (message: string) => console.log(message);
+  const log = (...args: string[]) => {
+    if (options.verbose) console.log("[cv:target]", ...args);
   };
 
-  let managedOllamaServer;
+  let managedOllamaServer: ManagedOllamaServer | undefined;
 
   try {
     stage("Starting Ollama server");
@@ -45,11 +42,7 @@ export async function generateTargetedCv(options) {
     await writeArtifact(cacheDir, artifactNames.extractedText, extraction.normalizedText);
 
     if (extraction.normalizedText.trim().length < 200) {
-      throw new StageError(
-        "extract",
-        "Extracted vacancy text is too short to be reliable. Inspect the cached HTML/text and consider a different vacancy URL.",
-        { cacheDir },
-      );
+      throw new StageError("extract", "Extracted vacancy text is too short to be reliable. Inspect the cached HTML/text and consider a different vacancy URL.", { cacheDir });
     }
 
     stage("Parsing vacancy with Ollama");
@@ -91,10 +84,7 @@ export async function generateTargetedCv(options) {
     stage(`Done: ${options.output}`);
     return { cacheDir, cacheKey, output: options.output };
   } catch (error) {
-    if (error instanceof StageError) {
-      throw error;
-    }
-
+    if (error instanceof StageError) throw error;
     throw new StageError("unknown", error instanceof Error ? error.message : String(error), { cacheDir, cause: error });
   } finally {
     await managedOllamaServer?.stop();

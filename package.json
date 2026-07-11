@@ -2,14 +2,15 @@
   "$schema": "https://json.schemastore.org/package",
   "name": "portfolio",
   "version": "1.0.0",
+  "type": "module",
   "scripts": {
     "dev": "astro dev",
     "host": "astro dev --host",
     "build": "astro build",
-    "build:pdf": "astro build && node src/scripts/build-cv-pdfs.mjs",
-    "pdf:cv": "node src/scripts/build-cv-pdfs.mjs",
-    "cv:target": "node src/scripts/generate-targeted-cv.mjs",
-    "cv:target:debug": "node src/scripts/generate-targeted-cv.mjs --verbose --keep-html",
+    "build:pdf": "astro build && node src/scripts/build-cv-pdfs.ts",
+    "pdf:cv": "node src/scripts/build-cv-pdfs.ts",
+    "cv:target": "node src/scripts/generate-targeted-cv.ts",
+    "cv:target:debug": "node src/scripts/generate-targeted-cv.ts --verbose --keep-html",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
@@ -17,7 +18,12 @@
     "lint:eslint": "eslint .",
     "lint:stylelint": "stylelint \"src/styles/**/*.scss\"",
     "knip": "knip",
-    "test": "node --test src/scripts/lib/targeted-cv/**/*.test.mjs"
+    "test": "node --test src/utils/*.test.ts src/scripts/lib/targeted-cv/*.test.ts"
+  },
+  "knip": {
+    "ignoreBinaries": [
+      "ollama"
+    ]
   },
   "repository": {
     "type": "git",
@@ -45,6 +51,7 @@
     "astro-icon": "1.1.5",
     "astro-masonry": "1.2.2",
     "cheerio": "^1.2.0",
+    "domhandler": "^5.0.3",
     "eslint": "^10.6.0",
     "eslint-plugin-astro": "^2.1.1",
     "knip": "^6.23.0",

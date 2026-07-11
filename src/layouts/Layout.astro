@@ -1,44 +1,51 @@
 ---
-import Header from "@components/Header.astro";
-import PageTitle from "@components/PageTitle.astro";
-import "@fontsource/jetbrains-mono/400.css";
-import "@fontsource/jetbrains-mono/700.css";
-import "@fontsource/rubik/400.css";
-import "@fontsource/rubik/700.css";
-import "@styles/main.scss";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import type { AlternateLink, StructuredData } from "@type/seo";
 
 const {
 	title = "dadyarri",
 	description = "Личный блог dadyarri",
 	lang = "ru",
+	canonicalUrl,
+	ogTitle,
+	ogDescription,
+	ogType,
+	ogImage,
+	ogImageAlt,
+	robots,
+	locale,
+	siteName,
+	twitterSite,
+	bodyClass,
+	contentClass,
+	showHeader,
+	pageTitle,
+	alternateLinks,
+	structuredData,
 } = Astro.props;
 
-const url = new URL(Astro.url.pathname, Astro.site);
 ---
 
-<!doctype html>
-<html lang={lang}>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-
-		<title>{title}</title>
-		<meta property="og:title" content={title} />
-
-		<meta name="description" content={description} />
-		<meta property="og:description" content={description} />
-		
-		<meta property="og:type" content="website" />
-		<meta property="og:url" content={url.toString()} />
-		<link rel="canonical" href={url.toString()} />
-	</head>
-	<body>
-		<Header />
-		<div class="content">
-			<PageTitle title={title} />
-			<slot />
-		</div>
-	</body>
-</html>
+<BaseLayout
+	title={title}
+	description={description}
+	lang={lang}
+	canonicalUrl={canonicalUrl}
+	ogTitle={ogTitle}
+	ogDescription={ogDescription}
+	ogType={ogType}
+	ogImage={ogImage}
+	ogImageAlt={ogImageAlt}
+	robots={robots}
+	locale={locale}
+	siteName={siteName}
+	twitterSite={twitterSite}
+	bodyClass={bodyClass}
+	contentClass={contentClass}
+	showHeader={showHeader}
+	pageTitle={pageTitle}
+	alternateLinks={alternateLinks as AlternateLink[] | undefined}
+	structuredData={structuredData as StructuredData | undefined}
+>
+	<slot />
+</BaseLayout>

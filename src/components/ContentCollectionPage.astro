@@ -1,0 +1,26 @@
+---
+import Pagination from "@components/Pagination.astro";
+import PostCards from "@components/PostCards.astro";
+import Layout from "@layouts/Layout.astro";
+import type { CollectionEntry } from "astro:content";
+
+type Props = {
+  title: string;
+  category: "posts" | "minis";
+  entries: CollectionEntry<"posts">[] | CollectionEntry<"minis">[];
+  currentPage: number;
+  pagesAmount: number;
+};
+
+const { title, category, entries, currentPage, pagesAmount } = Astro.props;
+---
+
+<Layout title={title}>
+  <PostCards posts={entries} />
+
+  <Pagination
+    currentPage={currentPage}
+    pagesAmount={pagesAmount}
+    category={category}
+  />
+</Layout>

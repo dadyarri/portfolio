@@ -1,7 +1,9 @@
 import path from "node:path";
-import { StageError } from "./errors.mjs";
+import type { Locale } from "../../../types/cv";
+import { StageError } from "./errors.ts";
+import type { TargetedCvCliOptions } from "./types.ts";
 
-function consumeValue(args, index, flag) {
+function consumeValue(args: string[], index: number, flag: string): string {
   const value = args[index + 1];
   if (!value || value.startsWith("--")) {
     throw new StageError("cli", `Missing value for ${flag}.`);
@@ -10,8 +12,8 @@ function consumeValue(args, index, flag) {
   return value;
 }
 
-export function parseCliArgs(argv) {
-  const options = {
+export function parseCliArgs(argv: string[]): TargetedCvCliOptions {
+  const options: Partial<TargetedCvCliOptions> & Pick<TargetedCvCliOptions, "model" | "ollamaUrl" | "keepHtml" | "verbose"> = {
     model: "qwen3:8b",
     ollamaUrl: "http://127.0.0.1:11434",
     keepHtml: false,
@@ -27,7 +29,7 @@ export function parseCliArgs(argv) {
         index += 1;
         break;
       case "--locale":
-        options.locale = consumeValue(argv, index, arg);
+        options.locale = consumeValue(argv, index, arg) as Locale;
         index += 1;
         break;
       case "--output":
@@ -77,6 +79,8 @@ export function parseCliArgs(argv) {
 
   return {
     ...options,
+    vacancyUrl: options.vacancyUrl,
+    locale: options.locale,
     output: path.resolve(options.output),
   };
 }

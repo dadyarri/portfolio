@@ -1,0 +1,124 @@
+---
+import Header from "@components/Header.astro";
+import PageTitle from "@components/PageTitle.astro";
+import type { AlternateLink, StructuredData } from "@type/seo";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/700.css";
+import "@fontsource/rubik/400.css";
+import "@fontsource/rubik/700.css";
+import "@styles/main.scss";
+
+interface Props {
+    title?: string;
+    description?: string;
+    lang?: string;
+    canonicalUrl?: string;
+    ogTitle?: string;
+    ogDescription?: string;
+    ogType?: string;
+    ogImage?: string;
+    ogImageAlt?: string;
+    robots?: string;
+    locale?: string;
+    siteName?: string;
+    twitterSite?: string;
+    bodyClass?: string;
+    contentClass?: string;
+    showHeader?: boolean;
+    pageTitle?: string | null;
+    alternateLinks?: AlternateLink[];
+    structuredData?: StructuredData;
+}
+
+const {
+    title = "dadyarri",
+    description = "Личный блог dadyarri",
+    lang = "ru",
+    canonicalUrl,
+    ogTitle = title,
+    ogDescription = description,
+    ogType = "website",
+    ogImage,
+    ogImageAlt,
+    robots,
+    locale,
+    siteName = "Личный блог dadyarri",
+    twitterSite,
+    bodyClass,
+    contentClass = "content",
+    showHeader = true,
+    pageTitle = title,
+    alternateLinks = [],
+    structuredData,
+} = Astro.props;
+
+const resolvedUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const pageUrl = canonicalUrl ?? resolvedUrl;
+const twitterCard = ogImage ? "summary_large_image" : "summary";
+const structuredDataEntries = structuredData
+    ? Array.isArray(structuredData)
+        ? structuredData
+        : [structuredData]
+    : [];
+---
+
+<!doctype html>
+<html lang={lang}>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="generator" content={Astro.generator} />
+
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={pageUrl} />
+
+        {robots && <meta name="robots" content={robots} />}
+
+        <meta property="og:title" content={ogTitle} />
+        <meta property="og:description" content={ogDescription} />
+        <meta property="og:type" content={ogType} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:site_name" content={siteName} />
+
+        {locale && <meta property="og:locale" content={locale} />}
+        {ogImage && <meta property="og:image" content={ogImage} />}
+        {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+
+        <meta name="twitter:card" content={twitterCard} />
+        <meta name="twitter:title" content={ogTitle} />
+        <meta name="twitter:description" content={ogDescription} />
+        <meta name="twitter:url" content={pageUrl} />
+        {twitterSite && <meta name="twitter:site" content={twitterSite} />}
+        {ogImage && <meta name="twitter:image" content={ogImage} />}
+        {ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt} />}
+        {
+            alternateLinks.map((link) => (
+                <link
+                    rel="alternate"
+                    hreflang={link.hreflang}
+                    href={link.href}
+                />
+            ))
+        }
+        {
+            structuredDataEntries.map((entry) => (
+                <script
+                    type="application/ld+json"
+                    set:html={JSON.stringify(entry)}
+                    is:inline
+                />
+            ))
+        }
+
+        <slot name="head" />
+    </head>
+    <body class={bodyClass}>
+        {showHeader && <Header />}
+        <div class={contentClass}>
+            {pageTitle && <PageTitle title={pageTitle} />}
+            <slot />
+        </div>
+    </body>
+</html>

@@ -8,7 +8,7 @@ const root = process.cwd();
 const distDir = path.join(root, "dist");
 const host = "127.0.0.1";
 
-const mimeTypes = {
+const mimeTypes: Record<string, string> = {
   ".css": "text/css; charset=utf-8",
   ".html": "text/html; charset=utf-8",
   ".ico": "image/x-icon",
@@ -22,28 +22,20 @@ const mimeTypes = {
   ".xml": "application/xml; charset=utf-8",
 };
 
-function getContentType(filePath) {
+function getContentType(filePath: string): string {
   return mimeTypes[path.extname(filePath).toLowerCase()] ?? "application/octet-stream";
 }
 
-function resolveDistPath(urlPath) {
+function resolveDistPath(urlPath: string): string {
   const pathname = decodeURIComponent(new URL(urlPath, `http://${host}`).pathname);
   let relativePath = pathname.replace(/^\/+/, "");
-
-  if (!relativePath) {
-    relativePath = "index.html";
-  }
-
+  if (!relativePath) relativePath = "index.html";
   let filePath = path.join(distDir, relativePath);
-
-  if (!path.extname(filePath)) {
-    filePath = path.join(filePath, "index.html");
-  }
-
+  if (!path.extname(filePath)) filePath = path.join(filePath, "index.html");
   return filePath;
 }
 
-export async function ensureDistExists() {
+export async function ensureDistExists(): Promise<void> {
   try {
     await access(distDir);
   } catch {
@@ -51,18 +43,16 @@ export async function ensureDistExists() {
   }
 }
 
-export async function startStaticServer() {
+async function startStaticServer(): Promise<{ port: number; close(): Promise<void> }> {
   const server = http.createServer(async (request, response) => {
     try {
       const filePath = resolveDistPath(request.url ?? "/");
       const fileInfo = await stat(filePath);
-
       if (!fileInfo.isFile()) {
         response.writeHead(404);
         response.end("Not found");
         return;
       }
-
       response.writeHead(200, { "Content-Type": getContentType(filePath) });
       createReadStream(filePath).pipe(response);
     } catch {
@@ -71,7 +61,7 @@ export async function startStaticServer() {
     }
   });
 
-  await new Promise((resolve, reject) => {
+  await new Promise<void>((resolve, reject) => {
     server.once("error", reject);
     server.listen(0, host, () => resolve());
   });
@@ -84,14 +74,22 @@ export async function startStaticServer() {
   return {
     port: address.port,
     async close() {
-      await new Promise((resolve, reject) => {
+      await new Promise<void>((resolve, reject) => {
         server.close((error) => (error ? reject(error) : resolve()));
       });
     },
   };
 }
 
-export async function renderPdfRoute({ route, outputPath, htmlOutputPath }) {
+export async function renderPdfRoute({
+  route,
+  outputPath,
+  htmlOutputPath,
+}: {
+  route: string;
+  outputPath: string;
+  htmlOutputPath?: string;
+}): Promise<void> {
   await ensureDistExists();
   await mkdir(path.dirname(outputPath), { recursive: true });
 
@@ -117,12 +115,7 @@ export async function renderPdfRoute({ route, outputPath, htmlOutputPath }) {
       format: "A4",
       printBackground: true,
       displayHeaderFooter: false,
-      margin: {
-        top: "12mm",
-        right: "12mm",
-        bottom: "12mm",
-        left: "12mm",
-      },
+      margin: { top: "12mm", right: "12mm", bottom: "12mm", left: "12mm" },
     });
   } finally {
     await browser.close();

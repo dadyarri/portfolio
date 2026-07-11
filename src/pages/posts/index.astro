@@ -1,21 +1,14 @@
 ---
-import Pagination from "@components/Pagination.astro";
-import PostCards from "@components/PostCards.astro";
-import Layout from "@layouts/Layout.astro";
-import { config } from "@data/config.json";
-import { getPosts } from "@utils/content";
+import ContentCollectionPage from "@components/ContentCollectionPage.astro";
+import { getContentTitle, getFirstPageContent } from "@utils/content-routes";
 
-const posts = await getPosts();
-const pagesAmount = Math.ceil(posts.length / config.pageSize);
-const firstPagePosts = posts.slice(0, config.pageSize);
+const { pagesAmount, firstPageEntries } = await getFirstPageContent("posts");
 ---
 
-<Layout title="Посты">
-    <PostCards posts={firstPagePosts} />
-
-    <Pagination
-        currentPage={1}
-        pagesAmount={pagesAmount}
-        category="posts"
-    />
-</Layout>
+<ContentCollectionPage
+  title={getContentTitle("posts")}
+  category="posts"
+  entries={firstPageEntries}
+  currentPage={1}
+  pagesAmount={pagesAmount}
+/>

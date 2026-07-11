@@ -1,8 +1,13 @@
-import { StageError } from "./errors.mjs";
-import { writeArtifact, writeArtifactIf } from "./cache.mjs";
-import { artifactNames } from "./constants.mjs";
+import type { VacancyProfile } from "../../../types/cv";
+import { StageError } from "./errors.ts";
+import { writeArtifact, writeArtifactIf } from "./cache.ts";
+import { artifactNames } from "./constants.ts";
+import type {
+  OllamaGenerateResponse,
+  ParseVacancyWithOllamaOptions,
+} from "./types.ts";
 
-function buildPrompt({ locale, text }) {
+function buildPrompt({ locale, text }: { locale: string; text: string }): string {
   return [
     "Extract a structured vacancy profile from the provided job posting.",
     "Return strict JSON only. No markdown. No prose. No code fences.",
@@ -50,7 +55,7 @@ function buildPrompt({ locale, text }) {
   ].join("\n");
 }
 
-function buildCorrectionPrompt(rawResponse) {
+function buildCorrectionPrompt(rawResponse: string): string {
   return [
     "Your previous answer was rejected because it was not valid JSON for the required schema.",
     "Return corrected strict JSON only. No markdown. No commentary.",
@@ -61,10 +66,10 @@ function buildCorrectionPrompt(rawResponse) {
   ].join("\n");
 }
 
-function buildTitleNormalizationPrompt(title) {
+function buildTitleNormalizationPrompt(title: string): string {
   return [
     "Normalize the following vacancy title.",
-    "Return strict JSON only in the shape {\"title\":\"...\"}. No markdown. No commentary.",
+    'Return strict JSON only in the shape {"title":"..."}. No markdown. No commentary.',
     "If the title is Russian, rewrite it to nominative case so it reads naturally as a standalone job title.",
     "If it is already in nominative case, return it unchanged.",
     "Do not translate the title. Do not add company, location, salary, or employment format.",
@@ -73,18 +78,17 @@ function buildTitleNormalizationPrompt(title) {
   ].join("\n");
 }
 
-function parseTitleNormalizationJson(rawResponse, fallbackTitle) {
-  const parsed = JSON.parse(rawResponse);
+function parseTitleNormalizationJson(rawResponse: string, fallbackTitle: string): string {
+  const parsed = JSON.parse(rawResponse) as { title?: string };
   if (typeof parsed?.title !== "string" || !parsed.title.trim()) {
     throw new Error("normalized title must be a non-empty string");
   }
-
   return parsed.title.trim() || fallbackTitle;
 }
 
-export function parseVacancyProfileJson(rawResponse, sourceUrl) {
-  const parsed = JSON.parse(rawResponse);
-  const arrays = [
+export function parseVacancyProfileJson(rawResponse: string, sourceUrl: string): VacancyProfile {
+  const parsed = JSON.parse(rawResponse) as VacancyProfile & Record<string, unknown>;
+  const arrays: Array<keyof VacancyProfile> = [
     "roleKeywords",
     "mustHaveSkills",
     "niceToHaveSkills",
@@ -113,24 +117,27 @@ export function parseVacancyProfileJson(rawResponse, sourceUrl) {
   return parsed;
 }
 
-function formatErrorMessage(error) {
+function formatErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
 }
 
-async function generateOnce({ ollamaUrl, model, prompt }) {
+async function generateOnce({
+  ollamaUrl,
+  model,
+  prompt,
+}: {
+  ollamaUrl: string;
+  model: string;
+  prompt: string;
+}): Promise<OllamaGenerateResponse> {
   const response = await fetch(`${ollamaUrl.replace(/\/$/, "")}/api/generate`, {
     method: "POST",
-    headers: {
-      "content-type": "application/json",
-    },
+    headers: { "content-type": "application/json" },
     body: JSON.stringify({
       model,
       prompt,
       stream: false,
-      options: {
-        temperature: 0.1,
-        num_predict: 1200,
-      },
+      options: { temperature: 0.1, num_predict: 1200 },
     }),
   });
 
@@ -139,10 +146,18 @@ async function generateOnce({ ollamaUrl, model, prompt }) {
     throw new Error(message || `HTTP ${response.status}`);
   }
 
-  return response.json();
+  return (await response.json()) as OllamaGenerateResponse;
 }
 
-async function normalizeTitleWithOllama({ title, model, ollamaUrl }) {
+async function normalizeTitleWithOllama({
+  title,
+  model,
+  ollamaUrl,
+}: {
+  title: string;
+  model: string;
+  ollamaUrl: string;
+}): Promise<string> {
   const prompt = buildTitleNormalizationPrompt(title);
   const payload = await generateOnce({ ollamaUrl, model, prompt });
   const rawResponse = typeof payload?.response === "string" ? payload.response : "";
@@ -154,16 +169,18 @@ async function normalizeTitleWithOllama({ title, model, ollamaUrl }) {
   return parseTitleNormalizationJson(rawResponse, title);
 }
 
-export async function parseVacancyWithOllama({ extraction, locale, model, ollamaUrl, cacheDir, debugArtifacts = false }) {
-  const prompt = buildPrompt({
-    locale,
-    text: extraction.normalizedText,
-  });
-
+export async function parseVacancyWithOllama({
+  extraction,
+  locale,
+  model,
+  ollamaUrl,
+  cacheDir,
+  debugArtifacts = false,
+}: ParseVacancyWithOllamaOptions): Promise<VacancyProfile> {
+  const prompt = buildPrompt({ locale, text: extraction.normalizedText });
   await writeArtifactIf(debugArtifacts, cacheDir, artifactNames.ollamaPrompt, prompt);
 
-  let initialPayload;
-
+  let initialPayload: OllamaGenerateResponse;
   try {
     initialPayload = await generateOnce({ ollamaUrl, model, prompt });
   } catch (error) {
@@ -180,28 +197,20 @@ export async function parseVacancyWithOllama({ extraction, locale, model, ollama
 
   try {
     if (!rawResponse.trim()) {
-      throw new Error(
-        `Initial Ollama response was empty. done_reason=${initialPayload?.done_reason ?? "unknown"}, eval_count=${initialPayload?.eval_count ?? "unknown"}`,
-      );
+      throw new Error(`Initial Ollama response was empty. done_reason=${initialPayload?.done_reason ?? "unknown"}, eval_count=${initialPayload?.eval_count ?? "unknown"}`);
     }
 
     const parsed = parseVacancyProfileJson(rawResponse, extraction.sourceUrl);
     if (parsed.title?.trim()) {
       try {
-        parsed.title = await normalizeTitleWithOllama({
-          title: parsed.title.trim(),
-          model,
-          ollamaUrl,
-        });
+        parsed.title = await normalizeTitleWithOllama({ title: parsed.title.trim(), model, ollamaUrl });
       } catch {
-        // Keep the parsed title when dedicated normalization fails.
+        // Keep parsed title.
       }
     }
     return parsed;
   } catch (initialParseError) {
     const correctionPrompt = `${prompt}\n\n${buildCorrectionPrompt(rawResponse)}`;
-    await writeArtifactIf(debugArtifacts, cacheDir, artifactNames.ollamaPrompt, prompt);
-    await writeArtifactIf(debugArtifacts, cacheDir, artifactNames.ollamaResponseInitial, rawResponse);
     await writeArtifactIf(debugArtifacts, cacheDir, artifactNames.ollamaCorrectionPrompt, correctionPrompt);
     await writeArtifactIf(debugArtifacts, cacheDir, artifactNames.ollamaParseDebug, {
       initialParseError: formatErrorMessage(initialParseError),
@@ -215,32 +224,20 @@ export async function parseVacancyWithOllama({ extraction, locale, model, ollama
       },
     });
 
-    let correctedPayload;
+    let correctedPayload: OllamaGenerateResponse | undefined;
     try {
-      correctedPayload = await generateOnce({
-        ollamaUrl,
-        model,
-        prompt: correctionPrompt,
-      });
+      correctedPayload = await generateOnce({ ollamaUrl, model, prompt: correctionPrompt });
       await writeArtifactIf(debugArtifacts, cacheDir, artifactNames.ollamaPayloadCorrection, correctedPayload);
       const corrected = typeof correctedPayload?.response === "string" ? correctedPayload.response : "";
       await writeArtifactIf(debugArtifacts, cacheDir, artifactNames.ollamaResponseCorrection, corrected);
       if (!corrected.trim()) {
-        throw new Error(
-          `Correction Ollama response was empty. done_reason=${correctedPayload?.done_reason ?? "unknown"}, eval_count=${correctedPayload?.eval_count ?? "unknown"}`,
-        );
+        throw new Error(`Correction Ollama response was empty. done_reason=${correctedPayload?.done_reason ?? "unknown"}, eval_count=${correctedPayload?.eval_count ?? "unknown"}`);
       }
       const parsed = parseVacancyProfileJson(corrected, extraction.sourceUrl);
       if (parsed.title?.trim()) {
         try {
-          parsed.title = await normalizeTitleWithOllama({
-            title: parsed.title.trim(),
-            model,
-            ollamaUrl,
-          });
-        } catch {
-          // Keep the parsed title when dedicated normalization fails.
-        }
+          parsed.title = await normalizeTitleWithOllama({ title: parsed.title.trim(), model, ollamaUrl });
+        } catch {}
       }
       return parsed;
     } catch (error) {
@@ -268,11 +265,7 @@ export async function parseVacancyWithOllama({ extraction, locale, model, ollama
       };
       if (typeof correctedPayload !== "undefined") {
         await writeArtifact(cacheDir, artifactNames.ollamaPayloadCorrection, correctedPayload);
-        await writeArtifact(
-          cacheDir,
-          artifactNames.ollamaResponseCorrection,
-          typeof correctedPayload?.response === "string" ? correctedPayload.response : "",
-        );
+        await writeArtifact(cacheDir, artifactNames.ollamaResponseCorrection, typeof correctedPayload?.response === "string" ? correctedPayload.response : "");
       }
       await writeArtifact(cacheDir, artifactNames.ollamaParseDebug, debugPayload);
 

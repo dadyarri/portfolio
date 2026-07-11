@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import { unified } from '@astrojs/markdown-remark';
+import "@iconify-json/simple-icons";
 
 import icon from 'astro-icon';
 
@@ -9,9 +10,11 @@ import staticCodeImages from './src/integrations/static-code-images';
 
 import caddyLang from './syntaxes/caddyfile.tmLanguage.json' with { type: 'json' };
 
+export const site = "https://dadyarri.dev";
+
 // https://astro.build/config
 export default defineConfig({
-  site: "https://dadyarri.dev",
+  site,
   integrations: [icon(), staticCodeImages()],
   markdown: {
     processor: unified({

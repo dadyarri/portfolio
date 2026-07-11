@@ -1,3 +1,11 @@
+---
+interface Props {
+  lang?: "ru" | "en";
+}
+
+const { lang = "ru" } = Astro.props;
+---
+
 <hr/>
 <script src="https://giscus.app/client.js"
         data-repo="dadyarri/portfolio"
@@ -10,7 +18,7 @@
         data-emit-metadata="0"
         data-input-position="top"
         data-theme="https://giscus.app/themes/catppuccin_frappe.css"
-        data-lang="ru"
+        data-lang={lang}
         data-loading="lazy"
         crossorigin="anonymous"
         async

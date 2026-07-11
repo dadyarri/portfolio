@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { parseVacancyProfileJson } from "./ollama-client.mjs";
+import { parseVacancyProfileJson } from "./ollama-client.ts";
 
 test("parseVacancyProfileJson accepts valid strict json", () => {
   const raw = JSON.stringify({
