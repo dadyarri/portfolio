@@ -45,6 +45,7 @@ const rawProjectSchema = z.object({
   id: z.string().optional(),
   title: localizedStringSchema,
   description: localizedStringSchema,
+  aiUsage: z.enum(["none", "partial", "full"]),
   links: z.array(z.string()).optional(),
   stack: z.array(z.string()).optional(),
 });
@@ -263,6 +264,7 @@ function localizeProject(
     ...(project.id ? { id: project.id } : {}),
     title: localizeRequiredValue(project.title, locale),
     description: localizeRequiredValue(project.description, locale),
+    aiUsage: project.aiUsage,
     ...(project.links ? { links: project.links } : {}),
     ...(project.stack ? { stack: project.stack } : {}),
   };

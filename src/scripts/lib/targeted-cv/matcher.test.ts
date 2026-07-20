@@ -24,9 +24,9 @@ const baseCv: BaseCv = {
     },
   ],
   projects: [
-    { id: "flexlabs-upsert", title: "FlexLabs.Upsert", description: "", stack: ["Oracle"] },
-    { id: "melodytrack", title: "MelodyTrack", description: "", stack: ["React"] },
-    { id: "portfolio", title: "Portfolio", description: "", stack: ["Astro"] },
+    { id: "flexlabs-upsert", title: "FlexLabs.Upsert", description: "", aiUsage: "none", stack: ["Oracle"] },
+    { id: "melodytrack", title: "MelodyTrack", description: "", aiUsage: "partial", stack: ["React"] },
+    { id: "portfolio", title: "Portfolio", description: "", aiUsage: "partial", stack: ["Astro"] },
   ],
   skills: [
     { id: "programming-languages", name: "Programming Languages", skills: [{ name: "C#" }] },

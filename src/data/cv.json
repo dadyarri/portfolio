@@ -271,6 +271,7 @@
           "ru": "Библиотека, расширяющая возможности Entity Framework Core для выполнения операции вставки или обновления записей с поддержкой разных СУБД. Добавил поддержку Oracle, что позволило использовать библиотеку в проектах с этой СУБД.",
           "en": "Library, extending Entity Framework Core to manage upsert operation (insert or update). I added support of Oracle DBMS."
         },
+        "aiUsage": "none",
         "links": [
           "https://github.com/artiomchi/FlexLabs.Upsert/pull/158"
         ],
@@ -290,6 +291,7 @@
           "ru": "Система управления клиентами, сделанная на заказ для небольшого бизнеса",
           "en": "A custom-made customer management system for small business to meet their needs"
         },
+        "aiUsage": "partial",
         "links": [
           "https://github.com/dadyarri/MelodyTrack.Web",
           "https://github.com/dadyarri/MelodyTrack.Backend"
@@ -311,6 +313,7 @@
           "ru": "Личный блог о технологиях и резюме",
           "en": "Personal blog about technologies and CV"
         },
+        "aiUsage": "partial",
         "links": [
           "https://github.com/dadyarri/portfolio",
           "https://dadyarri.dev"

@@ -12,10 +12,20 @@ const translations = {
   "en-US": {
     stack: "Stack",
     links: "Links",
+    aiUsage: {
+      none: "no AI",
+      partial: "partial AI",
+      full: "AI",
+    },
   },
   "ru-RU": {
     stack: "Стек",
     links: "Ссылки",
+    aiUsage: {
+      none: "без ИИ",
+      partial: "частично с ИИ",
+      full: "ИИ",
+    },
   },
 };
 
@@ -27,7 +37,12 @@ const translation = translations[locale] || translations["en-US"];
     items.map((item) => (
       <article class="cv-card">
         <div class="cv-card-header">
-          <h3 class="cv-card-title">{item.title}</h3>
+          <div class="cv-project-heading">
+            <h3 class="cv-card-title">{item.title}</h3>
+            <span class:list={["cv-project-ai-label", { "cv-project-ai-label--no-ai": item.aiUsage === "none" }]}>
+              {translation.aiUsage[item.aiUsage]}
+            </span>
+          </div>
         </div>
         <p class="cv-copy">{item.description}</p>
         {item.stack && (

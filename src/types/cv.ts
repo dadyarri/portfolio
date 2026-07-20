@@ -1,4 +1,5 @@
 export type Locale = "ru" | "en";
+export type AiUsage = "none" | "partial" | "full";
 type ContactType = 'email' | 'phone' | 'location' | 'website' | 'github' | 'telegram';
 export type LocalizedString = Record<Locale, string>;
 
@@ -46,6 +47,7 @@ export interface Project {
   id?: string;
   title: string;
   description: string;
+  aiUsage: AiUsage;
   links?: string[];
   stack?: string[];
 }
@@ -134,6 +136,7 @@ export interface RawProject {
   id?: string;
   title: LocalizedString;
   description: LocalizedString;
+  aiUsage: AiUsage;
   links?: string[];
   stack?: string[];
 }
