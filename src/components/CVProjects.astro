@@ -39,9 +39,11 @@ const translation = translations[locale] || translations["en-US"];
         <div class="cv-card-header">
           <div class="cv-project-heading">
             <h3 class="cv-card-title">{item.title}</h3>
-            <span class:list={["cv-project-ai-label", { "cv-project-ai-label--no-ai": item.aiUsage === "none" }]}>
-              {translation.aiUsage[item.aiUsage]}
-            </span>
+            {item.aiUsage && (
+              <span class:list={["cv-project-ai-label", { "cv-project-ai-label--no-ai": item.aiUsage === "none" }]}>
+                {translation.aiUsage[item.aiUsage]}
+              </span>
+            )}
           </div>
         </div>
         <p class="cv-copy">{item.description}</p>

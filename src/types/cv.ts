@@ -47,7 +47,7 @@ export interface Project {
   id?: string;
   title: string;
   description: string;
-  aiUsage: AiUsage;
+  aiUsage?: AiUsage | null | undefined;
   links?: string[];
   stack?: string[];
 }
@@ -136,7 +136,7 @@ export interface RawProject {
   id?: string;
   title: LocalizedString;
   description: LocalizedString;
-  aiUsage: AiUsage;
+  aiUsage?: AiUsage | null | undefined;
   links?: string[];
   stack?: string[];
 }

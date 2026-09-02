@@ -327,6 +327,10 @@
     @media screen and (min-width: 900px) {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    @media print {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 .cv-section-keep {
@@ -372,7 +376,7 @@
     padding: 0.2rem 0.48rem;
     border: 1px solid var(--cv-accent);
     border-radius: 999px;
-    background: color-mix(in srgb, var(--cv-accent) 10%, transparent);
+    background: color-mix(in srgb, var(--cv-accent) 5%, transparent);
     color: var(--cv-ink);
     font-size: calc(var(--cv-meta-size) * 0.85);
     font-weight: 700;

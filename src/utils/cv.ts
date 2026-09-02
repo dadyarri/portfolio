@@ -45,7 +45,7 @@ const rawProjectSchema = z.object({
   id: z.string().optional(),
   title: localizedStringSchema,
   description: localizedStringSchema,
-  aiUsage: z.enum(["none", "partial", "full"]),
+  aiUsage: z.enum(["none", "partial", "full"]).optional().nullable(),
   links: z.array(z.string()).optional(),
   stack: z.array(z.string()).optional(),
 });
@@ -252,7 +252,7 @@ function localizeTimelineItem(
           descriptionIds: descriptionItems.map((entry) => entry.id),
         }
       : {}),
-    ...(item.stack ? { stack: item.stack } : {}),
+    ...(item.stack && item.stack.length > 0 ? { stack: item.stack } : {}),
   };
 }
 
@@ -264,7 +264,7 @@ function localizeProject(
     ...(project.id ? { id: project.id } : {}),
     title: localizeRequiredValue(project.title, locale),
     description: localizeRequiredValue(project.description, locale),
-    aiUsage: project.aiUsage,
+    ...(project.aiUsage ? { aiUsage: project.aiUsage } : {}),
     ...(project.links ? { links: project.links } : {}),
     ...(project.stack ? { stack: project.stack } : {}),
   };

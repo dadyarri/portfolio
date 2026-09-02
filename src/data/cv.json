@@ -11,8 +11,8 @@
       },
       "photo": "/images/profile.jpg",
       "summary": {
-        "ru": ".NET-разработчик, специализирующийся на создании высокопроизводительных микросервисов и автоматизации процессов сборки и доставки продуктов. Фокусируюсь на повышении эффективности разработки: оптимизирую кодовую базу, внедряю внутренние инструменты и совершенствую CI/CD-процессы.",
-        "en": ".NET developer specializing in building high-performance microservices and automating product build and delivery processes. Focused on improving development efficiency by optimizing the codebase, implementing internal tools, and refining CI/CD pipelines."
+        "ru": "C#/.NET-разработчик с опытом разработки микросервисов, модернизации legacy-систем и инженерной инфраструктуры. Работаю с ASP.NET Core, gRPC, PostgreSQL, Docker, Kubernetes и Linux; участвую в архитектурных решениях и технической координации команды.",
+        "en": "C#/.NET Developer with experience in microservices development, legacy system modernization, and engineering infrastructure. Working with ASP.NET Core, gRPC, PostgreSQL, Docker, Kubernetes, and Linux; involved in architectural decisions and technical team coordination."
       }
     },
     "contactInfo": [
@@ -56,8 +56,8 @@
       {
         "id": "rostelecom-fullstack",
         "title": {
-          "ru": "Full-stack разработчик, Технический лидер",
-          "en": "Full-stack Developer, Technical Lead"
+          "ru": "Full-stack разработчик, и. о. Technical Lead",
+          "en": "Full-stack Developer, Acting Technical Lead"
         },
         "subtitle": {
           "ru": "Ростелеком ИТ",
@@ -87,29 +87,36 @@
           {
             "id": "rewrite-vb6",
             "text": {
-              "ru": "Работаю над анализом и переписыванием устаревшего приложения на Visual Basic 6 на современный стек C#/.NET, что значительно улучшило производительность и пользовательский опыт",
-              "en": "Working on analyzing and rewriting a legacy Visual Basic 6 application to a modern C#/.NET stack, significantly improving performance and user experience"
+              "ru": "Анализирую и постепенно заменяю legacy-приложение на Visual Basic 6 системой на C#/.NET и React: восстанавливаю поведение существующей системы, проектирую новые компоненты и участвую в их тестировании",
+              "en": "Analyzing and gradually replacing a legacy Visual Basic 6 application with a C#/.NET and React system: restoring the behavior of the existing system, designing new components, and participating in their testing"
             }
           },
           {
             "id": "kubernetes-deployment",
             "text": {
-              "ru": "Развернул приложение в Kubernetes, обеспечив его высокую доступность и масштабируемость, а также внедрил мониторинг и логирование для своевременного обнаружения и устранения проблем",
-              "en": "Deployed the application in Kubernetes, ensuring high availability and scalability, and implemented monitoring and logging for timely issue detection and resolution"
+              "ru": "Подготовил Kubernetes-конфигурацию pre-production окружения; настроил развёртывание приложения, мониторинг и централизованное логирование",
+              "en": "Prepared Kubernetes configuration for the pre-production environment; set up application deployment, monitoring, and centralized logging"
             }
           },
           {
             "id": "techlead",
             "text": {
-              "ru": "После ухода предыщущего технического лидера перенял на себя его функции: координация работы команды, принятие архитектурных решений и обеспечение соблюдения лучших практик разработки",
-              "en": "After the former technical lead left, I took on his responsibilities: coordinating team efforts, making architectural decisions, and ensuring adherence to best development practices"
+              "ru": "После ухода Technical Lead взял на себя техническую координацию команды: декомпозицию решений, архитектурные решения и поддержку инженерных практик",
+              "en": "After leave of the Technical Lead, took on technical coordination of the team: solution decomposition, architectural decisions, and support of engineering practices"
+            }
+          },
+          {
+            "id": "tech-writing",
+            "text": {
+              "ru": "Веду техническую документацию по архитектуре и внутренним инструментам",
+              "en": "Maintaining technical documentation on architecture and internal tools"
             }
           },
           {
             "id": "desktop-app",
             "text": {
-              "ru": "Разрабатываю и поддерживаю десктопное приложение на C#/.NET (Avalonia), обеспечивая его стабильную работу и внедряя новые функции в соответствии с требованиями пользователей",
-              "en": "Developing and maintaining a desktop application in C#/.NET (Avalonia), ensuring its stable operation and implementing new features according to user requirements"
+              "ru": "Разрабатываю и поддерживаю отдельное desktop-приложение на C#/.NET и Avalonia",
+              "en": "Developing and maintaining a separate desktop application using C#/.NET and Avalonia"
             }
           }
         ]
@@ -229,35 +236,8 @@
           "end": "2024-06-30",
           "showAmountOfTime": false
         },
-        "description": [
-          {
-            "id": "education-1-bullet-1",
-            "text": {
-              "ru": "Алгоритмы и структуры данных",
-              "en": "Algorithms and Data Structures"
-            }
-          },
-          {
-            "id": "education-1-bullet-2",
-            "text": {
-              "ru": "Базы данных (PostgreSQL, MS SQL Server)",
-              "en": "Databases (PostgreSQL, MS SQL Server)"
-            }
-          },
-          {
-            "id": "education-1-bullet-3",
-            "text": {
-              "ru": "Объектно-ориентированное программирование (C#)",
-              "en": "Object-Oriented Programming (C#)"
-            }
-          }
-        ],
-        "stack": [
-          "C#",
-          "Python",
-          "SQL",
-          "Git"
-        ]
+        "description": [],
+        "stack": []
       }
     ],
     "projects": [
@@ -271,7 +251,6 @@
           "ru": "Библиотека, расширяющая возможности Entity Framework Core для выполнения операции вставки или обновления записей с поддержкой разных СУБД. Добавил поддержку Oracle, что позволило использовать библиотеку в проектах с этой СУБД.",
           "en": "Library, extending Entity Framework Core to manage upsert operation (insert or update). I added support of Oracle DBMS."
         },
-        "aiUsage": "none",
         "links": [
           "https://github.com/artiomchi/FlexLabs.Upsert/pull/158"
         ],
@@ -288,10 +267,9 @@
           "en": "MelodyTrack"
         },
         "description": {
-          "ru": "Система управления клиентами, сделанная на заказ для небольшого бизнеса",
-          "en": "A custom-made customer management system for small business to meet their needs"
+          "ru": "Система управления клиентами, сделанная на заказ для небольшого бизнеса.",
+          "en": "A custom-made customer management system for small business to meet their needs."
         },
-        "aiUsage": "partial",
         "links": [
           "https://github.com/dadyarri/MelodyTrack.Web",
           "https://github.com/dadyarri/MelodyTrack.Backend"
@@ -310,10 +288,9 @@
           "en": "Portfolio"
         },
         "description": {
-          "ru": "Личный блог о технологиях и резюме",
-          "en": "Personal blog about technologies and CV"
+          "ru": "Личный блог о технологиях и резюме.",
+          "en": "Personal blog about technologies and CV."
         },
-        "aiUsage": "partial",
         "links": [
           "https://github.com/dadyarri/portfolio",
           "https://dadyarri.dev"
@@ -326,24 +303,15 @@
     ],
     "skills": [
       {
-        "id": "programming-languages",
+        "id": "backend",
         "name": {
-          "ru": "Языки программирования",
-          "en": "Programming Languages"
+          "ru": "Бэкенд",
+          "en": "Backend"
         },
         "skills": [
           {
             "name": "C#"
-          }
-        ]
-      },
-      {
-        "id": "frameworks-and-libraries",
-        "name": {
-          "ru": "Фреймворки и библиотеки",
-          "en": "Frameworks and Libraries"
-        },
-        "skills": [
+          },
           {
             "name": ".NET"
           },
@@ -351,46 +319,10 @@
             "name": "ASP.NET Core"
           },
           {
-            "name": "Entity Framework Core"
-          },
-          {
             "name": "gRPC"
           },
           {
-            "name": "Spectre Console"
-          }
-        ]
-      },
-      {
-        "id": "devops-and-infrastructure",
-        "name": {
-          "ru": "DevOps и инфраструктура",
-          "en": "DevOps and Infrastructure"
-        },
-        "skills": [
-          {
-            "name": "CI/CD"
-          },
-          {
-            "name": "Linux"
-          },
-          {
-            "name": "Docker"
-          },
-          {
-            "name": "Docker Compose"
-          }
-        ]
-      },
-      {
-        "id": "testing",
-        "name": {
-          "ru": "Тестирование",
-          "en": "Testing"
-        },
-        "skills": [
-          {
-            "name": "xUnit"
+            "name": "EF Core"
           }
         ]
       },
@@ -406,6 +338,45 @@
           },
           {
             "name": "MS SQL Server"
+          },
+          {
+            "name": "SQLite"
+          }
+        ]
+      },
+      {
+        "id": "infrastructure",
+        "name": {
+          "ru": "Инфраструктура",
+          "en": "Infrastructure"
+        },
+        "skills": [
+          {
+            "name": "Linux"
+          },
+          {
+            "name": "Docker"
+          },
+          {
+            "name": "Docker Compose"
+          },
+          {
+            "name": "Kubernetes"
+          },
+          {
+            "name": "CI/CD"
+          }
+        ]
+      },
+      {
+        "id": "testing",
+        "name": {
+          "ru": "Тестирование",
+          "en": "Testing"
+        },
+        "skills": [
+          {
+            "name": "xUnit"
           }
         ]
       }
@@ -650,7 +621,7 @@
     ],
     "skills": [
       {
-        "id": "programming-languages",
+        "id": "backend",
         "baseWeight": 1,
         "tags": [
           "c#",
@@ -658,18 +629,7 @@
         ]
       },
       {
-        "id": "frameworks-and-libraries",
-        "baseWeight": 1.5,
-        "tags": [
-          ".net",
-          "asp.net core",
-          "entity framework core",
-          "grpc",
-          "spectre console"
-        ]
-      },
-      {
-        "id": "devops-and-infrastructure",
+        "id": "infrastructure",
         "baseWeight": 1.5,
         "tags": [
           "ci/cd",

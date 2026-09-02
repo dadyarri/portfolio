@@ -76,7 +76,7 @@ const translation = translations[locale] || translations["en-US"];
             </p>
           )}
         </div>
-        {item.description && (
+        {item.description && item.description.length > 0 && (
           <ol class="cv-bullets">
             {item.description.map((point, index) => {
               let lineEnd =
@@ -85,7 +85,7 @@ const translation = translations[locale] || translations["en-US"];
             })}
           </ol>
         )}
-        {item.stack && (
+        {item.stack && item.stack.length > 0 && (
           <p class="cv-copy">
             <span class="cv-label">{translation.stack}</span>
             {item.stack.join(", ")}

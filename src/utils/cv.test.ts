@@ -27,6 +27,8 @@ test("localizeCv returns localized English content without casts", () => {
   assert.equal(cv.contactInfo.find((contact) => contact.type === "location")?.value, "Vladimir, Russia");
   assert.ok(cv.workExperience.every((item) => Array.isArray(item.description ?? [])));
   assert.ok(cv.skills.every((category) => category.skills.every((skill) => typeof skill.name === "string")));
+  assert.equal(cv.education[0]?.description, undefined);
+  assert.equal(cv.education[0]?.stack, undefined);
 });
 
 test("getCanonicalCvSource and targeting metadata stay aligned", () => {
