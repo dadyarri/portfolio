@@ -1,4 +1,5 @@
 ---
+import { Icon } from "astro-icon/components";
 import type { Contact } from "@type/cv";
 
 interface Props {
@@ -6,40 +7,71 @@ interface Props {
 }
 
 const { contacts } = Astro.props;
+
+function getHref(contact: Contact): string | undefined {
+  if (contact.type === "location") return undefined;
+  if (contact.type === "email") return `mailto:${contact.value}`;
+  if (contact.type === "phone") return `tel:${contact.value}`;
+  return contact.value;
+}
+
+function getDisplayValue(contact: Contact): string {
+  if (contact.type === "telegram") {
+    return contact.value.replace(/^https?:\/\/t\.me\//, "").replace(/\/$/, "");
+  }
+
+  if (contact.type === "github") {
+    return contact.value
+      .replace(/^https?:\/\/(?:www\.)?github\.com\//, "")
+      .replace(/\/$/, "");
+  }
+
+  return contact.type === "website"
+    ? contact.value.replace(/^https?:\/\//, "").replace(/\/$/, "")
+    : contact.value;
+}
+
+function getIconName(contact: Contact): string {
+  const icons = {
+    email: "carbon:email",
+    phone: "carbon:phone",
+    location: "carbon:location",
+    website: "fa6-solid:globe",
+    github: "fa6-brands:github",
+    telegram: "fa6-brands:telegram",
+  } as const;
+
+  return icons[contact.type];
+}
 ---
 
-<div class="cv-grid cv-grid-two">
+<address class="cv-contact-row">
   {
-    contacts.map((contact) => (
-      <div class="cv-detail">
-        <p class="cv-label">{contact.label || contact.type}</p>
-        <div class="cv-detail-value">
-          {(contact.type !== "location" && (
+    contacts.map((contact) => {
+      const href = getHref(contact);
+      const displayValue = getDisplayValue(contact);
+      const iconName = getIconName(contact);
+
+      return (
+        <span class="cv-contact-item">
+          {href ? (
             <a
-              href={
-                contact.type === "email"
-                  ? `mailto:${contact.value}`
-                  : contact.type === "phone"
-                    ? `tel:${contact.value}`
-                    : contact.value
-              }
-              target={
-                contact.type === "website" || contact.type === "github"
-                  ? "_blank"
-                  : undefined
-              }
-              rel={
-                contact.type === "website" || contact.type === "github"
-                  ? "noopener noreferrer"
-                  : undefined
-              }
-              class="cv-detail-value"
+              class="cv-contact-content"
+              href={href}
+              target={href.startsWith("http") ? "_blank" : undefined}
+              rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
             >
-              {contact.value}
+              <Icon name={iconName} class="cv-contact-icon" />
+              {displayValue}
             </a>
-          )) || <span>{contact.value}</span>}
-        </div>
-      </div>
-    ))
+          ) : (
+            <span class="cv-contact-content">
+              <Icon name={iconName} class="cv-contact-icon" />
+              {displayValue}
+            </span>
+          )}
+        </span>
+      );
+    })
   }
-</div>
+</address>

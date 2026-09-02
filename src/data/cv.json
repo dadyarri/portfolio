@@ -17,6 +17,17 @@
     },
     "contactInfo": [
       {
+        "type": "location",
+        "value": {
+          "ru": "Владимир, РФ",
+          "en": "Vladimir, Russia"
+        },
+        "label": {
+          "ru": "локация",
+          "en": ""
+        }
+      },
+      {
         "type": "email",
         "value": "me@dadyarri.dev",
         "label": {
@@ -29,15 +40,8 @@
         "value": "https://t.me/dadyarri"
       },
       {
-        "type": "location",
-        "value": {
-          "ru": "Владимир, РФ",
-          "en": "Vladimir, Russia"
-        },
-        "label": {
-          "ru": "локация",
-          "en": ""
-        }
+        "type": "github",
+        "value": "https://github.com/dadyarri"
       },
       {
         "type": "website",
@@ -46,10 +50,6 @@
           "ru": "сайт",
           "en": ""
         }
-      },
-      {
-        "type": "github",
-        "value": "https://github.com/dadyarri"
       }
     ],
     "workExperience": [
@@ -75,7 +75,7 @@
           "ASP.NET Core",
           "Avalonia",
           "React",
-          "Typescript",
+          "TypeScript",
           "gRPC",
           "Pangolin",
           "Git",
@@ -87,8 +87,8 @@
           {
             "id": "rewrite-vb6",
             "text": {
-              "ru": "Анализирую и постепенно заменяю legacy-приложение на Visual Basic 6 системой на C#/.NET и React: восстанавливаю поведение существующей системы, проектирую новые компоненты и участвую в их тестировании",
-              "en": "Analyzing and gradually replacing a legacy Visual Basic 6 application with a C#/.NET and React system: restoring the behavior of the existing system, designing new components, and participating in their testing"
+              "ru": "Переношу функциональность legacy-приложения на Visual Basic 6 на новый стек C#/.NET и React: анализирую поведение существующей системы, проектирую и тестирую новые компоненты",
+              "en": "Migrating functionality of a legacy Visual Basic 6 application to a new stack using C#/.NET and React: analyzing the behavior of the existing system, designing and testing new components"
             }
           },
           {
@@ -101,8 +101,8 @@
           {
             "id": "techlead",
             "text": {
-              "ru": "После ухода Technical Lead взял на себя техническую координацию команды: декомпозицию решений, архитектурные решения и поддержку инженерных практик",
-              "en": "After leave of the Technical Lead, took on technical coordination of the team: solution decomposition, architectural decisions, and support of engineering practices"
+              "ru": "После ухода технического лидера взял на себя техническую координацию команды: декомпозицию задач, проработку архитектуры и поддержку инженерных практик",
+              "en": "After the technical lead's leave, I took on the technical coordination of the team: task decomposition, architecture design, and support of engineering practices"
             }
           },
           {
@@ -115,7 +115,7 @@
           {
             "id": "desktop-app",
             "text": {
-              "ru": "Разрабатываю и поддерживаю отдельное desktop-приложение на C#/.NET и Avalonia",
+              "ru": "Разрабатываю и поддерживаю отдельное десктопное приложение на C#/.NET и Avalonia",
               "en": "Developing and maintaining a separate desktop application using C#/.NET and Avalonia"
             }
           }
@@ -278,7 +278,7 @@
           "C#",
           "ASP.NET Core",
           "React",
-          "Github Actions"
+          "GitHub Actions"
         ]
       },
       {
@@ -296,7 +296,7 @@
           "https://dadyarri.dev"
         ],
         "stack": [
-          "Typescript",
+          "TypeScript",
           "Astro"
         ]
       }

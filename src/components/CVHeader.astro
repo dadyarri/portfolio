@@ -1,16 +1,13 @@
 ---
-interface CVHeaderData {
-  name: string;
-  title: string;
-  photo?: string;
-  summary?: string;
-}
+import CVContact from "@components/CVContact.astro";
+import type { CVData } from "@type/cv";
 
 interface Props {
-  data: CVHeaderData;
+  data: CVData["personalInfo"];
+  contacts: CVData["contactInfo"];
 }
 
-const { data } = Astro.props;
+const { data, contacts } = Astro.props;
 const { name, title, photo, summary } = data;
 ---
 
@@ -18,6 +15,7 @@ const { name, title, photo, summary } = data;
   <div class="cv-hero-body cv-flow">
     <p class="cv-eyebrow">{title}</p>
     <h1 class="cv-hero-title">{name}</h1>
+    <CVContact contacts={contacts} />
     {summary && <p class="cv-muted cv-hero-summary">{summary}</p>}
   </div>
   {
