@@ -144,7 +144,7 @@
           "gRPC",
           "SQLite",
           "PostgreSQL",
-          "MS SQL Server",
+          "Microsoft SQL Server",
           "Spectre Console",
           "Git",
           "Docker",
@@ -337,7 +337,7 @@
             "name": "PostgreSQL"
           },
           {
-            "name": "MS SQL Server"
+            "name": "Microsoft SQL Server"
           },
           {
             "name": "SQLite"
@@ -469,7 +469,7 @@
           "grpc",
           "sqlite",
           "postgresql",
-          "ms sql server",
+          "microsoft sql server",
           "docker",
           "linux",
           "cli",
@@ -653,7 +653,7 @@
         "baseWeight": 1.25,
         "tags": [
           "postgresql",
-          "ms sql server",
+          "microsoft sql server",
           "database",
           "sql"
         ]
